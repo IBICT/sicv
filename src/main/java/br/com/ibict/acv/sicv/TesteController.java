@@ -3,6 +3,7 @@ package br.com.ibict.acv.sicv;
 import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import com.google.gson.Gson;
+import java.util.List;
 import java.util.Map;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,6 +41,13 @@ public class TesteController {
             session().setAttribute("user", user);
             return new Gson().toJson(true);
         }
+    }
+    
+    @RequestMapping("/teste2")
+    @ResponseBody
+    public String teste() {
+        List<User> user = userDao.findAll();
+        return new Gson().toJson(user);
     }
     
     public static HttpSession session() {

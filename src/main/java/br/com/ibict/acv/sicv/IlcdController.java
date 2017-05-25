@@ -50,7 +50,8 @@ public class IlcdController {
     @Autowired
     private IlcdDao ilcdDao;
 
-    private static String UPLOADED_FOLDER = "/Users/deivdy/Desktop/files/";
+    //private static String UPLOADED_FOLDER = "/Users/deivdy/Desktop/files/";
+    private static String UPLOADED_FOLDER = "/opt/tomcat8/files/";
 
     @RequestMapping("")
     public String list(Map<String, Object> model) {

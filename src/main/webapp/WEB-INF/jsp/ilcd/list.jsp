@@ -52,7 +52,8 @@
 
             $(document).ready(function () {
                 $('#list').DataTable({
-                    "ajax": "http://localhost:8080/ilcd/ilcd.json",
+                    //"ajax": "http://localhost:8080/ilcd/ilcd.json",
+                    "ajax": "http://tsicv.acv.ibict.br/sicv/ilcd/ilcd.json",
                     "columns": [
                         {"data": "id"},
                         {"data": "name"},

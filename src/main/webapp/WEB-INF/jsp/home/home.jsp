@@ -3,6 +3,7 @@
     Created on : 11/05/2017, 09:48:46
     Author     : Deivdy.Silva
 --%>
+<%@page import="br.com.ibict.acv.sicv.helper.URLHelper"%>
 <%@page import="br.com.ibict.acv.sicv.model.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%
@@ -217,6 +218,11 @@
                         </ul>
                     </div>
                     <div class="cell auto-size padding20 bg-white" id="cell-content">
+                        <p>${pageContext.request.contextPath}</p>
+                        <c:set var="scheme" value="${pageContext.request.scheme}"/>
+                        <c:set var="serverPort" value="${pageContext.request.serverPort}"/>
+                        <c:set var="port" value=":${serverPort}"/>
+                        <p>${scheme}://${pageContext.request.serverName}${port}</p>
                         <div class="row cells2">
                             <div class="cell">
                                 <div id="chart_div"></div>
