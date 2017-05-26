@@ -77,28 +77,11 @@
     <body class="bg-darkTeal">
 
         <div class="login-form padding20 block-shadow">
-            <form action="./login" method="post">
-                <h1 class="text-light">Login to service</h1>
-                <hr class="thin" />
-                <br />
-                <div class="input-control text full-size" data-role="input">
-                    <label for="user_login">User email:</label>
-                    <input type="text" name="email" id="user_login" />
-                    <button class="button helper-button clear"><span class="mif-cross"></span></button>
-                </div>
-                <br />
-                <br />
-                <div class="input-control password full-size" data-role="input">
-                    <label for="user_password">User password:</label>
-                    <input type="password" name="password" id="user_password" />
-                    <button class="button helper-button reveal"><span class="mif-looks"></span></button>
-                </div>
-                <br />
-                <br />
-                <div class="form-actions">
-                    <button type="submit" class="button primary">Login to...</button>
-                    <a href="./register" >Registar</a>
-                </div>
+            <form method="post">
+                <input type="email" required="" /><br />
+                <input type="password" required="" /><br />
+                <input type="password" required="" /><br />
+                <input type="submit" value="ENVIAR" /><br />
             </form>
         </div>
     </body>
