@@ -55,7 +55,7 @@ public class RegisterController {
         
         userDao.save(user);
         
-        return "register/sendMail";
+        return "register/sendEmail";
 
     }
 

@@ -43,6 +43,13 @@ public class HomeController {
         
     }
     
+    @RequestMapping("/logout")
+    @ResponseBody
+    public String logout() {
+        session().removeAttribute("user");
+        return new Gson().toJson(true);
+    }
+    
     public static HttpSession session() {
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         return attr.getRequest().getSession(true); // true == allow create

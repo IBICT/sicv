@@ -17,21 +17,21 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Controller
-@RequestMapping("/ilcd")
+@RequestMapping("/admin")
 public class AdminController {
 
 
-    @RequestMapping("/admins")
+    @RequestMapping("/")
     public String root(Map<String, Object> model) {
         if (session().getAttribute("user") == null) {
             return "login/login";
         } else {
             model.put("user", session().getAttribute("user"));
-            return "home/home";
+            return "admin/home";
         }        
     }
     
-    @PostMapping("/admins/login")
+    @PostMapping("/login")
     @ResponseBody
     public String loginHandle(@RequestParam("email") String email, @RequestParam("password") String senha) {
         User user = userDao.findByEmail(email);

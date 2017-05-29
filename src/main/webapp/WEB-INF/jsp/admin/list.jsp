@@ -1,4 +1,3 @@
-<%@page import="resources.Strings"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -51,30 +50,42 @@
 
         <script>
 
+            function setPerfil(id, selectObject) {
+                var value = selectObject.value;
+                console.log(id);
+                console.log(value);
+                $.ajax({
+                    url: '${Strings.BASE}/admin/users/setperfil',
+                    type: 'POST',
+                    data: { id: id, perfil: value },
+                    success: function (response) {
+                        if(response == "true") {
+                            location.reload();
+                        } else {
+                            alert("Falha ao mudar perfil !!!");
+                        }
+                    }
+                });
+            }
+
             $(document).ready(function () {
                 $('#list').DataTable({
-                    "ajax": "${Strings.BASE}/admin/ilcd/ilcd.json",
+                    "ajax": "${Strings.BASE}/admin/users/users.json",
                     "columns": [
                         {"data": "id"},
-                        {"data": "name"},
+                        {"data": "userName"},
+                        {"data": "email"},
+                        {"data": "firstName"},
+                        {"data": "lastName"},
                         {"data": function (data, type, row, meta) {
-                                var d = new Date(data.yearToReference);
-                                var y = d.getFullYear();
-                                return y;
+                                var options = ["<option " + (data.perfil === "ADMINISTRADOR" ? "selected" : "") + ">ADMINISTRADOR</option>", "<option " + (data.perfil === "USUARIO" ? "selected" : "") + ">USUARIO</option>", "<option " + (data.perfil === "REVISOR TECNICO" ? "selected" : "") + ">REVISOR TECNICO</option>", "<option " + (data.perfil === "REVISOR DE QUALIDADE" ? "selected" : "") + ">REVISOR DE QUALIDADE</option>"];
+                                var select = '<select onchange="setPerfil(' + data.id + ',' + 'this' + ')">' + options + '</select>';
+
+                                return select;
                             }
                         },
                         {"data": function (data, type, row, meta) {
-                                var d = new Date(data.yearToValidate);
-                                var y = d.getFullYear();
-                                return y;
-                            }
-                        },
-                        {"data": function (data, type, row, meta) {
-                                return '<span class="mif-stop fg-red"></span>';
-                            }
-                        },
-                        {"data": function (data, type, row, meta) {
-                                return '<td><a href="${Strings.BASE}/admin/ilcd/files/' + data.pathFile + '" class="button success cycle-button"><span class="mif-file-download"></span></a><button class="button warning cycle-button"><span class="mif-file-pdf"></span></button><button class="button primary cycle-button"><span class="mif-pencil"></span></button><button class="button alert cycle-button"><span class="mif-bin"></span></button></td>';
+                                return '<td><button class="button primary cycle-button"><span class="mif-eye"></span></button><button class="button warning cycle-button"><span class="mif-pencil"></span></button><button class="button alert cycle-button"><span class="mif-bin"></span></button></td>';
                             }
                         }
                     ]
@@ -175,16 +186,16 @@
                     <div class="cell auto-size padding20 bg-white" id="cell-content">
                         <h1 class="text-light"></h1>
                         <hr class="thin bg-grayLighter"  />
-                        <a href="/ilcd/new" class="button primary"><span class="mif-plus"></span> Novo</a>
                         <hr class="thin bg-grayLighter" />
                         <table id="list" class="dataTable border bordered" data-auto-width="false">
                             <thead>
                                 <tr>
                                     <td class="sortable-column">ID</td>
+                                    <td class="sortable-column">Nome de Usuario</td>
+                                    <td class="sortable-column">Email</td>
                                     <td class="sortable-column">Nome</td>
-                                    <td class="sortable-column">Ano de referência</td>
-                                    <td class="sortable-column">Válido até</td>
-                                    <td class="sortable-column">Status</td>
+                                    <td class="sortable-column">Sobrenome</td>
+                                    <td class="sortable-column">Perfil</td>
                                     <td class="sortable-column">Opções</td>
                                 </tr>
                             </thead>

@@ -38,20 +38,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import resources.Strings;
 
 /**
  *
  * @author deivdy
  */
 @Controller
-@RequestMapping("/ilcd")
+@RequestMapping("/admin/ilcd")
 public class IlcdController {
 
     @Autowired
     private IlcdDao ilcdDao;
 
-    //private static String UPLOADED_FOLDER = "/Users/deivdy/Desktop/files/";
-    private static String UPLOADED_FOLDER = "/opt/tomcat8/files/";
+    
 
     @RequestMapping("")
     public String list(Map<String, Object> model) {
@@ -80,18 +80,18 @@ public class IlcdController {
 
         if (file.isEmpty()) {
             redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
-            return "redirect:/ilcd/uploadStatus";
+            return "redirect:/admin/ilcd/uploadStatus";
         }
 
         try {
 
             // Get the file and save it somewhere
             byte[] bytes = file.getBytes();
-            Path path = Paths.get(UPLOADED_FOLDER + MD5(bytes));
+            Path path = Paths.get(Strings.UPLOADED_FOLDER + MD5(bytes));
 
             if (path.toFile().exists()) {
                 redirectAttributes.addFlashAttribute("message", "File exist, not replace.");
-                return "redirect:/ilcd/uploadStatus";
+                return "redirect:/admin/ilcd/uploadStatus";
             }
             Files.write(path, bytes);
             
@@ -103,7 +103,7 @@ public class IlcdController {
             e.printStackTrace();
         }
 
-        return "redirect:/ilcd";
+        return "redirect:/admin/ilcd/ilcd";
     }
     
     @RequestMapping(value = "/files/{file_name}", method = RequestMethod.GET)
@@ -111,7 +111,7 @@ public class IlcdController {
             @PathVariable("file_name") String fileName,
             HttpServletResponse response) {
         try {
-            File fileToDownload = new File(UPLOADED_FOLDER + fileName);
+            File fileToDownload = new File(Strings.UPLOADED_FOLDER + fileName);
             if (!fileToDownload.exists()) {
                 String errorMessage = "Sorry. The file you are looking for does not exist";
                 System.out.println(errorMessage);
