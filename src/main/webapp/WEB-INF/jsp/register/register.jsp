@@ -35,52 +35,53 @@
         
         <title>SICV - ACV | Banco Nacional de Inventários dos inventários brasileiros do Ciclo de Vida (ICVs)</title>
         
-        <link rel="stylesheet" href="./assets/metro-ui3.0.17/css/metro.css" />
-        <link rel="stylesheet" href="./assets/metro-ui3.0.17/css/metro-icons.css" />
-        <link rel="stylesheet" href="./assets/metro-ui3.0.17/css/metro-responsive.css" />
-
-        <script src="./assets/metro-ui3.0.17/js/jquery-2.1.3.min.js"></script>
-        <script src="./assets/metro-ui3.0.17/js/metro.js"></script>
-
-        <style>
-            .login-form {
-                width: 25rem;
-                height: 18.75rem;
-                position: fixed;
-                top: 50%;
-                margin-top: -9.375rem;
-                left: 50%;
-                margin-left: -12.5rem;
-                background-color: #ffffff;
-                opacity: 0;
-                -webkit-transform: scale(.8);
-                transform: scale(.8);
-            }
-        </style>
-
-        <script>
-            $(function () {
-                var form = $(".login-form");
-
-                form.css({
-                    opacity: 1,
-                    "-webkit-transform": "scale(1)",
-                    "transform": "scale(1)",
-                    "-webkit-transition": ".5s",
-                    "transition": ".5s"
-                });
-            });
-        </script>
 
     </head>
 
-    <body class="bg-darkTeal">
+    <body>
 
-        <div class="login-form padding20 block-shadow">
+        <div>
             <form method="post">
-                <input type="email" required="" /><br />
-                <input type="password" required="" /><br />
-                <input type="password" required="" /><br />
+                
+                <p>Informações de Login</p><br />
+                <input type="text" placeholder="USUAIO" required="" /><br />
+                
+                <input type="email" placeholder="EMAIL" required="" /><br />
+                <input type="password" placeholder="SENHA" required="" /><br />
+                <input type="password" placeholder="CONFIRMAR SENHA" required="" /><br />
+                
+                <p>Informações pessoais</p><br />
+                <select>
+                    <option>Por favor, selecione</option>
+                    <option>Senhor</option>
+                    <option>Senhora</option>
+                    <option>Nao Informado</option>
+                </select><br />
+                <input type="text" placeholder="NOME" required="" /><br />
+                <input type="text" placeholder="SOBRE NOME" required="" /><br />
+                <p>Sexo: </p>
+                <label>Feminino</label> <input type="radio" value="F" />
+                <label>Masculino</label> <input type="radio" value="M" /><br />
+                <p>Pais: </p>
+                <select>
+                    <option>Brasil</option>
+                </select><br />
+                
+                <input type="text" placeholder="Profissão" /><br />
+                <input type="text" placeholder="Telefone" /><br />
+                <input type="text" placeholder="Nome da instituição" /><br />
+                
+                <p>Finalidade</p><br />
+                <label>Profissional</label> <input type="radio" value="F" />
+                <label>Pesquisa</label> <input type="radio" value="F" />
+                <label>Educacional</label> <input type="radio" value="F" />
+                <label>Outra</label> <input type="radio" value="F" /> <input type="text" /><br />
+                
+                <p>Termo de aceite:</p><br />
+                <a href="#">Termos de Uso</a><br />
+                <a href="#">Politica de Privacidade</a><br />
+                <input type="checkbox" /> <label>Concordo com os termos acima.</label><br />
+                
                 <input type="submit" value="ENVIAR" /><br />
             </form>
         </div>

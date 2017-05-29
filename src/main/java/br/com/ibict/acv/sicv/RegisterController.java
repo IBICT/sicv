@@ -1,6 +1,6 @@
 package br.com.ibict.acv.sicv;
 
-import static br.com.ibict.acv.sicv.TesteController.session;
+import static br.com.ibict.acv.sicv.AdminController.session;
 import br.com.ibict.acv.sicv.model.User;
 import com.google.gson.Gson;
 import org.springframework.stereotype.Controller;

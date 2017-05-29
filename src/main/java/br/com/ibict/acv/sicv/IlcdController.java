@@ -5,7 +5,7 @@
  */
 package br.com.ibict.acv.sicv;
 
-import static br.com.ibict.acv.sicv.TesteController.session;
+import static br.com.ibict.acv.sicv.AdminController.session;
 import br.com.ibict.acv.sicv.model.Ilcd;
 import br.com.ibict.acv.sicv.repositories.IlcdDao;
 import com.google.gson.Gson;

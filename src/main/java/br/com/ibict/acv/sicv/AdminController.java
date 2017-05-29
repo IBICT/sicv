@@ -8,7 +8,6 @@ import java.util.Map;
 import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -18,10 +17,11 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
 @Controller
-public class TesteController {
+@RequestMapping("/ilcd")
+public class AdminController {
 
 
-    @RequestMapping("/")
+    @RequestMapping("/admins")
     public String root(Map<String, Object> model) {
         if (session().getAttribute("user") == null) {
             return "login/login";
@@ -31,7 +31,7 @@ public class TesteController {
         }        
     }
     
-    @PostMapping("/login")
+    @PostMapping("/admins/login")
     @ResponseBody
     public String loginHandle(@RequestParam("email") String email, @RequestParam("password") String senha) {
         User user = userDao.findByEmail(email);
