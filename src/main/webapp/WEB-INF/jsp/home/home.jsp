@@ -21,10 +21,10 @@
     <body >
         <h1>HOME</h1>
         <hr />
-        <form>
+        <form action="./login" method="post">
             <h2>Login</h2>
-            <input type="email" required="" /><br />
-            <input type="password" required="" /><br />
+            <input type="email" name="email" required="" /><br />
+            <input type="password" name="senha" required="" /><br />
             <input type="submit" value="ENTRAR" /><br />
         </form>
         <a href="./register">Cadastrar</a>

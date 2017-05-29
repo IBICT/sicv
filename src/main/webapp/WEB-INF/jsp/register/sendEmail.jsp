@@ -39,52 +39,8 @@
     </head>
 
     <body>
-
-        <div>
-            <form method="post">
-                
-                <p>Informações de Login</p><br />
-                <input type="text" name="userName" placeholder="USUAIO" required="" /><br />
-                
-                <input type="email" name="email" placeholder="EMAIL" required="" /><br />
-                <input type="password" name="senha" placeholder="SENHA" required="" /><br />
-                <input type="password" placeholder="CONFIRMAR SENHA" required="" /><br />
-                
-                <p>Informações pessoais</p><br />
-                <select name="title">
-                    <option>Por favor, selecione</option>
-                    <option>Senhor</option>
-                    <option>Senhora</option>
-                    <option>Nao Informado</option>
-                </select><br />
-                <input type="text" name="firstName" placeholder="NOME" required="" /><br />
-                <input type="text" name="lastName" placeholder="SOBRE NOME" required="" /><br />
-                <p>Sexo: </p>
-                <label>Feminino</label> <input type="radio" name="gender" value="F" />
-                <label>Masculino</label> <input type="radio" name="gender" value="M" /><br />
-                <p>Pais: </p>
-                <select name="country">
-                    <option>Brasil</option>
-                </select><br />
-                
-                <input type="text" name="jobPositon" placeholder="Profissão" /><br />
-                <input type="text" name="telefone" placeholder="Telefone" /><br />
-                <input type="text" name="instituicao" placeholder="Nome da instituição" /><br />
-                
-                <p>Finalidade</p><br />
-                <label>Profissional</label> <input type="radio" name="dsPurpose" value="1" />
-                <label>Pesquisa</label> <input type="radio" name="dsPurpose" value="2" />
-                <label>Educacional</label> <input type="radio" name="dsPurpose" value="3" />
-                <label>Outra</label> <input type="radio" name="dsPurpose" /> <input type="text" /><br />
-                
-                <p>Termo de aceite:</p><br />
-                <a href="#">Termos de Uso</a><br />
-                <a href="#">Politica de Privacidade</a><br />
-                <input type="checkbox" /> <label>Concordo com os termos acima.</label><br />
-                
-                <input type="submit" value="ENVIAR" /><br />
-            </form>
-        </div>
+        <h1>Um email foi emviado para a a comfirmação da conta.</h1>
+        <a href="#">Voltar</a>
     </body>
 
 </html>
