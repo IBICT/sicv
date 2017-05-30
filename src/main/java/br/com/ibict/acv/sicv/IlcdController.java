@@ -7,6 +7,7 @@ package br.com.ibict.acv.sicv;
 
 import static br.com.ibict.acv.sicv.AdminController.session;
 import br.com.ibict.acv.sicv.model.Ilcd;
+import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.IlcdDao;
 import com.google.gson.Gson;
 import java.io.ByteArrayOutputStream;
@@ -26,6 +27,7 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -36,6 +38,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import resources.Strings;
@@ -103,7 +107,7 @@ public class IlcdController {
             e.printStackTrace();
         }
 
-        return "redirect:/admin/ilcd/ilcd";
+        return "redirect:/admin/ilcd";
     }
     
     @RequestMapping(value = "/files/{file_name}", method = RequestMethod.GET)
@@ -248,8 +252,14 @@ public class IlcdController {
 
             }
         }
-        Ilcd ilcd = new Ilcd(id, name, type, location, classification, new Date(), new Date(), new File(path).getName());
+        User user = (User) session().getAttribute("user");
+        Ilcd ilcd = new Ilcd(id, name, type, location, classification, new Date(), new Date(), new File(path).getName(), user, 1L, 1L);
         return ilcd;
     }
 
+    public static HttpSession session() {
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        return attr.getRequest().getSession(true); // true == allow create
+    }
+    
 }

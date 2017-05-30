@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -49,11 +51,22 @@ public class Ilcd implements Serializable {
     
     @NotNull
     private String pathFile;
+    
+    @NotNull
+    @ManyToOne
+    @JoinColumn(name = "user_id")
+    private User user;
+    
+    @NotNull
+    private Long base;
+    
+    @NotNull
+    private Long status;
 
     public Ilcd() {
     }
 
-    public Ilcd(String id, String name, String type, String location, String clasification, Date yearToReference, Date yearToValidate, String pathFile) {
+    public Ilcd(String id, String name, String type, String location, String clasification, Date yearToReference, Date yearToValidate, String pathFile, User user, Long base, Long status) {
         this.id = id;
         this.name = name;
         this.type = type;
@@ -62,8 +75,11 @@ public class Ilcd implements Serializable {
         this.yearToReference = yearToReference;
         this.yearToValidate = yearToValidate;
         this.pathFile = pathFile;
+        this.user = user;
+        this.base = base;
+        this.status = status;
     }
-    
+
     public String getId() {
         return id;
     }
@@ -127,5 +143,31 @@ public class Ilcd implements Serializable {
     public void setPathFile(String pathFile) {
         this.pathFile = pathFile;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public Long getBase() {
+        return base;
+    }
+
+    public void setBase(Long base) {
+        this.base = base;
+    }
+
+    public Long getStatus() {
+        return status;
+    }
+
+    public void setStatus(Long status) {
+        this.status = status;
+    }
+
+    
     
 }
