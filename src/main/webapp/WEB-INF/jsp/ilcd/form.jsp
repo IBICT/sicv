@@ -14,14 +14,14 @@
 
         <title>Sicv2</title>
 
-        <link rel="stylesheet" href="${Strings.BASE}/assets/metro-ui3.0.17/css/metro.css" />
-        <link rel="stylesheet" href="${Strings.BASE}/assets/metro-ui3.0.17/css/metro-icons.css" />
-        <link rel="stylesheet" href="${Strings.BASE}/assets/metro-ui3.0.17/css/metro-responsive.css" />
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/metro-ui3.0.17/css/metro.css" />
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/metro-ui3.0.17/css/metro-icons.css" />
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/metro-ui3.0.17/css/metro-responsive.css" />
 
-        <script src="${Strings.BASE}/assets/metro-ui3.0.17/js/jquery-2.1.3.min.js"></script>
-        <script src="${Strings.BASE}/assets/metro-ui3.0.17/js/jquery.dataTables.min.js"></script>
+        <script src="<%=Strings.BASE%>/assets/metro-ui3.0.17/js/jquery-2.1.3.min.js"></script>
+        <script src="<%=Strings.BASE%>/assets/metro-ui3.0.17/js/jquery.dataTables.min.js"></script>
 
-        <script src="${Strings.BASE}/assets/metro-ui3.0.17/js/metro.js}"></script>
+        <script src="<%=Strings.BASE%>/assets/metro-ui3.0.17/js/metro.js}"></script>
 
         <style>
             html, body {
@@ -158,7 +158,7 @@
                         <h3>Requisitos gerais</h3>
                         <hr class="thin bg-grayLighter" />
 
-                        <form action="${Strings.BASE}/admin/ilcd/new" method="POST" enctype="multipart/form-data">
+                        <form action="<%=Strings.BASE%>/admin/ilcd/new" method="POST" enctype="multipart/form-data">
                             <div class="grid">
 
                                 <div class="row">

@@ -12,7 +12,7 @@
 
         <title>Sicv2</title>
 
-        <script src="${Strings.BASE}/assets/metro-ui3.0.17/js/jquery-2.1.3.min.js"></script>
+        <script src="<%=Strings.BASE%>/assets/metro-ui3.0.17/js/jquery-2.1.3.min.js"></script>
         
         <script>
             function getData() {
@@ -39,7 +39,7 @@
         
     </head>
     <body class="bg-steel">
-        <form action="${Strings.BASE}/ilcd/new" method="POST" enctype="multipart/form-data">
+        <form action="<%=Strings.BASE%>/ilcd/new" method="POST" enctype="multipart/form-data">
             <div class="grid">
 
                 <div class="row">

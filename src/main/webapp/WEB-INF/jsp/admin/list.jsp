@@ -1,3 +1,4 @@
+<%@page import="resources.Strings"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -12,14 +13,14 @@
 
         <title>SICV - ACV | Banco Nacional de Inventários dos inventários brasileiros do Ciclo de Vida (ICVs)</title>
 
-        <link href="${Strings.BASE}/assets/metro-ui3.0.17/css/metro.css" rel="stylesheet">
-        <link href="${Strings.BASE}/assets/metro-ui3.0.17/css/metro-icons.css" rel="stylesheet">
-        <link href="${Strings.BASE}/assets/metro-ui3.0.17/css/metro-responsive.css" rel="stylesheet">
+        <link href="<%=Strings.BASE%>/assets/metro-ui3.0.17/css/metro.css" rel="stylesheet">
+        <link href="<%=Strings.BASE%>/assets/metro-ui3.0.17/css/metro-icons.css" rel="stylesheet">
+        <link href="<%=Strings.BASE%>/assets/metro-ui3.0.17/css/metro-responsive.css" rel="stylesheet">
 
-        <script src="${Strings.BASE}/assets/metro-ui3.0.17/js/jquery-2.1.3.min.js"></script>
-        <script src="${Strings.BASE}/assets/metro-ui3.0.17/js/jquery.dataTables.min.js"></script>
+        <script src="<%=Strings.BASE%>/assets/metro-ui3.0.17/js/jquery-2.1.3.min.js"></script>
+        <script src="<%=Strings.BASE%>/assets/metro-ui3.0.17/js/jquery.dataTables.min.js"></script>
 
-        <script src="${Strings.BASE}/assets/metro-ui3.0.17/js/metro.js"></script>
+        <script src="<%=Strings.BASE%>/assets/metro-ui3.0.17/js/metro.js"></script>
 
         <style>
             html, body {
@@ -55,7 +56,7 @@
                 console.log(id);
                 console.log(value);
                 $.ajax({
-                    url: '${Strings.BASE}/admin/users/setperfil',
+                    url: '<%=Strings.BASE%>/admin/users/setperfil',
                     type: 'POST',
                     data: { id: id, perfil: value },
                     success: function (response) {
@@ -70,7 +71,7 @@
 
             $(document).ready(function () {
                 $('#list').DataTable({
-                    "ajax": "${Strings.BASE}/admin/users/users.json",
+                    "ajax": "<%=Strings.BASE%>/admin/users/users.json",
                     "columns": [
                         {"data": "id"},
                         {"data": "userName"},

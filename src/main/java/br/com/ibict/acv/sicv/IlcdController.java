@@ -9,6 +9,7 @@ import static br.com.ibict.acv.sicv.AdminController.session;
 import br.com.ibict.acv.sicv.model.Ilcd;
 import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.IlcdDao;
+import br.com.ibict.acv.sicv.repositories.UserDao;
 import com.google.gson.Gson;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -55,6 +56,8 @@ public class IlcdController {
     @Autowired
     private IlcdDao ilcdDao;
 
+    @Autowired
+    private UserDao userDao;
     
 
     @RequestMapping("")
@@ -75,6 +78,32 @@ public class IlcdController {
             model.put("user", session().getAttribute("user"));
             return "ilcd/form";
         }
+    }
+    
+    @RequestMapping("/homologacao/{id}")
+    public String homologacao(Map<String, Object> model, @PathVariable("id") String id) {
+        if (session().getAttribute("user") == null) {
+            return "login/login";
+        } else {
+            model.put("user", session().getAttribute("user"));
+            model.put("ilcd", id);
+            return "ilcd/homologacao";
+        }
+    }
+    
+    @RequestMapping(value = "/revisor-qualidade.json", method = RequestMethod.GET)
+    @ResponseBody
+    String getRevisorQuilidade() {
+        Iterable<User> users;
+        try {
+            users = userDao.findByPerfil("REVISOR DE QUALIDADE");
+        } catch (Exception ex) {
+            return "User not found";
+        }
+        String returnStr = new Gson().toJson(users);
+        returnStr = returnStr.substring(0, returnStr.length());
+        returnStr = "{ \"data\" : " + returnStr + " }";
+        return returnStr;
     }
 
     @PostMapping("/new") // //new annotation since 4.3

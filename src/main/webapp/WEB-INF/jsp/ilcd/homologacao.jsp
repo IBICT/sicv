@@ -50,33 +50,38 @@
         </style>
 
         <script>
-            
-            function start(id){
-                
-            }
+
+            var ilcd = "${ilcd}";
 
             $(document).ready(function () {
-                $('#list').DataTable({
-                    "ajax": "<%=Strings.BASE%>/admin/ilcd/ilcd.json",
+                var table = $('#list').DataTable({
+                    "ajax": "<%=Strings.BASE%>/admin/ilcd/revisor-qualidade.json",
                     "columns": [
-                        {"data": "id"},
-                        {"data": "name"},
-                        {"data": function (data, type, row, meta) {
-                                console.log(data);
-                                return '<a href="#">'+data.user.email+'</a>';
-                            }
-                        },
-                        {"data": function (data, type, row, meta) {
-                                return '<span class="mif-stop fg-red"></span>';
-                            }
-                        },
-                        {"data": function (data, type, row, meta) {
-                                return '<td><a href="<%=Strings.BASE%>/admin/ilcd/files/' + data.pathFile + '" class="button success cycle-button"><span class="mif-file-download"></span></a><a href="<%=Strings.BASE%>/assets/error.pdf" class="button warning cycle-button"><span class="mif-file-pdf"></span></a><a href="<%=Strings.BASE%>/admin/ilcd/homologacao/' + data.id + '" class="button primary cycle-button"><span class="mif-play"></span></a><button class="button alert cycle-button"><span class="mif-stop"></span></button></td>';
-                            }
-                        }
+                        {"data": "firstName"},
+                        {"data": "lastName"},
+                        {"data": "jobPositon"},
+                        {"data": "gender"},
+                        {"data": "country"},
+                        {"data": "email"},
+                        {"data": "telefone"}
                     ]
                 });
+
+                $('#list tbody').on('click', 'tr', function () {
+                    var data = table.row(this).data();
+                    solicitacao(data);
+
+                });
+
             });
+
+            function solicitacao(data) {
+                var ask = window.confirm("Deseja enviar uma solicitação de homologação para " + data.firstName + " " + data.lastName + " ?");
+                if (ask) {
+                    window.alert("Solicitação enviada com sucesso.");
+                    document.location.href = "<%=Strings.BASE%>/admin/ilcd";
+                }
+            }
 
             $(function () {
                 $('.sidebar').on('click', 'li', function () {
@@ -170,18 +175,19 @@
                         </ul>
                     </div>
                     <div class="cell auto-size padding20 bg-white" id="cell-content">
-                        <h1 class="text-light"></h1>
+                        <h1 class="text-light">Selecione um revisor de qualidade</h1>
                         <hr class="thin bg-grayLighter"  />
-                        <a href="/ilcd/new" class="button primary"><span class="mif-plus"></span> Novo</a>
                         <hr class="thin bg-grayLighter" />
-                        <table id="list" class="dataTable border bordered" data-auto-width="false">
+                        <table id="list" class="dataTable border bordered hovered" data-auto-width="false">
                             <thead>
                                 <tr>
-                                    <td class="sortable-column">ID</td>
                                     <td class="sortable-column">Nome</td>
-                                    <td class="sortable-column">Usuário</td>
-                                    <td class="sortable-column">Status</td>
-                                    <td class="sortable-column">Opções</td>
+                                    <td class="sortable-column">Sobre Nome</td>
+                                    <td class="sortable-column">Profissão</td>
+                                    <td class="sortable-column">Sexo</td>
+                                    <td class="sortable-column">País</td>
+                                    <td class="sortable-column">E-mail</td>
+                                    <td class="sortable-column">Telefone</td>
                                 </tr>
                             </thead>
                         </table>

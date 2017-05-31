@@ -1,6 +1,7 @@
 package br.com.ibict.acv.sicv.repositories;
 
 import br.com.ibict.acv.sicv.model.User;
+import java.util.List;
 import javax.transaction.Transactional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
@@ -13,5 +14,7 @@ public interface UserDao extends JpaRepository<User, Long> {
    * @param email the user email.
    */
   public User findByEmail(String email);
+  
+  public List<User> findByPerfil(String perfil);
 
 } // class UserDao

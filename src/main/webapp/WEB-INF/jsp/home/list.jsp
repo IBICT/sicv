@@ -1,3 +1,4 @@
+<%@page import="resources.Strings"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -17,7 +18,7 @@
 
             $(document).ready(function () {
                 $('#list').DataTable({
-                    "ajax": "${Strings.BASE}/ilcds.json",
+                    "ajax": "<%=Strings.BASE%>/ilcds.json",
                     "columns": [
                         {"data": "id"},
                         {"data": "name"},
@@ -36,7 +37,7 @@
                             }
                         },
                         {"data": function (data, type, row, meta) {
-                                return '<a href="${Strings.BASE}/ilcd/' + data.pathFile + '" class="button success cycle-button">Download</a>';
+                                return '<a href="<%=Strings.BASE%>/ilcd/' + data.pathFile + '" class="button success cycle-button">Download</a>';
                             }
                         }
                     ]

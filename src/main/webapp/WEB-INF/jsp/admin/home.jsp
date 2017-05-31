@@ -24,12 +24,12 @@
 
         <title>SICV - ACV | Banco Nacional de Inventários dos inventários brasileiros do Ciclo de Vida (ICVs)</title>
 
-        <link rel="stylesheet" href="${Strings.BASE}/assets/metro-ui3.0.17/css/metro.css" />
-        <link rel="stylesheet" href="${Strings.BASE}/assets/metro-ui3.0.17/css/metro-icons.css" />
-        <link rel="stylesheet" href="${Strings.BASE}/assets/metro-ui3.0.17/css/metro-responsive.css" />
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/metro-ui3.0.17/css/metro.css" />
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/metro-ui3.0.17/css/metro-icons.css" />
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/metro-ui3.0.17/css/metro-responsive.css" />
 
-        <script src="${Strings.BASE}/assets/metro-ui3.0.17/js/jquery-2.1.3.min.js"></script>
-        <script src="${Strings.BASE}/assets/metro-ui3.0.17/js/metro.js"></script>
+        <script src="<%=Strings.BASE%>/assets/metro-ui3.0.17/js/jquery-2.1.3.min.js"></script>
+        <script src="<%=Strings.BASE%>/assets/metro-ui3.0.17/js/metro.js"></script>
 
         <style>
             html, body {
@@ -144,7 +144,7 @@
             <span class="app-bar-divider"></span>
             <ul class="app-bar-menu">
                 <li><a href="">Dashboard</a></li>
-                <li><a href="${Strings.BASE}/admin/users">Usuarios</a></li>
+                <li><a href="<%=Strings.BASE%>/admin/users">Usuarios</a></li>
                 <li>
                     <a href="" class="dropdown-toggle">Bases</a>
                     <ul class="d-menu" data-role="dropdown">
