@@ -78,34 +78,10 @@ public class IlcdController {
     }
 
     @PostMapping("/new") // //new annotation since 4.3
-    public String singleFileUpload(@RequestParam("file") MultipartFile file,
-            @RequestParam("json") String json,
+    public String singleFileUpload(@RequestParam("json") String json, @RequestParam("json") String id,
             RedirectAttributes redirectAttributes) {
 
-        if (file.isEmpty()) {
-            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
-            return "redirect:/admin/ilcd/uploadStatus";
-        }
-
-        try {
-
-            // Get the file and save it somewhere
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get(Strings.UPLOADED_FOLDER + MD5(bytes));
-
-            if (path.toFile().exists()) {
-                redirectAttributes.addFlashAttribute("message", "File exist, not replace.");
-                return "redirect:/admin/ilcd/uploadStatus";
-            }
-            Files.write(path, bytes);
-            
-            Ilcd ilcd = zipToIlcd(path.toString());;
-            redirectAttributes.addFlashAttribute("message",
-                    "You successfully uploaded '" + file.getOriginalFilename() + "' ilcd:" + ilcd.getName());
-            ilcdDao.save(ilcd);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        
 
         return "redirect:/admin/ilcd";
     }

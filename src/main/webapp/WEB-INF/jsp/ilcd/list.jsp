@@ -50,6 +50,10 @@
         </style>
 
         <script>
+            
+            function start(id){
+                
+            }
 
             $(document).ready(function () {
                 $('#list').DataTable({
@@ -58,15 +62,8 @@
                         {"data": "id"},
                         {"data": "name"},
                         {"data": function (data, type, row, meta) {
-                                var d = new Date(data.yearToReference);
-                                var y = d.getFullYear();
-                                return y;
-                            }
-                        },
-                        {"data": function (data, type, row, meta) {
-                                var d = new Date(data.yearToValidate);
-                                var y = d.getFullYear();
-                                return y;
+                                console.log(data);
+                                return '<a href="#">'+data.user.email+'</a>';
                             }
                         },
                         {"data": function (data, type, row, meta) {
@@ -74,7 +71,7 @@
                             }
                         },
                         {"data": function (data, type, row, meta) {
-                                return '<td><a href="${Strings.BASE}/admin/ilcd/files/' + data.pathFile + '" class="button success cycle-button"><span class="mif-file-download"></span></a><button class="button warning cycle-button"><span class="mif-file-pdf"></span></button><button class="button primary cycle-button"><span class="mif-pencil"></span></button><button class="button alert cycle-button"><span class="mif-bin"></span></button></td>';
+                                return '<td><a href="${Strings.BASE}/admin/ilcd/files/' + data.pathFile + '" class="button success cycle-button"><span class="mif-file-download"></span></a><a href="${Strings.BASE}/assets/error.pdf" class="button warning cycle-button"><span class="mif-file-pdf"></span></a><button onclick="alert(\'ERRO\')" class="button primary cycle-button"><span class="mif-play"></span></button><button class="button alert cycle-button"><span class="mif-stop"></span></button></td>';
                             }
                         }
                     ]
@@ -182,8 +179,7 @@
                                 <tr>
                                     <td class="sortable-column">ID</td>
                                     <td class="sortable-column">Nome</td>
-                                    <td class="sortable-column">Ano de referência</td>
-                                    <td class="sortable-column">Válido até</td>
+                                    <td class="sortable-column">Usuário</td>
                                     <td class="sortable-column">Status</td>
                                     <td class="sortable-column">Opções</td>
                                 </tr>

@@ -104,8 +104,8 @@ public class HomeController {
             Files.write(path, bytes);
             
             Ilcd ilcd = zipToIlcd(path.toString());;
-            redirectAttributes.addFlashAttribute("message",
-                    "You successfully uploaded '" + file.getOriginalFilename() + "' ilcd:" + ilcd.getName());
+            redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "' ilcd:" + ilcd.getName());
+            ilcd.setJson1(json);
             ilcdDao.save(ilcd);
         } catch (IOException e) {
             e.printStackTrace();
