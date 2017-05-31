@@ -12,10 +12,34 @@
 
         <title>Sicv2</title>
 
-
+        <script src="${Strings.BASE}/assets/metro-ui3.0.17/js/jquery-2.1.3.min.js"></script>
+        
+        <script>
+            function getData() {
+                var data = {};
+                $("form").serializeArray().map(function (x) {
+                    data[x.name] = x.value;
+                });
+                return data;
+            }
+            $(document).ready(function () {
+                $("form").submit(function () {
+                    var data = getData();
+                    $(this).find("input[name^='q']").each(function() { 
+                        $(this).val('');
+                    });
+                    $(":input[value='']").attr('disabled', true);
+                    var input = $("<input />")
+                            .attr("type", "hidden")
+                            .attr("name", "json").val(JSON.stringify(data));
+                    $('form').append($(input));
+                });
+            });
+        </script>
+        
     </head>
     <body class="bg-steel">
-        <form action="${Strings.BASE}/admin/ilcd/new" method="POST" enctype="multipart/form-data">
+        <form action="${Strings.BASE}/ilcd/new" method="POST" enctype="multipart/form-data">
             <div class="grid">
 
                 <div class="row">
