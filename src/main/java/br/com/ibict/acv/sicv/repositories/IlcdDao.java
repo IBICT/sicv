@@ -14,6 +14,7 @@ public interface IlcdDao extends JpaRepository<Ilcd, Long> {
 
     public List<Ilcd> findByBase(Long base);
     
+    public Ilcd findById(String id);
     /*
     @Modifying
     @Query("update ilcd i set i.id = ?1, i.name = ?2, i.type = ?3, i.location = ?4, i.clasification = ?5, i.yearToReference = ?6, i.yearToValidate = ?7, i.pathFile = ?8 where i.id = ?9")

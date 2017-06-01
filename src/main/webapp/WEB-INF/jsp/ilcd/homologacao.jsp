@@ -54,6 +54,7 @@
             var ilcd = "${ilcd}";
 
             $(document).ready(function () {
+
                 var table = $('#list').DataTable({
                     "ajax": "<%=Strings.BASE%>/admin/ilcd/revisor-qualidade.json",
                     "columns": [
@@ -78,8 +79,19 @@
             function solicitacao(data) {
                 var ask = window.confirm("Deseja enviar uma solicitação de homologação para " + data.firstName + " " + data.lastName + " ?");
                 if (ask) {
-                    window.alert("Solicitação enviada com sucesso.");
-                    document.location.href = "<%=Strings.BASE%>/admin/ilcd";
+                    $.ajax({
+                        url: '<%=Strings.BASE%>/admin/ilcd/teste',
+                        type: 'POST',
+                        data: {user: "1", ilcd: "1"},
+                        success: function (response) {
+                            if (response == "true") {
+                                window.alert("Solicitação enviada com sucesso.");
+                                document.location.href = "<%=Strings.BASE%>/admin/ilcd";
+                            } else {
+                                alert("Falha ao solicitar usuario !!!");
+                            }
+                        }
+                    });
                 }
             }
 

@@ -6,9 +6,12 @@
 package br.com.ibict.acv.sicv;
 
 import static br.com.ibict.acv.sicv.AdminController.session;
+import br.com.ibict.acv.sicv.model.Homologacao;
 import br.com.ibict.acv.sicv.model.Ilcd;
 import br.com.ibict.acv.sicv.model.User;
+import br.com.ibict.acv.sicv.repositories.HomologacaoDao;
 import br.com.ibict.acv.sicv.repositories.IlcdDao;
+import br.com.ibict.acv.sicv.repositories.SolicitacaoDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import com.google.gson.Gson;
 import java.io.ByteArrayOutputStream;
@@ -59,6 +62,12 @@ public class IlcdController {
     @Autowired
     private UserDao userDao;
     
+    @Autowired
+    private SolicitacaoDao solicitacaoDao;
+    
+    @Autowired
+    private HomologacaoDao homologacaoDao;
+    
 
     @RequestMapping("")
     public String list(Map<String, Object> model) {
@@ -89,6 +98,20 @@ public class IlcdController {
             model.put("ilcd", id);
             return "ilcd/homologacao";
         }
+    }
+    
+    @PostMapping("/teste")
+    @ResponseBody
+    public String teste(@RequestParam("user") Long userID, @RequestParam("ilcd") String ilcdID) {
+        System.out.println("TESTE");
+        
+        User user = userDao.findOne(userID);
+        Ilcd ilcd = ilcdDao.findById(ilcdID);
+        
+        System.out.println(user.getFirstName());
+        System.out.println(ilcd.getName());
+        
+        return "true";
     }
     
     @RequestMapping(value = "/revisor-qualidade.json", method = RequestMethod.GET)
