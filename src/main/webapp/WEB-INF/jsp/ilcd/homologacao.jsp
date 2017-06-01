@@ -82,7 +82,7 @@
                     $.ajax({
                         url: '<%=Strings.BASE%>/admin/ilcd/teste',
                         type: 'POST',
-                        data: {user: "1", ilcd: "1"},
+                        data: {user: data.id, ilcd: ilcd},
                         success: function (response) {
                             if (response == "true") {
                                 window.alert("Solicitação enviada com sucesso.");

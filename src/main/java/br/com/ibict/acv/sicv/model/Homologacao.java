@@ -1,6 +1,7 @@
 package br.com.ibict.acv.sicv.model;
 
 import java.io.Serializable;
+import java.util.Date;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -9,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 @Entity
@@ -17,16 +20,16 @@ public class Homologacao implements Serializable{
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID")
+    @Column(name = "ID") 
     private Long id;
     
     @ManyToOne
     @JoinColumn(name = "user")
     private User user;
     
-    @ManyToOne
-    @JoinColumn(name = "ilcd")
-    private Ilcd ilcd;
+    @NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date lastModifier;
     
     @NotNull
     private Integer status;
@@ -37,7 +40,6 @@ public class Homologacao implements Serializable{
     public Homologacao(Long id, User user, Ilcd ilcd, Integer status) {
         this.id = id;
         this.user = user;
-        this.ilcd = ilcd;
         this.status = status;
     }
 
@@ -57,14 +59,6 @@ public class Homologacao implements Serializable{
         this.user = user;
     }
 
-    public Ilcd getIlcd() {
-        return ilcd;
-    }
-
-    public void setIlcd(Ilcd ilcd) {
-        this.ilcd = ilcd;
-    }
-
     public Integer getStatus() {
         return status;
     }
@@ -72,6 +66,13 @@ public class Homologacao implements Serializable{
     public void setStatus(Integer status) {
         this.status = status;
     }
-    
+
+    public Date getLastModifier() {
+        return lastModifier;
+    }
+
+    public void setLastModifier(Date lastModifier) {
+        this.lastModifier = lastModifier;
+    }
     
 }

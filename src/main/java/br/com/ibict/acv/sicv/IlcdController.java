@@ -108,8 +108,13 @@ public class IlcdController {
         User user = userDao.findOne(userID);
         Ilcd ilcd = ilcdDao.findById(ilcdID);
         
-        System.out.println(user.getFirstName());
-        System.out.println(ilcd.getName());
+        Homologacao homologacao = new Homologacao();
+        homologacao.setUser(user);
+        homologacao.setStatus(1);
+        homologacao.setLastModifier(new Date());
+        homologacaoDao.save(homologacao);
+        //ilcd.setHomologacao(homologacao);
+        ilcdDao.save(ilcd);
         
         return "true";
     }
