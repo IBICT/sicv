@@ -113,7 +113,7 @@ public class IlcdController {
         homologacao.setStatus(1);
         homologacao.setLastModifier(new Date());
         homologacaoDao.save(homologacao);
-        //ilcd.setHomologacao(homologacao);
+        ilcd.setHomologacao(homologacao);
         ilcdDao.save(ilcd);
         
         return "true";
