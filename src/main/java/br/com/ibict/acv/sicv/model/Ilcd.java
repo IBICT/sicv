@@ -1,5 +1,6 @@
 package br.com.ibict.acv.sicv.model;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.Date;
 import java.util.Set;
@@ -25,52 +26,66 @@ import javax.validation.constraints.NotNull;
 @Entity
 @Table(name = "ilcd")
 public class Ilcd implements Serializable {
-    
+
     @Id
+    @Expose
     private String id;
-    
+
     @NotNull
+    @Expose
     @Column(columnDefinition = "TEXT")
     private String name;
-    
+
     @NotNull
+    @Expose
     private String type;
-    
+
     @NotNull
+    @Expose
     private String location;
-    
+
     @NotNull
+    @Expose
     @Column(columnDefinition = "TEXT")
     private String clasification;
-    
+
     @NotNull
+    @Expose
     @Temporal(TemporalType.TIMESTAMP)
     private Date yearToReference;
-    
+
     @NotNull
+    @Expose
     @Temporal(TemporalType.TIMESTAMP)
     private Date yearToValidate;
-    
+
     @NotNull
+    @Expose
     private String pathFile;
-    
+
     @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id")
+    @Expose
     private User user;
-    
+
     @NotNull
+    @Expose
     private Long base;
-    
+
     @NotNull
+    @Expose
     private Long status;
-    
+
+    @Expose
     private String json1;
-    
+
+    @Expose
     private String json2;
-    
+
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "homologacao")
+    @Expose
     private Homologacao homologacao;
 
     public Ilcd() {
@@ -202,6 +217,4 @@ public class Ilcd implements Serializable {
         this.homologacao = homologacao;
     }
 
-    
-    
 }

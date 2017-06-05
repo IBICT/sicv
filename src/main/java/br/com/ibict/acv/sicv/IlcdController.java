@@ -14,6 +14,7 @@ import br.com.ibict.acv.sicv.repositories.IlcdDao;
 import br.com.ibict.acv.sicv.repositories.SolicitacaoDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -128,7 +129,7 @@ public class IlcdController {
         } catch (Exception ex) {
             return "User not found";
         }
-        String returnStr = new Gson().toJson(users);
+        String returnStr = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(users);
         returnStr = returnStr.substring(0, returnStr.length());
         returnStr = "{ \"data\" : " + returnStr + " }";
         return returnStr;
@@ -179,7 +180,7 @@ public class IlcdController {
         } catch (Exception ex) {
             return "User not found";
         }
-        String returnStr = new Gson().toJson(ilcds);
+        String returnStr = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(ilcds);
         returnStr = returnStr.substring(0, returnStr.length());
         returnStr = "{ \"data\" : " + returnStr + " }";
         return returnStr;

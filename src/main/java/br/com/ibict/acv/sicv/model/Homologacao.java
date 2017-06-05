@@ -1,5 +1,6 @@
 package br.com.ibict.acv.sicv.model;
 
+import com.google.gson.annotations.Expose;
 import java.io.Serializable;
 import java.util.Date;
 import javax.persistence.Column;
@@ -17,22 +18,26 @@ import javax.validation.constraints.NotNull;
 
 @Entity
 @Table(name = "homologacao")
-public class Homologacao implements Serializable{
+public class Homologacao implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "ID") 
+    @Column(name = "ID")
+    @Expose
     private Long id;
-    
+
     @ManyToOne
     @JoinColumn(name = "user")
+    @Expose
     private User user;
-    
+
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
+    @Expose
     private Date lastModifier;
-    
+
     @NotNull
+    @Expose
     private Integer status;
 
     public Homologacao() {
@@ -75,5 +80,5 @@ public class Homologacao implements Serializable{
     public void setLastModifier(Date lastModifier) {
         this.lastModifier = lastModifier;
     }
-    
+
 }

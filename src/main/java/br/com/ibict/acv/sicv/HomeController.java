@@ -7,7 +7,9 @@ import br.com.ibict.acv.sicv.model.Ilcd;
 import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.IlcdDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
+import br.com.ibict.acv.sicv.util.ExclStrat;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -63,14 +65,18 @@ public class HomeController {
     
     @RequestMapping(value = "/ilcds.json", method = RequestMethod.GET)
     @ResponseBody
-    String getJSON() {
+    String getJSON() throws SecurityException, NoSuchFieldException, ClassNotFoundException {
         Iterable<Ilcd> ilcds;
         try {
             ilcds = ilcdDao.findByBase(1L);
         } catch (Exception ex) {
             return "User not found";
         }
-        String returnStr = new Gson().toJson(ilcds);
+        String returnStr = new GsonBuilder()
+                .excludeFieldsWithoutExposeAnnotation()
+                .setExclusionStrategies(new ExclStrat("br.com.ibict.acv.sicv.model.Ilcd.homologacao"))
+                .create()
+                .toJson(ilcds);
         returnStr = returnStr.substring(0, returnStr.length());
         returnStr = "{ \"data\" : " + returnStr + " }";
         return returnStr;
@@ -149,7 +155,7 @@ public class HomeController {
         User user = userDao.findByEmail(email);
         if (user.getPasswordHash().equals(new Sha512Hash(senha, user.getPasswordHashSalt(), 5).toHex())) {
             session().setAttribute("user", user);
-            return new Gson().toJson(user);
+            return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(user);
         } else {
             return new Gson().toJson(false);
         }

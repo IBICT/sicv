@@ -4,6 +4,7 @@ import static br.com.ibict.acv.sicv.AdminController.session;
 import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -45,7 +46,7 @@ public class UsersController {
         } catch (Exception ex) {
             return "User not found";
         }
-        String returnStr = new Gson().toJson(users);
+        String returnStr = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(users);
         returnStr = returnStr.substring(0, returnStr.length());
         returnStr = "{ \"data\" : " + returnStr + " }";
         return returnStr;
