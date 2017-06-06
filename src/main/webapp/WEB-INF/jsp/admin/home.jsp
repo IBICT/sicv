@@ -61,6 +61,31 @@
         <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
         <script type="text/javascript">
 
+            $(document).ready(function () {
+                $.getJSON("<%=Strings.BASE%>/admin/notification.json", function (data) {
+                    if (data.data.length > 0)
+                        metroDialog.create({
+                            title: "Notificação",
+                            content: "Solicitação para homologação.",
+                            actions: [
+                                {
+                                    title: "Ver",
+                                    onclick: function (el) {
+                                        $(el).data('dialog').close();
+                                    }
+                                },
+                                {
+                                    title: "Fechar",
+                                    cls: "js-dialog-close"
+                                }
+                            ],
+                            options: {// dialog options
+                            }
+                        });
+
+                });
+            });
+
             // Load the Visualization API and the corechart package.
             google.charts.load('current', {'packages': ['corechart']});
 
