@@ -77,9 +77,11 @@ public class Ilcd implements Serializable {
     @Expose
     private Long status;
 
+    @Column(columnDefinition = "TEXT")
     @Expose
     private String json1;
 
+    @Column(columnDefinition = "TEXT")
     @Expose
     private String json2;
 

@@ -51,19 +51,19 @@
 
         <script>
 
-            function setPerfil(id, selectObject) {
-                var value = selectObject.value;
+            function teste(id) {
+                //var value = selectObject.value;
                 console.log(id);
-                console.log(value);
+                //console.log(value);
                 $.ajax({
-                    url: '<%=Strings.BASE%>/admin/users/setperfil',
+                    url: '<%=Strings.BASE%>/admin/homologacao/accept',
                     type: 'POST',
-                    data: { id: id, perfil: value },
+                    data: { id: id },
                     success: function (response) {
                         if(response == "true") {
-                            location.reload();
+                            window.location="<%=Strings.BASE%>/admin/"; 
                         } else {
-                            alert("Falha ao mudar perfil !!!");
+                            alert("Falha ao aceitar a solicitação !!!");
                         }
                     }
                 });
@@ -85,7 +85,7 @@
                             }
                         },
                         {"data": function (data, type, row, meta) {
-                                return '<a href="#" class="button primary">Aceitar</a> <a href="#" class="button warning">Recusar</a>';
+                                return '<button onclick="teste(\'' + data.id + '\')" class="button primary">Aceitar</button> <button class="button warning">Recusar</button>';
                             }
                         }
                     ]

@@ -1,7 +1,9 @@
 package br.com.ibict.acv.sicv;
 
+import br.com.ibict.acv.sicv.model.Homologacao;
 import br.com.ibict.acv.sicv.model.Ilcd;
 import br.com.ibict.acv.sicv.model.User;
+import br.com.ibict.acv.sicv.repositories.HomologacaoDao;
 import br.com.ibict.acv.sicv.repositories.IlcdDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import com.google.gson.Gson;
@@ -58,6 +60,21 @@ public class AdminController {
         }
     }
 
+    @RequestMapping("/homologacao/accept")
+    @ResponseBody
+    public String homologacaoAccept(@RequestParam("id") String id) {
+        try {
+            User user = (User) session().getAttribute("user");
+            Ilcd ilcd = ilcdDao.findById(id);
+            Homologacao homologacao = ilcd.getHomologacao();
+            homologacao.setStatus(2);
+            homologacaoDao.save(homologacao);
+            return "true";
+        } catch (Exception e) {
+            return "false";
+        }
+    }
+
     @RequestMapping(value = "/homologacao/{id}", method = RequestMethod.GET)
     public String homologacao(Map<String, Object> model, @PathVariable("id") String id) {
         if (session().getAttribute("user") == null) {
@@ -79,7 +96,7 @@ public class AdminController {
         for (Iterator<Ilcd> iterator = ilcds.iterator(); iterator.hasNext();) {
             Ilcd ilcd = iterator.next();
             if (ilcd.getHomologacao() != null) {
-                if (ilcd.getHomologacao().getUser().getId().equals(user.getId())) {
+                if (ilcd.getHomologacao().getUser().getId().equals(user.getId()) && ilcd.getHomologacao().getStatus() == 1) {
                     System.out.println("OK");
                 } else {
                     iterator.remove();
@@ -111,4 +128,6 @@ public class AdminController {
     @Autowired
     private IlcdDao ilcdDao;
 
+    @Autowired
+    private HomologacaoDao homologacaoDao;
 }

@@ -186,7 +186,14 @@
                     <div class="cell auto-size padding20 bg-white" id="cell-content">
                         <h1 class="text-light">Homologação</h1>
                         <hr class="thin bg-grayLighter" />
-                        <h2>${ilcd.getName()}</h2>
+                        <button class="button success">Download</button>
+                        <button class="button warning">Qualidata</button>
+                        <button class="button primary">Aprovar</button>
+                        <button class="button danger">Reprovar</button>
+                        <h3>${ilcd.getName()}</h3>
+                        <h3>${ilcd.getLocation()}</h3>
+                        <h3>${ilcd.getClasification()}</h3>
+                        <h3>${ilcd.getUser().getEmail()}</h3>
                     </div>
                 </div>
             </div>
