@@ -58,6 +58,11 @@ public class HomeController {
         return "home/home";
     }
     
+    @RequestMapping("/login")
+    public String login(Map<String, Object> model) {
+        return "home/login";
+    }
+    
     @RequestMapping("/ilcd")
     public String listILCDs(Map<String, Object> model) {
         return "home/list";
@@ -149,7 +154,7 @@ public class HomeController {
     
     @PostMapping("/login")
     @ResponseBody
-    public String login(
+    public String loginAction(
             @RequestParam("email") String email,
             @RequestParam("senha") String senha) {
         User user = userDao.findByEmail(email);
