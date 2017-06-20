@@ -153,25 +153,26 @@ public class HomeController {
     }
     
     @PostMapping("/login")
-    @ResponseBody
     public String loginAction(
             @RequestParam("email") String email,
             @RequestParam("senha") String senha) {
         User user = userDao.findByEmail(email);
         if (user.getPasswordHash().equals(new Sha512Hash(senha, user.getPasswordHashSalt(), 5).toHex())) {
             session().setAttribute("user", user);
-            return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(user);
+            //return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(user);
+            return "redirect:/";
         } else {
-            return new Gson().toJson(false);
+//            return new Gson().toJson(false);
+            return "redirect:/";
         }
         
     }
     
     @RequestMapping("/logout")
-    @ResponseBody
     public String logout() {
         session().removeAttribute("user");
-        return new Gson().toJson(true);
+//        return new Gson().toJson(true);
+        return "redirect:/";
     }
     
     public String MD5(byte[] md5) {

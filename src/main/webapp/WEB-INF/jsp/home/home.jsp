@@ -79,22 +79,34 @@
                             <ul class="nav navbar-nav">
                                 <li class="active"><a href="<%=Strings.BASE%>">HOME</a></li>
                                 <li><a href="<%=Strings.BASE%>/ilcd">ILCD</a></li>
+                                <%
+                                    if (HomeController.session().getAttribute("user") != null) {
+                                        User user = (User) HomeController.session().getAttribute("user");
+                                        if(user.getPerfil().equals("ADMINISTRADOR")){
+                                %>
+
+                                <%="<li><a href=\""+ Strings.BASE +"/admin/\">ADMIN</a></li>"%>
+
+                                <%
+                                        }
+                                    }
+                                %>
                             </ul>
                             <ul class="nav navbar-nav navbar-right">
                                 <%
                                     if (HomeController.session().getAttribute("user") != null) {
                                         User user = (User) HomeController.session().getAttribute("user");
                                 %>
-                                  
+
                                 <%="<li><a href=\"" + Strings.BASE + "/logout\">" + user.getFirstName() + "</a></li>"%>
-                                
-                                <%      
-                                    } else {
+
+                                <%
+                                } else {
                                 %>
-                                
+
                                 <li><a href="<%=Strings.BASE%>/login">Login</a></li>
-                                
-                                <%        
+
+                                <%
                                     }
                                 %>
 

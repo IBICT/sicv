@@ -71,7 +71,8 @@
                                 {
                                     title: "Ver",
                                     onclick: function (el) {
-                                        $(el).data('dialog').close();
+                                        //$(el).data('dialog').close();
+                                        window.location = "<%=Strings.BASE%>/admin/homologacao/"+data.data[0].id;
                                     }
                                 },
                                 {
@@ -168,8 +169,8 @@
             <a class="app-bar-element branding"><span class="mif-stack"></span> Sicv</a>
             <span class="app-bar-divider"></span>
             <ul class="app-bar-menu">
-                <li><a href="">Dashboard</a></li>
-                <li><a href="<%=Strings.BASE%>/admin/users">Usuarios</a></li>
+                <li><a href="<%=Strings.BASE%>/admin/">Dashboard</a></li>
+                <li><a href="<%=Strings.BASE%>/admin/users/">Usuarios</a></li>
                 <li>
                     <a href="" class="dropdown-toggle">Bases</a>
                     <ul class="d-menu" data-role="dropdown">
@@ -181,20 +182,19 @@
                 <li>
                     <a href="" class="dropdown-toggle">ILCDs</a>
                     <ul class="d-menu" data-role="dropdown">
-                        <li><a href="/sicv/ilcd/new">Novo</a></li>
-                        <li><a href="/sicv/ilcd">Listar Todos</a></li>
+                        <li><a href="<%=Strings.BASE%>/admin/ilcd/">Listar Todos</a></li>
                         <li class="divider"></li>
                     </ul>
                 </li>
-                <li><a href="">QualiData</a></li>
-                <li><a href="">Messagens</a></li>
+                <li><a href="#">QualiData</a></li>
+                <li><a href="#">Messagens</a></li>
                 <li>
                     <a href="" class="dropdown-toggle">Ajuda</a>
                     <ul class="d-menu" data-role="dropdown">
-                        <li><a href="">Documentação</a></li>
-                        <li><a href="">Reportar bug</a></li>
+                        <li><a href="#">Documentação</a></li>
+                        <li><a href="#">Reportar bug</a></li>
                         <li class="divider"></li>
-                        <li><a href="">Sobre</a></li>
+                        <li><a href="#">Sobre</a></li>
                     </ul>
                 </li>
             </ul>
@@ -203,10 +203,10 @@
                 <div class="app-bar-drop-container padding10 place-right no-margin-top block-shadow fg-dark" data-role="dropdown" data-no-close="true" style="width: 220px">
                     <h2 class="text-light">Definições rápidas</h2>
                     <ul class="unstyled-list fg-dark">
-                        <li><a href="" class="fg-white1 fg-hover-yellow">Perfil</a></li>
-                        <li><a href="" class="fg-white2 fg-hover-yellow">Configurações</a></li>
-                        <li><a href="" class="fg-white2 fg-hover-yellow">Segurança</a></li>
-                        <li><a href="" class="fg-white3 fg-hover-yellow">Saída</a></li>
+                        <li><a href="<%=Strings.BASE%>/admin/perfil" class="fg-white1 fg-hover-yellow">Perfil</a></li>
+                        <li><a href="<%=Strings.BASE%>/admin/config" class="fg-white2 fg-hover-yellow">Configurações</a></li>
+                        <li><a href="<%=Strings.BASE%>/admin/security" class="fg-white2 fg-hover-yellow">Segurança</a></li>
+                        <li><a href="<%=Strings.BASE%>/logout" class="fg-white3 fg-hover-yellow">Saída</a></li>
                     </ul>
                 </div>
             </div>
@@ -245,11 +245,6 @@
                         </ul>
                     </div>
                     <div class="cell auto-size padding20 bg-white" id="cell-content">
-                        <p>${pageContext.request.contextPath}</p>
-                        <c:set var="scheme" value="${pageContext.request.scheme}"/>
-                        <c:set var="serverPort" value="${pageContext.request.serverPort}"/>
-                        <c:set var="port" value=":${serverPort}"/>
-                        <p>${scheme}://${pageContext.request.serverName}${port}</p>
                         <div class="row cells2">
                             <div class="cell">
                                 <div id="chart_div"></div>
