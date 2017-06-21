@@ -190,10 +190,10 @@
                     <div class="cell auto-size padding20 bg-white" id="cell-content">
                         <h1 class="text-light">Homologação</h1>
                         <hr class="thin bg-grayLighter" />
-                        <button class="button success">Download</button>
-                        <button class="button warning">Qualidata</button>
-                        <button class="button primary">Aprovar</button>
-                        <button class="button danger">Reprovar</button>
+                        <a href="<%=Strings.BASE%>/ilcd/${ilcd.getPathFile()}" class="button success">Download</a>
+                        <a href="<%=Strings.BASE%>/" class="button warning">Qualidata</a>
+                        <a href="<%=Strings.BASE%>/" class="button primary">Aprovar</a>
+                        <a href="<%=Strings.BASE%>/" class="button danger">Reprovar</a>
                         <h3>${ilcd.getName()}</h3>
                         <h3>${ilcd.getLocation()}</h3>
                         <h3>${ilcd.getClasification()}</h3>
