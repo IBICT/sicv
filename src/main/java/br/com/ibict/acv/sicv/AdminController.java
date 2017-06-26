@@ -86,6 +86,16 @@ public class AdminController {
             return "admin/homologacao";
         }
     }
+    
+    @RequestMapping(value = "/homologacao/{id}/qualidata", method = RequestMethod.GET)
+    public String qualidata(Map<String, Object> model, @PathVariable("id") String id) {
+        if (session().getAttribute("user") == null) {
+            return "login/login";
+        } else {
+            model.put("user", session().getAttribute("user"));
+            return "admin/qualidata";
+        }
+    }
 
     @RequestMapping("/notification.json")
     @ResponseBody

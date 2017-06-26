@@ -191,9 +191,7 @@
                         <h1 class="text-light">Homologação</h1>
                         <hr class="thin bg-grayLighter" />
                         <a href="<%=Strings.BASE%>/ilcd/${ilcd.getPathFile()}" class="button success">Download</a>
-                        <a href="<%=Strings.BASE%>/" class="button warning">Qualidata</a>
-                        <a href="<%=Strings.BASE%>/" class="button primary">Aprovar</a>
-                        <a href="<%=Strings.BASE%>/" class="button danger">Reprovar</a>
+                        <a href="<%=Strings.BASE%>/admin/homologacao/${ilcd.getId()}/qualidata" class="button warning">Qualidata</a>
                         <h3>${ilcd.getName()}</h3>
                         <h3>${ilcd.getLocation()}</h3>
                         <h3>${ilcd.getClasification()}</h3>
