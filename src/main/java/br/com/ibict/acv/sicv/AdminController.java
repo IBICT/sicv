@@ -86,12 +86,33 @@ public class AdminController {
             return "admin/homologacao";
         }
     }
-    
+
     @RequestMapping(value = "/homologacao/{id}/qualidata", method = RequestMethod.GET)
     public String qualidata(Map<String, Object> model, @PathVariable("id") String id) {
         if (session().getAttribute("user") == null) {
             return "login/login";
         } else {
+            model.put("id", id);
+            model.put("user", session().getAttribute("user"));
+            return "admin/qualidata";
+        }
+    }
+
+    @RequestMapping(value = "/homologacao/{id}/qualidata", method = RequestMethod.POST)
+    @ResponseBody
+    public String qualidataAction(Map<String, Object> model, @PathVariable("id") String id, @RequestParam("json") String json) {
+        if (session().getAttribute("user") == null) {
+            return "login/login";
+        } else {
+
+            System.out.println(id);
+            System.out.println(json);
+            
+            Ilcd ilcd = ilcdDao.findById(id);
+            ilcd.getHomologacao().setStatus(3);
+            ilcd.setJson1(json);
+            ilcdDao.save(ilcd);
+
             model.put("user", session().getAttribute("user"));
             return "admin/qualidata";
         }

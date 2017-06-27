@@ -98,7 +98,7 @@
         </div>
 
         <div class="container marketing" style="margin-top: 100px">                        
-            <form action="<%=Strings.BASE%>/ilcd/new" method="POST" enctype="multipart/form-data">
+            <form action="<%=Strings.BASE%>/admin/homologacao/${id}/qualidata" method="POST">
                 <div class="grid">
 
                     <div class="row">
@@ -869,8 +869,7 @@
                     <br />
                     <div class="row" style="margin-top: 10px;">
                         <a href="/admin/ilcd" class="btn btn-default">Cancelar</a>
-                        <input class="btn btn-success" style="margin-right: 20px;" value="Aprovar" type="submit" />
-                        <input class="btn btn-danger" style="margin-right: 20px;" value="Reprovar" type="submit" />
+                        <input class="btn btn-primary" style="margin-right: 20px;" value="Enviar" type="submit" />
                     </div>
 
                 </div>
