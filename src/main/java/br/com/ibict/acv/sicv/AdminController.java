@@ -60,18 +60,17 @@ public class AdminController {
         }
     }
 
-    @RequestMapping("/homologacao/accept")
-    @ResponseBody
-    public String homologacaoAccept(@RequestParam("id") String id) {
+    @RequestMapping("/homologacao/{id}/accept")
+    public String homologacaoAccept(Map<String, Object> model, @PathVariable("id") String id) {
         try {
             User user = (User) session().getAttribute("user");
             Ilcd ilcd = ilcdDao.findById(id);
             Homologacao homologacao = ilcd.getHomologacao();
             homologacao.setStatus(2);
             homologacaoDao.save(homologacao);
-            return "true";
+            return "redirect:/admin/homologacao/" + id;
         } catch (Exception e) {
-            return "false";
+            return "error";
         }
     }
 

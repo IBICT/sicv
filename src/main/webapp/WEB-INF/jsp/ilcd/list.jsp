@@ -81,7 +81,7 @@
                                             return '<button class="cycle-button" onclick="metroDialog.toggle(\'#dialog\')" onmouseout="$(this).popover(\'show\')" data-role="popover" data-popover-position="bottom" data-popover-text="Enviado para o usuário ' + data.homologacao.user.userName + ' des de ' + data.homologacao.lastModifier + '" data-popover-background="bg-white" data-popover-color="fg-black"><span class="mif-paper-plane fg-gray mif-ani-hover-float"></span></button>';
                                             break;
                                         case 2:
-                                            return '<button class="cycle-button"><span class="mif-user"></span></button>';
+                                            return '<button class="cycle-button" data-role="popover" data-popover-position="bottom" data-popover-text="Em analise de qualidade por usuário ' + data.homologacao.user.userName + ' des de ' + data.homologacao.lastModifier + '" data-popover-background="bg-white" data-popover-color="fg-black"><span class="mif-user"></span></button>';
                                             break;
                                         case 3:
                                             return '<button class="cycle-button" onclick="openCustom(\'' + data.id + '\')" ><span class="mif-envelop"></span></button>';

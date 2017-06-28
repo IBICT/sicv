@@ -1,3 +1,5 @@
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
+
 <%@page import="br.com.ibict.acv.sicv.model.User"%>
 <%@page import="resources.Strings"%>
 <%
@@ -22,6 +24,13 @@
         <link href="<%=Strings.BASE%>/assets/metro-ui3.0.17/css/metro-icons.css" rel="stylesheet">
         <link href="<%=Strings.BASE%>/assets/metro-ui3.0.17/css/metro-responsive.css" rel="stylesheet">
 
+        <style>
+            .table.bordered tbody tr td:first-child {
+                background-color: #BDC3C7;
+                font-weight: bold;
+            }
+        </style>
+        
         <script src="<%=Strings.BASE%>/assets/metro-ui3.0.17/js/jquery-2.1.3.min.js"></script>
         <script src="<%=Strings.BASE%>/assets/metro-ui3.0.17/js/jquery.dataTables.min.js"></script>
 
@@ -55,47 +64,6 @@
         </style>
 
         <script>
-
-            function setPerfil(id, selectObject) {
-                var value = selectObject.value;
-                console.log(id);
-                console.log(value);
-                $.ajax({
-                    url: '<%=Strings.BASE%>/admin/users/setperfil',
-                    type: 'POST',
-                    data: { id: id, perfil: value },
-                    success: function (response) {
-                        if(response == "true") {
-                            location.reload();
-                        } else {
-                            alert("Falha ao mudar perfil !!!");
-                        }
-                    }
-                });
-            }
-
-            $(document).ready(function () {
-                $('#list').DataTable({
-                    "ajax": "<%=Strings.BASE%>/admin/notification.json",
-                    "columns": [
-                        {"data": "name"},
-                        {"data": "location"},
-                        {"data": "clasification"},
-                        {"data": function (data, type, row, meta) {
-                                return '<a href="#">'+data.user.email+'</a>';
-                            }
-                        },
-                        {"data": function (data, type, row, meta) {
-                                return '<a href="<%=Strings.BASE%>/admin/ilcd/files/' + data.pathFile + '" class="button success cycle-button"><span class="mif-file-download"></span></a>';
-                            }
-                        },
-                        {"data": function (data, type, row, meta) {
-                                return '<a href="#" class="button primary">Aceitar</a> <a href="#" class="button warning">Recusar</a>';
-                            }
-                        }
-                    ]
-                });
-            });
 
             $(function () {
                 $('.sidebar').on('click', 'li', function () {
@@ -190,12 +158,39 @@
                     <div class="cell auto-size padding20 bg-white" id="cell-content">
                         <h1 class="text-light">Homologação</h1>
                         <hr class="thin bg-grayLighter" />
+                        <c:choose>
+                            <c:when test="${ilcd.getHomologacao().getStatus() > 1}">
+                                <a href="<%=Strings.BASE%>/admin/homologacao/${ilcd.getId()}/qualidata" class="button warning">Qualidata</a>
+                            </c:when>    
+                            <c:otherwise>
+                                <a href="<%=Strings.BASE%>/admin/homologacao/${ilcd.getId()}/accept" class="button warning">Aceitar</a>
+                                <a href="<%=Strings.BASE%>/admin/homologacao/${ilcd.getId()}/refused" class="button danger">Recusar</a>
+                            </c:otherwise>
+                        </c:choose>
+                                
                         <a href="<%=Strings.BASE%>/ilcd/${ilcd.getPathFile()}" class="button success">Download</a>
-                        <a href="<%=Strings.BASE%>/admin/homologacao/${ilcd.getId()}/qualidata" class="button warning">Qualidata</a>
-                        <h3>${ilcd.getName()}</h3>
-                        <h3>${ilcd.getLocation()}</h3>
-                        <h3>${ilcd.getClasification()}</h3>
-                        <h3>${ilcd.getUser().getEmail()}</h3>
+
+                        
+                        <table class="table border bordered">
+                        
+                            <tbody>
+                                <tr>
+                                    <td>Nome</td><td>${ilcd.getName()}</td>
+                                </tr>
+                                <tr>
+                                    <td>Localização</td><td>${ilcd.getLocation()}</td>
+                                </tr>
+                                <tr>
+                                    <td>Classificação</td><td>${ilcd.getClasification()}</td>
+                                </tr>
+                                <tr>
+                                    <td>Criado por</td><td><a href="#">${ilcd.getUser().getUserName()}</a></td>
+                                </tr>
+                            </tbody>
+                        
+                        </table>
+
+                        
                     </div>
                 </div>
             </div>
