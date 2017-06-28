@@ -117,6 +117,50 @@ public class AdminController {
             return "admin/qualidata";
         }
     }
+    
+    @RequestMapping(value = "/homologacao/{id}/parecer", method = RequestMethod.GET)
+    @ResponseBody
+    public String parecerQualidata(Map<String, Object> model, @PathVariable("id") String id) {
+        if (session().getAttribute("user") == null) {
+            return "login/login";
+        } else {
+            model.put("user", session().getAttribute("user"));
+            
+            Ilcd ilcd = ilcdDao.findById(id);
+            
+            return (new Gson().toJson(ilcd));
+        }
+    }
+    
+    @RequestMapping(value = "/homologacao/{id}/aprovarqualidata", method = RequestMethod.GET)
+    @ResponseBody
+    public String AprovarQualidata(Map<String, Object> model, @PathVariable("id") String id) {
+        if (session().getAttribute("user") == null) {
+            return "login/login";
+        } else {
+            model.put("user", session().getAttribute("user"));
+            
+            Ilcd ilcd = ilcdDao.findById(id);
+            ilcd.getHomologacao().setStatus(4);
+            ilcdDao.save(ilcd);
+            return "aprovarqualidata";
+        }
+    }
+    
+    @RequestMapping(value = "/homologacao/{id}/reprovarqualidata", method = RequestMethod.GET)
+    @ResponseBody
+    public String ReprovarQualidata(Map<String, Object> model, @PathVariable("id") String id) {
+        if (session().getAttribute("user") == null) {
+            return "login/login";
+        } else {
+            model.put("user", session().getAttribute("user"));
+            
+            Ilcd ilcd = ilcdDao.findById(id);
+            ilcd.getHomologacao().setStatus(9);
+            ilcdDao.save(ilcd);
+            return "reprovarqualidata";
+        }
+    }
 
     @RequestMapping("/notification.json")
     @ResponseBody

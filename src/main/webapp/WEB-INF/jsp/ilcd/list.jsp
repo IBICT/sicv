@@ -21,6 +21,8 @@
         <link href="<%=Strings.BASE%>/assets/metro-ui3.0.17/css/metro.css" rel="stylesheet">
         <link href="<%=Strings.BASE%>/assets/metro-ui3.0.17/css/metro-icons.css" rel="stylesheet">
         <link href="<%=Strings.BASE%>/assets/metro-ui3.0.17/css/metro-responsive.css" rel="stylesheet">
+        <link href="<%=Strings.BASE%>/assets/metro-ui3.0.17/css/metro-schemes.css" rel="stylesheet">
+        <link href="<%=Strings.BASE%>/assets/metro-ui3.0.17/css/metro-colors.css" rel="stylesheet">
 
         <script src="<%=Strings.BASE%>/assets/metro-ui3.0.17/js/jquery-2.1.3.min.js"></script>
         <script src="<%=Strings.BASE%>/assets/metro-ui3.0.17/js/jquery.dataTables.min.js"></script>
@@ -55,9 +57,9 @@
         </style>
 
         <script>
-            
-            function start(id){
-                
+
+            function start(id) {
+
             }
 
             $(document).ready(function () {
@@ -67,16 +69,46 @@
                         {"data": "id"},
                         {"data": "name"},
                         {"data": function (data, type, row, meta) {
-                                console.log(data);
-                                return '<a href="#">'+data.user.email+'</a>';
+                                return '<a href="#">' + data.user.email + '</a>';
                             }
                         },
                         {"data": function (data, type, row, meta) {
-                                return '<span class="mif-stop fg-red"></span>';
+
+                                if (data.homologacao) {
+                                    console.log(data.homologacao);
+                                    switch (data.homologacao.status) {
+                                        case 1:
+                                            return '<button class="cycle-button" onclick="metroDialog.toggle(\'#dialog\')" onmouseout="$(this).popover(\'show\')" data-role="popover" data-popover-position="bottom" data-popover-text="Enviado para o usuário ' + data.homologacao.user.userName + ' des de ' + data.homologacao.lastModifier + '" data-popover-background="bg-white" data-popover-color="fg-black"><span class="mif-paper-plane fg-gray mif-ani-hover-float"></span></button>';
+                                            break;
+                                        case 2:
+                                            return '<button class="cycle-button"><span class="mif-user"></span></button>';
+                                            break;
+                                        case 3:
+                                            return '<button class="cycle-button" onclick="openCustom(\'' + data.id + '\')" ><span class="mif-envelop"></span></button>';
+                                            break;
+                                        case 4:
+                                            return '<button class="cycle-button"><span class="mif-pause"></span></button>';
+                                            break;
+                                        case 5:
+                                            return '<button class="cycle-button"><span class="mif-user"></span></button>';
+                                            break;
+                                        case 6:
+                                            return '<button class="cycle-button"><span class="mif-envelop"></span></button>';
+                                            break;
+                                        case 7:
+                                            return '<button class="cycle-button"><span class="mif-checkmark"></span></button>';
+                                            break;
+                                        default:
+                                            return '<button class="cycle-button"><span class="mif-bug"></span></button>';
+                                            break;
+                                    }
+                                }
+                                else
+                                    return '<a href="<%=Strings.BASE%>/admin/ilcd/homologacao/' + data.id + '" class="button primary cycle-button"><span class="mif-play"></span></a>';
                             }
                         },
                         {"data": function (data, type, row, meta) {
-                                return '<td><a href="<%=Strings.BASE%>/admin/ilcd/files/' + data.pathFile + '" class="button success cycle-button"><span class="mif-file-download"></span></a><a href="<%=Strings.BASE%>/assets/error.pdf" class="button warning cycle-button"><span class="mif-file-pdf"></span></a><a href="<%=Strings.BASE%>/admin/ilcd/homologacao/' + data.id + '" class="button primary cycle-button"><span class="mif-play"></span></a><button class="button alert cycle-button"><span class="mif-stop"></span></button></td>';
+                                return '<td><a href="<%=Strings.BASE%>/admin/ilcd/files/' + data.pathFile + '" class="button success cycle-button"><span class="mif-file-download"></span></a></td>';
                             }
                         }
                     ]
@@ -91,10 +123,43 @@
                     }
                 })
             })
+
+            function openCustom(id){
+                metroDialog.create({
+                    title: "Dialog title",
+                    content: "This is a dialog content",
+                    actions: [
+                        {
+                            title: "Ver Parecer",
+                            onclick: function(el){
+                                window.location = "<%=Strings.BASE%>/admin/homologacao/" + id + "/parecer";
+                            }
+                        },
+                        {
+                            title: "Aprovar",
+                            onclick: function(el){
+                                window.location = "<%=Strings.BASE%>/admin/homologacao/" + id + "/aprovarqualidata";
+                            }
+                        },
+                        {
+                            title: "Reprovar",
+                            onclick: function(el){
+                                window.location = "<%=Strings.BASE%>/admin/homologacao/" + id + "/reprovarqualidata";
+                            }
+                        },
+                        {
+                            title: "Cancel",
+                            cls: "js-dialog-close"
+                        }
+                    ],
+                    options: {
+                    }
+                });
+            }
         </script>
     </head>
     <body class="bg-steel">
-        <div class="app-bar fixed-top darcula" data-role="appbar">
+        <div class="app-bar fixed-top" data-role="appbar">
             <a class="app-bar-element branding"><span class="mif-stack"></span> Sicv</a>
             <span class="app-bar-divider"></span>
             <ul class="app-bar-menu">
@@ -190,6 +255,17 @@
                             </thead>
                         </table>
                     </div>
+                </div>
+            </div>
+            <div data-role="dialog" id="dialog" class="padding20" data-close-button="true" data-windows-style="true" data-overlay="true" data-overlay-color="op-dark" data-overlay-click-close="true">
+                <div class="container">
+                    <h1>Simple dialog</h1>
+                    <p>
+                        Dialog :: Metro UI CSS - The front-end framework for developing projects on the web in Windows Metro Style
+                    </p>
+                    <p>
+                        <button class="button">Cancelar solicitação</button><a href="<%=Strings.BASE%>/admin/ilcd/homologacao/' + data.id + '" class="button">Reenviar solicitação</a>
+                    </p>
                 </div>
             </div>
         </div>
