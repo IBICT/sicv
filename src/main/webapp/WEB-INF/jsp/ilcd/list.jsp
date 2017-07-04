@@ -58,9 +58,7 @@
 
         <script>
 
-            function start(id) {
-
-            }
+            var homologacao = null;
 
             $(document).ready(function () {
                 $('#list').DataTable({
@@ -75,7 +73,7 @@
                         {"data": function (data, type, row, meta) {
 
                                 if (data.homologacao) {
-                                    console.log(data.homologacao);
+                                    //console.log(data.homologacao);
                                     switch (data.homologacao.status) {
                                         case 1:
                                             return '<button class="cycle-button" onclick="metroDialog.toggle(\'#dialog\')" onmouseout="$(this).popover(\'show\')" data-role="popover" data-popover-position="bottom" data-popover-text="Enviado para o usuário ' + data.homologacao.user.userName + ' des de ' + data.homologacao.lastModifier + '" data-popover-background="bg-white" data-popover-color="fg-black"><span class="mif-paper-plane fg-gray mif-ani-hover-float"></span></button>';
@@ -84,7 +82,7 @@
                                             return '<button class="cycle-button" data-role="popover" data-popover-position="bottom" data-popover-text="Em analise de qualidade por usuário ' + data.homologacao.user.userName + ' des de ' + data.homologacao.lastModifier + '" data-popover-background="bg-white" data-popover-color="fg-black"><span class="mif-user"></span></button>';
                                             break;
                                         case 3:
-                                            return '<button class="cycle-button" onclick="openCustom(\'' + data.id + '\')" ><span class="mif-envelop"></span></button>';
+                                            return '<button class="cycle-button" onclick="openCustom(\'' + encodeURIComponent(JSON.stringify(data)) + '\')" ><span class="mif-envelop"></span></button>';
                                             break;
                                         case 4:
                                             return '<button class="cycle-button"><span class="mif-pause"></span></button>';
@@ -124,27 +122,30 @@
                 })
             })
 
-            function openCustom(id){
+            function openCustom(data){
+                
+                var obj = JSON.parse(decodeURIComponent(data));
+                //console.log(obj);
                 metroDialog.create({
-                    title: "Dialog title",
-                    content: "This is a dialog content",
+                    title: "Revisão de qualidade concluida.",
+                    content: "A revisão de qualidade foi concluida pelo usuario " + obj.homologacao.user.userName + " em " + obj.homologacao.lastModifier + ".",
                     actions: [
                         {
                             title: "Ver Parecer",
                             onclick: function(el){
-                                window.location = "<%=Strings.BASE%>/admin/homologacao/" + id + "/parecer";
+                                window.location = "<%=Strings.BASE%>/admin/homologacao/" + obj.id + "/parecer";
                             }
                         },
                         {
                             title: "Aprovar",
                             onclick: function(el){
-                                window.location = "<%=Strings.BASE%>/admin/homologacao/" + id + "/aprovarqualidata";
+                                window.location = "<%=Strings.BASE%>/admin/homologacao/" + obj.id + "/aprovarqualidata";
                             }
                         },
                         {
                             title: "Reprovar",
                             onclick: function(el){
-                                window.location = "<%=Strings.BASE%>/admin/homologacao/" + id + "/reprovarqualidata";
+                                window.location = "<%=Strings.BASE%>/admin/homologacao/" + obj.id + "/reprovarqualidata";
                             }
                         },
                         {
@@ -158,7 +159,7 @@
             }
         </script>
     </head>
-    <body class="bg-steel">
+    <body>
         <div class="app-bar fixed-top" data-role="appbar">
             <a class="app-bar-element branding"><span class="mif-stack"></span> Sicv</a>
             <span class="app-bar-divider"></span>

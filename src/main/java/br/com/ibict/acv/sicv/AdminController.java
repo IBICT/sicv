@@ -118,16 +118,16 @@ public class AdminController {
     }
     
     @RequestMapping(value = "/homologacao/{id}/parecer", method = RequestMethod.GET)
-    @ResponseBody
+    //@ResponseBody
     public String parecerQualidata(Map<String, Object> model, @PathVariable("id") String id) {
         if (session().getAttribute("user") == null) {
             return "login/login";
         } else {
             model.put("user", session().getAttribute("user"));
-            
             Ilcd ilcd = ilcdDao.findById(id);
+            model.put("json", new Gson().toJson(ilcd));
             
-            return (new Gson().toJson(ilcd));
+            return "admin/parecer";
         }
     }
     

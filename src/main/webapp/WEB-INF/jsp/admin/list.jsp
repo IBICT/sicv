@@ -108,7 +108,7 @@
             })
         </script>
     </head>
-    <body class="bg-steel">
+    <body>
         <div class="app-bar fixed-top darcula" data-role="appbar">
             <a class="app-bar-element branding"><span class="mif-stack"></span> Sicv</a>
             <span class="app-bar-divider"></span>
