@@ -1,5 +1,6 @@
 package br.com.ibict.acv.sicv;
 
+import static br.com.ibict.acv.sicv.IlcdController.session;
 import br.com.ibict.acv.sicv.model.Homologacao;
 import br.com.ibict.acv.sicv.model.Ilcd;
 import br.com.ibict.acv.sicv.model.User;
@@ -159,6 +160,32 @@ public class AdminController {
             ilcdDao.save(ilcd);
             return "reprovarqualidata";
         }
+    }
+    
+    @RequestMapping("/homologacao/{id}")
+    public String inviteTechnicalReviewer(Map<String, Object> model, @PathVariable("id") String id) {
+        if (session().getAttribute("user") == null) {
+            return "login/login";
+        } else {
+            model.put("user", session().getAttribute("user"));
+            model.put("ilcd", id);
+            return "ilcd/homologacao";
+        }
+    }
+    
+     @RequestMapping(value = "/technical-reviewer.json", method = RequestMethod.GET)
+    @ResponseBody
+    String getTechnicalReviewer() {
+        Iterable<User> users;
+        try {
+            users = userDao.findByPerfil("REVISOR DE QUALIDADE");
+        } catch (Exception ex) {
+            return "User not found";
+        }
+        String returnStr = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(users);
+        returnStr = returnStr.substring(0, returnStr.length());
+        returnStr = "{ \"data\" : " + returnStr + " }";
+        return returnStr;
     }
 
     @RequestMapping("/notification.json")
