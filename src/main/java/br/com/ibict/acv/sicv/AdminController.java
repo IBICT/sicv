@@ -133,7 +133,6 @@ public class AdminController {
     }
     
     @RequestMapping(value = "/homologacao/{id}/aprovarqualidata", method = RequestMethod.GET)
-    @ResponseBody
     public String AprovarQualidata(Map<String, Object> model, @PathVariable("id") String id) {
         if (session().getAttribute("user") == null) {
             return "login/login";
@@ -143,7 +142,8 @@ public class AdminController {
             Ilcd ilcd = ilcdDao.findById(id);
             ilcd.getHomologacao().setStatus(4);
             ilcdDao.save(ilcd);
-            return "aprovarqualidata";
+            model.put("ilcd", ilcd);
+            return "admin/aprovarqualidata";
         }
     }
     
@@ -162,14 +162,14 @@ public class AdminController {
         }
     }
     
-    @RequestMapping("/homologacao/{id}")
+    @RequestMapping("/invitetechnicalreviewer/{id}")
     public String inviteTechnicalReviewer(Map<String, Object> model, @PathVariable("id") String id) {
         if (session().getAttribute("user") == null) {
             return "login/login";
         } else {
             model.put("user", session().getAttribute("user"));
             model.put("ilcd", id);
-            return "ilcd/homologacao";
+            return "admin/invitetechnicalreviewer";
         }
     }
     
@@ -178,7 +178,7 @@ public class AdminController {
     String getTechnicalReviewer() {
         Iterable<User> users;
         try {
-            users = userDao.findByPerfil("REVISOR DE QUALIDADE");
+            users = userDao.findByPerfil("REVISOR DE TECNOLOGIA");
         } catch (Exception ex) {
             return "User not found";
         }

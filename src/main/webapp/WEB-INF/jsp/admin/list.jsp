@@ -84,7 +84,7 @@
                         {"data": "firstName"},
                         {"data": "lastName"},
                         {"data": function (data, type, row, meta) {
-                                var options = ["<option " + (data.perfil === "ADMINISTRADOR" ? "selected" : "") + ">ADMINISTRADOR</option>", "<option " + (data.perfil === "USUARIO" ? "selected" : "") + ">USUARIO</option>", "<option " + (data.perfil === "REVISOR TECNICO" ? "selected" : "") + ">REVISOR TECNICO</option>", "<option " + (data.perfil === "REVISOR DE QUALIDADE" ? "selected" : "") + ">REVISOR DE QUALIDADE</option>"];
+                                var options = ["<option " + (data.perfil === "ADMINISTRADOR" ? "selected" : "") + ">ADMINISTRADOR</option>", "<option " + (data.perfil === "USUARIO" ? "selected" : "") + ">USUARIO</option>", "<option " + (data.perfil === "REVISOR DE TECNOLOGIA" ? "selected" : "") + ">REVISOR DE TECNOLOGIA</option>", "<option " + (data.perfil === "REVISOR DE QUALIDADE" ? "selected" : "") + ">REVISOR DE QUALIDADE</option>"];
                                 var select = '<select onchange="setPerfil(' + data.id + ',' + 'this' + ')">' + options + '</select>';
 
                                 return select;
