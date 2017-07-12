@@ -144,7 +144,21 @@
             }
 
             function sendInvite() {
+                metroDialog.close('#dialog');
                 console.log("TESTE");
+                $.ajax({
+                    url: '<%=Strings.BASE%>/admin/invitetechnicalreviewer/53aeefbc-6896-4630-a654-fb3a5bc559a7',
+                    type: 'POST',
+                    data: {user: "1"},
+                    success: function (response) {
+                        if (response == "true") {
+                            window.alert("Solicitação enviada com sucesso.");
+                            document.location.href = "<%=Strings.BASE%>/admin/";
+                        } else {
+                            alert("Falha ao solicitar usuario !!!");
+                        }
+                    }
+                });
             }
 
             $(function () {

@@ -9,6 +9,7 @@ import br.com.ibict.acv.sicv.repositories.IlcdDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -107,7 +108,7 @@ public class AdminController {
 
             System.out.println(id);
             System.out.println(json);
-            
+
             Ilcd ilcd = ilcdDao.findById(id);
             ilcd.getHomologacao().setStatus(3);
             ilcd.setJson1(json);
@@ -117,7 +118,7 @@ public class AdminController {
             return "admin/qualidata";
         }
     }
-    
+
     @RequestMapping(value = "/homologacao/{id}/parecer", method = RequestMethod.GET)
     //@ResponseBody
     public String parecerQualidata(Map<String, Object> model, @PathVariable("id") String id) {
@@ -127,18 +128,18 @@ public class AdminController {
             model.put("user", session().getAttribute("user"));
             Ilcd ilcd = ilcdDao.findById(id);
             model.put("json", new Gson().toJson(ilcd));
-            
+
             return "admin/parecer";
         }
     }
-    
+
     @RequestMapping(value = "/homologacao/{id}/aprovarqualidata", method = RequestMethod.GET)
     public String AprovarQualidata(Map<String, Object> model, @PathVariable("id") String id) {
         if (session().getAttribute("user") == null) {
             return "login/login";
         } else {
             model.put("user", session().getAttribute("user"));
-            
+
             Ilcd ilcd = ilcdDao.findById(id);
             ilcd.getHomologacao().setStatus(4);
             ilcdDao.save(ilcd);
@@ -146,7 +147,7 @@ public class AdminController {
             return "admin/aprovarqualidata";
         }
     }
-    
+
     @RequestMapping(value = "/homologacao/{id}/reprovarqualidata", method = RequestMethod.GET)
     @ResponseBody
     public String ReprovarQualidata(Map<String, Object> model, @PathVariable("id") String id) {
@@ -154,14 +155,14 @@ public class AdminController {
             return "login/login";
         } else {
             model.put("user", session().getAttribute("user"));
-            
+
             Ilcd ilcd = ilcdDao.findById(id);
             ilcd.getHomologacao().setStatus(9);
             ilcdDao.save(ilcd);
             return "reprovarqualidata";
         }
     }
-    
+
     @RequestMapping("/invitetechnicalreviewer/{id}")
     public String inviteTechnicalReviewer(Map<String, Object> model, @PathVariable("id") String id) {
         if (session().getAttribute("user") == null) {
@@ -173,7 +174,26 @@ public class AdminController {
         }
     }
     
-     @RequestMapping(value = "/technical-reviewer.json", method = RequestMethod.GET)
+    @PostMapping("/invitetechnicalreviewer/{id}")
+    @ResponseBody
+    public String inviteTechnicalReviewerAction(@RequestParam("user") Long userID, @PathVariable("id") String id) {
+        System.out.println("TESTE");
+        
+        User user = userDao.findOne(userID);
+        Ilcd ilcd = ilcdDao.findById(id);
+        
+//        Homologacao homologacao = new Homologacao();
+//        homologacao.setUser(user);
+//        homologacao.setStatus(1);
+//        homologacao.setLastModifier(new Date());
+//        homologacaoDao.save(homologacao);
+//        ilcd.setHomologacao(homologacao);
+//        ilcdDao.save(ilcd);
+        
+        return "true";
+    }
+
+    @RequestMapping(value = "/technical-reviewer.json", method = RequestMethod.GET)
     @ResponseBody
     String getTechnicalReviewer() {
         Iterable<User> users;
