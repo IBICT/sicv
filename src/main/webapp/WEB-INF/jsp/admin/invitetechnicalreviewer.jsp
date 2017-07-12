@@ -139,8 +139,12 @@
 //                    });
 //                }
                 console.log(data);
-                $("#userInvite").html("<a href='#'>" + data.userName + " (" + data.email +")</a>");
+                $("#userInvite").html("<a href='#'>" + data.userName + " (" + data.email + ")</a>");
                 metroDialog.toggle('#dialog');
+            }
+
+            function sendInvite() {
+                console.log("TESTE");
             }
 
             $(function () {
@@ -227,7 +231,7 @@
                 </p>
                 <p id="userInvite"></p>
                 <p>
-                    <a id="link_aprovar" style="margin-right: 10px;" class="button primary">SIM</a><button onclick="metroDialog.close('#dialog')" class="button danger">NÃO</button>
+                    <button onclick="sendInvite()" class="button primary">SIM</button><button onclick="metroDialog.close('#dialog')" class="button danger">NÃO</button>
                 </p>
             </div>
         </div>
