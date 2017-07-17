@@ -173,24 +173,24 @@ public class AdminController {
             return "admin/invitetechnicalreviewer";
         }
     }
-    
+
     @PostMapping("/invitetechnicalreviewer/{id}")
     @ResponseBody
     public String inviteTechnicalReviewerAction(@RequestParam("user") Long userID, @PathVariable("id") String id) {
-        System.out.println("TESTE");
-        
-        User user = userDao.findOne(userID);
-        Ilcd ilcd = ilcdDao.findById(id);
-        
-//        Homologacao homologacao = new Homologacao();
-//        homologacao.setUser(user);
-//        homologacao.setStatus(1);
-//        homologacao.setLastModifier(new Date());
-//        homologacaoDao.save(homologacao);
-//        ilcd.setHomologacao(homologacao);
-//        ilcdDao.save(ilcd);
-        
-        return "true";
+        try {
+            User user = userDao.findOne(userID);
+            Ilcd ilcd = ilcdDao.findById(id);
+            Homologacao homologacao = ilcd.getHomologacao();
+            homologacao.setStatus(5);
+            homologacao.setUser(user);
+            homologacao.setLastModifier(new Date());
+            ilcd.setHomologacao(homologacao);
+            ilcdDao.save(ilcd);
+            return "true";
+        } catch (Exception e) {
+            System.err.println(e.getMessage());
+            return "false";
+        }
     }
 
     @RequestMapping(value = "/technical-reviewer.json", method = RequestMethod.GET)

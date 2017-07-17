@@ -122,34 +122,20 @@
             });
 
             function solicitacao(data) {
-//                var ask = window.confirm("Deseja enviar uma solicitação de homologação para " + data.firstName + " " + data.lastName + " ?");
-//                if (ask) {
-//                    $.ajax({
-//                        url: '<%=Strings.BASE%>/admin/ilcd/teste',
-//                        type: 'POST',
-//                        data: {user: data.id, ilcd: ilcd},
-//                        success: function (response) {
-//                            if (response == "true") {
-//                                window.alert("Solicitação enviada com sucesso.");
-//                                document.location.href = "<%=Strings.BASE%>/admin/ilcd";
-//                            } else {
-//                                alert("Falha ao solicitar usuario !!!");
-//                            }
-//                        }
-//                    });
-//                }
-                console.log(data);
+                //console.log(data);
                 $("#userInvite").html("<a href='#'>" + data.userName + " (" + data.email + ")</a>");
+                $("#btn-confirm").attr("onclick","sendInvite(" + data.id + ")");
                 metroDialog.toggle('#dialog');
             }
 
-            function sendInvite() {
+            function sendInvite(id) {
                 metroDialog.close('#dialog');
-                console.log("TESTE");
+                var ilcdID = window.location.href;
+                ilcdID = ilcdID.substring(ilcdID.lastIndexOf("/") + 1);
                 $.ajax({
-                    url: '<%=Strings.BASE%>/admin/invitetechnicalreviewer/53aeefbc-6896-4630-a654-fb3a5bc559a7',
+                    url: '<%=Strings.BASE%>/admin/invitetechnicalreviewer/'+ ilcdID,
                     type: 'POST',
-                    data: {user: "1"},
+                    data: {user: id},
                     success: function (response) {
                         if (response == "true") {
                             window.alert("Solicitação enviada com sucesso.");
@@ -245,7 +231,7 @@
                 </p>
                 <p id="userInvite"></p>
                 <p>
-                    <button onclick="sendInvite()" class="button primary">SIM</button><button onclick="metroDialog.close('#dialog')" class="button danger">NÃO</button>
+                    <button id="btn-confirm" onclick="sendInvite()" class="button primary">SIM</button><button onclick="metroDialog.close('#dialog')" class="button danger">NÃO</button>
                 </p>
             </div>
         </div>
