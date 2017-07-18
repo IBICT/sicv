@@ -88,7 +88,7 @@
                                             return '<button class="cycle-button"><span class="mif-pause"></span></button>';
                                             break;
                                         case 5:
-                                            return '<button class="cycle-button"><span class="mif-user"></span></button>';
+                                            return '<button class="cycle-button" onclick="inviteStatus(\'' + encodeURIComponent(JSON.stringify(data)) + '\')" onmouseout="$(this).popover(\'show\')" data-role="popover" data-popover-position="bottom" data-popover-text="Enviado para o usuário ' + data.homologacao.user.userName + ' des de ' + data.homologacao.lastModifier + '" data-popover-background="bg-white" data-popover-color="fg-black"><span class="mif-paper-plane fg-gray mif-ani-hover-float"></span></button>';
                                             break;
                                         case 6:
                                             return '<button class="cycle-button"><span class="mif-envelop"></span></button>';
@@ -120,10 +120,19 @@
                         $(this).addClass('active');
                     }
                 })
-            })
+            });
+            
+            function inviteStatus(data) {
+                var obj = JSON.parse(decodeURIComponent(data));
+                console.log(obj);
+                $("#dialog2userName").html("<a href='#'>" + obj.homologacao.user.firstName + " (" + obj.homologacao.user.email + ")</a>");
+                $("#dialog2dateInvite").html(obj.homologacao.lastModifier);
+                //$("#btn-confirm").attr("onclick","sendInvite(" + data.id + ")");
+                metroDialog.toggle('#dialog2');
+            }
 
-            function openCustom(data){
-                
+            function openCustom(data) {
+
                 var obj = JSON.parse(decodeURIComponent(data));
                 //console.log(obj);
                 metroDialog.create({
@@ -132,19 +141,19 @@
                     actions: [
                         {
                             title: "Ver Parecer",
-                            onclick: function(el){
+                            onclick: function (el) {
                                 window.location = "<%=Strings.BASE%>/admin/homologacao/" + obj.id + "/parecer";
                             }
                         },
                         {
                             title: "Aprovar",
-                            onclick: function(el){
+                            onclick: function (el) {
                                 window.location = "<%=Strings.BASE%>/admin/homologacao/" + obj.id + "/aprovarqualidata";
                             }
                         },
                         {
                             title: "Reprovar",
-                            onclick: function(el){
+                            onclick: function (el) {
                                 window.location = "<%=Strings.BASE%>/admin/homologacao/" + obj.id + "/reprovarqualidata";
                             }
                         },
@@ -268,6 +277,17 @@
                         <button class="button">Cancelar solicitação</button><a href="<%=Strings.BASE%>/admin/ilcd/homologacao/' + data.id + '" class="button">Reenviar solicitação</a>
                     </p>
                 </div>
+            </div>
+        </div>
+        <div data-role="dialog" id="dialog2" class="padding20" data-close-button="true" data-windows-style="true" data-overlay="true" data-overlay-color="op-dark" data-overlay-click-close="true">
+            <div class="container">
+                <h1>Convite enviado</h1>
+                <p>
+                    Convite enviado para o usuario <span id="dialog2userName"></span> des de <span id="dialog2dateInvite"></span>.
+                </p>
+                <p>
+                    <button id="btn-confirm" onclick="sendInvite()" class="button primary">Reenviar</button> <button onclick="metroDialog.close('#dialog2')" class="button danger">Cancelar</button>
+                </p>
             </div>
         </div>
     </body>
