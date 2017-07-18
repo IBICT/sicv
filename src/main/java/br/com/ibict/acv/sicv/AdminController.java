@@ -52,6 +52,8 @@ public class AdminController {
         }
     }
 
+   
+
     @RequestMapping("/solicitacoes")
     public String solicitacoes(Map<String, Object> model) {
         if (session().getAttribute("user") == null) {

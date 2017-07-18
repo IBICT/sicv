@@ -36,7 +36,7 @@
             </ul>
         </li>
         <li><a href="#">QualiData</a></li>
-        <li><a href="#">Messagens</a></li>
+        <li><a href="<%=Strings.BASE%>/admin/notifications/">Notificações</a></li>
         <li>
             <a href="" class="dropdown-toggle">Ajuda</a>
             <ul class="d-menu" data-role="dropdown">
