@@ -3,9 +3,11 @@ package br.com.ibict.acv.sicv;
 import static br.com.ibict.acv.sicv.IlcdController.session;
 import br.com.ibict.acv.sicv.model.Homologacao;
 import br.com.ibict.acv.sicv.model.Ilcd;
+import br.com.ibict.acv.sicv.model.Notification;
 import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.HomologacaoDao;
 import br.com.ibict.acv.sicv.repositories.IlcdDao;
+import br.com.ibict.acv.sicv.repositories.NotificationDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -25,6 +27,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+import resources.Strings;
 
 @Controller
 @RequestMapping("/admin")
@@ -164,6 +167,20 @@ public class AdminController {
             return "reprovarqualidata";
         }
     }
+    
+    @RequestMapping("/technicalreviewer/{id}")
+    @ResponseBody
+    public String technicalReviewer(Map<String, Object> model, @PathVariable("id") String id) {
+        if (session().getAttribute("user") == null) {
+            return "login/login";
+        } else {
+//            model.put("user", session().getAttribute("user"));
+//            model.put("ilcd", id);
+//            return "admin/invitetechnicalreviewer";
+            Ilcd ilcd = ilcdDao.findById(id);
+            return new Gson().toJson(ilcd);
+        }
+    }
 
     @RequestMapping("/invitetechnicalreviewer/{id}")
     public String inviteTechnicalReviewer(Map<String, Object> model, @PathVariable("id") String id) {
@@ -188,6 +205,10 @@ public class AdminController {
             homologacao.setLastModifier(new Date());
             ilcd.setHomologacao(homologacao);
             ilcdDao.save(ilcd);
+            
+            Notification notification = new Notification(null, "<a href=\"" + Strings.BASE + "/admin/technicalreviewer/" + id +  "\">Convite para revisão tecnica</a>", false, user);
+            notificationDao.save(notification);
+            
             return "true";
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -253,4 +274,7 @@ public class AdminController {
 
     @Autowired
     private HomologacaoDao homologacaoDao;
+    
+    @Autowired
+    private NotificationDao notificationDao;
 }
