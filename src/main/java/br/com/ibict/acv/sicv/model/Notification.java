@@ -33,7 +33,6 @@ public class Notification {
     @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id")
-    @Expose
     private User user;
 
     public Notification() {

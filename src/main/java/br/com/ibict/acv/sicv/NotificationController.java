@@ -1,7 +1,14 @@
 package br.com.ibict.acv.sicv;
 
 import static br.com.ibict.acv.sicv.AdminController.session;
+import br.com.ibict.acv.sicv.model.Notification;
+import br.com.ibict.acv.sicv.model.User;
+import br.com.ibict.acv.sicv.repositories.NotificationDao;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import java.util.List;
 import java.util.Map;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -12,13 +19,21 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 
 @Controller
-@RequestMapping("/notification")
 public class NotificationController {
     
-    @RequestMapping("/teste.json")
+    @Autowired
+    private NotificationDao notificationDao;
+    
+    @RequestMapping("/notification.json")
     @ResponseBody
     public String root(Map<String, Object> model) {
-        return "TESTE";
+        if (session().getAttribute("user") == null) {
+            return "[]";
+        } else {
+            User user = (User) session().getAttribute("user");
+            List<Notification> list = notificationDao.findByUser(user);
+            return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(list);
+        }
     }
     
 }
