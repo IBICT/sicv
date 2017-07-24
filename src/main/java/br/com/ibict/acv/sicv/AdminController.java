@@ -55,6 +55,10 @@ public class AdminController {
         }
     }
 
+    @RequestMapping("/notifications")
+    public String notifications(Map<String, Object> model) {
+        return "admin/notifications";
+    }
    
 
     @RequestMapping("/solicitacoes")
@@ -206,12 +210,12 @@ public class AdminController {
             ilcd.setHomologacao(homologacao);
             ilcdDao.save(ilcd);
             
-            Notification notification = new Notification(null, "<a href=\"" + Strings.BASE + "/admin/technicalreviewer/" + id +  "\">Convite para revisão tecnica</a>", false, user);
+            Notification notification = new Notification(1L, "<a href=\"" + Strings.BASE + "/admin/technicalreviewer/" + id +  "\">Convite para revisão tecnica</a>", false, userID);
             notificationDao.save(notification);
             
             return "true";
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
             return "false";
         }
     }

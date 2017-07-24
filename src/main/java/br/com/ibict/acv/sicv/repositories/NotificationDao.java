@@ -9,7 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 @Transactional
 public interface NotificationDao extends JpaRepository<Notification, Long> {
 
-    public List<Notification> findByUser(User user);
+    public List<Notification> findByUser(Long user);
 
     /*
      @Modifying

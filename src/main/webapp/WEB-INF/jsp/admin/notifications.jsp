@@ -68,48 +68,8 @@
                 $('#list').DataTable({
                     "ajax": "<%=Strings.BASE%>/admin/ilcd/ilcd.json",
                     "columns": [
-                        {"data": "id"},
-                        {"data": "name"},
                         {"data": function (data, type, row, meta) {
                                 return '<a href="#">' + data.user.email + '</a>';
-                            }
-                        },
-                        {"data": function (data, type, row, meta) {
-
-                                if (data.homologacao) {
-                                    //console.log(data.homologacao);
-                                    switch (data.homologacao.status) {
-                                        case 1:
-                                            return '<button class="cycle-button" onclick="metroDialog.toggle(\'#dialog\')" onmouseout="$(this).popover(\'show\')" data-role="popover" data-popover-position="bottom" data-popover-text="Enviado para o usuário ' + data.homologacao.user.userName + ' des de ' + data.homologacao.lastModifier + '" data-popover-background="bg-white" data-popover-color="fg-black"><span class="mif-paper-plane fg-gray mif-ani-hover-float"></span></button>';
-                                            break;
-                                        case 2:
-                                            return '<button class="cycle-button" data-role="popover" data-popover-position="bottom" data-popover-text="Em analise de qualidade por usuário ' + data.homologacao.user.userName + ' des de ' + data.homologacao.lastModifier + '" data-popover-background="bg-white" data-popover-color="fg-black"><span class="mif-user"></span></button>';
-                                            break;
-                                        case 3:
-                                            return '<button class="cycle-button" onclick="openCustom(\'' + encodeURIComponent(JSON.stringify(data)) + '\')" ><span class="mif-envelop"></span></button>';
-                                            break;
-                                        case 4:
-                                            return '<button class="cycle-button"><span class="mif-pause"></span></button>';
-                                            break;
-                                        case 5:
-                                            return '<button class="cycle-button" onclick="inviteStatus(\'' + encodeURIComponent(JSON.stringify(data)) + '\')" onmouseout="$(this).popover(\'show\')" data-role="popover" data-popover-position="bottom" data-popover-text="Enviado para o usuário ' + data.homologacao.user.userName + ' des de ' + data.homologacao.lastModifier + '" data-popover-background="bg-white" data-popover-color="fg-black"><span class="mif-paper-plane fg-gray mif-ani-hover-float"></span></button>';
-                                            break;
-                                        case 6:
-                                            return '<button class="cycle-button"><span class="mif-envelop"></span></button>';
-                                            break;
-                                        case 7:
-                                            return '<button class="cycle-button"><span class="mif-checkmark"></span></button>';
-                                            break;
-                                        default:
-                                            return '<button class="cycle-button"><span class="mif-bug"></span></button>';
-                                            break;
-                                    }
-                                } else
-                                    return '<a href="<%=Strings.BASE%>/admin/ilcd/homologacao/' + data.id + '" class="button primary cycle-button"><span class="mif-play"></span></a>';
-                            }
-                        },
-                        {"data": function (data, type, row, meta) {
-                                return '<td><a href="<%=Strings.BASE%>/admin/ilcd/files/' + data.pathFile + '" class="button success cycle-button"><span class="mif-file-download"></span></a></td>';
                             }
                         }
                     ]
