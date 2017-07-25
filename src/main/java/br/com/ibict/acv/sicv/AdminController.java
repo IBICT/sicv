@@ -180,16 +180,60 @@ public class AdminController {
     }
 
     @RequestMapping("/technicalreviewer/{id}")
-    @ResponseBody
     public String technicalReviewer(Map<String, Object> model, @PathVariable("id") String id) {
         if (session().getAttribute("user") == null) {
             return "login/login";
         } else {
-//            model.put("user", session().getAttribute("user"));
-//            model.put("ilcd", id);
-//            return "admin/invitetechnicalreviewer";
+            model.put("user", session().getAttribute("user"));
             Ilcd ilcd = ilcdDao.findById(id);
-            return new Gson().toJson(ilcd);
+            model.put("ilcd", ilcd);
+//            return "admin/invitetechnicalreviewer";
+            
+            return "admin/technicalreviewer";
+        }
+    }
+    
+    @RequestMapping("/technicalreviewer/{id}/accept")
+    public String technicalReviewerAccept(Map<String, Object> model, @PathVariable("id") String id) {
+        try {
+            User user = (User) session().getAttribute("user");
+            Ilcd ilcd = ilcdDao.findById(id);
+            Homologacao homologacao = ilcd.getHomologacao();
+            homologacao.setStatus(6);
+            homologacao.setUser(user);
+            homologacaoDao.save(homologacao);
+            return "redirect:/admin/technicalreviewer/" + id;
+        } catch (Exception e) {
+            return "error";
+        }
+    }
+    
+    @RequestMapping("/technicalreviewer/{id}/refused")
+    public String technicalReviewerRefused(Map<String, Object> model, @PathVariable("id") String id) {
+        try {
+            User user = (User) session().getAttribute("user");
+            Ilcd ilcd = ilcdDao.findById(id);
+            Homologacao homologacao = ilcd.getHomologacao();
+            homologacao.setStatus(9);
+            homologacaoDao.save(homologacao);
+            return "redirect:/admin/";
+        } catch (Exception e) {
+            return "error";
+        }
+    }
+    
+    
+    @RequestMapping("technicalreviewer/{id}/technicalreviewerform")
+    public String technicalReviewerForm(Map<String, Object> model, @PathVariable("id") String id) {
+        if (session().getAttribute("user") == null) {
+            return "login/login";
+        } else {
+            model.put("user", session().getAttribute("user"));
+            Ilcd ilcd = ilcdDao.findById(id);
+            model.put("ilcd", id);
+//            return "admin/invitetechnicalreviewer";
+            
+            return "admin/technicalreviewerform";
         }
     }
 
