@@ -57,9 +57,16 @@ public class AdminController {
 
     @RequestMapping("/notifications")
     public String notifications(Map<String, Object> model) {
-        return "admin/notifications";
+        if (session().getAttribute("user") == null) {
+            return "login/login";
+        } else {
+            User user = (User) session().getAttribute("user");
+            model.put("user", user);
+            List<Notification> notifications = notificationDao.findByUser(user.getId());
+            model.put("notifications", new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(notifications));
+            return "admin/notifications";
+        }
     }
-   
 
     @RequestMapping("/solicitacoes")
     public String solicitacoes(Map<String, Object> model) {
@@ -171,7 +178,7 @@ public class AdminController {
             return "reprovarqualidata";
         }
     }
-    
+
     @RequestMapping("/technicalreviewer/{id}")
     @ResponseBody
     public String technicalReviewer(Map<String, Object> model, @PathVariable("id") String id) {
@@ -209,10 +216,10 @@ public class AdminController {
             homologacao.setLastModifier(new Date());
             ilcd.setHomologacao(homologacao);
             ilcdDao.save(ilcd);
-            
-            Notification notification = new Notification(1L, "<a href=\"" + Strings.BASE + "/admin/technicalreviewer/" + id +  "\">Convite para revisão tecnica</a>", false, userID);
+
+            Notification notification = new Notification(1L, "<a href=\"" + Strings.BASE + "/admin/technicalreviewer/" + id + "\">Convite para revisão tecnica</a>", false, userID);
             notificationDao.save(notification);
-            
+
             return "true";
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -278,7 +285,7 @@ public class AdminController {
 
     @Autowired
     private HomologacaoDao homologacaoDao;
-    
+
     @Autowired
     private NotificationDao notificationDao;
 }

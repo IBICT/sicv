@@ -66,10 +66,10 @@
 
             $(document).ready(function () {
                 $('#list').DataTable({
-                    "ajax": "<%=Strings.BASE%>/admin/ilcd/ilcd.json",
+                    data: ${notifications},
                     "columns": [
                         {"data": function (data, type, row, meta) {
-                                return '<a href="#">' + data.user.email + '</a>';
+                                return data.message;
                             }
                         }
                     ]
