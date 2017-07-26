@@ -1,25 +1,13 @@
 package br.com.ibict.acv.sicv.controller;
 
-import br.com.ibict.acv.sicv.model.Homologacao;
-import br.com.ibict.acv.sicv.model.Ilcd;
-import br.com.ibict.acv.sicv.model.Notification;
-import br.com.ibict.acv.sicv.model.User;
-import br.com.ibict.acv.sicv.repositories.HomologacaoDao;
-import br.com.ibict.acv.sicv.repositories.IlcdDao;
-import br.com.ibict.acv.sicv.repositories.NotificationDao;
-import br.com.ibict.acv.sicv.repositories.UserDao;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import static br.com.ibict.acv.sicv.controller.IlcdController.session;
-
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import javax.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
 
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,6 +17,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import br.com.ibict.acv.sicv.model.Homologacao;
+import br.com.ibict.acv.sicv.model.Ilcd;
+import br.com.ibict.acv.sicv.model.Notification;
+import br.com.ibict.acv.sicv.model.User;
+import br.com.ibict.acv.sicv.repositories.HomologacaoDao;
+import br.com.ibict.acv.sicv.repositories.IlcdDao;
+import br.com.ibict.acv.sicv.repositories.NotificationDao;
+import br.com.ibict.acv.sicv.repositories.UserDao;
 import resources.Strings;
 
 @Controller
@@ -57,7 +57,18 @@ public class AdminController {
         }
     }
 
-   
+    @RequestMapping("/notifications")
+    public String notifications(Map<String, Object> model) {
+        if (session().getAttribute("user") == null) {
+            return "login/login";
+        } else {
+            User user = (User) session().getAttribute("user");
+            model.put("user", user);
+            List<Notification> notifications = notificationDao.findByUser(user.getId());
+            model.put("notifications", new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(notifications));
+            return "admin/notifications";
+        }
+    }
 
     @RequestMapping("/solicitacoes")
     public String solicitacoes(Map<String, Object> model) {
@@ -169,18 +180,62 @@ public class AdminController {
             return "reprovarqualidata";
         }
     }
-    
+
     @RequestMapping("/technicalreviewer/{id}")
-    @ResponseBody
     public String technicalReviewer(Map<String, Object> model, @PathVariable("id") String id) {
         if (session().getAttribute("user") == null) {
             return "login/login";
         } else {
-//            model.put("user", session().getAttribute("user"));
-//            model.put("ilcd", id);
-//            return "admin/invitetechnicalreviewer";
+            model.put("user", session().getAttribute("user"));
             Ilcd ilcd = ilcdDao.findById(id);
-            return new Gson().toJson(ilcd);
+            model.put("ilcd", ilcd);
+//            return "admin/invitetechnicalreviewer";
+            
+            return "admin/technicalreviewer";
+        }
+    }
+    
+    @RequestMapping("/technicalreviewer/{id}/accept")
+    public String technicalReviewerAccept(Map<String, Object> model, @PathVariable("id") String id) {
+        try {
+            User user = (User) session().getAttribute("user");
+            Ilcd ilcd = ilcdDao.findById(id);
+            Homologacao homologacao = ilcd.getHomologacao();
+            homologacao.setStatus(6);
+            homologacao.setUser(user);
+            homologacaoDao.save(homologacao);
+            return "redirect:/admin/technicalreviewer/" + id;
+        } catch (Exception e) {
+            return "error";
+        }
+    }
+    
+    @RequestMapping("/technicalreviewer/{id}/refused")
+    public String technicalReviewerRefused(Map<String, Object> model, @PathVariable("id") String id) {
+        try {
+            User user = (User) session().getAttribute("user");
+            Ilcd ilcd = ilcdDao.findById(id);
+            Homologacao homologacao = ilcd.getHomologacao();
+            homologacao.setStatus(9);
+            homologacaoDao.save(homologacao);
+            return "redirect:/admin/";
+        } catch (Exception e) {
+            return "error";
+        }
+    }
+    
+    
+    @RequestMapping("technicalreviewer/{id}/technicalreviewerform")
+    public String technicalReviewerForm(Map<String, Object> model, @PathVariable("id") String id) {
+        if (session().getAttribute("user") == null) {
+            return "login/login";
+        } else {
+            model.put("user", session().getAttribute("user"));
+            Ilcd ilcd = ilcdDao.findById(id);
+            model.put("ilcd", id);
+//            return "admin/invitetechnicalreviewer";
+            
+            return "admin/technicalreviewerform";
         }
     }
 
@@ -207,13 +262,13 @@ public class AdminController {
             homologacao.setLastModifier(new Date());
             ilcd.setHomologacao(homologacao);
             ilcdDao.save(ilcd);
-            
-            Notification notification = new Notification(null, "<a href=\"" + Strings.BASE + "/admin/technicalreviewer/" + id +  "\">Convite para revisão tecnica</a>", false, user);
+
+            Notification notification = new Notification(1L, "<a href=\"" + Strings.BASE + "/admin/technicalreviewer/" + id + "\">Convite para revisão tecnica</a>", false, userID);
             notificationDao.save(notification);
-            
+
             return "true";
         } catch (Exception e) {
-            System.err.println(e.getMessage());
+            System.out.println(e.getMessage());
             return "false";
         }
     }
@@ -276,7 +331,7 @@ public class AdminController {
 
     @Autowired
     private HomologacaoDao homologacaoDao;
-    
+
     @Autowired
     private NotificationDao notificationDao;
 }

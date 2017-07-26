@@ -11,4 +11,5 @@ public class Strings {
 
     public static final String BASE = "http://localhost:8080/sicv";
     public static final String UPLOADED_FOLDER = "C:/Users/ASUS/Documents/files";
+
 }
