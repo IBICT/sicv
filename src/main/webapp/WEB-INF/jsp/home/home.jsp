@@ -4,7 +4,7 @@
     Author     : Deivdy.Silva
 --%>
 <%@page import="br.com.ibict.acv.sicv.model.User"%>
-<%@page import="br.com.ibict.acv.sicv.HomeController"%>
+<%@page import="br.com.ibict.acv.sicv.controller.HomeController"%>
 <%@page import="resources.Strings"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 

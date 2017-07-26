@@ -1,6 +1,5 @@
-package br.com.ibict.acv.sicv;
+package br.com.ibict.acv.sicv.controller;
 
-import static br.com.ibict.acv.sicv.IlcdController.session;
 import br.com.ibict.acv.sicv.model.Homologacao;
 import br.com.ibict.acv.sicv.model.Ilcd;
 import br.com.ibict.acv.sicv.model.Notification;
@@ -11,6 +10,9 @@ import br.com.ibict.acv.sicv.repositories.NotificationDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import static br.com.ibict.acv.sicv.controller.IlcdController.session;
+
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;

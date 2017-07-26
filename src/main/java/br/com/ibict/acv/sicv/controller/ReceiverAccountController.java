@@ -1,4 +1,4 @@
-package br.com.ibict.acv.sicv;
+package br.com.ibict.acv.sicv.controller;
 
 import java.util.Map;
 import org.springframework.stereotype.Controller;

@@ -68,7 +68,7 @@
                 
                 <br />
                 
-                <input class="form-control" type="text" name="userName" placeholder="USUAIO" required="" /><br />
+                <input class="form-control" type="text" name="userName" placeholder="USUARIO" required="" /><br />
 
                 <input class="form-control" type="email" name="email" placeholder="EMAIL" required="" /><br />
                 <input class="form-control" type="password" name="senha" placeholder="SENHA" required="" /><br />

@@ -1,8 +1,5 @@
-package br.com.ibict.acv.sicv;
+package br.com.ibict.acv.sicv.controller;
 
-import static br.com.ibict.acv.sicv.AdminController.session;
-import static br.com.ibict.acv.sicv.IlcdController.session;
-import static br.com.ibict.acv.sicv.IlcdController.zipToIlcd;
 import br.com.ibict.acv.sicv.model.Ilcd;
 import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.IlcdDao;
@@ -10,6 +7,10 @@ import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.ExclStrat;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import static br.com.ibict.acv.sicv.controller.AdminController.session;
+import static br.com.ibict.acv.sicv.controller.IlcdController.zipToIlcd;
+
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;

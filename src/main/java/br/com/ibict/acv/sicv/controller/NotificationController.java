@@ -1,11 +1,13 @@
-package br.com.ibict.acv.sicv;
+package br.com.ibict.acv.sicv.controller;
 
-import static br.com.ibict.acv.sicv.AdminController.session;
 import br.com.ibict.acv.sicv.model.Notification;
 import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.NotificationDao;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import static br.com.ibict.acv.sicv.controller.AdminController.session;
+
 import java.util.List;
 import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;

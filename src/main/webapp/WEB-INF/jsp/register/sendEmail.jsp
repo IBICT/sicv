@@ -40,8 +40,8 @@
     </head>
 
     <body>
-        <h1>Um email foi emviado para a a comfirmação da conta.</h1>
-        <a href="#">Voltar</a>
+        <h1>Um email foi enviado para a a confirmação da conta.</h1>
+        <a href="./">Início</a>
     </body>
 
 </html>

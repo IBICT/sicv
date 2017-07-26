@@ -1,5 +1,5 @@
 <%@page import="br.com.ibict.acv.sicv.model.User"%>
-<%@page import="br.com.ibict.acv.sicv.HomeController"%>
+<%@page import="br.com.ibict.acv.sicv.controller.HomeController"%>
 <%@page import="resources.Strings"%>
 <!DOCTYPE html>
 <html lang="pt-BR">
