@@ -39,6 +39,11 @@ public class Homologacao implements Serializable {
     @NotNull
     @Expose
     private Integer status;
+    
+    @Expose
+    @ManyToOne
+    @JoinColumn(name = "technical_reviewer")
+    private TechnicalReviewer technicalReviewer;
 
     public Homologacao() {
     }
