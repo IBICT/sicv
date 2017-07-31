@@ -238,6 +238,20 @@ public class AdminController {
             return "admin/technicalreviewerform";
         }
     }
+    
+    @PostMapping("technicalreviewer/{id}/technicalreviewerform")
+    @ResponseBody
+    public String technicalReviewerFormAction(Map<String, Object> model, @PathVariable("id") String id, @RequestParam("comment") String comment) {
+        if (session().getAttribute("user") == null) {
+            return "login/login";
+        } else {
+            //model.put("user", session().getAttribute("user"));
+            Ilcd ilcd = ilcdDao.findById(id);
+            //model.put("ilcd", id);
+//            return "admin/invitetechnicalreviewer";
+            return comment;
+        }
+    }
 
     @RequestMapping("/invitetechnicalreviewer/{id}")
     public String inviteTechnicalReviewer(Map<String, Object> model, @PathVariable("id") String id) {
