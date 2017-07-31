@@ -94,7 +94,7 @@
                                             return '<button class="cycle-button"><span class="mif-envelop"></span></button>';
                                             break;
                                         case 7:
-                                            return '<button class="cycle-button"><span class="mif-checkmark"></span></button>';
+                                            return '<button class="cycle-button" onclick="technicalReviewerDialog(\'' + encodeURIComponent(JSON.stringify(data)) + '\')" onmouseout="$(this).popover(\'show\')" data-role="popover" data-popover-position="bottom" data-popover-text="Enviado por ' + data.homologacao.user.userName + ' des de ' + data.homologacao.lastModifier + '" data-popover-background="bg-white" data-popover-color="fg-black"><span class="mif-envelop fg-gray mif-ani-hover-shake"></span></button>';
                                             break;
                                         default:
                                             return '<button class="cycle-button"><span class="mif-bug"></span></button>';
@@ -129,6 +129,15 @@
                 $("#dialog2dateInvite").html(obj.homologacao.lastModifier);
                 //$("#btn-confirm").attr("onclick","sendInvite(" + data.id + ")");
                 metroDialog.toggle('#dialog2');
+            }
+            
+            function technicalReviewerDialog(data) {
+                var obj = JSON.parse(decodeURIComponent(data));
+                console.log(obj);
+                $("#user-technical-reviewer-dialog").html("<a href='#'>" + obj.homologacao.user.firstName + " (" + obj.homologacao.user.email + ")</a>");
+                $("#lastModifier-technical-reviewer-dialog").html(obj.homologacao.lastModifier);
+                $("#link_technical-reviewer-dialog").attr("href","<%=Strings.BASE%>/admin/technicalreviewer/" + obj.id + "/parecer");
+                metroDialog.toggle('#technical-reviewer-dialog');
             }
 
             function openCustom(data) {
@@ -287,6 +296,17 @@
                 </p>
                 <p>
                     <button id="btn-confirm" onclick="sendInvite()" class="button primary">Reenviar</button> <button onclick="metroDialog.close('#dialog2')" class="button danger">Cancelar</button>
+                </p>
+            </div>
+        </div>
+        <div data-role="dialog" id="technical-reviewer-dialog" class="padding20" data-close-button="true" data-windows-style="true" data-overlay="true" data-overlay-color="op-dark" data-overlay-click-close="true">
+            <div class="container">
+                <h1>Revisão tecnica concluida</h1>
+                <p>
+                    A revisão de tecnica foi concluida pelo usuario <span id="user-technical-reviewer-dialog"></span> em <span id="lastModifier-technical-reviewer-dialog"></span>.
+                </p>
+                <p>
+                    <a id="link_technical-reviewer-dialog" style="margin-right: 10px;" class="button primary">Ver Parecer</a><button onclick="metroDialog.close('#technical-reviewer-dialog')" class="button">Cancel</button>
                 </p>
             </div>
         </div>
