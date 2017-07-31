@@ -324,21 +324,26 @@ public class AdminController {
             return "admin/technicalreviewerparecer";
         }
     }
-    
+
     @RequestMapping("/technicalreviewer/{id}/parecer/aprovar")
     public String technicalReviewerParecerAprovar(Map<String, Object> model, @PathVariable("id") String id) {
         if (session().getAttribute("user") == null) {
             return "login/login";
         } else {
             model.put("user", session().getAttribute("user"));
-            Ilcd ilcd = ilcdDao.findById(id);
-            ilcd.getHomologacao().setStatus(8);
-//            return "admin/invitetechnicalreviewer";
 
-            return "redirect:/admin/";
+            try {
+                Ilcd ilcd = ilcdDao.findById(id);
+                ilcd.getHomologacao().setStatus(8);
+                return "redirect:/admin/";
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+                return "error";
+            }
         }
     }
-    
+
     @RequestMapping("/technicalreviewer/{id}/parecer/reprovar")
     public String technicalReviewerParecerReprovar(Map<String, Object> model, @PathVariable("id") String id) {
         if (session().getAttribute("user") == null) {
@@ -352,7 +357,7 @@ public class AdminController {
             return "admin/technicalreviewerparecer";
         }
     }
-    
+
     @RequestMapping("/notification.json")
     @ResponseBody
     public String notification() {

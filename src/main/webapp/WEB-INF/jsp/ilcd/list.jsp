@@ -96,6 +96,12 @@
                                         case 7:
                                             return '<button class="cycle-button" onclick="technicalReviewerDialog(\'' + encodeURIComponent(JSON.stringify(data)) + '\')" onmouseout="$(this).popover(\'show\')" data-role="popover" data-popover-position="bottom" data-popover-text="Enviado por ' + data.homologacao.user.userName + ' des de ' + data.homologacao.lastModifier + '" data-popover-background="bg-white" data-popover-color="fg-black"><span class="mif-envelop fg-gray mif-ani-hover-shake"></span></button>';
                                             break;
+                                        case 8:
+                                            return '<button class="cycle-button"><span class="mif-checkmark"></span></button>';
+                                            break;
+                                        case 9:
+                                            return '<button class="cycle-button" onclick="" onmouseout="$(this).popover(\'show\')" data-role="popover" data-popover-position="bottom" data-popover-text="" data-popover-background="bg-white" data-popover-color="fg-black"><span class="mif-notification fg-gray mif-ani-hover-shake"></span></button>';
+                                            break;
                                         default:
                                             return '<button class="cycle-button"><span class="mif-bug"></span></button>';
                                             break;
