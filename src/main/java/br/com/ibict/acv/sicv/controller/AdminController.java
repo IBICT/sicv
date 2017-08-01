@@ -31,6 +31,7 @@ import br.com.ibict.acv.sicv.repositories.IlcdDao;
 import br.com.ibict.acv.sicv.repositories.NotificationDao;
 import br.com.ibict.acv.sicv.repositories.TechnicalReviewerDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
+import br.com.ibict.acv.sicv.util.UserUtils;
 import resources.Strings;
 
 @Controller
@@ -42,20 +43,26 @@ public class AdminController {
         if (session().getAttribute("user") == null) {
             return "login/login";
         } else {
+            User user = (User) session().getAttribute("user");
+            if (UserUtils.getPriorit(user.getPerfil()) < 2) 
+                return "redirect:/";
+            
             model.put("user", session().getAttribute("user"));
             return "admin/home";
         }
     }
 
     @PostMapping("/login")
-    @ResponseBody
+    //@ResponseBody
     public String loginHandle(@RequestParam("email") String email, @RequestParam("password") String senha) {
         User user = userDao.findByEmail(email);
         if (user == null) {
-            return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(false);
+            //return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(false);
+            return "redirect:/admin/login";
         } else {
             session().setAttribute("user", user);
-            return new Gson().toJson(true);
+            //return new Gson().toJson(true);
+            return "redirect:/admin/";
         }
     }
 

@@ -104,7 +104,7 @@
                     <div class="row">
                         <div class="input-control checkbox"><span class="caption">ILCD File: </span></div>
                         <div class="input-control file" data-role="input">
-                            <input name="file" type="file" />
+                            <input required="required" name="file" type="file" />
                         </div>
                     </div>
                     
@@ -112,7 +112,7 @@
                     <a href="#">Termos de aceite</a><br />
                     <div class="checkbox">
                         <label>
-                            <input type="checkbox"> Concordo com os termos acima.
+                            <input required="required" type="checkbox"> Concordo com os termos acima.
                         </label>
                     </div>
 

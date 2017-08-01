@@ -5,6 +5,7 @@
  */
 package br.com.ibict.acv.sicv.controller;
 
+import static br.com.ibict.acv.sicv.controller.AdminController.session;
 import br.com.ibict.acv.sicv.model.Homologacao;
 import br.com.ibict.acv.sicv.model.Ilcd;
 import br.com.ibict.acv.sicv.model.User;
@@ -12,10 +13,10 @@ import br.com.ibict.acv.sicv.repositories.HomologacaoDao;
 import br.com.ibict.acv.sicv.repositories.IlcdDao;
 import br.com.ibict.acv.sicv.repositories.SolicitacaoDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
+import br.com.ibict.acv.sicv.util.UserUtils;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import static br.com.ibict.acv.sicv.controller.AdminController.session;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -77,9 +78,13 @@ public class IlcdController {
         if (session().getAttribute("user") == null) {
             return "login/login";
         } else {
+            User user = (User) session().getAttribute("user");
+            if (UserUtils.getPriorit(user.getPerfil()) < 2) 
+                return "redirect:/";
+            
             model.put("user", session().getAttribute("user"));
             return "ilcd/list";
-        }
+        }        
     }
 
     @RequestMapping("/new")
