@@ -1,16 +1,5 @@
 package br.com.ibict.acv.sicv.controller;
 
-import br.com.ibict.acv.sicv.model.Ilcd;
-import br.com.ibict.acv.sicv.model.User;
-import br.com.ibict.acv.sicv.repositories.IlcdDao;
-import br.com.ibict.acv.sicv.repositories.UserDao;
-import br.com.ibict.acv.sicv.util.ExclStrat;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import static br.com.ibict.acv.sicv.controller.AdminController.session;
-import static br.com.ibict.acv.sicv.controller.IlcdController.zipToIlcd;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,8 +16,10 @@ import java.util.Enumeration;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.apache.shiro.crypto.hash.Sha512Hash;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -43,6 +34,14 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.google.gson.GsonBuilder;
+
+import br.com.ibict.acv.sicv.model.Ilcd;
+import br.com.ibict.acv.sicv.model.User;
+import br.com.ibict.acv.sicv.repositories.IlcdDao;
+import br.com.ibict.acv.sicv.repositories.UserDao;
+import br.com.ibict.acv.sicv.util.ExclStrat;
 import resources.Strings;
 
 @Controller
@@ -59,7 +58,12 @@ public class HomeController {
         return "home/home";
     }
     
-    @RequestMapping("/login")
+    @RequestMapping("/403")
+    public String deniedAccess(Map<String, Object> model) {
+        return "/403";
+    }
+    
+    @RequestMapping(value="/login",method = RequestMethod.GET)
     public String login(Map<String, Object> model) {
         return "home/login";
     }
