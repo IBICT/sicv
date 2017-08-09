@@ -79,7 +79,14 @@
                     "ajax": "<%=Strings.BASE%>/admin/users/users.json",
                     "columns": [
                         {"data": "id"},
-                        {"data": "userName"},
+                        {data: function (data, type, row, meta) {
+                            if (data.userName) {
+                                return data.userName;
+                            } else {
+                                console.log(data);
+                                return "";
+                            }
+                        }},
                         {"data": "email"},
                         {"data": "firstName"},
                         {"data": "lastName"},
