@@ -49,16 +49,16 @@
 
         <div class="page-content">
             <div class="flex-grid no-responsive-future">
-                <form>
-                        <div class="input-control textarea">
-                            <label>Comentário</label>
-                            <textarea></textarea>
-                        </div>
-                        <br />
-                        <a class="button" href="<%=Strings.BASE%>/admin/">Cancelar</a>
-                        <input class="warning" type="reset" value="Reset">
-                        <input class="primary" type="submit" value="Submit">
-                    </form>
+                <form method="post">
+                    <div class="input-control textarea">
+                        <label>Comentário</label>
+                        <textarea name="comment"></textarea>
+                    </div>
+                    <br />
+                    <a class="button" href="<%=Strings.BASE%>/admin/">Cancelar</a>
+                    <input class="warning" type="reset" value="Reset">
+                    <input class="primary" type="submit" value="Submit">
+                </form>
             </div>
         </div>
         <jsp:include page="/WEB-INF/jsp/partials/scriptsLibs.jsp" />

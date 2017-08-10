@@ -112,14 +112,15 @@
                 $("#ilcdLocation").html(obj.location);
                 $("#ilcdClassification").html(obj.clasification);
                 var questions = JSON.parse(obj.json1);
+                console.log(questions);
+                console.log(positivo);
                 $.each(questions, function (key, value) {
-                    if (value === "sim") {
+                    if (value == "true") {
                         positivo++;
-                    } else {
-                        nagativo++;
                     }
-                    $("#" + key).html(value);
+                    $("#" + key).html(value == "true" ? "Sim":"N&atilde;o");
                 });
+                console.log(positivo);
                 porcentage = Math.round((positivo / 42) * 100);
                 $("#chart_donut").attr("data-value", porcentage);
                 //questions.each(function( index, element ) {
@@ -137,7 +138,7 @@
                 data.addColumn('number', 'Slices');
                 data.addRows([
                     ['Sim', positivo],
-                    ['Não', negativo],
+                    ['Não', 42 - positivo],
                 ]);
                 var options = {'title': 'Parecer de qualidade',
                     'width': 400,
