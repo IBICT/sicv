@@ -8,9 +8,11 @@ package br.com.ibict.acv.sicv.controller;
 import static br.com.ibict.acv.sicv.controller.AdminController.session;
 import br.com.ibict.acv.sicv.model.Homologacao;
 import br.com.ibict.acv.sicv.model.Ilcd;
+import br.com.ibict.acv.sicv.model.Notification;
 import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.HomologacaoDao;
 import br.com.ibict.acv.sicv.repositories.IlcdDao;
+import br.com.ibict.acv.sicv.repositories.NotificationDao;
 import br.com.ibict.acv.sicv.repositories.SolicitacaoDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.UserUtils;
@@ -72,6 +74,9 @@ public class IlcdController {
     @Autowired
     private HomologacaoDao homologacaoDao;
     
+    @Autowired
+    private NotificationDao notificationDao;
+    
 
     @RequestMapping("")
     public String list(Map<String, Object> model) {
@@ -123,6 +128,9 @@ public class IlcdController {
         homologacaoDao.save(homologacao);
         ilcd.setHomologacao(homologacao);
         ilcdDao.save(ilcd);
+        
+        Notification notification = new Notification(1L, "<a href=\"" + Strings.BASE + "/admin/homologacao/" + ilcdID + "\">Convite para revisão de qualidade</a>", false, userID);
+        notificationDao.save(notification);
         
         return "true";
     }
