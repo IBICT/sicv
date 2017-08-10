@@ -32,8 +32,8 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 	    	//TODO colocar outras authorities que faltam para definir os acessos aos revisores
 	    	http
             .authorizeRequests()
-                .antMatchers("/assets/**","/","/home","/register**","/ilcd").permitAll()
-                .antMatchers("/admin/**").hasAuthority(EnumProfile.ADMIN.getProfile())
+            	.antMatchers("/assets/**","/","/register**","/ilcd**").permitAll()
+                .antMatchers("/admin/**").hasAuthority(EnumProfile.ADMIN.name())
 //                .antMatchers("/usuario").hasRole("ROLE")
                 .anyRequest().authenticated()
                 .and()
@@ -44,15 +44,14 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .exceptionHandling().accessDeniedPage("/403")
                 .and()
             .logout()
-                .logoutUrl("/logout")
+                .logoutUrl("/login?logout")
                 .logoutSuccessUrl("/login?logout")
                 .invalidateHttpSession(true)
                 .permitAll();
-	    	http.csrf().disable();
 	    }
 	    
 	    @Override
 	    public void configure(WebSecurity web) throws Exception {
-	        web.ignoring().antMatchers("/resources/**");
+	        web.ignoring().antMatchers("/resources/**","/admin/ilcd/ilcd.json");
 	    }
 }

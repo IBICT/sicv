@@ -35,7 +35,7 @@ public class CustomAuthProvider implements AuthenticationProvider {
     @Autowired
     private UserDao userReposiroty;
     
-    public static HttpSession session;
+    public static HttpSession session = null;
 
     @Override
     public Authentication authenticate(Authentication auth) throws AuthenticationException {
