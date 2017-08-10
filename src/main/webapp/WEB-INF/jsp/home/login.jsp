@@ -75,6 +75,7 @@
                 <a href="#" class="forgot-password">
                     Esqueceu a senha?
                 </a>
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             </form>
 
         </div> <!-- /container -->

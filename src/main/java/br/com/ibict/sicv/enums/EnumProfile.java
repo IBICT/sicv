@@ -10,7 +10,7 @@ public enum EnumProfile {
 
 	ADMIN("Admin"),
     QUALITY_REVIEWER("Quality Reviewer"),
-    TECHNICAL_REVIWER("Technical Reviwer"),
+    MANAGER("Manager"),
     USER("User");
 
     private String profile;

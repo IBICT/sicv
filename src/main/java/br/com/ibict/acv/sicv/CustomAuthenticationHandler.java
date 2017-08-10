@@ -58,14 +58,12 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
 			roles.add(a.getAuthority());
 		}
 
-		if (isDba(roles)) {
-			url = "/db";
-		} else if (isAdmin(roles)) {
+		if ( isAdmin(roles) || isManager(roles) ) {
 			url = "/admin/";
-		} else if (isUsuario(roles)) {
-			url = "/";
-		} else if (isRevisor(roles)) {
+		} else if (isQualityReviewer(roles)) {
 			url = "/home";
+		} else if (isUser(roles)) {
+			url = "/";
 		} else {
 			url = "/403";
 		}
@@ -73,29 +71,29 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
 		return url;
 	}
 
-	private boolean isUsuario(List<String> roles) {
-		if (roles.contains(EnumProfile.USER.toString()) && roles.size() == 1) {
+	private boolean isUser(List<String> roles) {
+		if ( roles.contains( EnumProfile.USER.name()) && roles.size() == 1 ) {
 			return true;
 		}
 		return false;
 	}
 
-	private boolean isRevisor(List<String> roles) {
-		if (roles.contains(EnumProfile.TECHNICAL_REVIWER.toString()) || roles.contains(EnumProfile.QUALITY_REVIEWER.toString())) {
+	private boolean isQualityReviewer(List<String> roles) {
+		if ( roles.contains(EnumProfile.MANAGER.name()) ) {
+			return true;
+		}
+		return false;
+	}
+	
+	private boolean isManager(List<String> roles) {
+		if ( roles.contains(EnumProfile.QUALITY_REVIEWER.name()) ) {
 			return true;
 		}
 		return false;
 	}
 
 	private boolean isAdmin(List<String> roles) {
-		if (roles.contains(EnumProfile.ADMIN.toString())) {
-			return true;
-		}
-		return false;
-	}
-
-	private boolean isDba(List<String> roles) {
-		if (roles.contains("DBA")) {
+		if (roles.contains(EnumProfile.ADMIN.name())) {
 			return true;
 		}
 		return false;
