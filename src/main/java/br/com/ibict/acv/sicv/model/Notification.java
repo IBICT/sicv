@@ -1,14 +1,13 @@
 package br.com.ibict.acv.sicv.model;
 
-import com.google.gson.annotations.Expose;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import com.google.gson.annotations.Expose;
 
 /**
  *

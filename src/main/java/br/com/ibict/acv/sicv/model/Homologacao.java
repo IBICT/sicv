@@ -86,4 +86,12 @@ public class Homologacao implements Serializable {
         this.lastModifier = lastModifier;
     }
 
+    public TechnicalReviewer getTechnicalReviewer() {
+        return technicalReviewer;
+    }
+
+    public void setTechnicalReviewer(TechnicalReviewer technicalReviewer) {
+        this.technicalReviewer = technicalReviewer;
+    }
+
 }

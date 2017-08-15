@@ -97,7 +97,12 @@ public class HomeController {
     
     @RequestMapping("/ilcd/new")
     public String newILCD(Map<String, Object> model) {
-        return "home/form";
+        if (session().getAttribute("user") == null) {
+            return "redirect:/login";
+        } else {
+            model.put("user", session().getAttribute("user"));
+            return "home/form";
+        }
     }
     
     @PostMapping("/ilcd/new") // //new annotation since 4.3
