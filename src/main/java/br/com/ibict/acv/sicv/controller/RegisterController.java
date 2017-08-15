@@ -71,7 +71,7 @@ public class RegisterController {
         
         try {
         	userDao.save(user);
-			mail.sendEmail(email, "acv@ibict.br", "Cadastro de Usuário", model, "emailCadastro.ftl");
+			mail.sendEmail(email, "acv@ibict.br", "Cadastro de Usuário", model, "emailRegister.ftl");
 			// TODO criar paginas ou mensagens para popular a view em caso de erro
         } catch (IOException | SQLException e){
         	throw new Exception("Erro no processo de registro de usuario.", e);

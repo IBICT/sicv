@@ -21,8 +21,8 @@ Em Caso de dúvidas, entre em contato pelo e-mail: acv@ibict.br ou telefone (61)
 </p>
 <p>
 Atenciosamente, <br/>
-Equipe Avaliação do Ciclo de Vida<br/>
-Banco Nacional de Inventários do Ciclo de Vida<br/>
+Equipe <b>Avaliação do Ciclo de Vida</b><br/>
+<b>Banco Nacional de Inventários do Ciclo de Vida</b><br/>
 ${url}
 
 </p>

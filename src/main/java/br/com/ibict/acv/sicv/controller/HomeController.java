@@ -160,22 +160,6 @@ public class HomeController {
 
     }
     
-    @PostMapping("/login")
-    public String loginAction(
-            @RequestParam("email") String email,
-            @RequestParam("senha") String senha) {
-        User user = userDao.findByEmail(email);
-        if (user.getPasswordHash().equals(new Sha512Hash(senha, user.getPasswordHashSalt(), 5).toHex())) {
-            session().setAttribute("user", user);
-            //return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(user);
-            return "redirect:/";
-        } else {
-//            return new Gson().toJson(false);
-            return "redirect:/";
-        }
-        
-    }
-    
     @RequestMapping("/logout")
 	public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
     	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
@@ -219,7 +203,8 @@ public class HomeController {
         while (entries.hasMoreElements()) {
             ZipEntry entry = entries.nextElement();
             //System.out.println(entry.getName());
-            if (entry.getName().startsWith("ILCD/processes/") && entry.getName().endsWith(".xml")) {
+            if (entry.getName().startsWith("ILCD/processes/") && (entry.getName().endsWith(".xml")
+            	|| entry.getName().endsWith(".XML"))) {
                 InputStream stream = null;
                 try {
                     stream = zipFile.getInputStream(entry);
