@@ -32,6 +32,7 @@ import br.com.ibict.acv.sicv.repositories.NotificationDao;
 import br.com.ibict.acv.sicv.repositories.TechnicalReviewerDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.UserUtils;
+import br.com.ibict.sicv.enums.EnumProfile;
 import resources.Strings;
 
 @Controller
@@ -43,10 +44,6 @@ public class AdminController {
         if (principal == null) {
             return "/login";
         } else {
-            User user = (User) session().getAttribute("user");
-            if (UserUtils.getPriorit(user.getPerfil()) < 2) 
-                return "redirect:/";
-            
             model.put("user", session().getAttribute("user"));
             return "admin/home";
         }
@@ -308,7 +305,7 @@ public class AdminController {
     String getTechnicalReviewer() {
         Iterable<User> users;
         try {
-            users = userDao.findByPerfil("REVISOR DE TECNOLOGIA");
+            users = userDao.findByPerfil(EnumProfile.USER.name());
         } catch (Exception ex) {
             return "User not found";
         }

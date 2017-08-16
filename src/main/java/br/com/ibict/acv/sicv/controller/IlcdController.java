@@ -48,6 +48,7 @@ import br.com.ibict.acv.sicv.repositories.NotificationDao;
 import br.com.ibict.acv.sicv.repositories.SolicitacaoDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.UserUtils;
+import br.com.ibict.sicv.enums.EnumProfile;
 import resources.Strings;
 
 /**
@@ -79,10 +80,6 @@ public class IlcdController {
         if (session().getAttribute("user") == null) {
             return "login/login";
         } else {
-            User user = (User) session().getAttribute("user");
-            if (UserUtils.getPriorit(user.getPerfil()) < 2) 
-                return "redirect:/";
-            
             model.put("user", session().getAttribute("user"));
             return "ilcd/list";
         }        
@@ -136,7 +133,7 @@ public class IlcdController {
     String getRevisorQuilidade() {
         Iterable<User> users;
         try {
-            users = userDao.findByPerfil("REVISOR DE QUALIDADE");
+            users = userDao.findByPerfil(EnumProfile.QUALITY_REVIEWER.name());
         } catch (Exception ex) {
             return "User not found";
         }
