@@ -24,11 +24,15 @@ import br.com.ibict.acv.sicv.CustomAuthProvider;
 import br.com.ibict.acv.sicv.model.Homologacao;
 import br.com.ibict.acv.sicv.model.Ilcd;
 import br.com.ibict.acv.sicv.model.Notification;
+import br.com.ibict.acv.sicv.model.TechnicalReviewer;
 import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.HomologacaoDao;
 import br.com.ibict.acv.sicv.repositories.IlcdDao;
 import br.com.ibict.acv.sicv.repositories.NotificationDao;
+import br.com.ibict.acv.sicv.repositories.TechnicalReviewerDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
+import br.com.ibict.acv.sicv.util.UserUtils;
+import br.com.ibict.sicv.enums.EnumProfile;
 import resources.Strings;
 
 @Controller
@@ -46,14 +50,16 @@ public class AdminController {
     }
 
     @PostMapping("/login")
-    @ResponseBody
+    //@ResponseBody
     public String loginHandle(@RequestParam("email") String email, @RequestParam("password") String senha) {
         User user = userDao.findByEmail(email);
         if (user == null) {
-            return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(false);
+            //return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(false);
+            return "redirect:/admin/login";
         } else {
             session().setAttribute("user", user);
-            return new Gson().toJson(true);
+            //return new Gson().toJson(true);
+            return "redirect:/admin/";
         }
     }
 
@@ -190,11 +196,11 @@ public class AdminController {
             Ilcd ilcd = ilcdDao.findById(id);
             model.put("ilcd", ilcd);
 //            return "admin/invitetechnicalreviewer";
-            
+
             return "admin/technicalreviewer";
         }
     }
-    
+
     @RequestMapping("/technicalreviewer/{id}/accept")
     public String technicalReviewerAccept(Map<String, Object> model, @PathVariable("id") String id) {
         try {
@@ -209,7 +215,7 @@ public class AdminController {
             return "error";
         }
     }
-    
+
     @RequestMapping("/technicalreviewer/{id}/refused")
     public String technicalReviewerRefused(Map<String, Object> model, @PathVariable("id") String id) {
         try {
@@ -223,8 +229,7 @@ public class AdminController {
             return "error";
         }
     }
-    
-    
+
     @RequestMapping("technicalreviewer/{id}/technicalreviewerform")
     public String technicalReviewerForm(Map<String, Object> model, @PathVariable("id") String id) {
         if (session().getAttribute("user") == null) {
@@ -234,22 +239,30 @@ public class AdminController {
             Ilcd ilcd = ilcdDao.findById(id);
             model.put("ilcd", id);
 //            return "admin/invitetechnicalreviewer";
-            
+
             return "admin/technicalreviewerform";
         }
     }
-    
+
     @PostMapping("technicalreviewer/{id}/technicalreviewerform")
     @ResponseBody
     public String technicalReviewerFormAction(Map<String, Object> model, @PathVariable("id") String id, @RequestParam("comment") String comment) {
         if (session().getAttribute("user") == null) {
             return "login/login";
         } else {
-            //model.put("user", session().getAttribute("user"));
+            User user = (User) session().getAttribute("user");
             Ilcd ilcd = ilcdDao.findById(id);
-            //model.put("ilcd", id);
-//            return "admin/invitetechnicalreviewer";
-            return comment;
+            Homologacao homologacao = ilcd.getHomologacao();
+
+            try {
+                TechnicalReviewer technicalReviewer = new TechnicalReviewer(null, comment, ilcd.getId(), user);
+                technicalReviewerDao.save(technicalReviewer);
+                homologacao.setTechnicalReviewer(technicalReviewer);
+                homologacao.setStatus(7);
+                return "true";
+            } catch (Exception e) {
+                return "false";
+            }
         }
     }
 
@@ -292,7 +305,7 @@ public class AdminController {
     String getTechnicalReviewer() {
         Iterable<User> users;
         try {
-            users = userDao.findByPerfil("REVISOR DE TECNOLOGIA");
+            users = userDao.findByPerfil(EnumProfile.USER.name());
         } catch (Exception ex) {
             return "User not found";
         }
@@ -300,6 +313,53 @@ public class AdminController {
         returnStr = returnStr.substring(0, returnStr.length());
         returnStr = "{ \"data\" : " + returnStr + " }";
         return returnStr;
+    }
+
+    @RequestMapping("/technicalreviewer/{id}/parecer")
+    public String technicalReviewerParecer(Map<String, Object> model, @PathVariable("id") String id) {
+        if (session().getAttribute("user") == null) {
+            return "login/login";
+        } else {
+            model.put("user", session().getAttribute("user"));
+            Ilcd ilcd = ilcdDao.findById(id);
+            model.put("ilcd", ilcd);
+//            return "admin/invitetechnicalreviewer";
+
+            return "admin/technicalreviewerparecer";
+        }
+    }
+
+    @RequestMapping("/technicalreviewer/{id}/parecer/aprovar")
+    public String technicalReviewerParecerAprovar(Map<String, Object> model, @PathVariable("id") String id) {
+        if (session().getAttribute("user") == null) {
+            return "login/login";
+        } else {
+            model.put("user", session().getAttribute("user"));
+
+            try {
+                Ilcd ilcd = ilcdDao.findById(id);
+                ilcd.getHomologacao().setStatus(8);
+                return "redirect:/admin/";
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
+                e.printStackTrace();
+                return "error";
+            }
+        }
+    }
+
+    @RequestMapping("/technicalreviewer/{id}/parecer/reprovar")
+    public String technicalReviewerParecerReprovar(Map<String, Object> model, @PathVariable("id") String id) {
+        if (session().getAttribute("user") == null) {
+            return "login/login";
+        } else {
+            model.put("user", session().getAttribute("user"));
+            Ilcd ilcd = ilcdDao.findById(id);
+            model.put("ilcd", ilcd);
+//            return "admin/invitetechnicalreviewer";
+
+            return "admin/technicalreviewerparecer";
+        }
     }
 
     @RequestMapping("/notification.json")
@@ -347,4 +407,7 @@ public class AdminController {
 
     @Autowired
     private NotificationDao notificationDao;
+
+    @Autowired
+    private TechnicalReviewerDao technicalReviewerDao;
 }

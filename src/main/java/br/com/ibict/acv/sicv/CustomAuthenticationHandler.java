@@ -79,14 +79,14 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
 	}
 
 	private boolean isQualityReviewer(List<String> roles) {
-		if ( roles.contains(EnumProfile.MANAGER.name()) ) {
+		if ( roles.contains(EnumProfile.QUALITY_REVIEWER.name()) ) {
 			return true;
 		}
 		return false;
 	}
 	
 	private boolean isManager(List<String> roles) {
-		if ( roles.contains(EnumProfile.QUALITY_REVIEWER.name()) ) {
+		if ( roles.contains(EnumProfile.MANAGER.name()) ) {
 			return true;
 		}
 		return false;

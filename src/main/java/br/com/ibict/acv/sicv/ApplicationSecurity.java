@@ -20,8 +20,8 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 	    private CustomAuthenticationHandler authenticationHandler;
 	    
 	    @Override
-	    protected void configure(AuthenticationManagerBuilder builder) throws Exception {
-	        builder.authenticationProvider(authenticationProvider);
+	    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+	        auth.authenticationProvider(authenticationProvider);
 	    }
 	 
 	    @Override
@@ -32,9 +32,8 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 	    	//TODO colocar outras authorities que faltam para definir os acessos aos revisores
 	    	http
             .authorizeRequests()
-            	.antMatchers("/assets/**","/","/register**","/ilcd**").permitAll()
+            .antMatchers("/assets/**","/","/register**","/ilcd/**","/ilcds.json").permitAll()
                 .antMatchers("/admin/**").hasAuthority(EnumProfile.ADMIN.name())
-//                .antMatchers("/usuario").hasRole("ROLE")
                 .anyRequest().authenticated()
                 .and()
             .formLogin()
@@ -48,10 +47,11 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login?logout")
                 .invalidateHttpSession(true)
                 .permitAll();
+	    	http.csrf().disable();
 	    }
 	    
 	    @Override
 	    public void configure(WebSecurity web) throws Exception {
-	        web.ignoring().antMatchers("/resources/**","/admin/ilcd/ilcd.json");
+	        web.ignoring().antMatchers("/resources/**","/admin/ilcd/**","/headerUsers**");
 	    }
 }
