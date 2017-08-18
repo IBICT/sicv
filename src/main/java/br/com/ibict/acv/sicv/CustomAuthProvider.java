@@ -35,8 +35,6 @@ public class CustomAuthProvider implements AuthenticationProvider {
     @Autowired
     private UserDao userReposiroty;
     
-    public static HttpSession session;
-
     @Override
     public Authentication authenticate(Authentication auth) throws AuthenticationException {
         String email = auth.getName();
@@ -61,9 +59,7 @@ public class CustomAuthProvider implements AuthenticationProvider {
 		            	Set<GrantedAuthority> authorities = new HashSet<>();
 		            	authorities.add(new SimpleGrantedAuthority( usuarioBd.getPerfil() ));
 		//                Collection<? extends GrantedAuthority> authorities = usuarioBd.getPerfil();
-		            	ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-		                session = attr.getRequest().getSession(true);
-		                session.setAttribute("user", usuarioBd);
+		                getHttpSession().setAttribute("user", usuarioBd);
 		                return new UsernamePasswordAuthenticationToken(email, usuarioBd.getPasswordHash(), authorities);
 	            	}
 	            } else {
@@ -97,6 +93,11 @@ public class CustomAuthProvider implements AuthenticationProvider {
     	password = new Sha512Hash( password, hashSalt, 5 ).toHex();
     	
     	return password.equals(passwordHashBd);    	
+    }
+    
+    public static HttpSession getHttpSession() {
+        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
+        return attr.getRequest().getSession(true);
     }
     
 }
