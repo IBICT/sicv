@@ -1,6 +1,10 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@page import="br.com.ibict.acv.sicv.model.User"%>
 <%@page import="br.com.ibict.acv.sicv.controller.HomeController"%>
 <%@page import="resources.Strings"%>
+<sec:authorize var="loggedIn" access="isAuthenticated()" />
+
 <!DOCTYPE html>
 <html lang="pt-BR">
     <head>
@@ -52,61 +56,17 @@
     </head>
     <body class="bg-steel">
 
-        <div class="navbar-wrapper">
-            <div class="container">
-
-                <nav class="navbar navbar-inverse navbar-static-top">
-                    <div class="container">
-                        <div class="navbar-header">
-                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                            <a class="navbar-brand" href="<%=Strings.BASE%>">SICV</a>
-                        </div>
-                        <div id="navbar" class="navbar-collapse collapse">
-                            <ul class="nav navbar-nav">
-                                <li><a href="<%=Strings.BASE%>">HOME</a></li>
-                                <li class="active"><a href="<%=Strings.BASE%>/ilcd">ILCD</a></li>
-                            </ul>
-                            <ul class="nav navbar-nav navbar-right">
-                                <%
-                                    if (HomeController.session().getAttribute("user") != null) {
-                                        User user = (User) HomeController.session().getAttribute("user");
-                                %>
-
-                                <%="<li><a href=\"" + Strings.BASE + "/logout\">" + user.getFirstName() + "</a></li>"%>
-
-                                <%
-                                } else {
-                                %>
-
-                                <li><a href="<%=Strings.BASE%>/login">Login</a></li>
-
-                                <%
-                                    }
-                                %>
-
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-
-            </div>
-        </div>
+		<jsp:include page="../partials/headerUsers.jsp" />
+		
         <div class="container marketing" style="margin-top: 100px;">
-            <%
-                if (HomeController.session().getAttribute("user") != null) {
+			<c:if test="${loggedIn}">
+	            <%
                     User user = (User) HomeController.session().getAttribute("user");
-            %>
+	            %>
 
-            <%="<a href=\"" + Strings.BASE + "/ilcd/new\" class=\"btn btn-primary\" style=\"margin-bottom: 10px\">NOVO</a>"%>
-
-            <%
-            }
-            %>
+            	<%="<a href=\"" + Strings.BASE + "/ilcd/new\" class=\"btn btn-primary\" style=\"margin-bottom: 10px\">NOVO</a>"%>
+			</c:if>
+			
             <table id="list" class="table table-striped table-bordered" cellspacing="0" data-auto-width="false">
                 <thead>
                     <tr>

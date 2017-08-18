@@ -1,5 +1,6 @@
 package br.com.ibict.acv.sicv.controller;
 
+import java.security.Principal;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -15,12 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import br.com.ibict.acv.sicv.CustomAuthProvider;
 import br.com.ibict.acv.sicv.model.Homologacao;
 import br.com.ibict.acv.sicv.model.Ilcd;
 import br.com.ibict.acv.sicv.model.Notification;
@@ -32,6 +32,7 @@ import br.com.ibict.acv.sicv.repositories.NotificationDao;
 import br.com.ibict.acv.sicv.repositories.TechnicalReviewerDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.UserUtils;
+import br.com.ibict.sicv.enums.EnumProfile;
 import resources.Strings;
 
 @Controller
@@ -39,14 +40,10 @@ import resources.Strings;
 public class AdminController {
 
     @RequestMapping("/")
-    public String root(Map<String, Object> model) {
-        if (session().getAttribute("user") == null) {
-            return "login/login";
+    public String root(Map<String, Object> model, Principal principal) {
+        if (principal == null) {
+            return "/login";
         } else {
-            User user = (User) session().getAttribute("user");
-            if (UserUtils.getPriorit(user.getPerfil()) < 2) 
-                return "redirect:/";
-            
             model.put("user", session().getAttribute("user"));
             return "admin/home";
         }
@@ -308,7 +305,7 @@ public class AdminController {
     String getTechnicalReviewer() {
         Iterable<User> users;
         try {
-            users = userDao.findByPerfil("REVISOR DE TECNOLOGIA");
+            users = userDao.findByPerfil(EnumProfile.USER.name());
         } catch (Exception ex) {
             return "User not found";
         }
@@ -396,8 +393,7 @@ public class AdminController {
     }
 
     public static HttpSession session() {
-        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        return attr.getRequest().getSession(true); // true == allow create
+        return CustomAuthProvider.session;
     }
 
     @Autowired

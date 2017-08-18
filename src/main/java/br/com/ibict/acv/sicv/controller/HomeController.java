@@ -1,16 +1,5 @@
 package br.com.ibict.acv.sicv.controller;
 
-import br.com.ibict.acv.sicv.model.Ilcd;
-import br.com.ibict.acv.sicv.model.User;
-import br.com.ibict.acv.sicv.repositories.IlcdDao;
-import br.com.ibict.acv.sicv.repositories.UserDao;
-import br.com.ibict.acv.sicv.util.ExclStrat;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-import static br.com.ibict.acv.sicv.controller.AdminController.session;
-import static br.com.ibict.acv.sicv.controller.IlcdController.zipToIlcd;
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -27,11 +16,17 @@ import java.util.Enumeration;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.apache.shiro.crypto.hash.Sha512Hash;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,10 +34,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.google.gson.GsonBuilder;
+
+import br.com.ibict.acv.sicv.CustomAuthProvider;
+import br.com.ibict.acv.sicv.model.Ilcd;
+import br.com.ibict.acv.sicv.model.User;
+import br.com.ibict.acv.sicv.repositories.IlcdDao;
+import br.com.ibict.acv.sicv.repositories.UserDao;
+import br.com.ibict.acv.sicv.util.ExclStrat;
 import resources.Strings;
 
 @Controller
@@ -59,7 +61,12 @@ public class HomeController {
         return "home/home";
     }
     
-    @RequestMapping("/login")
+    @RequestMapping("/403")
+    public String deniedAccess(Map<String, Object> model) {
+        return "/403";
+    }
+    
+    @RequestMapping(value="/login",method = RequestMethod.GET)
     public String login(Map<String, Object> model) {
         return "home/login";
     }
@@ -158,28 +165,15 @@ public class HomeController {
 
     }
     
-    @PostMapping("/login")
-    public String loginAction(
-            @RequestParam("email") String email,
-            @RequestParam("senha") String senha) {
-        User user = userDao.findByEmail(email);
-        if (user.getPasswordHash().equals(new Sha512Hash(senha, user.getPasswordHashSalt(), 5).toHex())) {
-            session().setAttribute("user", user);
-            //return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(user);
-            return "redirect:/";
-        } else {
-//            return new Gson().toJson(false);
-            return "redirect:/";
-        }
-        
-    }
-    
     @RequestMapping("/logout")
-    public String logout() {
-        session().removeAttribute("user");
-//        return new Gson().toJson(true);
-        return "redirect:/";
-    }
+	public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
+    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+    	if (auth != null){    
+    		new SecurityContextLogoutHandler().logout(request, response, auth);
+    	}
+    	//You can redirect wherever you want, but generally it's a good practice to show login screen again.
+    	return "redirect:/login?logout";
+	}
     
     public String MD5(byte[] md5) {
         try {
@@ -214,7 +208,8 @@ public class HomeController {
         while (entries.hasMoreElements()) {
             ZipEntry entry = entries.nextElement();
             //System.out.println(entry.getName());
-            if (entry.getName().startsWith("ILCD/processes/") && entry.getName().endsWith(".xml")) {
+            if (entry.getName().startsWith("ILCD/processes/") && (entry.getName().endsWith(".xml")
+            	|| entry.getName().endsWith(".XML"))) {
                 InputStream stream = null;
                 try {
                     stream = zipFile.getInputStream(entry);
@@ -282,8 +277,7 @@ public class HomeController {
     }
     
     public static HttpSession session() {
-        ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
-        return attr.getRequest().getSession(true); // true == allow create
+        return CustomAuthProvider.session;
     }
     
 }

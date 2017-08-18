@@ -1,26 +1,22 @@
 package br.com.ibict.acv.sicv.controller;
 
-import br.com.ibict.acv.sicv.exception.RegisterException;
-import br.com.ibict.acv.sicv.model.User;
-import br.com.ibict.acv.sicv.repositories.UserDao;
-import br.com.ibict.acv.sicv.util.Mail;
-import resources.Strings;
-
-import com.google.gson.Gson;
-import org.apache.shiro.crypto.hash.Sha512Hash;
-
-import static br.com.ibict.acv.sicv.controller.AdminController.session;
-
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+
+import br.com.ibict.acv.sicv.exception.RegisterException;
+import br.com.ibict.acv.sicv.model.User;
+import br.com.ibict.acv.sicv.repositories.UserDao;
+import br.com.ibict.acv.sicv.util.Mail;
+import br.com.ibict.acv.sicv.util.Password;
+import resources.Strings;
 
 @Controller
 public class RegisterController {
@@ -52,8 +48,10 @@ public class RegisterController {
         User user = new User();
         user.setEmail(email);
         
-        user.setPasswordHashSalt("f201fe537fea09686fff79463c21a12812c385a0bf66711d17");
-        user.setPasswordHash(new Sha512Hash(senha, "f201fe537fea09686fff79463c21a12812c385a0bf66711d17", 5).toHex());
+        user.setPasswordHashSalt( Password.generateSalt( 20 ) );
+        user.setPasswordHash( Password.getEncryptedPassword( senha, user.getPasswordHashSalt() ) );
+        //Activation Code
+        user.setRegistrationKey(Password.generateSalt( 8 ) );
         
         user.setTitle(title);
         user.setFirstName(firstName);
@@ -73,7 +71,7 @@ public class RegisterController {
         
         try {
         	userDao.save(user);
-			mail.sendEmail(email, "acv@ibict.br", "Cadastro de Usuário", model);
+			mail.sendEmail(email, "acv@ibict.br", "Cadastro de Usuário", model, "emailRegister.ftl");
 			// TODO criar paginas ou mensagens para popular a view em caso de erro
         } catch (IOException | SQLException e){
         	throw new Exception("Erro no processo de registro de usuario.", e);

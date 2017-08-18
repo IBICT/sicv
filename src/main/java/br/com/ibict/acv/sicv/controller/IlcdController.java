@@ -5,21 +5,6 @@
  */
 package br.com.ibict.acv.sicv.controller;
 
-import static br.com.ibict.acv.sicv.controller.AdminController.session;
-import br.com.ibict.acv.sicv.model.Homologacao;
-import br.com.ibict.acv.sicv.model.Ilcd;
-import br.com.ibict.acv.sicv.model.Notification;
-import br.com.ibict.acv.sicv.model.User;
-import br.com.ibict.acv.sicv.repositories.HomologacaoDao;
-import br.com.ibict.acv.sicv.repositories.IlcdDao;
-import br.com.ibict.acv.sicv.repositories.NotificationDao;
-import br.com.ibict.acv.sicv.repositories.SolicitacaoDao;
-import br.com.ibict.acv.sicv.repositories.UserDao;
-import br.com.ibict.acv.sicv.util.UserUtils;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
-
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
@@ -28,16 +13,15 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Date;
 import java.util.Enumeration;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -50,8 +34,21 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import com.google.gson.GsonBuilder;
+
+import br.com.ibict.acv.sicv.model.Homologacao;
+import br.com.ibict.acv.sicv.model.Ilcd;
+import br.com.ibict.acv.sicv.model.Notification;
+import br.com.ibict.acv.sicv.model.User;
+import br.com.ibict.acv.sicv.repositories.HomologacaoDao;
+import br.com.ibict.acv.sicv.repositories.IlcdDao;
+import br.com.ibict.acv.sicv.repositories.NotificationDao;
+import br.com.ibict.acv.sicv.repositories.SolicitacaoDao;
+import br.com.ibict.acv.sicv.repositories.UserDao;
+import br.com.ibict.acv.sicv.util.UserUtils;
+import br.com.ibict.sicv.enums.EnumProfile;
 import resources.Strings;
 
 /**
@@ -83,10 +80,6 @@ public class IlcdController {
         if (session().getAttribute("user") == null) {
             return "login/login";
         } else {
-            User user = (User) session().getAttribute("user");
-            if (UserUtils.getPriorit(user.getPerfil()) < 2) 
-                return "redirect:/";
-            
             model.put("user", session().getAttribute("user"));
             return "ilcd/list";
         }        
@@ -140,7 +133,7 @@ public class IlcdController {
     String getRevisorQuilidade() {
         Iterable<User> users;
         try {
-            users = userDao.findByPerfil("REVISOR DE QUALIDADE");
+            users = userDao.findByPerfil(EnumProfile.QUALITY_REVIEWER.name());
         } catch (Exception ex) {
             return "User not found";
         }

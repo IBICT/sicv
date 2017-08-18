@@ -29,12 +29,12 @@ public class Mail {
 	@Autowired
     private Configuration freemarkerConfig;
 	
-	public void sendEmail(String to, String from, String subject, Map<String, Object> model) throws Exception{
+	public void sendEmail(String to, String from, String subject, Map<String, Object> model, String template) throws Exception{
 
 		// Using a subfolder such as /templates here
 //        freemarkerConfig.setClassForTemplateLoading(this.getClass(), "/templates");
         
-        freemarker.template.Template t = freemarkerConfig.getTemplate("emailCadastro.ftl");
+        freemarker.template.Template t = freemarkerConfig.getTemplate(template);
         String text = FreeMarkerTemplateUtils.processTemplateIntoString(t, model );
 		try {
 			final String username = "sicv.acv@apps.ibict.br";
