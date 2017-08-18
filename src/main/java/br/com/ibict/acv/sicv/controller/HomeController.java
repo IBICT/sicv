@@ -277,7 +277,7 @@ public class HomeController {
     }
     
     public static HttpSession session() {
-        return CustomAuthProvider.session;
+        return CustomAuthProvider.getHttpSession();
     }
     
 }
