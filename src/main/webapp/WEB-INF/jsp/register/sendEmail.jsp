@@ -40,7 +40,7 @@
     </head>
 
     <body>
-        <h1>Um email foi enviado para a a confirmação da conta.</h1>
+        <h1>Registro efetuado com sucesso. Acesse seu email para concluir a confirmação da conta.</h1>
         <a href="./">Início</a>
     </body>
 
