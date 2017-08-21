@@ -50,7 +50,7 @@ public class Mail {
 			emailMessage.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
 			emailMessage.setFrom(new InternetAddress(from));
 			emailMessage.setSubject(subject);
-			emailMessage.setContent(text,"text/html");
+			emailMessage.setContent(text,"text/html;charset=UTF-8");
 			
 			emailSession.setDebug(true);
 			provideCertificate();

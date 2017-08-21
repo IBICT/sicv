@@ -9,8 +9,8 @@ O usuário Nome Sobrenome foi cadastrado com sucesso no Banco Nacional SICV Bras
 data ${date}. Seguem os dados do contato:
 </p>
 
-<b>Nome:<b> Nome Sobrenome<br/>
-<b>E-mail:<b> email@email.com.br<br/>
+<b>Nome:<b> ${name}<br/>
+<b>E-mail:<b> ${email}<br/>
 <b>Instituição:<b> Nome da empresa
 
 <p>

@@ -2,6 +2,10 @@ package br.com.ibict.acv.sicv.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -16,6 +20,7 @@ import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.Mail;
 import br.com.ibict.acv.sicv.util.Password;
+import br.com.ibict.sicv.enums.EnumProfile;
 import resources.Strings;
 
 @Controller
@@ -61,7 +66,7 @@ public class RegisterController {
         user.setTelefone(telefone);
         user.setInstituicao(instituicao);
         user.setDsPurpose(dsPurpose);
-        user.setPerfil("USUARIO");
+        user.setPerfil( EnumProfile.USER.name() );
         
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("usuario", user);
@@ -72,6 +77,12 @@ public class RegisterController {
         try {
         	userDao.save(user);
 			mail.sendEmail(email, "acv@ibict.br", "Cadastro de Usuário", model, "emailRegister.ftl");
+			
+			model.put("urlTrack", Strings.BASE +"/admin/users/");
+			model.put("email", email);
+			model.put("name", firstName+" "+lastName);
+			model.put("date", getDateString());
+			mail.sendEmail("acv@ibict.br", "acv@ibict.br", "Cadastro de Usuário", model, "emailRegisterToAdmin.ftl");
 			// TODO criar paginas ou mensagens para popular a view em caso de erro
         } catch (IOException | SQLException e){
         	throw new Exception("Erro no processo de registro de usuario.", e);
@@ -82,5 +93,12 @@ public class RegisterController {
         return "register/sendEmail";
 
     }
-
+    
+    public static String getDateString(){
+    	Calendar date = Calendar.getInstance();
+    	SimpleDateFormat fmt = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+    	String strDate = fmt.format(date.getTime());
+    	 
+    	return strDate;
+    }
 }
