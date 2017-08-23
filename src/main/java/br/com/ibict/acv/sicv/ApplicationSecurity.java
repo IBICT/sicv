@@ -33,7 +33,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 	    	http
             .authorizeRequests()
             .antMatchers("/assets/**","/","/register**","/ilcd/**","/ilcds.json").permitAll()
-                .antMatchers("/admin/**").hasAuthority(EnumProfile.ADMIN.name())
+                .antMatchers("/admin/**").hasAnyAuthority(EnumProfile.ADMIN.name(),EnumProfile.QUALITY_REVIEWER.name())
                 .anyRequest().authenticated()
                 .and()
             .formLogin()

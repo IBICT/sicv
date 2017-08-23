@@ -80,9 +80,6 @@
                     </div>
                     <div class="cell auto-size padding20 bg-white" id="cell-content">
                         <h1 class="text-light"></h1>
-                        <hr class="thin bg-grayLighter"  />
-                        <a href="/ilcd/new" class="button primary"><span class="mif-plus"></span> Novo</a>
-                        <hr class="thin bg-grayLighter" />
                         <table id="list" class="dataTable border bordered" data-auto-width="false">
                             <thead>
                                 <tr>
