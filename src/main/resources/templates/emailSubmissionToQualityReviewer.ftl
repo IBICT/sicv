@@ -9,11 +9,11 @@ Informamos que o inventário ${ilcdName} foi importado com sucesso para a base $
 Seguem os dados do contato:
 </p>
 <p>
-Nome: Nome Sobrenome
-E-mail: email@email.com.br
-Instituição: Nome da empresa
-Inventário: ${ilcdName}
-Objetivo do inventário: objetivo do inventário
+<b>Nome:</b> ${ilcdUser.getFirstName()} ${ilcdUser.getLastName()}<br>
+<b>E-mail:</b> ${ilcdUser.getEmail()}<br>
+<b>Instituição:</b> ${ilcdUser.getInstituicao()}<br>
+<b>Inventário:</b> ${ilcdName}<br>
+<b>Objetivo do inventário:</b> ${ilcdUser.getInstituicao()}
 </p>
 <p>
 Atenciosamente, <br/>

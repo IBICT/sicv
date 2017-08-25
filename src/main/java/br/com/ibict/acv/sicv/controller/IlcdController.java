@@ -15,6 +15,7 @@ import java.io.UnsupportedEncodingException;
 import java.nio.charset.Charset;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -47,7 +48,7 @@ import br.com.ibict.acv.sicv.repositories.IlcdDao;
 import br.com.ibict.acv.sicv.repositories.NotificationDao;
 import br.com.ibict.acv.sicv.repositories.SolicitacaoDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
-import br.com.ibict.acv.sicv.util.UserUtils;
+import br.com.ibict.acv.sicv.util.Mail;
 import br.com.ibict.sicv.enums.EnumProfile;
 import resources.Strings;
 
@@ -73,6 +74,9 @@ public class IlcdController {
     
     @Autowired
     private NotificationDao notificationDao;
+    
+    @Autowired
+    private Mail mail;
     
 
     @RequestMapping("")
@@ -106,10 +110,9 @@ public class IlcdController {
         }
     }
     
-    @PostMapping("/teste")
+    @PostMapping("/invite-quality-review")
     @ResponseBody
     public String teste(@RequestParam("user") Long userID, @RequestParam("ilcd") String ilcdID) {
-        System.out.println("TESTE");
         
         User user = userDao.findOne(userID);
         Ilcd ilcd = ilcdDao.findById(ilcdID);
@@ -118,12 +121,29 @@ public class IlcdController {
         homologacao.setUser(user);
         homologacao.setStatus(1);
         homologacao.setLastModifier(new Date());
-        homologacaoDao.save(homologacao);
-        ilcd.setHomologacao(homologacao);
-        ilcdDao.save(ilcd);
-        
-        Notification notification = new Notification(1L, "<a href=\"" + Strings.BASE + "/admin/homologacao/" + ilcdID + "\">Convite para revisão de qualidade</a>", false, userID);
-        notificationDao.save(notification);
+        try {
+        	homologacaoDao.save(homologacao);
+        	User ilcdUser = ilcd.getUser();
+        	ilcd.setHomologacao(homologacao);
+        	ilcdDao.save(ilcd);
+        	
+        	Notification notification = new Notification(1L, "<a href=\"" + Strings.BASE + "/admin/homologacao/" + ilcdID + "\">Convite para revisão de qualidade</a>", false, userID);
+        	notificationDao.save(notification);
+        	
+        	Map<String, Object> model = new HashMap<String, Object>();
+            model.put("ilcdName", ilcd.getName());
+            //TODO create field date in ilcd table to retrieve date that ilcd was sent.
+            model.put("date", RegisterController.getDateString());
+            model.put("ilcdUser", ilcdUser);
+            model.put("urlTrack", Strings.BASE+"/admin/notifications");
+            model.put("url", Strings.BASE);
+            //model.put("goal",);
+            
+        	mail.sendEmail(user.getEmail(), RegisterController.EMAIL_ADMIN, "Submissão de Inventário", model, "emailSubmissionToQualityReviewer.ftl");
+			
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
         
         return "true";
     }

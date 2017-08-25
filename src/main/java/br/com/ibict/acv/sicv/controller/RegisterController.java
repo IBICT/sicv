@@ -2,12 +2,12 @@ package br.com.ibict.acv.sicv.controller;
 
 import java.io.IOException;
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+
+import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -26,11 +26,21 @@ import resources.Strings;
 @Controller
 public class RegisterController {
 
+	//TODO make file.properties to get admin email and other informations
+	public static String EMAIL_ADMIN = "wellingtonsousa@ibict.br";
+	
     @Autowired
     private UserDao userDao;
     
     @Autowired
     private Mail mail;
+    
+    private static Mail mailUtil;
+    
+    @PostConstruct
+    public void buildStatics(){
+    	RegisterController.mailUtil = mail;
+    }
     
      @RequestMapping("/register")
     public String register(Map<String, Object> model) {
@@ -69,7 +79,7 @@ public class RegisterController {
         user.setPerfil( EnumProfile.USER.name() );
         
         Map<String, Object> model = new HashMap<String, Object>();
-        model.put("usuario", user);
+        model.put("user", user);
         model.put("senha", senha);
         model.put("urlLogin", Strings.BASE+"/login");
         model.put("url", Strings.BASE);
@@ -79,10 +89,8 @@ public class RegisterController {
 			mail.sendEmail(email, "acv@ibict.br", "Cadastro de Usuário", model, "emailRegister.ftl");
 			
 			model.put("urlTrack", Strings.BASE +"/admin/users/");
-			model.put("email", email);
-			model.put("name", firstName+" "+lastName);
 			model.put("date", getDateString());
-			mail.sendEmail("acv@ibict.br", "acv@ibict.br", "Cadastro de Usuário", model, "emailRegisterToAdmin.ftl");
+			mail.sendEmail(EMAIL_ADMIN, "acv@ibict.br", "Cadastro de Usuário", model, "emailRegisterToAdmin.ftl");
 			// TODO criar paginas ou mensagens para popular a view em caso de erro
         } catch (IOException | SQLException e){
         	throw new Exception("Erro no processo de registro de usuario.", e);
@@ -100,5 +108,9 @@ public class RegisterController {
     	String strDate = fmt.format(date.getTime());
     	 
     	return strDate;
+    }
+    
+    public static Mail getMailUtil(){
+    	return mailUtil;
     }
 }
