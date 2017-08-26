@@ -83,7 +83,7 @@
                             if (data.userName) {
                                 return data.userName;
                             } else {
-                                console.log(data);
+                                //console.log(data);
                                 return "";
                             }
                         }},
@@ -91,7 +91,7 @@
                         {"data": "firstName"},
                         {"data": "lastName"},
                         {"data": function (data, type, row, meta) {
-                                var options = ["<option " + (data.perfil === "ADMINISTRADOR" ? "selected" : "") + ">ADMINISTRADOR</option>", "<option " + (data.perfil === "USUARIO" ? "selected" : "") + ">USUARIO</option>", "<option " + (data.perfil === "REVISOR DE TECNOLOGIA" ? "selected" : "") + ">REVISOR DE TECNOLOGIA</option>", "<option " + (data.perfil === "REVISOR DE QUALIDADE" ? "selected" : "") + ">REVISOR DE QUALIDADE</option>"];
+                                var options = ["<option value=\"ADMIN\"" + (data.perfil === "ADMIN" ? "selected" : "") + ">ADMINISTRADOR</option>", "<option value=\"USER\"" + (data.perfil === "USER" ? "selected" : "") + ">USUARIO</option>", "<option value=\"MANAGER\"" + (data.perfil === "MANAGER" ? "selected" : "") + ">GESTOR</option>", "<option value=\"QUALITY_REVIEWER\"" + (data.perfil === "QUALITY_REVIEWER" ? "selected" : "") + ">REVISOR DE QUALIDADE</option>"];
                                 var select = '<select onchange="setPerfil(' + data.id + ',' + 'this' + ')">' + options + '</select>';
 
                                 return select;
