@@ -52,6 +52,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 	    
 	    @Override
 	    public void configure(WebSecurity web) throws Exception {
-	        web.ignoring().antMatchers("/resources/**","/admin/ilcd/**","/headerUsers**");
+	        web.ignoring().antMatchers("/resources/**","/admin/ilcd/**","/headerUsers**",
+	        			"/admin/notifications/**", "/admin/technicalreviewer/**");
 	    }
 }

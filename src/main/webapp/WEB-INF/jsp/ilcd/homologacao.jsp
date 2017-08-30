@@ -130,7 +130,7 @@
                 var ask = window.confirm("Deseja enviar uma solicitação de homologação para " + data.firstName + " " + data.lastName + " ?");
                 if (ask) {
                     $.ajax({
-                        url: '<%=Strings.BASE%>/admin/ilcd/teste',
+                        url: '<%=Strings.BASE%>/admin/ilcd/invite-quality-review',
                         type: 'POST',
                         data: {user: data.id, ilcd: ilcd},
                         success: function (response) {

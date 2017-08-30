@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Date;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
@@ -21,7 +22,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.shiro.crypto.hash.Sha512Hash;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -45,12 +45,13 @@ import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.IlcdDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.ExclStrat;
+import br.com.ibict.acv.sicv.util.Mail;
 import resources.Strings;
 
 @Controller
 public class HomeController {
-    
-    @Autowired
+
+	@Autowired
     private UserDao userDao;
     
     @Autowired
@@ -108,7 +109,7 @@ public class HomeController {
     @PostMapping("/ilcd/new") // //new annotation since 4.3
     public String singleFileUpload(@RequestParam("file") MultipartFile file,
             @RequestParam("json") String json,
-            RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes) throws Exception {
 
         if (file.isEmpty()) {
             redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
@@ -131,9 +132,25 @@ public class HomeController {
             redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "' ilcd:" + ilcd.getName());
             ilcd.setJson1(json);
             ilcdDao.save(ilcd);
+            
+            User ilcdUser = (User) session().getAttribute("user");
+            Map<String, Object> model = new HashMap<String, Object>();
+            model.put("ilcdName", ilcd.getName());
+            model.put("date", RegisterController.getDateString());
+            model.put("ilcdUser", ilcdUser);
+        	model.put("urlTrack", Strings.BASE+"/login");
+            model.put("url", Strings.BASE);
+            Mail mail = RegisterController.getMailUtil();
+            
+        	mail.sendEmail(ilcdUser.getEmail(), RegisterController.EMAIL_ADMIN, "Submissão de Inventário", model, "emailSubmission.ftl");
+        	model.put("urlTrack", Strings.BASE+"/admin/ilcd");
+        	mail.sendEmail(RegisterController.EMAIL_ADMIN, RegisterController.EMAIL_ADMIN, "Submissão de Inventário", model, "emailSubmissionToAdmin.ftl");
         } catch (IOException e) {
             e.printStackTrace();
-        }
+        }catch (Exception e) {
+			// TODO: handle exception like RegisterException
+        	throw new Exception("Ocorreu um erro ao submeter o inventário", e);
+		}
 
         return "redirect:"+Strings.BASE+"/ilcd";
     }

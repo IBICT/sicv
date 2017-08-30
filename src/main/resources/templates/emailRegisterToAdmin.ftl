@@ -5,13 +5,13 @@
 Prezado Administrador,<br/>
 </p>
 <p>
-O usuário Nome Sobrenome foi cadastrado com sucesso no Banco Nacional SICV Brasil ${urlTrack} na 
+O usuário ${ilcdUser.getFirstName()} ${user.getLastName()} foi cadastrado com sucesso no Banco Nacional SICV Brasil ${urlTrack} na 
 data ${date}. Seguem os dados do contato:
 </p>
 
-<b>Nome:<b> ${name}<br/>
-<b>E-mail:<b> ${email}<br/>
-<b>Instituição:<b> Nome da empresa
+<b>Nome:</b> ${user.getFirstName()} ${user.getLastName()}<br/>
+<b>E-mail:</b> ${user.getEmail()}<br/>
+<b>Instituição:</b> ${user.getInstituicao()}
 
 <p>
 Atenciosamente, <br/>

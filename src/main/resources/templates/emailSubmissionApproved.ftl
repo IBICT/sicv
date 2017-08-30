@@ -2,7 +2,7 @@
 <head><title></title></head>
 <body>
 <p>
-Prezado (a) Sr./Sra. ${usuario.getFirstName()} ${usuario.getLastName()},<br/>
+Prezado (a) Sr./Sra. ${ilcdUser.getFirstName()} ${ilcdUser.getLastName()},<br/>
 Parabéns!
 </p>
 <p>

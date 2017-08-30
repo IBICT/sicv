@@ -2,6 +2,7 @@ package br.com.ibict.acv.sicv.controller;
 
 import java.security.Principal;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -31,7 +32,7 @@ import br.com.ibict.acv.sicv.repositories.IlcdDao;
 import br.com.ibict.acv.sicv.repositories.NotificationDao;
 import br.com.ibict.acv.sicv.repositories.TechnicalReviewerDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
-import br.com.ibict.acv.sicv.util.UserUtils;
+import br.com.ibict.acv.sicv.util.Mail;
 import br.com.ibict.sicv.enums.EnumProfile;
 import resources.Strings;
 
@@ -136,7 +137,25 @@ public class AdminController {
             Ilcd ilcd = ilcdDao.findById(id);
             ilcd.getHomologacao().setStatus(3);
             ilcd.setJson1(json);
-            ilcdDao.save(ilcd);
+            try {
+            	ilcdDao.save(ilcd);
+            	User ilcdUser = ilcd.getUser();
+            	User user = (User) session().getAttribute("user");
+            	
+                Map<String, Object> emailModel = new HashMap<String, Object>();
+                emailModel.put("ilcdName", ilcd.getName());
+                emailModel.put("date", RegisterController.getDateString());
+                emailModel.put("ilcdUser", ilcdUser);
+                emailModel.put("reviewer", user);
+                emailModel.put("url", Strings.BASE);
+                String subject = "Revisão de Qualidade de Inventário";
+                Mail mail = RegisterController.getMailUtil();
+                
+            	mail.sendEmail(RegisterController.EMAIL_ADMIN, RegisterController.EMAIL_ADMIN, subject, emailModel, "emailReviewCompleted.ftl");
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 
             model.put("user", session().getAttribute("user"));
             return "admin/qualidata";
@@ -259,8 +278,23 @@ public class AdminController {
                 technicalReviewerDao.save(technicalReviewer);
                 homologacao.setTechnicalReviewer(technicalReviewer);
                 homologacao.setStatus(7);
+                
+            	User ilcdUser = ilcd.getUser();
+            	
+                Map<String, Object> emailModel = new HashMap<String, Object>();
+                emailModel.put("ilcdName", ilcd.getName());
+                emailModel.put("date", RegisterController.getDateString());
+                emailModel.put("ilcdUser", ilcdUser);
+                emailModel.put("reviewer", user);
+                emailModel.put("url", Strings.BASE);
+                String subject = "Revisão Técnica de Inventário";
+                Mail mail = RegisterController.getMailUtil();
+                
+            	mail.sendEmail(RegisterController.EMAIL_ADMIN, RegisterController.EMAIL_ADMIN, subject, emailModel, "emailReviewCompleted.ftl");
+    			
                 return "true";
             } catch (Exception e) {
+            	// TODO: handle exception
                 return "false";
             }
         }
@@ -293,8 +327,24 @@ public class AdminController {
             Notification notification = new Notification(1L, "<a href=\"" + Strings.BASE + "/admin/technicalreviewer/" + id + "\">Convite para revisão tecnica</a>", false, userID);
             notificationDao.save(notification);
 
+        	User ilcdUser = ilcd.getUser();
+            Map<String, Object> model = new HashMap<String, Object>();
+            model.put("ilcdName", ilcd.getName());
+            //TODO create field date in ilcd table to retrieve date that ilcd was sent.
+            model.put("date", RegisterController.getDateString());
+            model.put("ilcdUser", ilcdUser);
+            model.put("urlTrack", Strings.BASE+"/admin/notifications");
+            model.put("url", Strings.BASE);
+            String subject = "Revisão Técnica de Inventário";
+            //model.put("goal",);
+            Mail mail = RegisterController.getMailUtil();
+            
+        	mail.sendEmail(user.getEmail(), RegisterController.EMAIL_ADMIN, subject, model, "emailSubmissionToTechnicalReviewer.ftl");
+			
+            
             return "true";
         } catch (Exception e) {
+        	// TODO: handle exception
             System.out.println(e.getMessage());
             return "false";
         }
