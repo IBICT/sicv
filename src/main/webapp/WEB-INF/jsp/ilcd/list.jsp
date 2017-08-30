@@ -150,10 +150,10 @@
                                                 //console.log(data.homologacao);
                                                 switch (data.homologacao.status) {
                                                     case 1:
-                                                        return '<button class="cycle-button" onclick="metroDialog.toggle(\'#dialog\')" onmouseout="$(this).popover(\'show\')" data-role="popover" data-popover-position="bottom" data-popover-text="Enviado para o usuário ' + data.homologacao.user.firstName + ' '+data.homologacao.user.lastName+ ' des de ' + data.homologacao.lastModifier + '" data-popover-background="bg-white" data-popover-color="fg-black"><span class="mif-paper-plane fg-gray mif-ani-hover-float"></span></button>';
+                                                        return '<button class="cycle-button" onclick="metroDialog.toggle(\'#dialog\')" onmouseout="$(this).popover(\'show\')" data-role="popover" data-popover-position="bottom" data-popover-text="Enviado para o usuário ' + data.homologacao.user.userName + ' des de ' + data.homologacao.lastModifier + '" data-popover-background="bg-white" data-popover-color="fg-black"><span class="mif-paper-plane fg-gray mif-ani-hover-float"></span></button>';
                                                         break;
                                                     case 2:
-                                                        return '<button class="cycle-button" data-role="popover" data-popover-position="bottom" data-popover-text="Em analise de qualidade por usuário ' + data.homologacao.user.firstName + ' '+data.homologacao.user.lastName+ ' des de ' + data.homologacao.lastModifier + '" data-popover-background="bg-white" data-popover-color="fg-black"><span class="mif-user"></span></button>';
+                                                        return '<button class="cycle-button" data-role="popover" data-popover-position="bottom" data-popover-text="Em analise de qualidade por usuário ' + data.homologacao.user.userName + ' des de ' + data.homologacao.lastModifier + '" data-popover-background="bg-white" data-popover-color="fg-black"><span class="mif-user"></span></button>';
                                                         break;
                                                     case 3:
                                                         return '<button class="cycle-button" onclick="openCustom(\'' + encodeURIComponent(JSON.stringify(data)) + '\')" ><span class="mif-envelop"></span></button>';
@@ -162,16 +162,16 @@
                                                         return '<button class="cycle-button"><span class="mif-pause"></span></button>';
                                                         break;
                                                     case 5:
-                                                        return '<button class="cycle-button" onclick="inviteStatus(\'' + encodeURIComponent(JSON.stringify(data)) + '\')" onmouseout="$(this).popover(\'show\')" data-role="popover" data-popover-position="bottom" data-popover-text="Enviado para o usuário ' + data.homologacao.user.firstName + ' '+data.homologacao.user.lastName+ ' des de ' + data.homologacao.lastModifier + '" data-popover-background="bg-white" data-popover-color="fg-black"><span class="mif-paper-plane fg-gray mif-ani-hover-float"></span></button>';
+                                                        return '<button class="cycle-button" onclick="inviteStatus(\'' + encodeURIComponent(JSON.stringify(data)) + '\')" onmouseout="$(this).popover(\'show\')" data-role="popover" data-popover-position="bottom" data-popover-text="Enviado para o usuário ' + data.homologacao.user.userName + ' des de ' + data.homologacao.lastModifier + '" data-popover-background="bg-white" data-popover-color="fg-black"><span class="mif-paper-plane fg-gray mif-ani-hover-float"></span></button>';
                                                         break;
                                                     case 6:
-                                                        return '<button class="cycle-button"><span class="mif-envelop"></span></button>';
+                                                        return '<button class="cycle-button" onclick="technicalReviewerDialog(\'' + encodeURIComponent(JSON.stringify(data)) + '\')" onmouseout="$(this).popover(\'show\')" data-role="popover" data-popover-position="bottom" data-popover-text="Enviado por ' + data.homologacao.user.userName + ' des de ' + data.homologacao.lastModifier + '" data-popover-background="bg-white" data-popover-color="fg-black"><span class="mif-envelop fg-gray mif-ani-hover-shake"></span></button>';
                                                         break;
                                                     case 7:
-                                                        return '<button class="cycle-button" onclick="technicalReviewerDialog(\'' + encodeURIComponent(JSON.stringify(data)) + '\')" onmouseout="$(this).popover(\'show\')" data-role="popover" data-popover-position="bottom" data-popover-text="Enviado por ' + data.homologacao.user.firstName + ' '+data.homologacao.user.lastName+  ' des de ' + data.homologacao.lastModifier + '" data-popover-background="bg-white" data-popover-color="fg-black"><span class="mif-envelop fg-gray mif-ani-hover-shake"></span></button>';
+                                                        return '<button class="cycle-button"><span class="mif-checkmark"></span></button>';
                                                         break;
                                                     case 8:
-                                                        return '<button class="cycle-button"><span class="mif-checkmark"></span></button>';
+                                                        return '<button class="cycle-button"><span class="mif-cross"></span></button>';
                                                         break;
                                                     case 9:
                                                         return '<button class="cycle-button" onclick="" onmouseout="$(this).popover(\'show\')" data-role="popover" data-popover-position="bottom" data-popover-text="" data-popover-background="bg-white" data-popover-color="fg-black"><span class="mif-notification fg-gray mif-ani-hover-shake"></span></button>';
@@ -226,7 +226,7 @@
                             //console.log(obj);
                             metroDialog.create({
                                 title: "Revisão de qualidade concluida.",
-                                content: "A revisão de qualidade foi concluida pelo usuario " + obj.homologacao.user.firstName + " " + obj.homologacao.user.lastName + " em " + obj.homologacao.lastModifier + ".",
+                                content: "A revisão de qualidade foi concluida pelo usuario " + obj.homologacao.user.userName + " em " + obj.homologacao.lastModifier + ".",
                                 actions: [
                                     {
                                         title: "Ver Parecer",
