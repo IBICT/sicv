@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="materialize/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+    <style>
+        html {
+            font-family: 'Titillium Web', "Roboto", sans-serif;
+        }
+        
+        nav {
+            background-color: #4dbcc4;
+        }
+        
+        nav .brand-logo {
+            margin-left: 50px;
+        }
+        
+        nav .brand-logo img {
+            margin-right: 20px;
+            vertical-align: middle;
+        }
+        
+        .container {
+            margin: 10px 50px;
+        }
+        
+        .page-title {
+            color: #00697c;
+        }
+        
+        .btn-import {
+            background-color: #accc5f;
+        }
+        
+        table {
+            width: 1800px;
+        }
+        
+        table > thead > tr > th {
+            color: #4dbcc4;
+            border-bottom: 1px solid silver;
+            border-top: 1px solid silver;
+        }
+        
+        table > thead > tr > th:last-child {
+            border: 0;
+        }
+        
+        table > thead > tr > th {
+            padding: 1px;
+        }
+        
+        table > tbody > tr > td {
+            border-bottom: 1px solid silver;
+        }
+        
+        table > tbody > tr:last-child {
+            border-bottom: 1px solid black;
+        }
+        
+        table > tbody > tr:last-child {
+            border: 0;
+        }
+        
+    </style>
+    <link rel="stylesheet" href="steps.css">
+</head>
+
+<body>
+
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo"><img src="img/logo.png" alt="SICV"> Importador de Inventários</a>
+        </div>
+    </nav>
+
+    <div class="container">
+
+        <div>
+            <a href="#">Meus Inventários</a> |
+            <a href="#">Notificação</a> |
+            <a href="#">Perfil</a> |
+            <a href="#">Sair</a>
+        </div>
+
+        <h4 class="page-title">Meus inventários</h4>
+        <p class="page-description">Envie seu inventário e acompanhe o processo. Você receberá notificações no sistema e no e-mail cadastrado sempre que o status sofrer alterações</p>
+        <a class="btn-import waves-effect waves-light btn">Submeter Inventário</a>
+
+
+        <h6 style="color:#4dbcc4;">Invéntarios em andamento</h6>
+        <table>
+            <thead>
+                <tr>
+                    <th>Id</th>
+                    <th>Nome</th>
+                    <th>Downloads Disponíveis</th>
+                    <th></th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>266c5da8-55bc-4d58-a4af-cbf7724f7939</td>
+                    <td>Brick technology mix production mix, at plant 1800 kg/m3</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td></td>
+                </tr>
+                <tr>
+                    <td>266c5da8-55bc-4d58-a4af-cbf7724f7939</td>
+                    <td>Phenol from cumene production mix, at producer</td>
+                    <td><a class="waves-effect waves-light btn">Revisão Qualidata</a></td>
+                    <td><a class="btn-import waves-effect waves-light btn">Revisão Técnica</a></td>
+                    <td>
+                        <!-- Progress Tracker v2 -->
+                        <ol class="progress-steps" data-steps="5">
+                            <li class="done">
+                                <span class="step"><span>1</span></span>
+                            </li>
+                            <li class="active">
+                                <span class="step"><span>2</span></span>
+                            </li>
+                            <li>
+                                <span class="step"><span>3</span></span>
+                            </li>
+                            <li>
+                                <span class="step"><span>4</span></span>
+                            </li>
+                            <li>
+                                <span class="step"><span>5</span></span>
+                            </li>
+                        </ol>
+                        <!-- Progress Tracker v2 -->
+                    </td>
+                </tr>
+                <tr>
+                    <td>266c5da8-55bc-4d58-a4af-cbf7724f7939</td>
+                    <td>Brick technology mix production mix, at plant 1800 kg/m3</td>
+                    <td>--</td>
+                    <td>--</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </div>
+
+    <script type="application/javascript" src="jquery-3.2.1.min.js"></script>
+    <script type="application/javascript" src="materialize/js/materialize.min.js"></script>
+</body>
+
+</html>
