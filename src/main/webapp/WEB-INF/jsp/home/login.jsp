@@ -54,27 +54,57 @@
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
     </head>
+     <style>
+ 	   @font-face{
+ 	   	 font-family: 'TitilliumWeb-ExtraLight';
+ 	   	 src: url('assets/fonts/TitilliumWeb-ExtraLight.ttf')
+ 	   	 format('truetype');
+ 	   }
+ 	   @font-face{
+ 	   	 font-family: 'TitilliumWeb-Regular';
+ 	   	 src: url('assets/fonts/TitilliumWeb-Regular.ttf')
+ 	   	 format('truetype');
+ 	   }
+ 	   
+     	 .login-form {
+			 font-family: 'TitilliumWeb-ExtraLight',sans-serif !important;
+             background-color: #4dbcc4;
+             color: white;
+			 text-align: center;
+			 vertical-align: middle;
+			 margin: 0 auto;
+             
+         }
+         .bgBtnEntrar{
+             background-color: #00697c;
+         }
+         .inputEmail{
+         	font-family: 'TitilliumWeb-Regular', sans-serif !important;
+         	margin-bottom: 10px!important;
+            border-radius: 6px!important;
+         }
+         .logoSICVLogin{
+         	display: block;
+         	margin: 0 auto;
+         }
+     </style>
 
-    <body>
+    <body class="login-form">
 
         <div class="container">
-
+			<img alt="SICV" class="logoSICVLogin" src="<%=Strings.BASE%>/assets/images/logoSICVLogin.png">
+            <h2 style="text-align: center;">Importador de Inventários</h2>
             <form action="login" method="post" class="form-signin">
-                <h2 class="form-signin-heading">Please sign in</h2>
-                <label for="inputEmail" class="sr-only">Email address</label>
-                <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-                <label for="inputPassword" class="sr-only">Password</label>
-                <input type="password" name="senha" id="inputPassword" class="form-control" placeholder="Password" required>
+                <input type="email" name="email" id="inputEmail" class="form-control inputEmail" placeholder="Email address" required autofocus>
+
+                <input type="password" name="senha" id="inputPassword" class="form-control inputEmail" placeholder="Password" required>
                 <div class="checkbox">
                     <label>
                         <input type="checkbox" value="remember-me"> Remember me
                     </label>
                 </div>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">ENTRAR</button>
-                <a class="btn btn-lg btn-default btn-block" href="./register">Cadastrar</a>
-                <a href="#" class="forgot-password">
-                    Esqueceu a senha?
-                </a>
+                <button class="btn btn-lg btn-block bgBtnEntrar" type="submit">Entrar</button>
+                <a class="btn btn-lg btn-block bgBtnEntrar" href="./register">Cadastrar</a>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             </form>
 
