@@ -67,7 +67,7 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
 		} else {
 			url = "/403";
 		}
-
+                url = "/";
 		return url;
 	}
 

@@ -51,32 +51,36 @@ import resources.Strings;
 @Controller
 public class HomeController {
 
-	@Autowired
+    @Autowired
     private UserDao userDao;
-    
+
     @Autowired
     private IlcdDao ilcdDao;
-    
+
     @RequestMapping("/")
     public String root(Map<String, Object> model) {
+        User user = (User) session().getAttribute("user");
+        String name = user.getUserName();
+        model.put("username", name);
+
         return "home/home";
     }
-    
+
     @RequestMapping("/403")
     public String deniedAccess(Map<String, Object> model) {
         return "/403";
     }
-    
-    @RequestMapping(value="/login",method = RequestMethod.GET)
+
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Map<String, Object> model) {
         return "home/login";
     }
-    
+
     @RequestMapping("/ilcd")
     public String listILCDs(Map<String, Object> model) {
         return "home/list";
     }
-    
+
     @RequestMapping(value = "/ilcds.json", method = RequestMethod.GET)
     @ResponseBody
     String getJSON() throws SecurityException, NoSuchFieldException, ClassNotFoundException {
@@ -95,7 +99,7 @@ public class HomeController {
         returnStr = "{ \"data\" : " + returnStr + " }";
         return returnStr;
     }
-    
+
     @RequestMapping("/ilcd/new")
     public String newILCD(Map<String, Object> model) {
         if (session().getAttribute("user") == null) {
@@ -105,7 +109,7 @@ public class HomeController {
             return "home/form";
         }
     }
-    
+
     @PostMapping("/ilcd/new") // //new annotation since 4.3
     public String singleFileUpload(@RequestParam("file") MultipartFile file,
             @RequestParam("json") String json,
@@ -127,34 +131,34 @@ public class HomeController {
                 return "redirect:/admin/ilcd/uploadStatus";
             }
             Files.write(path, bytes);
-            
+
             Ilcd ilcd = zipToIlcd(path.toString());;
             redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "' ilcd:" + ilcd.getName());
             ilcd.setJson1(json);
             ilcdDao.save(ilcd);
-            
+
             User ilcdUser = (User) session().getAttribute("user");
             Map<String, Object> model = new HashMap<String, Object>();
             model.put("ilcdName", ilcd.getName());
             model.put("date", RegisterController.getDateString());
             model.put("ilcdUser", ilcdUser);
-        	model.put("urlTrack", Strings.BASE+"/login");
+            model.put("urlTrack", Strings.BASE + "/login");
             model.put("url", Strings.BASE);
             Mail mail = RegisterController.getMailUtil();
-            
-        	mail.sendEmail(ilcdUser.getEmail(), RegisterController.EMAIL_ADMIN, "Submissão de Inventário", model, "emailSubmission.ftl");
-        	model.put("urlTrack", Strings.BASE+"/admin/ilcd");
-        	mail.sendEmail(RegisterController.EMAIL_ADMIN, RegisterController.EMAIL_ADMIN, "Submissão de Inventário", model, "emailSubmissionToAdmin.ftl");
+
+            mail.sendEmail(ilcdUser.getEmail(), RegisterController.EMAIL_ADMIN, "Submissão de Inventário", model, "emailSubmission.ftl");
+            model.put("urlTrack", Strings.BASE + "/admin/ilcd");
+            mail.sendEmail(RegisterController.EMAIL_ADMIN, RegisterController.EMAIL_ADMIN, "Submissão de Inventário", model, "emailSubmissionToAdmin.ftl");
         } catch (IOException e) {
             e.printStackTrace();
-        }catch (Exception e) {
-			// TODO: handle exception like RegisterException
-        	throw new Exception("Ocorreu um erro ao submeter o inventário", e);
-		}
+        } catch (Exception e) {
+            // TODO: handle exception like RegisterException
+            throw new Exception("Ocorreu um erro ao submeter o inventário", e);
+        }
 
-        return "redirect:"+Strings.BASE+"/ilcd";
+        return "redirect:" + Strings.BASE + "/ilcd";
     }
-    
+
     @RequestMapping(value = "/ilcd/{file_name}", method = RequestMethod.GET)
     public void getFile(
             @PathVariable("file_name") String fileName,
@@ -181,17 +185,17 @@ public class HomeController {
         }
 
     }
-    
+
     @RequestMapping("/logout")
-	public String logoutPage (HttpServletRequest request, HttpServletResponse response) {
-    	Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-    	if (auth != null){    
-    		new SecurityContextLogoutHandler().logout(request, response, auth);
-    	}
-    	//You can redirect wherever you want, but generally it's a good practice to show login screen again.
-    	return "redirect:/login?logout";
-	}
-    
+    public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            new SecurityContextLogoutHandler().logout(request, response, auth);
+        }
+        //You can redirect wherever you want, but generally it's a good practice to show login screen again.
+        return "redirect:/login?logout";
+    }
+
     public String MD5(byte[] md5) {
         try {
             java.security.MessageDigest md = java.security.MessageDigest.getInstance("MD5");
@@ -226,7 +230,7 @@ public class HomeController {
             ZipEntry entry = entries.nextElement();
             //System.out.println(entry.getName());
             if (entry.getName().startsWith("ILCD/processes/") && (entry.getName().endsWith(".xml")
-            	|| entry.getName().endsWith(".XML"))) {
+                    || entry.getName().endsWith(".XML"))) {
                 InputStream stream = null;
                 try {
                     stream = zipFile.getInputStream(entry);
@@ -292,9 +296,9 @@ public class HomeController {
         Ilcd ilcd = new Ilcd(id, name, type, location, classification, new Date(), new Date(), new File(path).getName(), user, 1L, 1L);
         return ilcd;
     }
-    
+
     public static HttpSession session() {
         return CustomAuthProvider.getHttpSession();
     }
-    
+
 }

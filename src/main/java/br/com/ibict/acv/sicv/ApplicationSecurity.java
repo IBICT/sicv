@@ -32,7 +32,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 	    	//TODO colocar outras authorities que faltam para definir os acessos aos revisores
 	    	http
             .authorizeRequests()
-            .antMatchers("/assets/**","/","/register**","/ilcd/**","/ilcds.json").permitAll()
+            .antMatchers("/assets/**","/register**").permitAll()
                 .antMatchers("/admin/**").hasAnyAuthority(EnumProfile.ADMIN.name(),EnumProfile.QUALITY_REVIEWER.name())
                 .anyRequest().authenticated()
                 .and()
