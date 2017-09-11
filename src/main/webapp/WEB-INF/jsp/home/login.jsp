@@ -43,6 +43,8 @@
 
         <!-- Custom styles for this template -->
         <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/signin.css" rel="stylesheet">
+        
+                <link href="<%=Strings.BASE%>/assets/css/default.css" rel="stylesheet">
 
         <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
         <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -54,46 +56,12 @@
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
     </head>
-     <style>
- 	   @font-face{
- 	   	 font-family: 'TitilliumWeb-ExtraLight';
- 	   	 src: url('assets/fonts/TitilliumWeb-ExtraLight.ttf')
- 	   	 format('truetype');
- 	   }
- 	   @font-face{
- 	   	 font-family: 'TitilliumWeb-Regular';
- 	   	 src: url('assets/fonts/TitilliumWeb-Regular.ttf')
- 	   	 format('truetype');
- 	   }
- 	   
-     	 .login-form {
-			 font-family: 'TitilliumWeb-ExtraLight',sans-serif !important;
-             background-color: #4dbcc4;
-             color: white;
-			 text-align: center;
-			 vertical-align: middle;
-			 margin: 0 auto;
-             
-         }
-         .bgBtnEntrar{
-             background-color: #00697c;
-         }
-         .inputEmail{
-         	font-family: 'TitilliumWeb-Regular', sans-serif !important;
-         	margin-bottom: 10px!important;
-            border-radius: 6px!important;
-         }
-         .logoSICVLogin{
-         	display: block;
-         	margin: 0 auto;
-         }
-     </style>
 
     <body class="login-form">
 
         <div class="container">
 			<img alt="SICV" class="logoSICVLogin" src="<%=Strings.BASE%>/assets/images/logoSICVLogin.png">
-            <h2 style="text-align: center;">Importador de Inventários</h2>
+            <h2 style="text-align: center;letter-spacing: 2px;">Importador de Inventários</h2>
             <form action="login" method="post" class="form-signin">
                 <input type="email" name="email" id="inputEmail" class="form-control inputEmail" placeholder="Email address" required autofocus>
 
@@ -104,12 +72,15 @@
                     </label>
                 </div>
                 <button class="btn btn-lg btn-block bgBtnEntrar" type="submit">Entrar</button>
-                <a class="btn btn-lg btn-block bgBtnEntrar" href="./register">Cadastrar</a>
+                
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             </form>
 
         </div> <!-- /container -->
-
+		<div class="div">
+               <a class="btn btn-outlined btn-warning btnCadastrar" href="#">Esqueci minha senha</a>
+  	            <a class="btn btn-outlined btn-warning btnCadastrar" href="./register">Cadastrar</a>
+         </div>
 
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
         <script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/ie10-viewport-bug-workaround.js"></script>
