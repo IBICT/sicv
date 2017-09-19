@@ -1,160 +1,243 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 
-    <head>
-        <meta charset="UTF-8">
-        <title>Home</title>
-        <link rel="stylesheet" href="materialize/css/materialize.min.css">
-        <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="materialize/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        html {
+            font-family: 'Titillium Web', "Roboto", sans-serif;
+        }
+        
+        nav {
+            background-color: #4dbcc4;
+        }
+        
+        nav .brand-logo {
+            margin-left: 50px;
+        }
+        
+        nav .brand-logo img {
+            margin-right: 20px;
+            vertical-align: middle;
+        }
+        
+        .container {
+            //margin: 10px 50px;
+        }
+        
+        .page-title {
+            color: #00697c;
+        }
+        
+        .btn-import {
+            background-color: #accc5f;
+        }
+        
+        .user-menu {
+            border-bottom: 2px solid silver;
+            margin: 60px 80px 20px 80px;
+            height: 30px;
+        }
+        
+        .item-menu {
+            border-right: 2px solid silver;
+            height: 30px;
+        }
+        
+        .item-menu2 {
+            text-align: center;
+            border-left: 2px solid silver;
+            height: 30px;
+        }
+        
+        .item-menu3 {
+            text-align: right;
+            height: 30px;
+        }
+        
+        .link-menu {
+            color: #00697c;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .link-menu2 {
+            color: #c3697c;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .link-menu3 {
+            color: #00697c;
+            font-size: 16px;
+        }
+        
+        .notif-num {
+            position: relative;
+            top: -5px;
+        }
+        
+        .sicv-container {
+            margin: 0px 80px 0px 80px;
+        }
+        
+        .sicv-table-th {
+            color: #4dbcc4;
+            border-bottom: 1px solid silver;
+            border-top: 1px solid black;
+        }
+        
+        .sicv-table-td {
+            border-bottom: 1px solid silver;
+        }
 
-        <style>
-            html {
-                font-family: 'Titillium Web', "Roboto", sans-serif;
-            }
+    </style>
+    <link rel="stylesheet" href="steps.css">
+</head>
 
-            nav {
-                background-color: #4dbcc4;
-            }
+<body>
 
-            nav .brand-logo {
-                margin-left: 50px;
-            }
-
-            nav .brand-logo img {
-                margin-right: 20px;
-                vertical-align: middle;
-            }
-
-            .container {
-                margin: 10px 50px;
-            }
-
-            .page-title {
-                color: #00697c;
-            }
-
-            .btn-import {
-                background-color: #accc5f;
-            }
-
-            table {
-                width: 1800px;
-            }
-
-            table > thead > tr > th {
-                color: #4dbcc4;
-                border-bottom: 1px solid silver;
-                border-top: 1px solid silver;
-            }
-
-            table > thead > tr > th:last-child {
-                border: 0;
-            }
-
-            table > thead > tr > th {
-                padding: 1px;
-            }
-
-            table > tbody > tr > td {
-                border-bottom: 1px solid silver;
-            }
-
-            table > tbody > tr:last-child {
-                border-bottom: 1px solid black;
-            }
-
-            table > tbody > tr:last-child {
-                border: 0;
-            }
-
-        </style>
-        <link rel="stylesheet" href="steps.css">
-    </head>
-
-    <body>
-
-        <nav>
-            <div class="nav-wrapper">
-                <a href="#" class="brand-logo"><img src="img/logo.png" alt="SICV"> Importador de Inventários</a>
-            </div>
-        </nav>
-
-        <div class="container">
-
-            <div>
-                <a style="color:#00697c;" href="#">Meus Inventários</a> |
-                <a style="color:#c3697c;" href="#"><i class="material-icons">notifications</i> 1</a> |
-                <a style="color:#00697c;" href="#">Perfil: User</a> |
-                <a style="color:#00697c;" href="#">Sair</a>
-            </div>
-            <hr />
-
-            <h4 class="page-title">Meus inventários</h4>
-            <p class="page-description">Envie seu inventário e acompanhe o processo. Você receberá notificações no sistema e no e-mail cadastrado sempre que o status sofrer alterações</p>
-            <a class="btn-import waves-effect waves-light btn">Submeter Inventário</a>
-
-
-            <h6 style="color:#4dbcc4;">Invéntarios em andamento</h6>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Nome</th>
-                        <th>Downloads Disponíveis</th>
-                        <th></th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>266c5da8-55bc-4d58-a4af-cbf7724f7939</td>
-                        <td>Brick technology mix production mix, at plant 1800 kg/m3</td>
-                        <td>--</td>
-                        <td>--</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>266c5da8-55bc-4d58-a4af-cbf7724f7939</td>
-                        <td>Phenol from cumene production mix, at producer</td>
-                        <td><a class="waves-effect waves-light btn">Revisão Qualidata</a></td>
-                        <td><a class="btn-import waves-effect waves-light btn">Revisão Técnica</a></td>
-                        <td>
-                            <!-- Progress Tracker v2 -->
-                            <ol class="progress-steps" data-steps="5">
-                                <li class="done">
-                                    <span class="step"><span>1</span></span>
-                                </li>
-                                <li class="active">
-                                    <span class="step"><span>2</span></span>
-                                </li>
-                                <li>
-                                    <span class="step"><span>3</span></span>
-                                </li>
-                                <li>
-                                    <span class="step"><span>4</span></span>
-                                </li>
-                                <li>
-                                    <span class="step"><span>5</span></span>
-                                </li>
-                            </ol>
-                            <!-- Progress Tracker v2 -->
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>266c5da8-55bc-4d58-a4af-cbf7724f7939</td>
-                        <td>Brick technology mix production mix, at plant 1800 kg/m3</td>
-                        <td>--</td>
-                        <td>--</td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
-
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo"><img src="img/logo.png" alt="SICV"> Importador de Inventários</a>
         </div>
+    </nav>
 
-        <script type="application/javascript" src="jquery-3.2.1.min.js"></script>
-        <script type="application/javascript" src="materialize/js/materialize.min.js"></script>
-    </body>
+    <div class="row user-menu">
+        <div class="col s1 item-menu"><a href="#" class="link-menu">Meus Inventários</a></div>
+        <div class="col s1 offset-s8 item-menu3"><a href="#" class="link-menu2"><i style="30px;" class="material-icons">notifications</i><span class="notif-num">1</span></a></div>
+        <div class="col s1 item-menu2"><a href="#" class=""><span class="link-menu">Perfil:</span> <span class="link-menu3">Lucas</span></a></div>
+        <div class="col s1 item-menu2"><a href="#" class="link-menu">SAIR</a></div>
+    </div>
+
+    <div class="row sicv-container">
+        <h4 class="page-title">Meus inventários</h4>
+    </div>
+
+    <div class="row sicv-container">
+        <p class="page-description">Envie seu inventário e acompanhe o processo. Você receberá notificações no sistema e no e-mail cadastrado sempre que o status sofrer alterações</p>
+    </div>
+
+    <div class="row sicv-container">
+        <a class="btn-import waves-effect waves-light btn modal-trigger" href="#modal1">Submeter Inventário</a>
+    </div>
+
+    <div class="sicv-container sicv-inventori-table">
+        <div class="row">
+            <h6 style="color:#4dbcc4;">Invéntarios em andamento</h6>
+        </div>
+        <div style="margin:0px;" class="row">
+            <div class="col s3 sicv-table-th">Id</div>
+            <div class="col s3 sicv-table-th">Nome</div>
+            <div class="col s1 sicv-table-th" style="text-align: center;">Pendências</div>
+            <div class="col s2 sicv-table-th" style="text-align: center;">Prazo para entregar</div>
+            <div class="col s3" style="position: relative; left: 20px; color: #4dbcc4;">Status</div>
+        </div>
+        <div style="margin:0px;" class="row">
+            <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">266c5da8-55bc-4d58-a4af-cbf7724f7939</div>
+            <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">Phenol from cumene production mix, at producer</div>
+            <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #c3697c;" class="material-icons">report_problem</i></div>
+            <div style="height: 40px;  text-align: center; position: relative; top: 10px;" class="col s2 sicv-table-td">5 dias</div>
+            <div style="height: 40px;" class="col s3">
+                <!-- Progress Tracker v2 -->
+                <ol style="position: relative; top: -10px;" class="progress-steps" data-steps="5">
+                    <li class="active">
+                        <span class="step"><span>1</span></span>
+                    </li>
+                    <li>
+                        <span class="step"><span>2</span></span>
+                    </li>
+                    <li>
+                        <span class="step"><span>3</span></span>
+                    </li>
+                    <li>
+                        <span class="step"><span>4</span></span>
+                    </li>
+                    <li>
+                        <span class="step"><span>5</span></span>
+                    </li>
+                </ol>
+                <!-- Progress Tracker v2 -->
+            </div>
+        </div>
+        <div style="margin:0px;" class="row">
+            <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">266c5da8-55bc-4d58-a4af-cbf7724f7939</div>
+            <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">Phenol from cumene production mix, at producer</div>
+            <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #c3697c;" class="material-icons">report_problem</i></div>
+            <div style="height: 40px;  text-align: center; position: relative; top: 10px; color: #c3697c;" class="col s2 sicv-table-td">Atrasado</div>
+            <div style="height: 40px;" class="col s3">
+                <!-- Progress Tracker v2 -->
+                <ol style="position: relative; top: -10px;" class="progress-steps" data-steps="5">
+                    <li class="done">
+                        <span class="step"><span>1</span></span>
+                    </li>
+                    <li class="done">
+                        <span class="step"><span>2</span></span>
+                    </li>
+                    <li class="done">
+                        <span class="step"><span>3</span></span>
+                    </li>
+                    <li class="done">
+                        <span class="step"><span>4</span></span>
+                    </li>
+                    <li class="active">
+                        <span class="step"><span>5</span></span>
+                    </li>
+                </ol>
+                <!-- Progress Tracker v2 -->
+            </div>
+        </div>
+        <div style="margin:0px;" class="row">
+            <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">266c5da8-55bc-4d58-a4af-cbf7724f7939</div>
+            <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">Phenol from cumene production mix, at producer</div>
+            <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #accc5f;" class="material-icons">check</i></div>
+            <div style="height: 40px;  text-align: center; position: relative; top: 10px;" class="col s2 sicv-table-td">Entregue</div>
+            <div style="height: 40px;" class="col s3">
+                <!-- Progress Tracker v2 -->
+                <ol style="position: relative; top: -10px;" class="progress-steps" data-steps="5">
+                    <li class="done">
+                        <span class="step"><span>1</span></span>
+                    </li>
+                    <li class="active">
+                        <span class="step"><span>2</span></span>
+                    </li>
+                    <li>
+                        <span class="step"><span>3</span></span>
+                    </li>
+                    <li>
+                        <span class="step"><span>4</span></span>
+                    </li>
+                    <li>
+                        <span class="step"><span>5</span></span>
+                    </li>
+                </ol>
+                <!-- Progress Tracker v2 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <h4>Modal Header</h4>
+            <p>A bunch of text</p>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">Agree</a>
+        </div>
+    </div>
+    <script type="application/javascript" src="jquery-3.2.1.min.js"></script>
+    <script type="application/javascript" src="materialize/js/materialize.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.modal').modal();
+        });
+
+    </script>
+</body>
 
 </html>
