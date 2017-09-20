@@ -12,77 +12,37 @@
 <%@page import="resources.Strings"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
+<link href="<%=Strings.BASE%>/assets/css/defaultNotifications.css" rel="stylesheet">
 <link
-	href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css"
-	rel="stylesheet">
+	href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
 <!DOCTYPE html>
 <html>
 <head>
 
-<jsp:include page="/WEB-INF/jsp/partials/styles.jsp" />
-<style>
-@font-face {
-	font-family: 'TitilliumWeb-ExtraLight';
-	src: url('../fonts/TitilliumWeb-ExtraLight.ttf') format('truetype');
-}
-
-@font-face {
-	font-family: 'TitilliumWeb-Regular';
-	src: url('../fonts/TitilliumWeb-Regular.ttf') format('truetype');
-}
-
-
-html, body {
-	height: 100%;
-}
-
-body {
-	font-family: 'TitilliumWeb-Regular', sans-serif ;	
-	color: #00697c !important;
-
-}
-
-.page-content {
-	padding-top: 3.125rem;
-	min-height: 100%;
-	height: 100%;
-}
-
-.table .input-control.checkbox {
-	line-height: 1;
-	min-height: 0;
-	height: auto;
-}
-
-@media screen and (max-width: 800px) {
-	#cell-sidebar {
-		flex-basis: 52px;
-	}
-	#cell-content {
-		flex-basis: calc(100% - 52px);
-	}
-}
-.divs{
-	font-family: 'TitilliumWeb-ExtraLight', sans-serif !important;
-	font-weight: normal;
-}
-.titleNotify{
-	font-family: 'TitilliumWeb-ExtraLight', sans-serif !important;
-	font-size:30px;
-	margin: 2% 0% 2% 5%;
-}
-.tdCenter{
-	text-align: center;
-}
-</style>
 </head>
 <body>
-	<jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
-	<div class="page-content">
+	<div class="page-content" style="width: 85%; margin-left:5%;">
+		<table class="table">
+			<thead>
+				<tr style="border-bottom:1px solid black">
+					<td class="tdCenterHeader" onclick="">Meus Inventários</td>
+					<td class="tdCenterHeader" style="color: #4dbcc4;" >Revisão Qualidata</td>
+					<td class="tdCenterHeader" style="color: #accc5f;" >Revisão Técnica</td>
+					<td class="tdCenterHeader" >Gestão</td>
+					<td class="tdAlertHeader"><span class="glyphicon glyphicon-bell"></span> 1</td>
+					<td class="sortable-column tdCenterHeader" >Perfil: ${nome}</td>
+					<td class="sortable-column" style="text-align: center; width:1%; white-space:nowrap;" 
+					onclick="location.href='<%=Strings.BASE%>/logout'" >
+						SAIR
+					</td>
+				</tr>
+			</thead>		
+		</table>
+		
 		<div class="titleNotify">Notificações</div>
 	
 
-		<table id="list" class="table table-hover" style="width: 85%; margin-left:5%;" >
+		<table id="list" class="table table-hover" >
 			<thead>
 				<tr >
 					<td class="sortable-column" style="text-align: center;">Data</td>
@@ -119,14 +79,12 @@ body {
 	<script>
 		
 		$(function () {
-		    var shown = false;
 		    $('#list tr').click(function (ev) {
-		        if (!shown) {
-		        	alert("teste1");
+			    var shown = $(this).children("th").children("div");
+		        if (shown.css("display")=="none") {
 		        	$(this).children("th").children("div").slideDown(1000);
 		    	        
 		        }else{
-		        	alert("teste");
 		        	$(this).children("th").children("div").slideUp(1000);
 		        	
 		        }
@@ -134,21 +92,6 @@ body {
 		    });
 		})
 	</script>
-	<!--         <script type="text/javascript">
 
-            $(document).ready(function () {
-                $('#list').DataTable({
-                    data: ${notifications},
-                    "columns": [
-                        {"data": function (data, type, row, meta) {
-                                return data.message;
-                            }
-                        }
-                    ]
-                });
-            });
-
-
-        </script> -->
 </body>
 </html>
