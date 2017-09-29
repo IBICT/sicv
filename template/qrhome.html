@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="materialize/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        html {
+            font-family: 'Titillium Web', "Roboto", sans-serif;
+        }
+        
+        nav {
+            background-color: #4dbcc4;
+        }
+        
+        nav .brand-logo {
+            margin-left: 50px;
+        }
+        
+        nav .brand-logo img {
+            margin-right: 20px;
+            vertical-align: middle;
+        }
+        
+        .container {
+            //margin: 10px 50px;
+        }
+        
+        .page-title {
+            color: #00697c;
+        }
+        
+        .btn-import {
+            background-color: #accc5f;
+        }
+        
+        .user-menu {
+            border-bottom: 2px solid silver;
+            margin: 60px 80px 20px 80px;
+            height: 30px;
+        }
+        
+        .item-menu {
+            border-right: 2px solid silver;
+            height: 30px;
+        }
+        
+        .item-menu2 {
+            text-align: center;
+            border-left: 2px solid silver;
+            height: 30px;
+        }
+        
+        .item-menu3 {
+            text-align: right;
+            height: 30px;
+        }
+        
+        .link-menu {
+            color: #00697c;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .link-menu2 {
+            color: #c3697c;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .link-menu3 {
+            color: #00697c;
+            font-size: 16px;
+        }
+        
+        .notif-num {
+            position: relative;
+            top: -5px;
+        }
+        
+        .sicv-container {
+            margin: 0px 80px 0px 80px;
+        }
+        
+        .sicv-table-th {
+            color: #4dbcc4;
+            border-bottom: 1px solid silver;
+            border-top: 1px solid black;
+        }
+        
+        .sicv-table-td {
+            border-bottom: 1px solid silver;
+        }
+    </style>
+    <link rel="stylesheet" href="steps.css">
+</head>
+
+<body>
+
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo"><img src="img/logo.png" alt="SICV"> Importador de Inventários</a>
+        </div>
+    </nav>
+
+    <div class="row user-menu">
+        <div class="col s1 item-menu"><a href="#" class="link-menu">Meus Inventários</a></div>
+        <div class="col s1 offset-s8 item-menu3"><a href="#" class="link-menu2"><i style="30px;" class="material-icons">notifications</i><span class="notif-num">1</span></a></div>
+        <div class="col s1 item-menu2"><a href="#" class=""><span class="link-menu">Perfil:</span> <span class="link-menu3">Lucas</span></a></div>
+        <div class="col s1 item-menu2"><a href="#" class="link-menu">SAIR</a></div>
+    </div>
+
+    <div class="row sicv-container">
+        <h4 class="page-title">Revisão Qualidata</h4>
+    </div>
+
+    <div class="row sicv-container">
+        <p class="page-description">Confirme sua participação como revisor e acompanhe os inventários que lhe foram atribuidos para realizar a revisão de Qualidade</p>
+    </div>
+
+    <div class="row sicv-container" style="padding-top:10px;background-color: #d7eef0;">
+        <h5 style="color:#4dbcc4; margin:20px;">Aguardando confirmação ou cancelamento</h5>
+        <div class="row">
+            <a style="margin:20px;color:#00728a;" href="#">Particle board, at plant, for indoor use, 7.4% water content, from virgin wood, BR 2012</a><i style="color:red;" class="material-icons">do_not_disturb</i><i style="color:green;" class="material-icons">check</i>
+        </div>
+        <div class="row">
+            <a style="margin:20px;color:#00728a;" href="#">Cotton boll production_unlinked</a><i style="color:red;" class="material-icons">do_not_disturb</i><i style="color:green;" class="material-icons">check</i>
+        </div>
+    </div>
+
+    <div class="sicv-container sicv-inventori-table">
+        <div class="row">
+            <h6 style="color:#4dbcc4;">Invéntarios em andamento</h6>
+        </div>
+        <div style="margin:0px;" class="row">
+            <div class="col s3 sicv-table-th">Id</div>
+            <div class="col s3 sicv-table-th">Nome</div>
+            <div class="col s1 sicv-table-th" style="text-align: center;">Pendências</div>
+            <div class="col s2 sicv-table-th" style="text-align: center;">Prazo para entregar</div>
+        </div>
+        <div style="margin:0px;" class="row">
+            <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">266c5da8-55bc-4d58-a4af-cbf7724f7939</div>
+            <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">Phenol from cumene production mix, at producer</div>
+            <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #c3697c;" class="material-icons">report_problem</i></div>
+            <div style="height: 40px;  text-align: center; position: relative; top: 10px;" class="col s2 sicv-table-td">5 dias</div>
+        </div>
+        <div style="margin:0px;" class="row">
+            <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">266c5da8-55bc-4d58-a4af-cbf7724f7939</div>
+            <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">Phenol from cumene production mix, at producer</div>
+            <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #c3697c;" class="material-icons">report_problem</i></div>
+            <div style="height: 40px;  text-align: center; position: relative; top: 10px; color: #c3697c;" class="col s2 sicv-table-td">Atrasado</div>
+        </div>
+        <div style="margin:0px;" class="row">
+            <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">266c5da8-55bc-4d58-a4af-cbf7724f7939</div>
+            <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">Phenol from cumene production mix, at producer</div>
+            <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #accc5f;" class="material-icons">check</i></div>
+            <div style="height: 40px;  text-align: center; position: relative; top: 10px;" class="col s2 sicv-table-td">Entregue</div>
+        </div>
+    </div>
+
+    <!-- Modal Structure -->
+    <div id="modal1" class="modal modal-fixed-footer">
+        <div class="modal-content">
+            <h4 class="page-title">Submissão Inventário</h4>
+            <div class="row">
+                <form class="col s12">
+                    <div class="row">
+                        <div class="input-field col s6">
+                            <input placeholder="" id="first_name" type="text" class="validate">
+                            <label for="first_name">Autor</label>
+                        </div>
+                        <div class="input-field col s6">
+                            <input placeholder="" id="first_name" type="text" class="validate">
+                            <label for="first_name">E-mail</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <button class="btn-import waves-effect waves-light btn">Acrescentar autor</button>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input placeholder="" id="first_name" type="text" class="validate">
+                            <label for="first_name">Título do inventário</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <input placeholder="" id="first_name" type="text" class="validate">
+                            <label for="first_name">Categoria</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s12">
+                            <textarea id="textarea1" class="materialize-textarea" data-length="120"></textarea>
+                            <label for="textarea1">Descrição</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <h5>Submissão Inventário</h5>
+                    </div>
+                    <div class="row">
+                        <h5 class="page-title">Conflitos de interesses</h5>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s4">
+                            <input placeholder="" id="first_name" type="text" class="validate">
+                            <label for="first_name">Revisor técnico 1</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input placeholder="" id="first_name" type="text" class="validate">
+                            <label for="first_name">E-mail</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input placeholder="" id="first_name" type="text" class="validate">
+                            <label for="first_name">Telefone</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="input-field col s4">
+                            <input placeholder="" id="first_name" type="text" class="validate">
+                            <label for="first_name">Revisor técnico 2</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input placeholder="" id="first_name" type="text" class="validate">
+                            <label for="first_name">E-mail</label>
+                        </div>
+                        <div class="input-field col s4">
+                            <input placeholder="" id="first_name" type="text" class="validate">
+                            <label for="first_name">Telefone</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="file-field input-field">
+                            <div class="btn">
+                                <span>File</span>
+                                <input type="file">
+                            </div>
+                            <div class="file-path-wrapper">
+                                <input placeholder="Escolha arquivo em formato ILCD" class="file-path validate" type="text">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <p>
+                            <input type="checkbox" id="test5" />
+                            <label for="test5">Li e aceito os termos de uso</label>
+                        </p>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">CANCELAR</a>
+            <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">ENVIAR</a>
+        </div>
+    </div>
+    <script type="application/javascript" src="jquery-3.2.1.min.js"></script>
+    <script type="application/javascript" src="materialize/js/materialize.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            $('.modal').modal();
+        });
+    </script>
+</body>
+
+</html>

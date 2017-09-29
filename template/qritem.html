@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Home</title>
+    <link rel="stylesheet" href="materialize/css/materialize.min.css">
+    <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <style>
+        html {
+            font-family: 'Titillium Web', "Roboto", sans-serif;
+        }
+        
+        nav {
+            background-color: #4dbcc4;
+        }
+        
+        nav .brand-logo {
+            margin-left: 50px;
+        }
+        
+        nav .brand-logo img {
+            margin-right: 20px;
+            vertical-align: middle;
+        }
+        
+        .container {
+            //margin: 10px 50px;
+        }
+        
+        .page-title {
+            color: #00697c;
+        }
+        
+        .btn-import {
+            background-color: #accc5f;
+        }
+        
+        .user-menu {
+            border-bottom: 2px solid silver;
+            margin: 60px 80px 20px 80px;
+            height: 30px;
+        }
+        
+        .item-menu {
+            border-right: 2px solid silver;
+            height: 30px;
+        }
+        
+        .item-menu2 {
+            text-align: center;
+            border-left: 2px solid silver;
+            height: 30px;
+        }
+        
+        .item-menu3 {
+            text-align: right;
+            height: 30px;
+        }
+        
+        .link-menu {
+            color: #00697c;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .link-menu2 {
+            color: #c3697c;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .link-menu3 {
+            color: #00697c;
+            font-size: 16px;
+        }
+        
+        .notif-num {
+            position: relative;
+            top: -5px;
+        }
+        
+        .sicv-container {
+            margin: 0px 80px 0px 80px;
+        }
+        
+        .sicv-table-th {
+            color: #4dbcc4;
+            border-bottom: 1px solid silver;
+            border-top: 1px solid black;
+        }
+        
+        .sicv-table-td {
+            border-bottom: 1px solid silver;
+        }
+    </style>
+    <link rel="stylesheet" href="steps.css">
+</head>
+
+<body>
+
+    <nav>
+        <div class="nav-wrapper">
+            <a href="#" class="brand-logo"><img src="img/logo.png" alt="SICV"> Importador de Inventários</a>
+        </div>
+    </nav>
+
+    <div class="row user-menu">
+        <div class="col s1 item-menu"><a href="#" class="link-menu">Meus Inventários</a></div>
+        <div class="col s1 offset-s8 item-menu3"><a href="#" class="link-menu2"><i style="30px;" class="material-icons">notifications</i><span class="notif-num">1</span></a></div>
+        <div class="col s1 item-menu2"><a href="#" class=""><span class="link-menu">Perfil:</span> <span class="link-menu3">Lucas</span></a></div>
+        <div class="col s1 item-menu2"><a href="#" class="link-menu">SAIR</a></div>
+    </div>
+
+    <div class="row sicv-container">
+        
+    </div>
+    <div class="row  sicv-container">
+        <div class="row">
+           <div class="row">
+               <div class="col s6"><h5 class="page-title">Particle board, at plant, for indoor use, 7.4% water content, from virgin wood, BR 2012</h5></div>
+               <div class="col s3" style="color:red;"><i class="material-icons">do_not_disturb</i> Não, obrigado</div>
+               <div class="col s3" style="color:green;"><i class="material-icons">check</i> Aceito</div>
+           </div>
+            <div class="col s6">
+                <h5>Usuário</h5>
+                <h6>Lucas</h6>
+                <h6>Autor/es</h6>
+                <p>Edivan Cherubini; Felipe Lion Motta; Paulo Trigo Ribeiro</p>
+                <p>edivan@enciclo.com.br;felipe@acvbrasil.com.br;pribeiro@3drivers.pt</p>
+                <hr />
+                <h6>Categoria</h6>
+                <p>Construction</p>
+                <hr />
+                <h6>Descrição</h6>
+                <p>The data set represents a generic Portland cement production and covers some relevant process steps. Post-clinker processing and raw materials preparation emissions are not considered in the dataset. The inventory is based on an adaptation of LCI cement production in Mexico, with adjusted data for raw material consumption and for the CO2 emissions due to clinker production and emissions from thermal energy used in the kiln. The dataset considers an emission factor of 0.371 kg CO2/ ton of cement for the decarbonizing process of clinker production based on Carvalho et al. (2010). The generic composition of the cement was based on estimates according to Carpio (2005) and Costa et al. (2013) for limestone, clay and silicon. For iron it was assumed the same amount from the Mexican dataset. Alternative additives (pozzolana, blast furnace slag and fly ashes) and gypsum are based on data from the WBCSD (2012). The water consumption were not considered due to lack of data. Inventory is also based on secondary data from the national inventory of greenhouse gas emissions in the cement sector. The fuel mix of thermal energy used in the cement production are based on coke petroleum (71.7%), electricity (12.2%), charcoal (2.4%), fuel oil (0.4%), steam coal (1.9%), diesel (1.2%), wood (0.9%), natural gas (0.7%) and other alternatives fuels (8.7%), such as tires, industrial waste and biomass(rice husk, bagasse, among others). However, due to lack of data on the share of these alternative fuels, the dataset only considers the fuel source from fossil fuels and electricity. Data on the fuel mix are weighted average (2009-2013) from the Brazilian Energy Balance (EPE, 2014).</p>
+                <hr />
+            </div>
+            <div class="col s6">
+                <h5 style="color:#7c7c7c;">Histórico</h5>
+                <div class="row">
+                    <div class="col s3" style="color:#006b7b;">Autor</div>
+                    <div style="color:#27bec3;" class="col s3">Devolução Qualidata</div>
+                </div>
+                <div class="row">
+                    <div class="col s3"><i style="color:#006b7b;" class="medium material-icons">insert_drive_file</i>ILCD.zip</div>
+                    <button style="background-color:#27bec3;" class="btn col s6">Aplicar Qualidata</button>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col s3"><i style="color:#006b7b;" class="medium material-icons">insert_drive_file</i>ILCD.zip</div>
+                    <div class="col s3">
+                        <i style="color:#27bec3;" class="medium material-icons">insert_drive_file</i>23/08/2017
+                    </div>
+                </div>
+                <hr />
+                <div class="row">
+                    <div class="col s3"><i style="color:#006b7b;" class="medium material-icons">insert_drive_file</i>ILCD.zip</div>
+                    <div class="col s3">
+                        <i style="color:#27bec3;" class="medium material-icons">insert_drive_file</i>12/08/2017
+                    </div>
+                </div>
+
+                <hr />
+
+            </div>
+        </div>
+    </div>
+    <script type="application/javascript" src="jquery-3.2.1.min.js"></script>
+    <script type="application/javascript" src="materialize/js/materialize.min.js"></script>
+    <script>
+    </script>
+</body>
+
+</html>
