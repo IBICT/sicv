@@ -389,6 +389,19 @@ public class AdminController {
             try {
                 Ilcd ilcd = ilcdDao.findById(id);
                 ilcd.getHomologacao().setStatus(8);
+                
+                User ilcdUser = ilcd.getUser();
+                Map<String, Object> modelMail = new HashMap<String, Object>();
+                modelMail.put("ilcdName", ilcd.getName());
+                //TODO create field date in ilcd table to retrieve date that ilcd was sent.
+                modelMail.put("date", RegisterController.getDateString());
+                modelMail.put("ilcdUser", ilcdUser);
+                modelMail.put("url", Strings.BASE);
+                String subject = "Análise de Inventário aprovada";
+                Mail mail = RegisterController.getMailUtil();
+                
+            	mail.sendEmail(ilcdUser.getEmail(), RegisterController.EMAIL_ADMIN, subject, modelMail, "emailSubmissionApproved.ftl");
+
                 return "redirect:/admin/";
             } catch (Exception e) {
                 System.out.println(e.getMessage());
@@ -406,6 +419,24 @@ public class AdminController {
             model.put("user", session().getAttribute("user"));
             Ilcd ilcd = ilcdDao.findById(id);
             model.put("ilcd", ilcd);
+            
+            try {
+                User ilcdUser = ilcd.getUser();
+                Map<String, Object> modelMail = new HashMap<String, Object>();
+                modelMail.put("ilcdName", ilcd.getName());
+                //TODO create field date in ilcd table to retrieve date that ilcd was sent.
+                modelMail.put("date", RegisterController.getDateString());
+                modelMail.put("ilcdUser", ilcdUser);
+                modelMail.put("url", Strings.BASE);
+                String subject = "Análise de Inventário - Ajustes";
+                Mail mail = RegisterController.getMailUtil();
+                
+            	mail.sendEmail(ilcdUser.getEmail(), RegisterController.EMAIL_ADMIN, subject, modelMail, "emailSubmissionToAdjust.ftl");
+
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+            
 //            return "admin/invitetechnicalreviewer";
 
             return "admin/technicalreviewerparecer";

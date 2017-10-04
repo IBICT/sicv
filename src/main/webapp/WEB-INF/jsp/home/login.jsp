@@ -43,6 +43,8 @@
 
         <!-- Custom styles for this template -->
         <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/signin.css" rel="stylesheet">
+        
+        <link href="<%=Strings.BASE%>/assets/css/defaultLogin.css" rel="stylesheet">
 
         <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
         <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
@@ -55,31 +57,30 @@
         <![endif]-->
     </head>
 
-    <body>
+    <body class="login-form">
 
         <div class="container">
-
+			<img alt="SICV" class="logoSICVLogin" src="<%=Strings.BASE%>/assets/images/logoSICVLogin.png">
+            <h2 style="text-align: center;letter-spacing: 2px;">Importador de Inventários</h2>
             <form action="login" method="post" class="form-signin">
-                <h2 class="form-signin-heading">Please sign in</h2>
-                <label for="inputEmail" class="sr-only">Email address</label>
-                <input type="email" name="email" id="inputEmail" class="form-control" placeholder="Email address" required autofocus>
-                <label for="inputPassword" class="sr-only">Password</label>
-                <input type="password" name="senha" id="inputPassword" class="form-control" placeholder="Password" required>
+                <input type="email" name="email" id="inputEmail" class="form-control inputEmail" placeholder="Email address" required autofocus>
+
+                <input type="password" name="senha" id="inputPassword" class="form-control inputEmail" placeholder="Password" required>
                 <div class="checkbox">
                     <label>
                         <input type="checkbox" value="remember-me"> Remember me
                     </label>
                 </div>
-                <button class="btn btn-lg btn-primary btn-block" type="submit">ENTRAR</button>
-                <a class="btn btn-lg btn-default btn-block" href="./register">Cadastrar</a>
-                <a href="#" class="forgot-password">
-                    Esqueceu a senha?
-                </a>
+                <button class="btn btn-lg btn-block bgBtnEntrar" type="submit">Entrar</button>
+                
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             </form>
 
         </div> <!-- /container -->
-
+		<div class="div">
+               <a class="btn btn-outlined btn-warning btnCadastrar" href="#">Esqueci minha senha</a>
+  	            <a class="btn btn-outlined btn-warning btnCadastrar" href="./register">Cadastrar</a>
+         </div>
 
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
         <script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/ie10-viewport-bug-workaround.js"></script>
