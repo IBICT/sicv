@@ -45,8 +45,12 @@ public class AdminController {
         if (principal == null) {
             return "/login";
         } else {
-            model.put("user", session().getAttribute("user"));
-            return "admin/home";
+        	User user = (User) session().getAttribute("user");
+            model.put("user", user);
+            if(user.getPerfil().equalsIgnoreCase(EnumProfile.ADMIN.name())){
+            	return "admin/home";            	
+            }else
+            	return "admin/gestorhome";
         }
     }
 

@@ -77,6 +77,7 @@ public class RegisterController {
         user.setInstituicao(instituicao);
         user.setDsPurpose(dsPurpose);
         user.setPerfil( EnumProfile.USER.name() );
+        user.setQntdNotificacoes(0L);
         
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("user", user);

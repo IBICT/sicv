@@ -1,6 +1,7 @@
 package br.com.ibict.acv.sicv.model;
 
 import com.google.gson.annotations.Expose;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -108,6 +109,10 @@ public class User {
     @Column(name = "MOSTRAR")
     private Boolean mostrar;
 
+    @NotNull
+    @Column(columnDefinition = "bigint")
+    private Long qntdNotificacoes;
+    
     // ------------------------
     // PUBLIC METHODS
     // ------------------------
@@ -328,5 +333,13 @@ public class User {
     public void setMostrar(Boolean mostrar) {
         this.mostrar = mostrar;
     }
+    
+    public Long getQntdNotificacoes() {
+		return qntdNotificacoes;
+	}
+    
+    public void setQntdNotificacoes(Long qntdNotificacoes) {
+		this.qntdNotificacoes = qntdNotificacoes;
+	}
 
 } // class User

@@ -139,10 +139,10 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td>266c5da8-55bc-4d58-a4af-cbf7724f7939</td>
-                        <td>Brick technology mix production mix, at plant 1800 kg/m3</td>
-                        <td>--</td>
-                        <td>--</td>
+                        <td>${ilcdId}266c5da8-55bc-4d58-a4af-cbf7724f7939</td>
+                        <td>${IlcdName}Brick technology mix production mix, at plant 1800 kg/m3</td>
+                        <td>${pathDownload}--</td>
+                        <td>${status}--</td>
                         <td></td>
                     </tr>
                     <tr>
