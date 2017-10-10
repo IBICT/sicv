@@ -123,7 +123,7 @@
 
             <h4 class="page-title">Meus inventários</h4>
             <p class="page-description">Envie seu inventário e acompanhe o processo. Você receberá notificações no sistema e no e-mail cadastrado sempre que o status sofrer alterações</p>
-            <a class="btn-import waves-effect waves-light btn">Submeter Inventário</a>
+            <a class="btn-import waves-effect waves-light btn" href="<%=Strings.BASE%>/admin/ilcd/">Submeter Inventário</a>
 
 
             <h6 style="color:#4dbcc4;">Invéntarios em andamento</h6>
