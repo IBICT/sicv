@@ -30,6 +30,7 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -37,9 +38,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import br.com.ibict.acv.sicv.CustomAuthProvider;
+import br.com.ibict.acv.sicv.model.Homologacao;
 import br.com.ibict.acv.sicv.model.Ilcd;
 import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.IlcdDao;
@@ -111,10 +114,15 @@ public class HomeController {
     }
 
     @PostMapping("/ilcd/new") // //new annotation since 4.3
+    @ResponseBody
     public String singleFileUpload(@RequestParam("file") MultipartFile file,
-            @RequestParam("json") String json,
+            @RequestParam("json") String json,@RequestParam("homologacao") String homol,
             RedirectAttributes redirectAttributes) throws Exception {
-
+    	
+    	homol = homol.replaceAll("\\[", "").replaceAll("\\]","");
+    	Gson gson = new Gson();
+    	Homologacao homolog = gson.fromJson(homol, Homologacao.class);
+    	
         if (file.isEmpty()) {
             redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
             return "redirect:/admin/ilcd/uploadStatus";

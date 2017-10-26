@@ -120,7 +120,6 @@ public class IlcdController {
         Homologacao homologacao = new Homologacao();
         homologacao.setUser(user);
         homologacao.setStatus(1);
-        homologacao.setLastModifier(new Date());
         try {
         	homologacaoDao.save(homologacao);
         	User ilcdUser = ilcd.getUser();

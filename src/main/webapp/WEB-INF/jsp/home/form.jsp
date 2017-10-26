@@ -1,163 +1,249 @@
 <%@page import="br.com.ibict.acv.sicv.model.User"%>
 <%@page import="br.com.ibict.acv.sicv.controller.HomeController"%>
 <%@page import="resources.Strings"%>
+<%@page contentType="text/html" pageEncoding="UTF-8"%>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
     <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <meta name="description" content="Tela de Login" />
-        <meta name="keywords" content="HTML, CSS, JS, JavaScript, framework, bootstrap, front-end, frontend, web development" />
-        <meta name="author" content="Deivdy William Silva" />
-
-        <link rel="apple-touch-icon" sizes="57x57" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-57x57.png" />
-        <link rel="apple-touch-icon" sizes="60x60" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-60x60.png" />
-        <link rel="apple-touch-icon" sizes="72x72" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-72x72.png" />
-        <link rel="apple-touch-icon" sizes="76x76" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-76x76.png" />
-        <link rel="apple-touch-icon" sizes="114x114" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-114x114.png" />
-        <link rel="apple-touch-icon" sizes="120x120" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-120x120.png" />
-        <link rel="apple-touch-icon" sizes="144x144" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-144x144.png" />
-        <link rel="apple-touch-icon" sizes="152x152" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-152x152.png" />
-        <link rel="apple-touch-icon" sizes="180x180" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-180x180.png" />
-        <link rel="icon" type="image/png" sizes="192x192" href="<%=Strings.BASE%>/assets/images/favicon/android-icon-192x192.png" />
-        <link rel="icon" type="image/png" sizes="32x32" href="<%=Strings.BASE%>/assets/images/favicon/favicon-32x32.png" />
-        <link rel="icon" type="image/png" sizes="96x96" href="<%=Strings.BASE%>/assets/images/favicon/favicon-96x96.png" />
-        <link rel="icon" type="image/png" sizes="16x16" href="<%=Strings.BASE%>/assets/images/favicon/favicon-16x16.png" />
-        <link rel="manifest" href="<%=Strings.BASE%>/assets/images/favicon/manifest.json" />
-        <meta name="msapplication-TileColor" content="#ffffff" />
-        <meta name="msapplication-TileImage" content="<%=Strings.BASE%>/assets/images/favicon/ms-icon-144x144.png" />
-        <meta name="theme-color" content="#ffffff" />
-
-        <title>SICV - ACV | Banco Nacional de Invent�rios dos invent�rios brasileiros do Ciclo de Vida (ICVs)</title>
-
-        <!-- Bootstrap core CSS -->
-        <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
-
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-
-        <!-- Custom styles for this template -->
-        <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/carousel.css" rel="stylesheet">
-
-        <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-        <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    
+        <style>
+        html {
+            font-family: 'Titillium Web', "Roboto", sans-serif;
+        }
+        
+        nav {
+            background-color: #4dbcc4;
+        }
+        
+        nav .brand-logo {
+            margin-left: 50px;
+        }
+        
+        nav .brand-logo img {
+            margin-right: 20px;
+            vertical-align: middle;
+        }
+        
+        .container {
+            //margin: 10px 50px;
+        }
+        
+        .page-title {
+            color: #00697c;
+        }
+        
+        .btn-import {
+            background-color: #accc5f;
+        }
+        
+        .user-menu {
+            border-bottom: 2px solid silver;
+            margin: 60px 80px 20px 80px;
+            height: 30px;
+        }
+        
+        .item-menu {
+            border-right: 2px solid silver;
+            height: 30px;
+        }
+        
+        .item-menu2 {
+            text-align: center;
+            border-left: 2px solid silver;
+            height: 30px;
+        }
+        
+        .item-menu3 {
+            text-align: right;
+            height: 30px;
+        }
+        
+        .link-menu {
+            color: #00697c;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .link-menu2 {
+            color: #c3697c;
+            font-weight: bold;
+            font-size: 16px;
+        }
+        
+        .link-menu3 {
+            color: #00697c;
+            font-size: 16px;
+        }
+        
+        .notif-num {
+            position: relative;
+            top: -5px;
+        }
+        
+        .sicv-container {
+            margin: 0px 80px 0px 80px;
+        }
+        
+        .sicv-table-th {
+            color: #4dbcc4;
+            border-bottom: 1px solid silver;
+            border-top: 1px solid black;
+        }
+        
+        .sicv-table-td {
+            border-bottom: 1px solid silver;
+        }
+    </style>
+    
+        <title>SICV - ACV | Banco Nacional de Inventários dos inventários brasileiros do Ciclo de Vida (ICVs)</title>
         <script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/ie-emulation-modes-warning.js"></script>
 
-        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-          <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
+		<link href="<%=Strings.BASE%>/assets/css/defaultNotifications.css" rel="stylesheet">
+        <!-- Bootstrap core CSS -->
+		<link
+			href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+			<link rel="stylesheet" href="<%=Strings.BASE%>assets/materialize/css/materialize.min.css">
     </head>
     <body>
 
-        <div class="navbar-wrapper">
-            <div class="container">
+	<div style="width: 85%; margin-left:5%;">
+		<table class="table">
+			<thead>
+				<tr style="border-bottom:1px solid black">
+					<td class="tdCenterHeader" onclick="">Meus Inventários</td>
+					<td class="tdCenterHeader" style="color: #4dbcc4;" >Revisão Qualidata</td>
+					<td class="tdCenterHeader" style="color: #accc5f;" >Revisão Técnica</td>
+					<td class="tdCenterHeader" >Gestão</td>
+					<td class="tdAlertHeader"><span class="glyphicon glyphicon-bell"></span> 1</td>
+					<td class="sortable-column tdCenterHeader" >Perfil: ${nome}</td>
+					<td class="sortable-column" style="text-align: center; width:1%; white-space:nowrap;" 
+					onclick="location.href='<%=Strings.BASE%>/logout'" >
+						SAIR
+					</td>
+				</tr>
+			</thead>		
+		</table>
+		
+			
+		    <!-- Modal Structure -->
+		    <div id="modal1" class=" modal-fixed-footer full-screen">
+		        <div class="modal-content">
+		            <div class="row full-screen">
+				        <form class="col s12 formILCD" method="POST" action="<%=Strings.BASE%>ilcd/new" enctype="multipart/form-data" id="teste">
+		            		<h4 class="page-title">Submissão Inventário</h4>
+		                    <div class="row">
+		                        <div class="input-field col s3">
+		                            <input placeholder="" id="first_name" type="text" class="validate" name="name">
+		                            <label for="first_name">Autor</label>
+  								
+		                            <button class="waves-effect waves-light btn">Acrescentar autor +
+		                            </button>
+		                        
+		                        </div>
+		                        <div class="input-field col s3">
+		                            <input placeholder="" id="email" type="text" class="validate" name="email">
+		                            <label for="email">E-mail</label>
+		                        </div>
+		                    </div>
+		                    <div class="row">
+		                        <div class="input-field col s6">
+		                            <input placeholder="" id="title" type="text" class="validate" name="title">
+		                            <label for="first_name">Título do inventário</label>
+		                        </div>
+		                    </div>
+		                    <div class="row">
+		                        <div class="input-field col s6">
+		                            <input placeholder="" id="category" type="text" class="validate" name="category">
+		                            <label for="category">Categoria</label>
+		                        </div>
+		                    </div>
+		                    <div class="row ">
+		                        <div class="col s10">
+	                            <label for="textarea1">Descrição</label>
+		                            <textarea id="textarea1" class="validate" data-length="255" rows="4" name="description"></textarea>
+		                        </div>
+		                    </div>
+		                    <div class="row">
+		                        <h5>Sugestão Revisor</h5>
+		                        <h6 class="page-title">Conflitos de interesses</h6>
+		                    </div>
+		                    <div class="row">
+		                        <div class="input-field col s3">
+		                            <input placeholder="" id="review1" type="text" class="validate">
+		                            <label for="first_name">Revisor técnico 1</label>
+		                        </div>
+		                        <div class="input-field col s3">
+		                            <input placeholder="" id="email_review1" type="text" class="validate">
+		                            <label for="first_name">E-mail</label>
+		                        </div>
+		                        <div class="input-field col s3">
+		                            <input placeholder="" id="phone_review1" type="text" class="validate">
+		                            <label for="first_name">Telefone</label>
+		                        </div>
+		                    </div>
+		                    <div class="row">
+		                        <div class="input-field col s3">
+		                            <input placeholder="" id="review2" type="text" class="validate">
+		                            <label for="first_name">Revisor técnico 2</label>
+		                        </div>
+		                        <div class="input-field col s3">
+		                            <input placeholder="" id="email_review2" type="text" class="validate">
+		                            <label for="first_name">E-mail</label>
+		                        </div>
+		                        <div class="input-field col s3">
+		                            <input placeholder="" id="phone_review2" type="text" class="validate">
+		                            <label for="first_name">Telefone</label>
+		                        </div>
+		                    </div>
+		                    <div class="row">
+		                        <div class="">
+		                            <div class="file-field input-field">
+		                                <span class="btn">File</span>
+		                                <input type="file" class="btn" name="file" id="file">
+			                            <div class="file-path-wrapper col s3">
+			                                <input placeholder="Escolha arquivo em formato ILCD" class="file-path validate" type="text" required="required">
+			                            </div>
+		                            </div>
+			                        <div class="col s4">
+			                            <input type="checkbox" id="test5" required="required" />
+			                            <label for="test5">Li e aceito os termos de uso</label>
+			                        </div>
+			                        <div class="col offset-s1">
+<!-- 									<a href="#!" class="modal-close btn-flat waves-effect waves-red">CANCELAR</a> -->
+										<input type="submit" value="ENVIAR" class="waves-effect waves-light btn" id="btnSubmit">
+			                        </div>
+		                        </div>
+		                    </div>
+						</form>
+	
+		            </div>
 
-                <nav class="navbar navbar-inverse navbar-static-top">
-                    <div class="container">
-                        <div class="navbar-header">
-                            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                                <span class="sr-only">Toggle navigation</span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                                <span class="icon-bar"></span>
-                            </button>
-                            <a class="navbar-brand" href="<%=Strings.BASE%>">SICV</a>
-                        </div>
-                        <div id="navbar" class="navbar-collapse collapse">
-                            <ul class="nav navbar-nav">
-                                <li><a href="<%=Strings.BASE%>">HOME</a></li>
-                                <li class="active"><a href="<%=Strings.BASE%>/ilcd">ILCD</a></li>
-                            </ul>
-                            <ul class="nav navbar-nav navbar-right">
-                                <%
-                                    if (HomeController.session().getAttribute("user") != null) {
-                                        User user = (User) HomeController.session().getAttribute("user");
-                                %>
+		        </div>
+		    
+	    </div>
+		
+		
+	</div>
 
-                                <%="<li><a href=\"" + Strings.BASE + "/logout\">" + user.getFirstName() + "</a></li>"%>
-
-                                <%
-                                } else {
-                                %>
-
-                                <li><a href="<%=Strings.BASE%>/login">Login</a></li>
-
-                                <%
-                                    }
-                                %>
-
-                            </ul>
-                        </div>
-                    </div>
-                </nav>
-
-            </div>
-        </div>
-
-        <div class="container marketing" style="margin-top: 100px">                        
-            <form action="<%=Strings.BASE%>/ilcd/new" method="POST" enctype="multipart/form-data">
-                <div class="grid">
-                    <br />
-                    <div class="row">
-                        <div class="input-control checkbox"><span class="caption">ILCD File: </span></div>
-                        <div class="input-control file" data-role="input">
-                            <input required="required" name="file" type="file" />
-                        </div>
-                    </div>
-                    
-                    <br /><br />
-                    <a href="#">Termos de aceite</a><br />
-                    <div class="checkbox">
-                        <label>
-                            <input required="required" type="checkbox"> Concordo com os termos acima.
-                        </label>
-                    </div>
-
-                    <div class="row" style="margin-top: 10px;">
-                        <input class="btn btn-primary" style="margin-right: 20px;" value="Salvar" type="submit" /><a href="/admin/ilcd" class="btn btn-default">Cancelar</a>
-                    </div>
-
-                </div>
-            </form>
-
-            <hr class="featurette-divider">
-
-            <!-- /END THE FEATURETTES -->
-
-
-            <!-- FOOTER -->
-            <footer>
-                <p class="pull-right"><a href="#">Back to top</a></p>
-                <p>&copy; 2016 Company, Inc. &middot; <a href="#">Privacy</a> &middot; <a href="#">Terms</a></p>
-            </footer>
-        </div>
-
-        <script src="<%=Strings.BASE%>/assets/metro-ui3.0.17/js/jquery-2.1.3.min.js"></script>
+        <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
+        <script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
+        <script type="application/javascript" src="<%=Strings.BASE%>/assets/teste.js"></script>
+        <style>
+        	.full-screen{
+	       	    width: 90%;
+			    height: 90% !important;
+			    max-height: 90%;
+		    	margin: 0 auto;
+		    	top: 5% !important;
+			    
+        	}
+		</style>
 
         <script>
-            function getData() {
-                var data = {};
-                $("form").serializeArray().map(function (x) {
-                    data[x.name] = x.value;
-                });
-                return data;
-            }
-            $(document).ready(function () {
-                $("form").submit(function () {
-                    var data = getData();
-                    $(this).find("input[name^='q']").each(function () {
-                        $(this).val('');
-                    });
-                    $(":input[value='']").attr('disabled', true);
-                    var input = $("<input />")
-                            .attr("type", "hidden")
-                            .attr("name", "json").val(JSON.stringify(data));
-                    $('form').append($(input));
-                });
-            });
+            
         </script>
     </body>
 </html>

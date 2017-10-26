@@ -324,7 +324,6 @@ public class AdminController {
             Homologacao homologacao = ilcd.getHomologacao();
             homologacao.setStatus(5);
             homologacao.setUser(user);
-            homologacao.setLastModifier(new Date());
             ilcd.setHomologacao(homologacao);
             ilcdDao.save(ilcd);
 

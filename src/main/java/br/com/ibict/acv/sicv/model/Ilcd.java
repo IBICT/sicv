@@ -34,8 +34,30 @@ public class Ilcd implements Serializable {
     @NotNull
     @Expose
     @Column(columnDefinition = "TEXT")
+    private String author;
+        
+    @NotNull
+    @Expose
+    private String email;
+    
+    @NotNull
+    @Expose
+    private String title;
+    
+    @NotNull
+    @Expose
+    private String category;
+    
+    @NotNull
+    @Expose
+    private String description;
+    
+    
+    @NotNull
+    @Expose
+    @Column(columnDefinition = "TEXT")
     private String name;
-
+    
     @NotNull
     @Expose
     private String type;
@@ -60,10 +82,6 @@ public class Ilcd implements Serializable {
     private Date yearToValidate;
 
     @NotNull
-    @Expose
-    private String pathFile;
-
-    @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id")
     @Expose
@@ -73,10 +91,6 @@ public class Ilcd implements Serializable {
     @Expose
     private Long base;
 
-    @NotNull
-    @Expose
-    private Long status;
-
     @Column(columnDefinition = "TEXT")
     @Expose
     private String json1;
@@ -85,10 +99,9 @@ public class Ilcd implements Serializable {
     @Expose
     private String json2;
 
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "homologacao")
     @Expose
-    private Homologacao homologacao;
+    @OneToOne(cascade = CascadeType.ALL)
+    private Homologacao homologation;
 
     public Ilcd() {
     }
@@ -101,10 +114,10 @@ public class Ilcd implements Serializable {
         this.clasification = clasification;
         this.yearToReference = yearToReference;
         this.yearToValidate = yearToValidate;
-        this.pathFile = pathFile;
+        //this.pathFile = pathFile;
         this.user = user;
         this.base = base;
-        this.status = status;
+        //this.status = status;
     }
 
     public String getId() {
@@ -163,14 +176,6 @@ public class Ilcd implements Serializable {
         this.yearToValidate = yearToValidate;
     }
 
-    public String getPathFile() {
-        return pathFile;
-    }
-
-    public void setPathFile(String pathFile) {
-        this.pathFile = pathFile;
-    }
-
     public User getUser() {
         return user;
     }
@@ -185,14 +190,6 @@ public class Ilcd implements Serializable {
 
     public void setBase(Long base) {
         this.base = base;
-    }
-
-    public Long getStatus() {
-        return status;
-    }
-
-    public void setStatus(Long status) {
-        this.status = status;
     }
 
     public String getJson1() {
@@ -212,11 +209,11 @@ public class Ilcd implements Serializable {
     }
 
     public Homologacao getHomologacao() {
-        return homologacao;
+        return homologation;
     }
 
-    public void setHomologacao(Homologacao homologacao) {
-        this.homologacao = homologacao;
+    public void setHomologacao(Homologacao homologation) {
+        this.homologation = homologation;
     }
 
 }

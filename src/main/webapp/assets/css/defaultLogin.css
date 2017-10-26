@@ -23,8 +23,7 @@
 .btnCadastrar {
 	font-family: 'TitilliumWeb-Regular', sans-serif !important;
 	border-radius: 0px !important;
-	padding-left: 15%;
-	padding-right: 15%;
+	color: white;
 }
 
 .inputEmail {

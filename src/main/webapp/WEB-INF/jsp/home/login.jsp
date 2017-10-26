@@ -78,8 +78,8 @@
 
         </div> <!-- /container -->
 		<div class="div">
-               <a class="btn btn-outlined btn-warning btnCadastrar" href="#">Esqueci minha senha</a>
-  	            <a class="btn btn-outlined btn-warning btnCadastrar" href="./register">Cadastrar</a>
+               <a class="btn btn-outlined btnCadastrar" href="#">Esqueci minha senha</a>
+  	            <a class="btn btn-outlined btnCadastrar" href="./register">Cadastrar</a>
          </div>
 
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->

@@ -2,11 +2,15 @@ package br.com.ibict.acv.sicv.model;
 
 import com.google.gson.annotations.Expose;
 
+import java.util.Set;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -112,6 +116,14 @@ public class User {
     @NotNull
     @Column(columnDefinition = "bigint")
     private Long qntdNotificacoes;
+    
+    //cascade = CascadeType.ALL
+    @OneToMany(mappedBy = "user", targetEntity = Homologacao.class, fetch = FetchType.LAZY)
+    private Set<Homologacao> homologacoes;
+    
+    @OneToMany(mappedBy = "revisor", targetEntity = Status.class, fetch = FetchType.LAZY)
+    private Set<Status> status;
+    
     
     // ------------------------
     // PUBLIC METHODS
@@ -341,5 +353,17 @@ public class User {
     public void setQntdNotificacoes(Long qntdNotificacoes) {
 		this.qntdNotificacoes = qntdNotificacoes;
 	}
+    
+    public Set<Homologacao> getHomologacoes() {
+		return homologacoes;
+	}
+    
+    public void setHomologacoes(Set<Homologacao> homologacoes) {
+		this.homologacoes = homologacoes;
+	}
+    
+    public boolean addHomologacao(Homologacao homologacao){
+    	return this.homologacoes.add(homologacao);
+    }
 
 } // class User
