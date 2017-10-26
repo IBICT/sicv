@@ -43,6 +43,7 @@ public class Notification {
     @Expose
     Homologacao homologation;
     
+//  Verificar a necessidade dos atributos abaixo
     //remover
     @NotNull
     @Column(columnDefinition = "bigint")

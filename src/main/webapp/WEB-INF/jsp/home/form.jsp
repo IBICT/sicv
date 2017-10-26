@@ -136,8 +136,8 @@
 		            		<h4 class="page-title">Submissão Inventário</h4>
 		                    <div class="row">
 		                        <div class="input-field col s3">
-		                            <input placeholder="" id="first_name" type="text" class="validate" name="name">
-		                            <label for="first_name">Autor</label>
+		                            <input placeholder="" id="author" type="text" class="validate" name="author">
+		                            <label for="author">Autor</label>
   								
 		                            <button class="waves-effect waves-light btn">Acrescentar autor +
 		                            </button>

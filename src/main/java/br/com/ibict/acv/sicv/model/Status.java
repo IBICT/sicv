@@ -13,7 +13,6 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 
 import com.google.gson.annotations.Expose;
 
@@ -32,7 +31,7 @@ public class Status implements Serializable{
     @Expose
     private Long id;
 	
-    @NotNull
+//    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     @Expose
     private Date requestDate;
@@ -60,7 +59,7 @@ public class Status implements Serializable{
     @Expose
     private File file;
     
-    @NotNull
+//    @NotNull
     @Expose
     private Integer status;
 }

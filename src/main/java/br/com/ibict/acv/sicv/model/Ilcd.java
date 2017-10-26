@@ -52,42 +52,47 @@ public class Ilcd implements Serializable {
     @Expose
     private String description;
     
+    @Expose
+    @OneToOne(cascade = CascadeType.ALL)
+    private Homologacao homologation;
     
-    @NotNull
+//    Verificar a necessidade dos atributos abaixo
+    
+//    @NotNull
     @Expose
     @Column(columnDefinition = "TEXT")
     private String name;
     
-    @NotNull
+ //   @NotNull
     @Expose
     private String type;
 
-    @NotNull
+//    @NotNull
     @Expose
     private String location;
 
-    @NotNull
+//    @NotNull
     @Expose
     @Column(columnDefinition = "TEXT")
     private String clasification;
 
-    @NotNull
+//    @NotNull
     @Expose
     @Temporal(TemporalType.TIMESTAMP)
     private Date yearToReference;
 
-    @NotNull
+//    @NotNull
     @Expose
     @Temporal(TemporalType.TIMESTAMP)
     private Date yearToValidate;
 
-    @NotNull
+//    @NotNull
     @ManyToOne
     @JoinColumn(name = "user_id")
     @Expose
     private User user;
 
-    @NotNull
+//    @NotNull
     @Expose
     private Long base;
 
@@ -98,10 +103,6 @@ public class Ilcd implements Serializable {
     @Column(columnDefinition = "TEXT")
     @Expose
     private String json2;
-
-    @Expose
-    @OneToOne(cascade = CascadeType.ALL)
-    private Homologacao homologation;
 
     public Ilcd() {
     }

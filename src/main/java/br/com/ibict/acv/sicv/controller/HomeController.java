@@ -116,12 +116,12 @@ public class HomeController {
     @PostMapping("/ilcd/new") // //new annotation since 4.3
     @ResponseBody
     public String singleFileUpload(@RequestParam("file") MultipartFile file,
-            @RequestParam("json") String json,@RequestParam("homologacao") String homol,
+            @RequestParam("json") String json,@RequestParam("ilcd") String jsonIlcd,
             RedirectAttributes redirectAttributes) throws Exception {
     	
-    	homol = homol.replaceAll("\\[", "").replaceAll("\\]","");
+    	jsonIlcd = jsonIlcd.replaceAll("\\[", "").replaceAll("\\]","");
     	Gson gson = new Gson();
-    	Homologacao homolog = gson.fromJson(homol, Homologacao.class);
+    	Ilcd ilcdJ = gson.fromJson(jsonIlcd, Ilcd.class);
     	
         if (file.isEmpty()) {
             redirectAttributes.addFlashAttribute("message", "Please select a file to upload");

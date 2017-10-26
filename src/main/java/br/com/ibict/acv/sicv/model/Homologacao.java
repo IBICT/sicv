@@ -17,7 +17,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
-import javax.validation.constraints.NotNull;
 
 import com.google.gson.annotations.Expose;
 
@@ -49,14 +48,16 @@ public class Homologacao implements Serializable {
     @Expose
     private Date submission;
 
-    @NotNull
+//    @NotNull
     @Expose
     @OneToOne(fetch = FetchType.LAZY, mappedBy="homologation")
     private Ilcd ilcd;
 
-    @NotNull
+//    @NotNull
     @Expose
     private Integer status;
+    
+//  Verificar a necessidade dos atributos abaixo
     
     @Expose
     @ManyToOne
