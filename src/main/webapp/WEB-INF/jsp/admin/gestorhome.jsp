@@ -113,7 +113,7 @@
 
     <div class="row user-menu">
         <div class="col s2 item-menu"><a href="#" class="link-menu">Meus Inventários</a></div>
-        <div class="col offset-s7 item-menu3"><a href="#" class="link-menu2"><i style="30px;" class="material-icons">notifications</i><span class="notif-num">1</span></a></div>
+        <div class="col offset-s7 item-menu3"><a href="#" class="link-menu2"><i class="material-icons">notifications</i><span class="notif-num">1</span></a></div>
         <div class="col s1 item-menu2"><a href="#" class=""><span class="link-menu">Perfil:</span> <span class="link-menu3">Lucas</span></a></div>
         <div class="col s1 item-menu2"><a href="#" class="link-menu">SAIR</a></div>
     </div>
