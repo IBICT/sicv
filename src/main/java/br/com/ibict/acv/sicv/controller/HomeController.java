@@ -11,7 +11,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Date;
+import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Map;
@@ -30,7 +30,6 @@ import org.springframework.security.web.authentication.logout.SecurityContextLog
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -42,10 +41,15 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import br.com.ibict.acv.sicv.CustomAuthProvider;
+import br.com.ibict.acv.sicv.model.Archive;
 import br.com.ibict.acv.sicv.model.Homologacao;
 import br.com.ibict.acv.sicv.model.Ilcd;
+import br.com.ibict.acv.sicv.model.Notification;
+import br.com.ibict.acv.sicv.model.Status;
 import br.com.ibict.acv.sicv.model.User;
+import br.com.ibict.acv.sicv.repositories.HomologacaoDao;
 import br.com.ibict.acv.sicv.repositories.IlcdDao;
+import br.com.ibict.acv.sicv.repositories.NotificationDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.ExclStrat;
 import br.com.ibict.acv.sicv.util.Mail;
@@ -56,6 +60,12 @@ public class HomeController {
 
     @Autowired
     private UserDao userDao;
+    
+    @Autowired
+    private HomologacaoDao homologationDao;
+    
+    @Autowired
+    private NotificationDao notificationDao;
 
     @Autowired
     private IlcdDao ilcdDao;
@@ -114,14 +124,13 @@ public class HomeController {
     }
 
     @PostMapping("/ilcd/new") // //new annotation since 4.3
-    @ResponseBody
     public String singleFileUpload(@RequestParam("file") MultipartFile file,
             @RequestParam("json") String json,@RequestParam("ilcd") String jsonIlcd,
             RedirectAttributes redirectAttributes) throws Exception {
     	
     	jsonIlcd = jsonIlcd.replaceAll("\\[", "").replaceAll("\\]","");
     	Gson gson = new Gson();
-    	Ilcd ilcdJ = gson.fromJson(jsonIlcd, Ilcd.class);
+    	Ilcd ilcd = gson.fromJson(jsonIlcd, Ilcd.class);
     	
         if (file.isEmpty()) {
             redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
@@ -139,13 +148,33 @@ public class HomeController {
                 return "redirect:/admin/ilcd/uploadStatus";
             }
             Files.write(path, bytes);
-
-            Ilcd ilcd = zipToIlcd(path.toString());;
+            User ilcdUser = (User) session().getAttribute("user");
+            Status status = new Status();
+            status.setStatus(1);
+            status.setType(1);
+            status.setRevisor(userDao.findOne(1L));
+            ilcd.addStatus(status);
+            
+            zipToIlcd(path.toString(), ilcd);
+            
+            Notification notification = new Notification();
+            notification.setUser( ilcd.getUser().getId() );
+            notification.fillMsgWAIT_REV( ilcd.getUUID() , ilcd.getName() );
             redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "' ilcd:" + ilcd.getName());
             ilcd.setJson1(json);
+            Homologacao homolog = new Homologacao();
+            notificationDao.save(notification);
             ilcdDao.save(ilcd);
+            homolog.setLastStatus(status);
+            homolog.setStatus(1);
+            homolog.setUser( ilcdUser );
+            homolog.addNotification(notification);
+            homolog.setSubmission( Calendar.getInstance().getTime() );
+            homolog.setIlcd(ilcd);
+//            ilcdUser.addHomologacao(homolog);
+//            userDao.save(ilcdUser);
+            homologationDao.save(homolog);
 
-            User ilcdUser = (User) session().getAttribute("user");
             Map<String, Object> model = new HashMap<String, Object>();
             model.put("ilcdName", ilcd.getName());
             model.put("date", RegisterController.getDateString());
@@ -164,7 +193,7 @@ public class HomeController {
             throw new Exception("Ocorreu um erro ao submeter o inventário", e);
         }
 
-        return "redirect:" + Strings.BASE + "/ilcd";
+        return "redirect:" + Strings.BASE + "ilcd";
     }
 
     @RequestMapping(value = "/ilcd/{file_name}", method = RequestMethod.GET)
@@ -218,7 +247,7 @@ public class HomeController {
         return null;
     }
 
-    public static Ilcd zipToIlcd(String path) throws UnsupportedEncodingException, IOException {
+    public static void zipToIlcd(String path, Ilcd ilcd) throws UnsupportedEncodingException, IOException {
 
         String id = null;
         String name = null;
@@ -301,8 +330,17 @@ public class HomeController {
             }
         }
         User user = (User) session().getAttribute("user");
-        Ilcd ilcd = new Ilcd(id, name, type, location, classification, new Date(), new Date(), new File(path).getName(), user, 1L, 1L);
-        return ilcd;
+        Archive archive = new Archive();
+        archive.setPathFile(path);
+        archive.setStatus( ilcd.getStatus().get(0) );
+        //TODO: make a comparator to order list by version
+        archive.setVersion(1);
+        ilcd.getStatus().get(0).addArchive(archive);
+        ilcd.setUUID(id);
+        ilcd.setName(name);
+        ilcd.setUser(user);
+//        Ilcd ilcd = new Ilcd(id, name, type, location, classification, new Date(), new Date(), new File(path).getName(), user, 1L, 1L);
+//        return ilcd;
     }
 
     public static HttpSession session() {

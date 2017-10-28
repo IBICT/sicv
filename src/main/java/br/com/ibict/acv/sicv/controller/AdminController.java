@@ -278,7 +278,7 @@ public class AdminController {
             Homologacao homologacao = ilcd.getHomologacao();
 
             try {
-                TechnicalReviewer technicalReviewer = new TechnicalReviewer(null, comment, ilcd.getId(), user);
+                TechnicalReviewer technicalReviewer = new TechnicalReviewer(null, comment, ilcd.getUUID(), user);
                 technicalReviewerDao.save(technicalReviewer);
                 homologacao.setTechnicalReviewer(technicalReviewer);
                 homologacao.setStatus(7);

@@ -1,24 +1,24 @@
 package br.com.ibict.acv.sicv.model;
 
+import java.io.File;
 import java.io.Serializable;
-import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.google.gson.annotations.Expose;
 
 @Entity
-@Table(name = "file")
-public class File implements Serializable{
+@Table(name = "archive")
+public class Archive implements Serializable{
 
 	/**
 	 * 
@@ -31,20 +31,56 @@ public class File implements Serializable{
     @Expose
     private Long id;
 	
+	//arquivo relacionado ao .ILCD: .pdf, .doc, .rar...
     @Expose
     @JoinColumn(name = "file")
     private File file;
     
+    //pode ser string ou inteiro?
     @NotNull
     @Expose
-    private String version;
+    private Integer version;
     
-    @OneToMany(mappedBy = "file", targetEntity = Status.class, fetch = FetchType.LAZY)
-    private Set<Status> status;
-    
+    @ManyToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "status_id")
+    @Expose
+    private Status status;
+        
     @NotNull
     @Expose
     private String pathFile;
+    
+    public Long getId() {
+    	return id;
+    }
+    
+    public void setId(Long id) {
+    	this.id = id;
+    }
+    
+    public File getFile() {
+		return file;
+	}
+    
+    public void setFile(File file) {
+    	this.file = file;
+    }
+    
+    public Integer getVersion() {
+    	return version;
+    }
+    
+    public void setVersion(Integer version) {
+    	this.version = version;
+    }
+    
+    public Status getStatus() {
+		return status;
+	}
+    
+    public void setStatus(Status status) {
+		this.status = status;
+	}
     
     public String getPathFile() {
         return pathFile;

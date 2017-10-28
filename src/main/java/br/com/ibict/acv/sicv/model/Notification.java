@@ -1,7 +1,6 @@
 package br.com.ibict.acv.sicv.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -82,6 +81,13 @@ public class Notification {
     public void setMessage(ArrayList<String> messages) {
         this.messages = messages;
     }
+    
+    public boolean addMessage(String message){
+    	if(this.messages == null ){
+    		this.messages = new ArrayList<String>();
+    	}
+		return this.messages.add(message);
+    }
 
     public Boolean getIsVisualized() {
         return isVisualized;
@@ -97,6 +103,13 @@ public class Notification {
 
     public void setUser(Long user) {
         this.user = user;
+    }
+    
+    public void fillMsgWAIT_REV(String uuid, String name){
+    	setSubject("Submission Waiting Reviewer: " + uuid);
+    	setIsVisualized(false);
+    	addMessage("Dataset: " + name + " was submited and is waiting reviewer.");
+    	addMessage("For more see: ...");
     }
     
 }

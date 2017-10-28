@@ -1,12 +1,14 @@
 package br.com.ibict.acv.sicv.model;
 
-import com.google.gson.annotations.Expose;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +21,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import com.google.gson.annotations.Expose;
+
 /**
  *
  * @author Deivdy.Silva
@@ -27,9 +31,19 @@ import javax.validation.constraints.NotNull;
 @Table(name = "ilcd")
 public class Ilcd implements Serializable {
 
-    @Id
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -8177506191201359444L;
+
+	@Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "ID")
     @Expose
-    private String id;
+    private Long id;
+	
+    @Expose
+    private String UUID;
 
     @NotNull
     @Expose
@@ -53,15 +67,18 @@ public class Ilcd implements Serializable {
     private String description;
     
     @Expose
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.REFRESH)
     private Homologacao homologation;
-    
-//    Verificar a necessidade dos atributos abaixo
     
 //    @NotNull
     @Expose
     @Column(columnDefinition = "TEXT")
     private String name;
+    
+    @OneToMany(mappedBy = "ilcd", targetEntity = Status.class, fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    private List<Status> status;
+
+//    Verificar a necessidade dos atributos abaixo    
     
  //   @NotNull
     @Expose
@@ -108,7 +125,7 @@ public class Ilcd implements Serializable {
     }
 
     public Ilcd(String id, String name, String type, String location, String clasification, Date yearToReference, Date yearToValidate, String pathFile, User user, Long base, Long status) {
-        this.id = id;
+//        this.id = id;
         this.name = name;
         this.type = type;
         this.location = location;
@@ -121,20 +138,35 @@ public class Ilcd implements Serializable {
         //this.status = status;
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
+    public String getUUID() {
+		return UUID;
+	}
+    
+    public void setUUID(String uUID) {
+		UUID = uUID;
+	}
+    
     public String getName() {
         return name;
     }
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    public List<Status> getStatus() {
+		return status;
+	}
+    
+    public void setStatus(List<Status> status) {
+		this.status = status;
+	}
+    
+    public boolean addStatus(Status status){
+    	if(this.status == null ){
+    		this.status = new ArrayList<Status>();
+    	}
+		return this.status.add(status);
     }
 
     public String getType() {

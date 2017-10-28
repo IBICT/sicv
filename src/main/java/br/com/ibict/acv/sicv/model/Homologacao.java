@@ -1,9 +1,11 @@
 package br.com.ibict.acv.sicv.model;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
-import java.util.Set;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -35,13 +37,14 @@ public class Homologacao implements Serializable {
     @Expose
     private Long id;
 
-    @ManyToOne
+    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "user_id")
     @Expose
     private User user;
 
     @OneToMany(mappedBy = "homologation", targetEntity = Notification.class, fetch = FetchType.LAZY)
-    private Set<Notification> notifications;
+    @Expose
+    private List<Notification> notifications;
     
 //    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
@@ -50,7 +53,7 @@ public class Homologacao implements Serializable {
 
 //    @NotNull
     @Expose
-    @OneToOne(fetch = FetchType.LAZY, mappedBy="homologation")
+    @OneToOne(mappedBy="homologation", cascade = CascadeType.REFRESH)
     private Ilcd ilcd;
 
 //    @NotNull
@@ -64,6 +67,10 @@ public class Homologacao implements Serializable {
     @JoinColumn(name = "technical_reviewer")
     private TechnicalReviewer technicalReviewer;
 
+//  @NotNull
+    @Expose
+    @OneToOne(mappedBy="homologation", cascade = CascadeType.PERSIST)
+    private Status lastStatus;
     
     public Homologacao() {
     }
@@ -76,6 +83,13 @@ public class Homologacao implements Serializable {
         this.id = id;
     }
 
+    public Ilcd getIlcd() {
+		return ilcd;
+	}
+    
+    public void setIlcd(Ilcd ilcd) {
+		this.ilcd = ilcd;
+	}
 
     public Integer getStatus() {
         return status;
@@ -101,11 +115,37 @@ public class Homologacao implements Serializable {
 		this.user = user;
 	}
 
-    public Set<Notification> getNotifications() {
+	public List<Notification> getNotifications() {
 		return notifications;
 	}
-    
-    public void setNotifications(Set<Notification> notifications) {
+	
+	public void setNotifications(List<Notification> notifications) {
 		this.notifications = notifications;
+	}
+    
+    public boolean addNotification(Notification notification){
+    	if(this.notifications == null ){
+    		this.notifications = new ArrayList<Notification>();
+    	}
+		return this.notifications.add(notification);
+    }
+    
+    public Date getSubmission() {
+		return submission;
+	}
+    
+    public void setSubmission(Date submission) {
+		this.submission = submission;
+	}
+    
+    public Status getLastStatus() {
+    	if(lastStatus == null){
+    		this.lastStatus = new Status();
+    	}
+		return lastStatus;
+	}
+    
+    public void setLastStatus(Status lastStatus) {
+		this.lastStatus = lastStatus;
 	}
 }
