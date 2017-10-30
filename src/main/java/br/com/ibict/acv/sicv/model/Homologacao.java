@@ -1,20 +1,16 @@
 package br.com.ibict.acv.sicv.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -42,10 +38,6 @@ public class Homologacao implements Serializable {
     @Expose
     private User user;
 
-    @OneToMany(mappedBy = "homologation", targetEntity = Notification.class, fetch = FetchType.LAZY)
-    @Expose
-    private List<Notification> notifications;
-    
 //    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     @Expose
@@ -53,7 +45,7 @@ public class Homologacao implements Serializable {
 
 //    @NotNull
     @Expose
-    @OneToOne(mappedBy="homologation", cascade = CascadeType.REFRESH)
+    @OneToOne(mappedBy="homologation", cascade = CascadeType.PERSIST)
     private Ilcd ilcd;
 
 //    @NotNull
@@ -115,21 +107,6 @@ public class Homologacao implements Serializable {
 		this.user = user;
 	}
 
-	public List<Notification> getNotifications() {
-		return notifications;
-	}
-	
-	public void setNotifications(List<Notification> notifications) {
-		this.notifications = notifications;
-	}
-    
-    public boolean addNotification(Notification notification){
-    	if(this.notifications == null ){
-    		this.notifications = new ArrayList<Notification>();
-    	}
-		return this.notifications.add(notification);
-    }
-    
     public Date getSubmission() {
 		return submission;
 	}

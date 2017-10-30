@@ -41,11 +41,6 @@ public class Status implements Serializable{
     @Temporal(TemporalType.TIMESTAMP)
     @Expose
     private Date requestDate;
-    
-    //@NotNull
-    @Temporal(TemporalType.TIMESTAMP)
-    @Expose
-    private Date expectedDate;
 	
     @Temporal(TemporalType.TIMESTAMP)
     @Expose
@@ -61,7 +56,7 @@ public class Status implements Serializable{
     @Expose
     private User revisor;
     
-    @OneToMany(mappedBy = "status", targetEntity = Archive.class, fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @OneToMany(mappedBy = "status", targetEntity = Archive.class, cascade = CascadeType.PERSIST)
     private List<Archive> archive;
     
     //status relacionado o arquivo .ILCD
@@ -78,6 +73,10 @@ public class Status implements Serializable{
     @OneToOne(cascade = CascadeType.REFRESH)
     private Homologacao homologation;
     
+    @Expose
+    @OneToOne(mappedBy="status", cascade = CascadeType.REFRESH)
+    private Notification notify ;
+    
     public Long getId() {
 		return id;
 	}
@@ -92,14 +91,6 @@ public class Status implements Serializable{
     
     public void setRequestDate(Date requestDate) {
 		this.requestDate = requestDate;
-	}
-    
-    public Date getExpectedDate() {
-		return expectedDate;
-	}
-    
-    public void setExpectedDate(Date expectedDate) {
-		this.expectedDate = expectedDate;
 	}
     
     public Date getEndDate() {
@@ -164,4 +155,12 @@ public class Status implements Serializable{
     public void setHomologation(Homologacao homologation) {
 		this.homologation = homologation;
 	}
+    
+    /*public Notification getNotification() {
+		return notification;
+	}
+    
+    public void setNotification(Notification notification) {
+		this.notification = notification;
+	}*/
 }

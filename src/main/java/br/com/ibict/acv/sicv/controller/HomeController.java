@@ -153,27 +153,30 @@ public class HomeController {
             status.setStatus(1);
             status.setType(1);
             status.setRevisor(userDao.findOne(1L));
+            status.setIlcd(ilcd);
             ilcd.addStatus(status);
             
             zipToIlcd(path.toString(), ilcd);
             
             Notification notification = new Notification();
+            Homologacao homolog = new Homologacao();
             notification.setUser( ilcd.getUser().getId() );
             notification.fillMsgWAIT_REV( ilcd.getUUID() , ilcd.getName() );
+            notification.setStatus(status);
+            notification.setIlcd(ilcd);
             redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "' ilcd:" + ilcd.getName());
             ilcd.setJson1(json);
-            Homologacao homolog = new Homologacao();
-            notificationDao.save(notification);
-            ilcdDao.save(ilcd);
+            ilcd.addNotification(notification);
             homolog.setLastStatus(status);
             homolog.setStatus(1);
             homolog.setUser( ilcdUser );
-            homolog.addNotification(notification);
             homolog.setSubmission( Calendar.getInstance().getTime() );
             homolog.setIlcd(ilcd);
+            ilcd.setHomologacao(homolog);
+            //salvando homologação outros objetos são salvos e atualizados em cascata
+            homologationDao.save(homolog);
 //            ilcdUser.addHomologacao(homolog);
 //            userDao.save(ilcdUser);
-            homologationDao.save(homolog);
 
             Map<String, Object> model = new HashMap<String, Object>();
             model.put("ilcdName", ilcd.getName());

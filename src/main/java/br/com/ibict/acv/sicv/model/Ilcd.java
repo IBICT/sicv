@@ -75,7 +75,11 @@ public class Ilcd implements Serializable {
     @Column(columnDefinition = "TEXT")
     private String name;
     
-    @OneToMany(mappedBy = "ilcd", targetEntity = Status.class, fetch = FetchType.LAZY, cascade = CascadeType.REFRESH)
+    @OneToMany(mappedBy = "ilcd", targetEntity = Notification.class, cascade = CascadeType.PERSIST)
+    @Expose
+    private List<Notification> notifications;
+    
+    @OneToMany(mappedBy = "ilcd", targetEntity = Status.class, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Status> status;
 
 //    Verificar a necessidade dos atributos abaixo    
@@ -157,6 +161,21 @@ public class Ilcd implements Serializable {
     public List<Status> getStatus() {
 		return status;
 	}
+    
+    public List<Notification> getNotifications() {
+		return notifications;
+	}
+	
+	public void setNotifications(List<Notification> notifications) {
+		this.notifications = notifications;
+	}
+    
+    public boolean addNotification(Notification notification){
+    	if(this.notifications == null ){
+    		this.notifications = new ArrayList<Notification>();
+    	}
+		return this.notifications.add(notification);
+    }
     
     public void setStatus(List<Status> status) {
 		this.status = status;

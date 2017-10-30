@@ -1,14 +1,19 @@
 package br.com.ibict.acv.sicv.model;
 
 import java.util.ArrayList;
+import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
 import com.google.gson.annotations.Expose;
@@ -24,6 +29,11 @@ public class Notification {
     @Id @GeneratedValue
     @Expose
     private Long id;
+    
+    //@NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    @Expose
+    private Date expectedDate;
 
     @NotNull
     @Expose
@@ -38,9 +48,14 @@ public class Notification {
     private Boolean isVisualized;
 
     @ManyToOne
-    @JoinColumn(name = "homologation_id")
+    @JoinColumn(name = "ilcd_id")
     @Expose
-    Homologacao homologation;
+    Ilcd ilcd;
+    
+    @Expose
+    @OneToOne(cascade = CascadeType.REFRESH)
+    @JoinColumn(name = "status_id")
+    private Status status;
     
 //  Verificar a necessidade dos atributos abaixo
     //remover
@@ -65,6 +80,14 @@ public class Notification {
     public void setId(Long id) {
         this.id = id;
     }
+    
+    public Date getExpectedDate() {
+		return expectedDate;
+	}
+    
+    public void setExpectedDate(Date expectedDate) {
+		this.expectedDate = expectedDate;
+	}
 
     public String getSubject() {
 		return subject;
@@ -97,6 +120,14 @@ public class Notification {
         this.isVisualized = isVisualized;
     }
 
+    public Ilcd getIlcd() {
+		return ilcd;
+	}
+    
+    public void setIlcd(Ilcd ilcd) {
+		this.ilcd = ilcd;
+	}
+    
     public Long getUser() {
         return user;
     }
@@ -104,6 +135,14 @@ public class Notification {
     public void setUser(Long user) {
         this.user = user;
     }
+    
+    public Status getStatus() {
+		return status;
+	}
+    
+    public void setStatus(Status status) {
+		this.status = status;
+	}
     
     public void fillMsgWAIT_REV(String uuid, String name){
     	setSubject("Submission Waiting Reviewer: " + uuid);
