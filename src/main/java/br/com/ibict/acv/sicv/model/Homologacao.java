@@ -15,6 +15,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.google.gson.annotations.Expose;
 
@@ -40,6 +43,7 @@ public class Homologacao implements Serializable {
 
 //    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
     @Expose
     private Date submission;
 
@@ -61,8 +65,17 @@ public class Homologacao implements Serializable {
 
 //  @NotNull
     @Expose
-    @OneToOne(mappedBy="homologation", cascade = CascadeType.PERSIST)
-    private Status lastStatus;
+    @OneToOne
+    private Archive lastArchive;
+    
+    @NotNull
+    @Expose
+    @Column(nullable = false )
+    private boolean pending = false;
+    
+    @Expose
+    @Column(nullable = false)
+    private String prazo = "";
     
     public Homologacao() {
     }
@@ -115,14 +128,28 @@ public class Homologacao implements Serializable {
 		this.submission = submission;
 	}
     
-    public Status getLastStatus() {
-    	if(lastStatus == null){
-    		this.lastStatus = new Status();
-    	}
-		return lastStatus;
+    public Archive getLastArchive() {
+		return lastArchive;
 	}
     
-    public void setLastStatus(Status lastStatus) {
-		this.lastStatus = lastStatus;
+    public void setLastArchive(Archive lastArchive) {
+		this.lastArchive = lastArchive;
 	}
+    
+    public boolean isPending() {
+    	return pending;
+    }
+    
+    public void setPending(boolean pending) {
+    	this.pending = pending;
+    }
+    
+    public String getPrazo() {
+		return prazo;
+	}
+    
+    public void setPrazo(String prazo) {
+		this.prazo = prazo;
+	}
+
 }

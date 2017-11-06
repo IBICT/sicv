@@ -1,9 +1,10 @@
 package br.com.ibict.acv.sicv.model;
 
+import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
-import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -16,6 +17,8 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import com.google.gson.annotations.Expose;
 
 /**
@@ -24,36 +27,45 @@ import com.google.gson.annotations.Expose;
  */
 @Entity
 @Table(name = "notification")
-public class Notification {
+public class Notification implements Serializable{
 
-    @Id @GeneratedValue
+    /**
+	 * 
+	 */
+	private static final long serialVersionUID = -6868521814767507165L;
+	
+	private static SimpleDateFormat FORMATDATE = new SimpleDateFormat("dd/MM/yyyy");
+
+	@Id @GeneratedValue
     @Expose
     private Long id;
     
     //@NotNull
     @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "dd-MM-yyyy")
     @Expose
-    private Date expectedDate;
+    private Date notifyDate;
 
     @NotNull
     @Expose
     @Column(columnDefinition = "TEXT")
     private String subject;
 
+    @Expose
     @Column(name = "messages", nullable = false)
     private ArrayList<String> messages = new ArrayList<String>();
     
     @NotNull
     @Expose
-    private Boolean isVisualized;
+    private Boolean isVisualized = false;
 
     @ManyToOne
     @JoinColumn(name = "ilcd_id")
-    @Expose
+    //@Expose
     Ilcd ilcd;
     
     @Expose
-    @OneToOne(cascade = CascadeType.REFRESH)
+    @OneToOne
     @JoinColumn(name = "status_id")
     private Status status;
     
@@ -81,12 +93,12 @@ public class Notification {
         this.id = id;
     }
     
-    public Date getExpectedDate() {
-		return expectedDate;
+    public String getNotifyDate() {
+		return FORMATDATE.format(notifyDate);
 	}
     
-    public void setExpectedDate(Date expectedDate) {
-		this.expectedDate = expectedDate;
+    public void setNotifyDate(Date notifyDate) {
+		this.notifyDate = notifyDate;
 	}
 
     public String getSubject() {

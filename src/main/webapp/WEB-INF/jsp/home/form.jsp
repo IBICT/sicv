@@ -14,19 +14,6 @@
             font-family: 'Titillium Web', "Roboto", sans-serif;
         }
         
-        nav {
-            background-color: #4dbcc4;
-        }
-        
-        nav .brand-logo {
-            margin-left: 50px;
-        }
-        
-        nav .brand-logo img {
-            margin-right: 20px;
-            vertical-align: middle;
-        }
-        
         .container {
             //margin: 10px 50px;
         }
@@ -103,30 +90,16 @@
 
 		<link href="<%=Strings.BASE%>/assets/css/defaultNotifications.css" rel="stylesheet">
         <!-- Bootstrap core CSS -->
-		<link
-			href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+		<link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
 			<link rel="stylesheet" href="<%=Strings.BASE%>assets/materialize/css/materialize.min.css">
     </head>
     <body>
 
-	<div style="width: 85%; margin-left:5%;">
-		<table class="table">
-			<thead>
-				<tr style="border-bottom:1px solid black">
-					<td class="tdCenterHeader" onclick="">Meus Inventários</td>
-					<td class="tdCenterHeader" style="color: #4dbcc4;" >Revisão Qualidata</td>
-					<td class="tdCenterHeader" style="color: #accc5f;" >Revisão Técnica</td>
-					<td class="tdCenterHeader" >Gestão</td>
-					<td class="tdAlertHeader"><span class="glyphicon glyphicon-bell"></span> 1</td>
-					<td class="sortable-column tdCenterHeader" >Perfil: ${nome}</td>
-					<td class="sortable-column" style="text-align: center; width:1%; white-space:nowrap;" 
-					onclick="location.href='<%=Strings.BASE%>/logout'" >
-						SAIR
-					</td>
-				</tr>
-			</thead>		
-		</table>
-		
+	<jsp:include page="/WEB-INF/jsp/partials/nav.jsp" />
+	<div class="headerDiv">
+        <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
+	</div>
+	<div class="principalDiv">
 			
 		    <!-- Modal Structure -->
 		    <div id="modal1" class=" modal-fixed-footer full-screen">

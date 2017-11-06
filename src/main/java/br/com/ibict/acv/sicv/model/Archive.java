@@ -11,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
@@ -49,6 +50,10 @@ public class Archive implements Serializable{
     @NotNull
     @Expose
     private String pathFile;
+    
+    @Expose
+    @OneToOne(mappedBy="lastArchive", optional = true)
+    private Homologacao homologation ;
     
     public Long getId() {
     	return id;
@@ -89,5 +94,13 @@ public class Archive implements Serializable{
     public void setPathFile(String pathFile) {
         this.pathFile = pathFile;
     }
+    
+    public Homologacao getHomologation() {
+		return homologation;
+	}
+    
+    public void setHomologation(Homologacao homologation) {
+		this.homologation = homologation;
+	}
 
 }

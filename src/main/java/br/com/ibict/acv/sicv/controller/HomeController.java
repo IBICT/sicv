@@ -11,13 +11,16 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -67,15 +70,30 @@ public class HomeController {
     @Autowired
     private NotificationDao notificationDao;
 
+    public static List<Notification> notifications = new ArrayList<Notification>();
+    
+    public List<Homologacao> homologations;
+    
+    public List<Ilcd> ilcds;
+    
     @Autowired
     private IlcdDao ilcdDao;
+    
+    public boolean firstAccess = true;
+    
+    @PostConstruct()
+    public void buildLists(){
+    }
 
     @RequestMapping("/")
     public String root(Map<String, Object> model) {
         User user = (User) session().getAttribute("user");
         String name = user.getUserName();
         model.put("username", name);
-
+        if( ilcds == null )
+        	ilcds = ilcdDao.findByEmail( user.getEmail() );
+        model.put("ilcds", ilcds);
+        
         return "home/home";
     }
 
@@ -88,7 +106,7 @@ public class HomeController {
     public String login(Map<String, Object> model) {
         return "home/login";
     }
-
+    
     @RequestMapping("/ilcd")
     public String listILCDs(Map<String, Object> model) {
         return "home/list";
@@ -164,19 +182,22 @@ public class HomeController {
             notification.fillMsgWAIT_REV( ilcd.getUUID() , ilcd.getName() );
             notification.setStatus(status);
             notification.setIlcd(ilcd);
+            notification.setNotifyDate( Calendar.getInstance().getTime() );
             redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "' ilcd:" + ilcd.getName());
             ilcd.setJson1(json);
             ilcd.addNotification(notification);
-            homolog.setLastStatus(status);
             homolog.setStatus(1);
             homolog.setUser( ilcdUser );
             homolog.setSubmission( Calendar.getInstance().getTime() );
             homolog.setIlcd(ilcd);
-            ilcd.setHomologacao(homolog);
+            //salva o último arquivo para a homologacao
+            homolog.setLastArchive( ilcd.getStatus().get(0).getArchive().get(0) );
+            ilcd.setHomologation(homolog);
             //salvando homologação outros objetos são salvos e atualizados em cascata
-            homologationDao.save(homolog);
+            homologationDao.saveAndFlush(homolog);
 //            ilcdUser.addHomologacao(homolog);
-//            userDao.save(ilcdUser);
+            ilcdUser.setQntdNotificacoes( ilcdUser.getQntdNotificacoes()+ 1 );
+            userDao.saveAndFlush(ilcdUser);
 
             Map<String, Object> model = new HashMap<String, Object>();
             model.put("ilcdName", ilcd.getName());
@@ -185,6 +206,7 @@ public class HomeController {
             model.put("urlTrack", Strings.BASE + "/login");
             model.put("url", Strings.BASE);
             Mail mail = RegisterController.getMailUtil();
+            ilcds = ilcdDao.findByEmail( ilcdUser.getEmail() );
 
             mail.sendEmail(ilcdUser.getEmail(), RegisterController.EMAIL_ADMIN, "Submissão de Inventário", model, "emailSubmission.ftl");
             model.put("urlTrack", Strings.BASE + "/admin/ilcd");
@@ -195,8 +217,8 @@ public class HomeController {
             // TODO: handle exception like RegisterException
             throw new Exception("Ocorreu um erro ao submeter o inventário", e);
         }
-
-        return "redirect:" + Strings.BASE + "ilcd";
+        
+        return "redirect:" + Strings.BASE;
     }
 
     @RequestMapping(value = "/ilcd/{file_name}", method = RequestMethod.GET)

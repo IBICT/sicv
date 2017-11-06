@@ -1,62 +1,28 @@
-<%-- 
-    Document   : header
-    Created on : 17/07/2017, 14:54:46
-    Author     : deivdy
---%>
-
 <%@page import="resources.Strings"%>
 <%@page import="br.com.ibict.acv.sicv.model.User"%>
 
 <%
     User user = (User) request.getSession().getAttribute("user");
     String name = user.getFirstName();
+    Long notifications = user.getQntdNotificacoes(); 
 %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<link href="<%=Strings.BASE%>/assets/css/defaultNotifications.css" rel="stylesheet">
 
-<div class="app-bar fixed-top darcula" data-role="appbar">
-    <a class="app-bar-element branding"><span class="mif-stack"></span> Sicv</a>
-    <span class="app-bar-divider"></span>
-    <ul class="app-bar-menu">
-        <li><a href="<%=Strings.BASE%>/admin/">Dashboard</a></li>
-        <li><a href="<%=Strings.BASE%>/admin/users/">Usuarios</a></li>
-        <li>
-            <a href="" class="dropdown-toggle">Bases</a>
-            <ul class="d-menu" data-role="dropdown">
-                <li><a href="">Listar Todos</a></li>
-                <li><a href="">Novo base</a></li>
-                <li class="divider"></li>
-            </ul>
-        </li>
-        <li>
-            <a href="" class="dropdown-toggle">ILCDs</a>
-            <ul class="d-menu" data-role="dropdown">
-                <li><a href="<%=Strings.BASE%>/admin/ilcd/">Listar Todos</a></li>
-                <li class="divider"></li>
-            </ul>
-        </li>
-        <li><a href="#">QualiData</a></li>
-        <li><a href="<%=Strings.BASE%>/admin/notifications/">Notificações</a></li>
-        <li>
-            <a href="" class="dropdown-toggle">Ajuda</a>
-            <ul class="d-menu" data-role="dropdown">
-                <li><a href="#">Documentação</a></li>
-                <li><a href="#">Reportar bug</a></li>
-                <li class="divider"></li>
-                <li><a href="#">Sobre</a></li>
-            </ul>
-        </li>
-    </ul>
-    <div class="app-bar-element place-right">
-        <span class="dropdown-toggle"><span class="mif-user"></span><%=name%></span>
-        <div class="app-bar-drop-container padding10 place-right no-margin-top block-shadow fg-dark" data-role="dropdown" data-no-close="true" style="width: 220px">
-            <h2 class="text-light">Definições rápidas</h2>
-            <ul class="unstyled-list fg-dark">
-                <li><a href="<%=Strings.BASE%>/admin/perfil" class="fg-white1 fg-hover-yellow">Perfil</a></li>
-                <li><a href="<%=Strings.BASE%>/admin/config" class="fg-white2 fg-hover-yellow">Configurações</a></li>
-                <li><a href="<%=Strings.BASE%>/admin/security" class="fg-white2 fg-hover-yellow">Segurança</a></li>
-                <li><a href="<%=Strings.BASE%>/logout" class="fg-white3 fg-hover-yellow">Saída</a></li>
-            </ul>
-        </div>
-    </div>
-</div>
+<table class="table">
+	<thead>
+		<tr style="border-bottom:1px solid black">
+			<td class="tdCenterHeader" onclick="">Meus Inventários</td>
+			<td class="tdCenterHeader" style="color: #4dbcc4;" >Revisão Qualidata</td>
+			<td class="tdCenterHeader" style="color: #accc5f;" >Revisão Técnica</td>
+			<td class="tdCenterHeader" >Gestão</td>
+			<td class="tdAlertHeader"><a style="color: #c3697c;" href="<%=Strings.BASE%>notifications"><span class="glyphicon glyphicon-bell"><%=notifications%></span></a></td>
+			<td class="sortable-column tdCenterHeader" >Perfil: <a href="<%=Strings.BASE%>/"><%=name%></a></td>
+			<td class="sortable-column" style="text-align: center; width:1%; white-space:nowrap;" 
+			onclick="location.href='<%=Strings.BASE%>/logout'" >
+					SAIR
+			</td>
+		</tr>
+	</thead>		
+</table>

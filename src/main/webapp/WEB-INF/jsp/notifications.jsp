@@ -50,15 +50,17 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr>
-					<td class="tdCenter">13/09/2017</td>
-					<th>
-						<p>Aprovado pelo revisor de Qualidade: 266c5da8-55bc-4d58-a4af-cbf7724f7939: </p>
-				        <div class="divs" style="padding-top: 1%"> Brick technology mix production mix, at plant 1800 kg/m3 foi aprovado pelo revisor de Qualidade.</div><p>
-				        <div class="divs"> Acesse à revisão em: Meus inventários Download Disponíveis</div>
-					</th>
-					
-				</tr>
+				<c:forEach items="${notifications}" var="notification">
+					<tr>
+						<td class="tdCenter">${notification.notifyDate}</td>
+						<th>
+							<p>${notification.subject}</p>
+					        <div class="divs" style="padding-top: 1%">${notification.messages[0]}</div><p>
+					        <div class="divs">${notification.messages[1]}</div>
+						</th>
+						
+					</tr>
+				</c:forEach>
 				<tr>
 					<td class="tdCenter">23/10/2017</td>
 					<th>

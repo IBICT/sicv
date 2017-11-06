@@ -123,7 +123,7 @@ public class IlcdController {
         try {
         	homologacaoDao.save(homologacao);
         	User ilcdUser = ilcd.getUser();
-        	ilcd.setHomologacao(homologacao);
+        	ilcd.setHomologation(homologacao);
         	ilcdDao.save(ilcd);
         	
         	Notification notification = new Notification(1L, "<a href=\"" + Strings.BASE + "/admin/homologacao/" + ilcdID + "\">Convite para revisão de qualidade</a>", false, userID);

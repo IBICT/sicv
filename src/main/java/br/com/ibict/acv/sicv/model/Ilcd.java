@@ -81,7 +81,7 @@ public class Ilcd implements Serializable {
     
     @OneToMany(mappedBy = "ilcd", targetEntity = Status.class, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     private List<Status> status;
-
+    
 //    Verificar a necessidade dos atributos abaixo    
     
  //   @NotNull
@@ -187,7 +187,7 @@ public class Ilcd implements Serializable {
     	}
 		return this.status.add(status);
     }
-
+    
     public String getType() {
         return type;
     }
@@ -260,12 +260,12 @@ public class Ilcd implements Serializable {
         this.json2 = json2;
     }
 
-    public Homologacao getHomologacao() {
-        return homologation;
-    }
-
-    public void setHomologacao(Homologacao homologation) {
-        this.homologation = homologation;
-    }
+    public Homologacao getHomologation() {
+		return homologation;
+	}
+    
+    public void setHomologation(Homologacao homologation) {
+		this.homologation = homologation;
+	}
 
 }

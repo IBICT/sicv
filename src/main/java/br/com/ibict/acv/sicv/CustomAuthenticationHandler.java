@@ -59,7 +59,7 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
 		}
 
 		if ( isAdmin(roles) || isManager(roles) ) {
-			url = "/admin/";
+			url = "/";
 		} else if (isQualityReviewer(roles)) {
 			url = "/";
 		} else if (isUser(roles)) {

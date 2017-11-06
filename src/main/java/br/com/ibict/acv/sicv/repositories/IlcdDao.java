@@ -1,13 +1,12 @@
 package br.com.ibict.acv.sicv.repositories;
 
-import br.com.ibict.acv.sicv.model.Ilcd;
-import java.util.Date;
 import java.util.List;
+
 import javax.transaction.Transactional;
+
 import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.CrudRepository;
+
+import br.com.ibict.acv.sicv.model.Ilcd;
 
 @Transactional
 public interface IlcdDao extends JpaRepository<Ilcd, Long> {
@@ -15,6 +14,8 @@ public interface IlcdDao extends JpaRepository<Ilcd, Long> {
     public List<Ilcd> findByBase(Long base);
 
     public Ilcd findById(String id);
+    
+    public List<Ilcd> findByEmail(String email);
 
     /*
      @Modifying

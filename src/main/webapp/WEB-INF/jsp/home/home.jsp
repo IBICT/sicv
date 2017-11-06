@@ -35,9 +35,9 @@
         <meta name="msapplication-TileImage" content="<%=Strings.BASE%>/assets/images/favicon/ms-icon-144x144.png" />
         <meta name="theme-color" content="#ffffff" />
         
-        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
-        <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/steps.css">
 
         <style>
@@ -45,144 +45,146 @@
                 font-family: 'Titillium Web', "Roboto", sans-serif;
             }
 
-            nav {
-                background-color: #4dbcc4;
-            }
-
-            nav .brand-logo {
-                margin-left: 50px;
-            }
-
-            nav .brand-logo img {
-                margin-right: 20px;
-                vertical-align: middle;
-            }
-
-            .container {
-                margin: 10px 50px;
-            }
-
             .page-title {
-                color: #00697c;
+                color: #4dbcc4;
             }
-
+            .page-subtitle {
+                color: #666;
+            }
             .btn-import {
                 background-color: #accc5f;
             }
-
-            table {
-                width: 1800px;
+            .table {
+                width: 100% !important;
+                max-width: 100%;
             }
-
-            table > thead > tr > th {
-                color: #4dbcc4;
-                border-bottom: 1px solid silver;
-                border-top: 1px solid silver;
+            .head {
+                color: #999;
             }
-
-            table > thead > tr > th:last-child {
-                border: 0;
-            }
-
-            table > thead > tr > th {
-                padding: 1px;
-            }
-
-            table > tbody > tr > td {
-                border-bottom: 1px solid silver;
-            }
-
-            table > tbody > tr:last-child {
-                border-bottom: 1px solid black;
-            }
-
-            table > tbody > tr:last-child {
-                border: 0;
-            }
-
+            .sicv-table-th {
+	            color: #4dbcc4;
+	            border-bottom: 1px solid silver;
+	            border-top: 1px solid silver;
+	            padding: 0 !important;
+	        }
+	        
+	        .sicv-table-td {
+	            border-bottom: 1px solid silver;
+	            color: #999;
+	            padding: 0 !important;
+	        }
+			
         </style>
     </head>
 
     <body>
-
-        <nav>
-            <div class="nav-wrapper">
-                <a href="#" class="brand-logo"><img src="<%=Strings.BASE%>/assets/img/logo.png" alt="SICV"> Importador de Inventários</a>
-            </div>
-        </nav>
-
-        <div class="container">
-
-            <div>
-                <a style="color:#00697c;" href="#">Meus Inventários</a> |
-                <a style="color:#c3697c;" href="#"><i class="material-icons">notifications</i> 1</a> |
-                <a style="color:#00697c;" href="#">Perfil: ${username}</a> |
-                <a style="color:#00697c;" href="<%=Strings.BASE%>/logout">Sair</a>
-            </div>
-            <hr />
+		<jsp:include page="/WEB-INF/jsp/partials/nav.jsp"/>
+		<div class="headerDiv">
+	        <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
+		</div>
+        <div class="principalDiv">
 
             <h4 class="page-title">Meus inventários</h4>
-            <p class="page-description">Envie seu inventário e acompanhe o processo. Você receberá notificações no sistema e no e-mail cadastrado sempre que o status sofrer alterações</p>
+            <p class="page-description page-subtitle"><i>Envie seu inventário e acompanhe o processo. Você receberá notificações no sistema e no e-mail cadastrado sempre que o status sofrer alterações</i></p>
+            <br>
             <a class="btn-import waves-effect waves-light btn modal-trigger" href="<%=Strings.BASE%>ilcd/new">Submeter Inventário</a>
-
+			<br><br>
+			
             <h6 style="color:#4dbcc4;">Invéntarios em andamento</h6>
-            <table>
-                <thead>
-                    <tr>
-                        <th>Id</th>
-                        <th>Nome</th>
-                        <th>Downloads Disponíveis</th>
-                        <th></th>
-                        <th>Status</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>${ilcdId}266c5da8-55bc-4d58-a4af-cbf7724f7939</td>
-                        <td>${IlcdName}Brick technology mix production mix, at plant 1800 kg/m3</td>
-                        <td>${pathDownload}--</td>
-                        <td>${status}--</td>
-                        <td></td>
-                    </tr>
-                    <tr>
-                        <td>266c5da8-55bc-4d58-a4af-cbf7724f7939</td>
-                        <td>Phenol from cumene production mix, at producer</td>
-                        <td><a class="waves-effect waves-light btn">Revisão Qualidata</a></td>
-                        <td><a class="btn-import waves-effect waves-light btn">Revisão Técnica</a></td>
-                        <td>
-                            <!-- Progress Tracker v2 -->
-                            <ol class="progress-steps" data-steps="5">
-                                <li class="done">
-                                    <span class="step"><span>1</span></span>
-                                </li>
-                                <li class="active">
-                                    <span class="step"><span>2</span></span>
-                                </li>
-                                <li>
-                                    <span class="step"><span>3</span></span>
-                                </li>
-                                <li>
-                                    <span class="step"><span>4</span></span>
-                                </li>
-                                <li>
-                                    <span class="step"><span>5</span></span>
-                                </li>
-                            </ol>
-                            <!-- Progress Tracker v2 -->
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>266c5da8-55bc-4d58-a4af-cbf7724f7939</td>
-                        <td>Brick technology mix production mix, at plant 1800 kg/m3</td>
-                        <td>--</td>
-                        <td>--</td>
-                        <td></td>
-                    </tr>
-                </tbody>
-            </table>
+            
+            <div style="margin:0px;" class="row">
+	            <div class="col s3 sicv-table-th">Id</div>
+	            <div class="col s3 sicv-table-th">Nome</div>
+	            <div class="col s1 sicv-table-th" style="text-align: center;">Pendências</div>
+	            <div class="col s2 sicv-table-th" style="text-align: center;">Prazo para entregar</div>
+	            <div class="col s3" style="position: relative; left: 20px; color: #4dbcc4;">Status</div>
+        	</div>
+        
+            <c:forEach items="${ilcds}" var="ilcd">
+		        <div style="margin:0px;" class="row">
+        		    <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">${ilcd.UUID}</div>
+           			<div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">${ilcd.name}</div>
+					<c:choose>
+                       	<c:when test="${ilcd.homologation.pending}">
+                            <!-- <td style="text-align: center;"><i style="color: #c3697c;" class="material-icons">report_problem</i></td>
+                       		<td style="text-align: center;"><i style="color: #accc5f;" class="material-icons">check</i></td>
+                             -->
+				            <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #c3697c;" class="material-icons">report_problem</i></div>
+		       				<div style="height: 40px;  text-align: center; position: relative; top: 10px; color: #c3697c;" class="col s2 sicv-table-td">${ilcd.homologation.prazo}</div>
+                       	</c:when>
+                       	<c:when test="${not ilcd.homologation.pending}">
+                        	 <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #accc5f;" class="material-icons">check</i></div>
+   	        				 <div style="height: 40px;  text-align: center; position: relative; top: 10px;" class="col s2 sicv-table-td">${ilcd.homologation.prazo}</div>
+                       	</c:when>
+                       	<c:otherwise>
+                       	</c:otherwise>
+                    </c:choose>
+
+					<div style="height: 40px;" class="col s3">
+						<!-- Progress Tracker v2 -->
+						<ol style="position: relative;" class="progress-steps"
+							data-steps="5">
+							<li class="${ilcd.homologation.status == 1 ? 'active' : 'done'}">
+								<span class="step"><span>1</span></span>
+							</li>
+	
+							<c:choose>
+								<c:when test="${ilcd.homologation.status == 2}">
+									<li class="active"><span class="step"><span>2</span></span>
+									</li>
+								</c:when>
+								<c:otherwise>
+									<li class="${ilcd.homologation.status lt 2 ? '' : 'done'}">
+										<span class="step"><span>2</span></span>
+									</li>
+								</c:otherwise>
+							</c:choose>
+							<c:choose>
+								<c:when test="${ilcd.homologation.status == 3}">
+									<li class="active"><span class="step"><span>3</span></span>
+									</li>
+								</c:when>
+								<c:otherwise>
+									<li class="${ilcd.homologation.status lt 3 ? '' : 'done'}">
+										<span class="step"><span>3</span></span>
+									</li>
+								</c:otherwise>
+							</c:choose>
+							<c:choose>
+								<c:when test="${ilcd.homologation.status == 4}">
+									<li class="active"><span class="step"><span>4</span></span>
+									</li>
+								</c:when>
+								<c:otherwise>
+									<li class="${ilcd.homologation.status lt 4 ? '' : 'done'}">
+										<span class="step"><span>4</span></span>
+									</li>
+								</c:otherwise>
+							</c:choose>
+							<c:choose>
+								<c:when test="${ilcd.homologation.status == 5}">
+									<li class="active"><span class="step"><span>5</span></span>
+									</li>
+								</c:when>
+								<c:otherwise>
+									<li class="${ilcd.homologation.status lt 5 ? '' : 'done'}">
+										<span class="step"><span>5</span></span>
+									</li>
+								</c:otherwise>
+							</c:choose>
+	
+						</ol>
+						<!-- Progress Tracker v2 -->
+					</div>
+				</div>
+			</c:forEach>
 
         </div>
-	
+		    <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
+			<script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
 	    </body>
 
 </html>
+
+<!--                         <td><a class="waves-effect waves-light btn">Revisão Qualidata</a></td>
+                        <td><a class="btn-import waves-effect waves-light btn">Revisão Técnica</a></td> -->

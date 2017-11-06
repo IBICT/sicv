@@ -1,7 +1,5 @@
 package br.com.ibict.acv.sicv.model;
 
-import com.google.gson.annotations.Expose;
-
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +15,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.validator.constraints.NotEmpty;
+
+import com.google.gson.annotations.Expose;
 
 @Entity
 @Table(name = "user")
@@ -41,8 +43,9 @@ public class User implements Serializable{
     @Expose
     private String dsPurpose;
 
+    @NotEmpty
     @NotNull
-    @Column(name = "EMAIL")
+    @Column(name = "EMAIL", unique = true)
     @Expose
     private String email;
 

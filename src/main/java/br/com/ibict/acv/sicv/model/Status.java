@@ -8,7 +8,6 @@ import java.util.List;
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -19,6 +18,8 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+
+import org.springframework.format.annotation.DateTimeFormat;
 
 import com.google.gson.annotations.Expose;
 
@@ -39,10 +40,18 @@ public class Status implements Serializable{
 	
 //    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
     @Expose
     private Date requestDate;
+    
+    //@NotNull
+    @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
+    @Expose
+    private Date expectedDate;
 	
     @Temporal(TemporalType.TIMESTAMP)
+    @DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
     @Expose
     private Date endDate;
     
@@ -70,11 +79,7 @@ public class Status implements Serializable{
     Ilcd ilcd;
     
     @Expose
-    @OneToOne(cascade = CascadeType.REFRESH)
-    private Homologacao homologation;
-    
-    @Expose
-    @OneToOne(mappedBy="status", cascade = CascadeType.REFRESH)
+    @OneToOne(mappedBy="status", cascade = CascadeType.PERSIST)
     private Notification notify ;
     
     public Long getId() {
@@ -91,6 +96,14 @@ public class Status implements Serializable{
     
     public void setRequestDate(Date requestDate) {
 		this.requestDate = requestDate;
+	}
+    
+    public Date getExpectedDate() {
+		return expectedDate;
+	}
+    
+    public void setExpectedDate(Date expectedDate) {
+		this.expectedDate = expectedDate;
 	}
     
     public Date getEndDate() {
@@ -146,14 +159,6 @@ public class Status implements Serializable{
     
     public void setIlcd(Ilcd ilcd) {
 		this.ilcd = ilcd;
-	}
-
-    public Homologacao getHomologation() {
-		return homologation;
-	}
-    
-    public void setHomologation(Homologacao homologation) {
-		this.homologation = homologation;
 	}
     
     /*public Notification getNotification() {
