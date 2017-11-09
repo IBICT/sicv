@@ -56,6 +56,7 @@ import br.com.ibict.acv.sicv.repositories.NotificationDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.ExclStrat;
 import br.com.ibict.acv.sicv.util.Mail;
+import br.com.ibict.acv.sicv.util.Password;
 import resources.Strings;
 
 @Controller
@@ -86,7 +87,7 @@ public class HomeController {
     }
 
     @RequestMapping("/")
-    public String root(Map<String, Object> model) {
+    public String getRoot(Map<String, Object> model) {
         User user = (User) session().getAttribute("user");
         String name = user.getUserName();
         model.put("username", name);
@@ -98,13 +99,52 @@ public class HomeController {
     }
 
     @RequestMapping("/403")
-    public String deniedAccess(Map<String, Object> model) {
+    public String getDeniedAccess(Map<String, Object> model) {
         return "/403";
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String login(Map<String, Object> model) {
+    public String gatLogin(Map<String, Object> model) {
         return "home/login";
+    }
+    
+    @RequestMapping(value = "/profile", method = RequestMethod.GET)
+    public String getProfileHandler(Map<String, Object> model) {
+    	User user = (User) session().getAttribute("user");
+
+    	model.put("user", user);
+        return "/profile";
+    }
+    
+    @PostMapping("/profile")
+    @ResponseBody
+    public String loginHandle(@RequestParam("profile") String profile) {
+        
+    	User userSession = (User) session().getAttribute("user"); 
+    	profile = profile.replaceAll("\\[", "").replaceAll("\\]","");
+    	Gson gson = new Gson();
+    	User user = gson.fromJson(profile, User.class);
+    	if( user.getPlainPassword().trim() != "" ){
+    		if( user.getPlainPassword().equals( userSession.getPlainPassword() ) && !user.getNewPassword().trim().equals("") ){
+    			user.setPasswordHashSalt( Password.generateSalt( 20 ) );
+    			user.setPasswordHash( Password.getEncryptedPassword( user.getNewPassword() , user.getPasswordHashSalt() ) );
+    			user.setPlainPassword( user.getNewPassword() );
+    			user.setNewPassword(null);
+    		}else
+    			user.setPasswordHash( userSession.getPasswordHash() );
+    	}
+    	
+    	user.setHomologacoes(userSession.getHomologacoes());
+    	user.setStatus(userSession.getStatus());
+        userDao.save(user);
+        session().setAttribute("user",user);
+        
+        return "true";
+    }
+    
+    @RequestMapping("/authorIlcd")
+    public String getAuthorIlcd(Map<String, Object> model) {
+        return "index";
     }
     
     @RequestMapping("/ilcd")
@@ -251,6 +291,7 @@ public class HomeController {
     @RequestMapping("/logout")
     public String logoutPage(HttpServletRequest request, HttpServletResponse response) {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        ilcds = null;
         if (auth != null) {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
@@ -370,6 +411,12 @@ public class HomeController {
 
     public static HttpSession session() {
         return CustomAuthProvider.getHttpSession();
+    }
+    
+    public static boolean isPasswordMatching(String passwordHashBd, String password, String hashSalt){
+    	password = Password.getEncryptedPassword( password, hashSalt );
+    	
+    	return password.equals(passwordHashBd);    	
     }
 
 }

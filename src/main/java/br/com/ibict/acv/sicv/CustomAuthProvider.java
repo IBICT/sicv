@@ -59,6 +59,7 @@ public class CustomAuthProvider implements AuthenticationProvider {
 		            	Set<GrantedAuthority> authorities = new HashSet<>();
 		            	authorities.add(new SimpleGrantedAuthority( usuarioBd.getPerfil() ));
 		//                Collection<? extends GrantedAuthority> authorities = usuarioBd.getPerfil();
+		            	usuarioBd.setPlainPassword(password);
 		                getHttpSession().setAttribute("user", usuarioBd);
 		                return new UsernamePasswordAuthenticationToken(email, usuarioBd.getPasswordHash(), authorities);
 	            	}

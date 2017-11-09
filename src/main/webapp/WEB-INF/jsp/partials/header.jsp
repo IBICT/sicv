@@ -18,7 +18,7 @@
 			<td class="tdCenterHeader" style="color: #accc5f;" >Revisão Técnica</td>
 			<td class="tdCenterHeader" >Gestão</td>
 			<td class="tdAlertHeader"><a style="color: #c3697c;" href="<%=Strings.BASE%>notifications"><span class="glyphicon glyphicon-bell"><%=notifications%></span></a></td>
-			<td class="sortable-column tdCenterHeader" >Perfil: <a href="<%=Strings.BASE%>/"><%=name%></a></td>
+			<td class="sortable-column tdCenterHeader" >Perfil: <a href="<%=Strings.BASE%>profile"><%=name%></a></td>
 			<td class="sortable-column" style="text-align: center; width:1%; white-space:nowrap;" 
 			onclick="location.href='<%=Strings.BASE%>/logout'" >
 					SAIR

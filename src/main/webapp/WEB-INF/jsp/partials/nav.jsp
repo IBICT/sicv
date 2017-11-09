@@ -3,7 +3,7 @@
 
 <style>
 	nav {
-           background-color: #4dbcc4;
+        background-color: #4dbcc4;
     }
        
     nav .brand-logo {
@@ -28,6 +28,6 @@
 </style>
 <nav>
     <div class="nav-wrapper">
-        <a href="#" class="brand-logo"><img src="<%=Strings.BASE%>/assets/img/logo.png" alt="SICV"> Importador de Inventários</a>
+        <a href="<%=Strings.BASE%>" class="brand-logo"><img src="<%=Strings.BASE%>/assets/img/logo.png" alt="SICV"> Importador de Inventários</a>
     </div>
 </nav>

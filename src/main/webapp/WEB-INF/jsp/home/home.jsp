@@ -101,7 +101,7 @@
         	</div>
         
             <c:forEach items="${ilcds}" var="ilcd">
-		        <div style="margin:0px;" class="row">
+		        <div style="margin:0px;" class="row" onclick="location.href='<%=Strings.BASE%>authorIlcd'">
         		    <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">${ilcd.UUID}</div>
            			<div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">${ilcd.name}</div>
 					<c:choose>

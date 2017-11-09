@@ -55,7 +55,7 @@ public class RegisterController {
             @RequestParam("firstName") String firstName,
             @RequestParam("lastName") String lastName,
             @RequestParam("gender") String gender,
-            @RequestParam("jobPositon") String jobPositon,
+            @RequestParam("jobPosition") String jobPosition,
             @RequestParam("telefone") String telefone,
             @RequestParam("instituicao") String instituicao,
             @RequestParam("dsPurpose") String dsPurpose) throws Exception {
@@ -72,7 +72,7 @@ public class RegisterController {
         user.setFirstName(firstName);
         user.setLastName(lastName);
         user.setGender(gender);
-        user.setJobPositon(jobPositon);
+        user.setJobPosition(jobPosition);
         user.setTelefone(telefone);
         user.setInstituicao(instituicao);
         user.setDsPurpose(dsPurpose);

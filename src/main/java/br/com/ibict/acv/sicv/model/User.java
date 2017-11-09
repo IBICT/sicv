@@ -14,6 +14,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
 import org.hibernate.validator.constraints.NotEmpty;
@@ -59,7 +60,7 @@ public class User implements Serializable{
 
     @Column(name = "JOBPOSITION")
     @Expose
-    private String jobPositon;
+    private String jobPosition;
 
     @Column(name = "LASTNAME")
     @Expose
@@ -70,6 +71,13 @@ public class User implements Serializable{
 
     @Column(name = "PASSWORD_HASH_SALT")
     private String passwordHashSalt;
+    
+    @Transient
+    private String plainPassword;
+    
+    @Transient
+    private String newPassword;
+
 
     @Column(name = "REGISTRATIONKEY")
     private String registrationKey;
@@ -133,7 +141,7 @@ public class User implements Serializable{
     @OneToMany(mappedBy = "user", targetEntity = Homologacao.class, fetch = FetchType.EAGER, cascade = CascadeType.REFRESH)
     private List<Homologacao> homologacoes;
     
-    @OneToMany(mappedBy = "revisor", targetEntity = Status.class, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "revisor", targetEntity = Status.class,fetch = FetchType.EAGER)
     private Set<Status> status;
     
     
@@ -148,13 +156,13 @@ public class User implements Serializable{
     }
 
     // Getter and setter methods
-    public User(Long id, String dsPurpose, String email, String firstName, String gender, String jobPositon, String lastName, String passwordHash, String passwordHashSalt, String registrationKey, Boolean superAdminPermission, String title, String userName, String city, String country, String streetAddress, String zipCode, Boolean organization, String perfil, String telefone, String instituicao, String purpose, Boolean mostrar) {
+    public User(Long id, String dsPurpose, String email, String firstName, String gender, String jobPosition, String lastName, String passwordHash, String passwordHashSalt, String registrationKey, Boolean superAdminPermission, String title, String userName, String city, String country, String streetAddress, String zipCode, Boolean organization, String perfil, String telefone, String instituicao, String purpose, Boolean mostrar) {
         this.id = id;
         this.dsPurpose = dsPurpose;
         this.email = email;
         this.firstName = firstName;
         this.gender = gender;
-        this.jobPositon = jobPositon;
+        this.jobPosition = jobPosition;
         this.lastName = lastName;
         this.passwordHash = passwordHash;
         this.passwordHashSalt = passwordHashSalt;
@@ -214,12 +222,12 @@ public class User implements Serializable{
         this.gender = gender;
     }
 
-    public String getJobPositon() {
-        return jobPositon;
+    public String getJobPosition() {
+        return jobPosition;
     }
 
-    public void setJobPositon(String jobPositon) {
-        this.jobPositon = jobPositon;
+    public void setJobPosition(String jobPosition) {
+        this.jobPosition = jobPosition;
     }
 
     public String getLastName() {
@@ -245,6 +253,22 @@ public class User implements Serializable{
     public void setPasswordHashSalt(String passwordHashSalt) {
         this.passwordHashSalt = passwordHashSalt;
     }
+    
+	public String getPlainPassword() {
+		return plainPassword;
+	}
+	
+	public void setPlainPassword(String plainPassword) {
+		this.plainPassword = plainPassword;
+	}
+	
+	public String getNewPassword() {
+		return newPassword;
+	}
+	
+	public void setNewPassword(String newPassword) {
+		this.newPassword = newPassword;
+	}
 
     public String getRegistrationKey() {
         return registrationKey;
@@ -380,5 +404,13 @@ public class User implements Serializable{
     	}
 		return this.homologacoes.add(homologacao);
     }
+    
+    public Set<Status> getStatus() {
+		return status;
+	}
+    
+    public void setStatus(Set<Status> status) {
+		this.status = status;
+	}
 
 } // class User

@@ -14,10 +14,6 @@
             font-family: 'Titillium Web', "Roboto", sans-serif;
         }
         
-        .container {
-            //margin: 10px 50px;
-        }
-        
         .page-title {
             color: #00697c;
         }
@@ -26,63 +22,6 @@
             background-color: #accc5f;
         }
         
-        .user-menu {
-            border-bottom: 2px solid silver;
-            margin: 60px 80px 20px 80px;
-            height: 30px;
-        }
-        
-        .item-menu {
-            border-right: 2px solid silver;
-            height: 30px;
-        }
-        
-        .item-menu2 {
-            text-align: center;
-            border-left: 2px solid silver;
-            height: 30px;
-        }
-        
-        .item-menu3 {
-            text-align: right;
-            height: 30px;
-        }
-        
-        .link-menu {
-            color: #00697c;
-            font-weight: bold;
-            font-size: 16px;
-        }
-        
-        .link-menu2 {
-            color: #c3697c;
-            font-weight: bold;
-            font-size: 16px;
-        }
-        
-        .link-menu3 {
-            color: #00697c;
-            font-size: 16px;
-        }
-        
-        .notif-num {
-            position: relative;
-            top: -5px;
-        }
-        
-        .sicv-container {
-            margin: 0px 80px 0px 80px;
-        }
-        
-        .sicv-table-th {
-            color: #4dbcc4;
-            border-bottom: 1px solid silver;
-            border-top: 1px solid black;
-        }
-        
-        .sicv-table-td {
-            border-bottom: 1px solid silver;
-        }
     </style>
     
         <title>SICV - ACV | Banco Nacional de Inventários dos inventários brasileiros do Ciclo de Vida (ICVs)</title>
@@ -91,7 +30,7 @@
 		<link href="<%=Strings.BASE%>/assets/css/defaultNotifications.css" rel="stylesheet">
         <!-- Bootstrap core CSS -->
 		<link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
-			<link rel="stylesheet" href="<%=Strings.BASE%>assets/materialize/css/materialize.min.css">
+		<link rel="stylesheet" href="<%=Strings.BASE%>assets/materialize/css/materialize.min.css">
     </head>
     <body>
 
@@ -203,7 +142,7 @@
 
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
-        <script type="application/javascript" src="<%=Strings.BASE%>/assets/teste.js"></script>
+        <script type="application/javascript" src="<%=Strings.BASE%>/assets/formILCD.js"></script>
         <style>
         	.full-screen{
 	       	    width: 90%;

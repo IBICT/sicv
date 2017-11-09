@@ -13,31 +13,19 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <link href="<%=Strings.BASE%>/assets/css/defaultNotifications.css" rel="stylesheet">
-<link
-	href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
 <!DOCTYPE html>
 <html>
 <head>
 
 </head>
 <body>
-	<div class="page-content" style="width: 85%; margin-left:5%;">
-		<table class="table">
-			<thead>
-				<tr style="border-bottom:1px solid black">
-					<td class="tdCenterHeader" onclick="">Meus Inventários</td>
-					<td class="tdCenterHeader" style="color: #4dbcc4;" >Revisão Qualidata</td>
-					<td class="tdCenterHeader" style="color: #accc5f;" >Revisão Técnica</td>
-					<td class="tdCenterHeader" >Gestão</td>
-					<td class="tdAlertHeader"><span class="glyphicon glyphicon-bell"></span> 1</td>
-					<td class="sortable-column tdCenterHeader" >Perfil: ${nome}</td>
-					<td class="sortable-column" style="text-align: center; width:1%; white-space:nowrap;" 
-					onclick="location.href='<%=Strings.BASE%>/logout'" >
-						SAIR
-					</td>
-				</tr>
-			</thead>		
-		</table>
+	<jsp:include page="/WEB-INF/jsp/partials/nav.jsp"/>
+	<div class="headerDiv">
+	       <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
+	</div>
+	<div class="principalDiv">
 		
 		<div class="titleNotify">Notificações</div>
 	
