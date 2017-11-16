@@ -52,6 +52,7 @@ public class RegisterController {
             @RequestParam("email") String email,
             @RequestParam("senha") String senha,
             @RequestParam("title") String title,
+            @RequestParam("userName") String userName,
             @RequestParam("firstName") String firstName,
             @RequestParam("lastName") String lastName,
             @RequestParam("gender") String gender,

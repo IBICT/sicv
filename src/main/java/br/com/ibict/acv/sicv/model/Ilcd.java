@@ -3,12 +3,13 @@ package br.com.ibict.acv.sicv.model;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -20,6 +21,9 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
+
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 
 import com.google.gson.annotations.Expose;
 
@@ -77,9 +81,10 @@ public class Ilcd implements Serializable {
     
     @OneToMany(mappedBy = "ilcd", targetEntity = Notification.class, cascade = CascadeType.PERSIST)
     @Expose
-    private List<Notification> notifications;
+    private Set<Notification> notifications;
     
-    @OneToMany(mappedBy = "ilcd", targetEntity = Status.class, fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @OneToMany(mappedBy = "ilcd", targetEntity = Status.class, cascade = CascadeType.PERSIST)
     private List<Status> status;
     
 //    Verificar a necessidade dos atributos abaixo    
@@ -150,6 +155,46 @@ public class Ilcd implements Serializable {
 		UUID = uUID;
 	}
     
+    public String getAuthor() {
+		return author;
+	}
+    
+    public void setAuthor(String author) {
+		this.author = author;
+	}
+    
+    public String getEmail() {
+		return email;
+	}
+    
+    public void setEmail(String email) {
+		this.email = email;
+	}
+    
+    public String getTitle() {
+		return title;
+	}
+    
+    public void setTitle(String title) {
+		this.title = title;
+	}
+    
+    public String getCategory() {
+		return category;
+	}
+    
+    public void setCategory(String category) {
+		this.category = category;
+	}
+    
+    public String getDescription() {
+		return description;
+	}
+    
+    public void setDescription(String description) {
+		this.description = description;
+	}
+    
     public String getName() {
         return name;
     }
@@ -162,17 +207,17 @@ public class Ilcd implements Serializable {
 		return status;
 	}
     
-    public List<Notification> getNotifications() {
+    public Set<Notification> getNotifications() {
 		return notifications;
 	}
 	
-	public void setNotifications(List<Notification> notifications) {
+	public void setNotifications(Set<Notification> notifications) {
 		this.notifications = notifications;
 	}
     
     public boolean addNotification(Notification notification){
     	if(this.notifications == null ){
-    		this.notifications = new ArrayList<Notification>();
+    		this.notifications = new HashSet<Notification>();
     	}
 		return this.notifications.add(notification);
     }

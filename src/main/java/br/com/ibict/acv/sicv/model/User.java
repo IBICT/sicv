@@ -117,6 +117,11 @@ public class User implements Serializable{
     @Column(name = "PERFIL")
     @Expose
     private String perfil;
+    
+//    @NotNull
+    @Column(name = "authority")
+    @Expose
+    private String role;
 
     @Column(name = "TELEFONE")
     @Expose
@@ -346,7 +351,12 @@ public class User implements Serializable{
         return perfil;
     }
 
+    public String getRole() {
+		return role;
+	}
+    
     public void setPerfil(String perfil) {
+    	this.role = perfil;
         this.perfil = perfil;
     }
 

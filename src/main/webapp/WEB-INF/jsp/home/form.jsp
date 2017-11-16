@@ -78,9 +78,9 @@
 		                            <textarea id="textarea1" class="validate" data-length="255" rows="4" name="description"></textarea>
 		                        </div>
 		                    </div>
-		                    <div class="row">
-		                        <h5>Sugestão Revisor</h5>
-		                        <h6 class="page-title">Conflitos de interesses</h6>
+		                    <div class="row col s12">
+		                        <h6>Sugestão Revisor Técnico</h6>
+		                        <a href="#" class="page-title">Conflitos de interesses</a>
 		                    </div>
 		                    <div class="row">
 		                        <div class="input-field col s3">
@@ -111,22 +111,20 @@
 		                        </div>
 		                    </div>
 		                    <div class="row">
-		                        <div class="">
-		                            <div class="file-field input-field">
-		                                <span class="btn">File</span>
-		                                <input type="file" class="btn" name="file" id="file">
-			                            <div class="file-path-wrapper col s3">
-			                                <input placeholder="Escolha arquivo em formato ILCD" class="file-path validate" type="text" required="required">
-			                            </div>
+	                            <div class="file-field input-field col s4" style="bottom: 25px;">
+	                                <span class="btn">File</span>
+	                                <input type="file" class="btn" name="file" id="file">
+		                            <div class="file-path-wrapper">
+		                                <input placeholder="Escolha arquivo em formato ILCD" class="file-path validate" type="text" required="required" disabled="disabled">
 		                            </div>
-			                        <div class="col s4">
-			                            <input type="checkbox" id="test5" required="required" />
-			                            <label for="test5">Li e aceito os termos de uso</label>
-			                        </div>
-			                        <div class="col offset-s1">
+	                            </div>
+		                        <div class="col s4">
+		                            <input type="checkbox" id="test5" required="required" />
+		                            <label for="test5">Li e aceito os termos de uso</label>
+		                        </div>
+		                        <div class="col offset-s1">
 <!-- 									<a href="#!" class="modal-close btn-flat waves-effect waves-red">CANCELAR</a> -->
-										<input type="submit" value="ENVIAR" class="waves-effect waves-light btn" id="btnSubmit">
-			                        </div>
+									<input type="submit" value="ENVIAR" class="waves-effect waves-light btn" id="btnSubmit">
 		                        </div>
 		                    </div>
 						</form>

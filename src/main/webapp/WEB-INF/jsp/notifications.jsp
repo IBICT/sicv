@@ -20,7 +20,7 @@
 <head>
 
 </head>
-<body>
+<body style="color: #00697c !important;">
 	<jsp:include page="/WEB-INF/jsp/partials/nav.jsp"/>
 	<div class="headerDiv">
 	       <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />

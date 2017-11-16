@@ -1,9 +1,7 @@
 package br.com.ibict.acv.sicv.model;
 
 import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -13,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
@@ -65,10 +62,15 @@ public class Status implements Serializable{
     @Expose
     private User revisor;
     
+/*    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "status", targetEntity = Archive.class, cascade = CascadeType.PERSIST)
-    private List<Archive> archive;
+    private List<Archive> archive;*/
+    @Expose
+    @OneToOne(mappedBy="status", cascade = CascadeType.PERSIST)
+    private Archive archive;
     
     //status relacionado o arquivo .ILCD
+    //informa o andamento do arquivo: AG_REV, AG_AC ...
 //    @NotNull
     @Expose
     private Integer status;
@@ -130,7 +132,14 @@ public class Status implements Serializable{
 		this.revisor = revisor;
 	}
     
-	public List<Archive> getArchive() {
+    public Archive getArchive() {
+		return archive;
+	}
+    
+    public void setArchive(Archive archive) {
+		this.archive = archive;
+	}
+	/*public List<Archive> getArchive() {
 		return archive;
 	}
 	
@@ -143,7 +152,7 @@ public class Status implements Serializable{
     		this.archive = new ArrayList<Archive>();
     	}
 		return this.archive.add(archive);
-    }
+    }*/
     
     public Integer getStatus() {
 		return status;
@@ -161,11 +170,11 @@ public class Status implements Serializable{
 		this.ilcd = ilcd;
 	}
     
-    /*public Notification getNotification() {
-		return notification;
+    public Notification getNotify() {
+		return notify;
 	}
     
-    public void setNotification(Notification notification) {
-		this.notification = notification;
-	}*/
+    public void setNotify(Notification notify) {
+		this.notify = notify;
+	}
 }

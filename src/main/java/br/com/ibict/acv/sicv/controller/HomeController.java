@@ -80,7 +80,7 @@ public class HomeController {
     @Autowired
     private IlcdDao ilcdDao;
     
-    public boolean firstAccess = true;
+    public boolean hasSubmit = false;
     
     @PostConstruct()
     public void buildLists(){
@@ -91,7 +91,7 @@ public class HomeController {
         User user = (User) session().getAttribute("user");
         String name = user.getUserName();
         model.put("username", name);
-        if( ilcds == null )
+        if( ilcds == null || hasSubmit)
         	ilcds = ilcdDao.findByEmail( user.getEmail() );
         model.put("ilcds", ilcds);
         
@@ -132,18 +132,21 @@ public class HomeController {
     			user.setNewPassword(null);
     		}else
     			user.setPasswordHash( userSession.getPasswordHash() );
+    			user.setPlainPassword( userSession.getPlainPassword() );
     	}
     	
     	user.setHomologacoes(userSession.getHomologacoes());
-    	user.setStatus(userSession.getStatus());
+    	user.setStatus(userSession.getStatus());  
         userDao.save(user);
         session().setAttribute("user",user);
         
         return "true";
     }
     
-    @RequestMapping("/authorIlcd")
-    public String getAuthorIlcd(Map<String, Object> model) {
+    @RequestMapping("/authorIlcd/{index}")
+    public String getAuthorIlcd(Map<String, Object> model, @PathVariable("index") Integer index) {
+    	Ilcd ilcd = ilcds.get(index);
+    	model.put("ilcd", ilcd);
         return "index";
     }
     
@@ -197,15 +200,16 @@ public class HomeController {
 
         try {
 
-            // Get the file and save it somewhere
-            byte[] bytes = file.getBytes();
+            // Get the file and save it somewhere. 1 is inicial version
+            byte[] bytes = (file.getOriginalFilename()+"1").getBytes();
+            byte[] bytesFile = file.getBytes();
             Path path = Paths.get(Strings.UPLOADED_FOLDER + MD5(bytes));
 
             if (path.toFile().exists()) {
                 redirectAttributes.addFlashAttribute("message", "File exist, not replace.");
                 return "redirect:/admin/ilcd/uploadStatus";
             }
-            Files.write(path, bytes);
+            Files.write(path, bytesFile);
             User ilcdUser = (User) session().getAttribute("user");
             Status status = new Status();
             status.setStatus(1);
@@ -216,6 +220,7 @@ public class HomeController {
             
             zipToIlcd(path.toString(), ilcd);
             
+            status.getArchive().setName( file.getOriginalFilename() );
             Notification notification = new Notification();
             Homologacao homolog = new Homologacao();
             notification.setUser( ilcd.getUser().getId() );
@@ -231,7 +236,7 @@ public class HomeController {
             homolog.setSubmission( Calendar.getInstance().getTime() );
             homolog.setIlcd(ilcd);
             //salva o último arquivo para a homologacao
-            homolog.setLastArchive( ilcd.getStatus().get(0).getArchive().get(0) );
+            homolog.setLastArchive( ilcd.getStatus().get(0).getArchive() );
             ilcd.setHomologation(homolog);
             //salvando homologação outros objetos são salvos e atualizados em cascata
             homologationDao.saveAndFlush(homolog);
@@ -247,7 +252,7 @@ public class HomeController {
             model.put("url", Strings.BASE);
             Mail mail = RegisterController.getMailUtil();
             ilcds = ilcdDao.findByEmail( ilcdUser.getEmail() );
-
+            this.hasSubmit = true;
             mail.sendEmail(ilcdUser.getEmail(), RegisterController.EMAIL_ADMIN, "Submissão de Inventário", model, "emailSubmission.ftl");
             model.put("urlTrack", Strings.BASE + "/admin/ilcd");
             mail.sendEmail(RegisterController.EMAIL_ADMIN, RegisterController.EMAIL_ADMIN, "Submissão de Inventário", model, "emailSubmissionToAdmin.ftl");
@@ -261,12 +266,12 @@ public class HomeController {
         return "redirect:" + Strings.BASE;
     }
 
-    @RequestMapping(value = "/ilcd/{file_name}", method = RequestMethod.GET)
+    @RequestMapping(value = "/ilcd/{file_name}/{version}", method = RequestMethod.GET)
     public void getFile(
-            @PathVariable("file_name") String fileName,
+            @PathVariable("file_name") String fileName,@PathVariable("version") Integer version, 
             HttpServletResponse response) {
         try {
-            File fileToDownload = new File(Strings.UPLOADED_FOLDER + fileName);
+            File fileToDownload = new File(Strings.UPLOADED_FOLDER + MD5((fileName+version).getBytes()) );
             if (!fileToDownload.exists()) {
                 String errorMessage = "Sorry. The file you are looking for does not exist";
                 System.out.println(errorMessage);
@@ -278,7 +283,7 @@ public class HomeController {
 
             InputStream inputStream = new FileInputStream(fileToDownload);
             response.setContentType("application/force-download");
-            response.setHeader("Content-Disposition", "attachment; filename=" + fileName + ".zip");
+            response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
             IOUtils.copy(inputStream, response.getOutputStream());
             response.flushBuffer();
             inputStream.close();
@@ -401,7 +406,7 @@ public class HomeController {
         archive.setStatus( ilcd.getStatus().get(0) );
         //TODO: make a comparator to order list by version
         archive.setVersion(1);
-        ilcd.getStatus().get(0).addArchive(archive);
+        ilcd.getStatus().get(0).setArchive(archive);
         ilcd.setUUID(id);
         ilcd.setName(name);
         ilcd.setUser(user);

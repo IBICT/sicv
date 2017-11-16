@@ -108,7 +108,7 @@
                      <div class="input-field col s2">
                          <input placeholder="" id="country" name="country" type="text" class="validate" value="${user.country}">
                          <label for="country">País</label>
-                         <input class="waves-effect waves-light btn" value="Salvar alterações" type="submit" >
+                         <input class="waves-effect waves-light btn" value="Salvar alterações" type="submit" style="float: right;">
                      </div>
                  </div>
                      

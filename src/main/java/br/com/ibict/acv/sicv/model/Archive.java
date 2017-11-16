@@ -10,7 +10,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -32,19 +31,41 @@ public class Archive implements Serializable{
     @Expose
     private Long id;
 	
+    @Expose
+    @JoinColumn(name = "name")
+    private String name;
+	
 	//arquivo relacionado ao .ILCD: .pdf, .doc, .rar...
     @Expose
     @JoinColumn(name = "file")
     private File file;
+    
+	//nome do arquivo relacionado ao .ILCD: .pdf, .doc, .rar...
+    @Expose
+    @Column(name = "file_name")
+    private String fileName;
+    
+	//arquivo de comentário relacionado ao .ILCD: .pdf, .doc, .rar...
+    @Expose
+    @JoinColumn(name = "comment_file")
+    private File comment;
+    
+	//nome do comentário relacionado ao .ILCD: .pdf, .doc, .rar...
+    @Expose
+    @Column(name = "comment_file_name")
+    private String commentName;
     
     //pode ser string ou inteiro?
     @NotNull
     @Expose
     private Integer version;
     
-    @ManyToOne(cascade = CascadeType.REFRESH)
+/*    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "status_id")
     @Expose
+    private Status status;*/
+    @Expose
+    @OneToOne(cascade = CascadeType.REFRESH)
     private Status status;
         
     @NotNull
@@ -63,6 +84,14 @@ public class Archive implements Serializable{
     	this.id = id;
     }
     
+    public String getName() {
+		return name;
+	}
+    
+    public void setName(String name) {
+		this.name = name;
+	}
+    
     public File getFile() {
 		return file;
 	}
@@ -70,6 +99,30 @@ public class Archive implements Serializable{
     public void setFile(File file) {
     	this.file = file;
     }
+    
+    public String getFileName() {
+		return fileName;
+	}
+    
+    public void setFileName(String fileName) {
+		this.fileName = fileName;
+	}
+    
+    public File getComment() {
+		return comment;
+	}
+    
+    public void setComment(File comment) {
+		this.comment = comment;
+	}
+    
+    public String getCommentName() {
+		return commentName;
+	}
+    
+    public void setCommentName(String commentName) {
+		this.commentName = commentName;
+	}
     
     public Integer getVersion() {
     	return version;

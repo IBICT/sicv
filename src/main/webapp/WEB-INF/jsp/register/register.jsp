@@ -94,7 +94,7 @@
                     <option>Brasil</option>
                 </select><br />
 
-                <input class="form-control" type="text" name="jobPositon" placeholder="Profissão" /><br />
+                <input class="form-control" type="text" name="jobPosition" placeholder="Profissão" /><br />
                 <input class="form-control" type="text" name="telefone" placeholder="Telefone" /><br />
                 <input class="form-control" type="text" name="instituicao" placeholder="Nome da instituição" /><br />
 

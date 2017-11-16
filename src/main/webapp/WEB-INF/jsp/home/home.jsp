@@ -100,8 +100,8 @@
 	            <div class="col s3" style="position: relative; left: 20px; color: #4dbcc4;">Status</div>
         	</div>
         
-            <c:forEach items="${ilcds}" var="ilcd">
-		        <div style="margin:0px;" class="row" onclick="location.href='<%=Strings.BASE%>authorIlcd'">
+            <c:forEach items="${ilcds}" var="ilcd" varStatus="loop">
+		        <div style="margin:0px;" class="row" onclick="location.href='<%=Strings.BASE%>authorIlcd/${loop.index}'">
         		    <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">${ilcd.UUID}</div>
            			<div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">${ilcd.name}</div>
 					<c:choose>

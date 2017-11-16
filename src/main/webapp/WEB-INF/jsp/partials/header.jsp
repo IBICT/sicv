@@ -1,6 +1,8 @@
 <%@page import="resources.Strings"%>
 <%@page import="br.com.ibict.acv.sicv.model.User"%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
+<sec:authorize access="hasRole('USER')" var="isUser"/>
 <%
     User user = (User) request.getSession().getAttribute("user");
     String name = user.getFirstName();
