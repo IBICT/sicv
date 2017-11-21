@@ -163,4 +163,11 @@ public class Notification implements Serializable{
     	addMessage("For more see: ...");
     }
     
+    public void fillMsgWAIT_AC(String uuid, String name){
+    	setSubject("Submission Waiting ACCEPT: " + uuid);
+    	setIsVisualized(false);
+    	addMessage("Dataset: " + name + " was submited and is waiting ACCEPT.");
+    	addMessage("For more see: ...");
+    }
+    
 }

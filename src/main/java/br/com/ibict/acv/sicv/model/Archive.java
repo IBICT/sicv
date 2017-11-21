@@ -1,6 +1,5 @@
 package br.com.ibict.acv.sicv.model;
 
-import java.io.File;
 import java.io.Serializable;
 
 import javax.persistence.CascadeType;
@@ -9,7 +8,6 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -25,30 +23,13 @@ public class Archive implements Serializable{
 	 */
 	private static final long serialVersionUID = -8565487720085084453L;
 	
+	private final String COMMENT = "comment"; 
+	
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     @Expose
     private Long id;
-	
-    @Expose
-    @JoinColumn(name = "name")
-    private String name;
-	
-	//arquivo relacionado ao .ILCD: .pdf, .doc, .rar...
-    @Expose
-    @JoinColumn(name = "file")
-    private File file;
-    
-	//nome do arquivo relacionado ao .ILCD: .pdf, .doc, .rar...
-    @Expose
-    @Column(name = "file_name")
-    private String fileName;
-    
-	//arquivo de comentário relacionado ao .ILCD: .pdf, .doc, .rar...
-    @Expose
-    @JoinColumn(name = "comment_file")
-    private File comment;
     
 	//nome do comentário relacionado ao .ILCD: .pdf, .doc, .rar...
     @Expose
@@ -84,44 +65,13 @@ public class Archive implements Serializable{
     	this.id = id;
     }
     
-    public String getName() {
-		return name;
-	}
-    
-    public void setName(String name) {
-		this.name = name;
-	}
-    
-    public File getFile() {
-		return file;
-	}
-    
-    public void setFile(File file) {
-    	this.file = file;
-    }
-    
-    public String getFileName() {
-		return fileName;
-	}
-    
-    public void setFileName(String fileName) {
-		this.fileName = fileName;
-	}
-    
-    public File getComment() {
-		return comment;
-	}
-    
-    public void setComment(File comment) {
-		this.comment = comment;
-	}
-    
     public String getCommentName() {
 		return commentName;
 	}
     
     public void setCommentName(String commentName) {
-		this.commentName = commentName;
+    	int indice = commentName.indexOf(".");
+		this.commentName = COMMENT + commentName.substring(indice) ;
 	}
     
     public Integer getVersion() {

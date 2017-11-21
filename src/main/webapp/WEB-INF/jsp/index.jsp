@@ -56,7 +56,7 @@
     <div class="row" style="width: 90%;">
         <div class="row">
 		    <div class="row">
-		        <h5 class="page-title">Particle board, at plant, for indoor use, 7.4% water content, from virgin wood, BR 2012</h5>
+		        <h5 class="page-title">${ilcd.name}</h5>
 			    <hr />
 		    </div>
             <div class="col s6">
@@ -122,23 +122,22 @@
                 	<c:if test="${status.type eq 3 and status.status ne 4}">
 		                <div class="row">
 		                    <div class="col s3">${status.endDate}</div>
-		                    <c:set var="loopVersion" value="${status.archive.version}" />
 		                    <div class="col s3 "><i class="material-icons yellow-title">insert_drive_file</i>
-	                    	<a href="<%=Strings.BASE%>ilcd/${status.archive.fileName}/${loopVersion}">
-	                       		${status.archive.fileName}
+	                    	<a href="#">
+	                       		PDF
 	                       	</a>
 		                    </div>
 		                    <div class="col s3">
-								<c:set var="loopVersion" value="${status.archive.version}" />
+								<c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
 		                        <i class="material-icons page-title">insert_drive_file</i>
-			                    <a href="<%=Strings.BASE%>ilcd/${status.archive.name}/${loopVersion}">
-		                       		${status.archive.name }
+			                    <a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=ILCD.zip">
+		                       		ILCD.zip
 		                       	</a>
 		                    </div>
 		                    <div class="col s3">
-			                    <c:set var="loopVersion" value="${status.archive.version}" />
+			                    <c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
 		                        <i class="material-icons page-title">insert_drive_file</i>
-	       		                    <a href="<%=Strings.BASE%>ilcd/${status.archive.commentName}/${loopVersion}">
+	       		                    <a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=${status.archive.commentName}">
 		                       		${status.archive.commentName}
 		                       	</a>
 		                    </div>
@@ -147,7 +146,6 @@
 	                </c:if>
                 </c:forEach>
 				<c:forEach items="${ilcd.status}" var="status" varStatus="loop">
-                    <c:set var="version" value="${status.archive.version}" />
                    	<c:if test="${status.type eq 2}">
    	                   	<c:if test="${status.status eq 4}">
 			                <div class="row">
@@ -163,19 +161,21 @@
 		                <div class="row">
 		                    <div class="col s3">${status.endDate}</div>
 		                    <div class="col s3"><i class="material-icons liteblue-title">insert_drive_file</i>
-	   		                    <a href="<%=Strings.BASE%>ilcd/${status.archive.fileName}/${version}">
-		                       		${status.archive.fileName}
+	   		                    <a href="#">
+		                       		PDF
 		                       	</a>
 		                    </div>
 		                    <div class="col s3">
+			                    <c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
 		                        <i class="material-icons page-title">insert_drive_file</i>
-		                        <a href="<%=Strings.BASE%>ilcd/${status.archive.name}/${version}">
-		                       		${status.archive.name}
-		                       	</a>
+		                        	<a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=ILCD.zip">
+		                        		ILCD.zip
+		                        	</a>
 		                    </div>
 		                    <div class="col s3">
+			                    <c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
 		                        <i class="material-icons page-title">insert_drive_file</i>
-								<a href="<%=Strings.BASE%>ilcd/${status.archive.commentName}/${version}">
+								<a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=${status.archive.commentName}">
 		                       		${status.archive.commentName}
 		                       	</a>
 		                    </div>
@@ -189,10 +189,10 @@
                 <div class="row">
                     <div class="col s3">${ilcd.status[0].notify.notifyDate}</div>
                     <div class="col offset-s3">
-	                    <c:set var="linkVersion" value="${ilcd.status[0].archive.version}" />
+	                    <c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
                         <i class="material-icons page-title">insert_drive_file</i>
-                        	<a href="<%=Strings.BASE%>ilcd/${ilcd.status[0].archive.name}/${linkVersion}">
-                        		${ilcd.status[0].archive.name}
+                        	<a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=ILCD.zip">
+                        		ILCD.zip
                         	</a>
                     </div>
                 </div>

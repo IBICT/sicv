@@ -84,7 +84,16 @@ public class Status implements Serializable{
     @OneToOne(mappedBy="status", cascade = CascadeType.PERSIST)
     private Notification notify ;
     
-    public Long getId() {
+    public Status(Status status){
+    	this.archive = status.archive;
+    	this.revisor = status.revisor;
+    	this.status =  2;
+    }
+    
+    public Status() {
+	}
+
+	public Long getId() {
 		return id;
 	}
     

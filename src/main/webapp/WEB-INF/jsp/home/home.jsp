@@ -1,15 +1,15 @@
-<%-- 
-    Document   : home
-    Created on : 11/05/2017, 09:48:46
-    Author     : Deivdy.Silva
---%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@page import="resources.Strings"%>
 <%@page import="br.com.ibict.acv.sicv.model.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <link rel="apple-touch-icon" sizes="57x57" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-57x57.png" />
-
+<%
+	String base = Strings.BASE;
+	pageContext.setAttribute("base", base);
+%>
+<c:set var="link" value="${base}authorIlcd" />
+<sec:authorize access="hasAuthority('USER')" var="isUser" />
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -82,15 +82,26 @@
 		<div class="headerDiv">
 	        <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
 		</div>
-        <div class="principalDiv">
 
-            <h4 class="page-title">Meus inventários</h4>
-            <p class="page-description page-subtitle"><i>Envie seu inventário e acompanhe o processo. Você receberá notificações no sistema e no e-mail cadastrado sempre que o status sofrer alterações</i></p>
-            <br>
-            <a class="btn-import waves-effect waves-light btn modal-trigger" href="<%=Strings.BASE%>ilcd/new">Submeter Inventário</a>
-			<br><br>
-			
-            <h6 style="color:#4dbcc4;">Invéntarios em andamento</h6>
+        <div class="principalDiv">
+        	<c:choose>
+        		<c:when test="${isUser}">
+					<h4 class="page-title">Meus inventários</h4>
+		            <p class="page-description page-subtitle"><i>Envie seu inventário e acompanhe o processo. Você receberá notificações no sistema e no e-mail cadastrado sempre que o status sofrer alterações</i></p>
+		            <br>
+		            <c:if test="${not isManager}">
+			            <a class="btn-import waves-effect waves-light btn modal-trigger" href="<%=Strings.BASE%>ilcd/new">Submeter Inventário</a>
+		            </c:if>
+					<br><br>
+					
+		            <h6 style="color:#4dbcc4;">Invéntarios em andamento</h6>	
+        		</c:when>
+        		<c:otherwise>
+        			<c:set var="link" value="${base}manager/authorIlcd" />
+        			<h4 class="page-title">Gestão</h4>
+        			<br><br>
+        		</c:otherwise>
+        	</c:choose>
             
             <div style="margin:0px;" class="row">
 	            <div class="col s3 sicv-table-th">Id</div>
@@ -101,8 +112,8 @@
         	</div>
         
             <c:forEach items="${ilcds}" var="ilcd" varStatus="loop">
-		        <div style="margin:0px;" class="row" onclick="location.href='<%=Strings.BASE%>authorIlcd/${loop.index}'">
-        		    <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">${ilcd.UUID}</div>
+		        <div style="margin:0px;" class="row" onclick="location.href='${link}/${loop.index}'">
+        		    <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">${ilcd.uuid}</div>
            			<div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">${ilcd.name}</div>
 					<c:choose>
                        	<c:when test="${ilcd.homologation.pending}">

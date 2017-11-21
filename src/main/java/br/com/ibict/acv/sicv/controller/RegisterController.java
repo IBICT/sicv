@@ -69,6 +69,7 @@ public class RegisterController {
         //Activation Code
         user.setRegistrationKey(Password.generateSalt( 8 ) );
         
+        user.setUserName(userName);
         user.setTitle(title);
         user.setFirstName(firstName);
         user.setLastName(lastName);

@@ -2,7 +2,7 @@
 <%@page import="br.com.ibict.acv.sicv.model.User"%>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 
-<sec:authorize access="hasRole('USER')" var="isUser"/>
+<sec:authorize access="hasAuthority('USER')" var="isUser" />
 <%
     User user = (User) request.getSession().getAttribute("user");
     String name = user.getFirstName();
@@ -15,7 +15,7 @@
 <table class="table">
 	<thead>
 		<tr style="border-bottom:1px solid black">
-			<td class="tdCenterHeader" onclick="">Meus Inventários</td>
+			<td class="tdCenterHeader" onclick="">Meus Inventários ${isUser}</td>
 			<td class="tdCenterHeader" style="color: #4dbcc4;" >Revisão Qualidata</td>
 			<td class="tdCenterHeader" style="color: #accc5f;" >Revisão Técnica</td>
 			<td class="tdCenterHeader" >Gestão</td>

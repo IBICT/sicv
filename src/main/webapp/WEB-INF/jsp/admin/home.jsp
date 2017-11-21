@@ -1,177 +1,136 @@
-<%-- 
-    Document   : home
-    Created on : 11/05/2017, 09:48:46
-    Author     : Deivdy.Silva
---%>
-
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-
-<%@page import="br.com.ibict.acv.sicv.helper.URLHelper"%>
-<%@page import="br.com.ibict.acv.sicv.model.User"%>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@page import="resources.Strings"%>
+<%@page import="br.com.ibict.acv.sicv.model.User"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-
+<link rel="apple-touch-icon" sizes="57x57" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-57x57.png" />
+<%
+	String base = Strings.BASE;
+	pageContext.setAttribute("base", base);
+%>
+<c:set var="link" value="${base}authorIlcd" />
+<sec:authorize access="hasAuthority('USER')" var="isUser" />
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
+
     <head>
+        <meta charset="UTF-8">
+        <title>SICV</title>
         
-        <jsp:include page="/WEB-INF/jsp/partials/styles.jsp" />
+        <link rel="apple-touch-icon" sizes="57x57" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-57x57.png" />
+        <link rel="apple-touch-icon" sizes="60x60" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-60x60.png" />
+        <link rel="apple-touch-icon" sizes="72x72" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-72x72.png" />
+        <link rel="apple-touch-icon" sizes="76x76" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-76x76.png" />
+        <link rel="apple-touch-icon" sizes="114x114" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-114x114.png" />
+        <link rel="apple-touch-icon" sizes="120x120" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-120x120.png" />
+        <link rel="apple-touch-icon" sizes="144x144" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-144x144.png" />
+        <link rel="apple-touch-icon" sizes="152x152" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-152x152.png" />
+        <link rel="apple-touch-icon" sizes="180x180" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-180x180.png" />
+        <link rel="icon" type="image/png" sizes="192x192" href="<%=Strings.BASE%>/assets/images/favicon/android-icon-192x192.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="<%=Strings.BASE%>/assets/images/favicon/favicon-32x32.png" />
+        <link rel="icon" type="image/png" sizes="96x96" href="<%=Strings.BASE%>/assets/images/favicon/favicon-96x96.png" />
+        <link rel="icon" type="image/png" sizes="16x16" href="<%=Strings.BASE%>/assets/images/favicon/favicon-16x16.png" />
+        <link rel="manifest" href="<%=Strings.BASE%>/assets/images/favicon/manifest.json" />
+        <meta name="msapplication-TileColor" content="#ffffff" />
+        <meta name="msapplication-TileImage" content="<%=Strings.BASE%>/assets/images/favicon/ms-icon-144x144.png" />
+        <meta name="theme-color" content="#ffffff" />
+        
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
+
         <style>
-            html, body {
-                height: 100%;
-            }
-            body {
-            }
-            .page-content {
-                padding-top: 3.125rem;
-                min-height: 100%;
-                height: 100%;
-            }
-            .table .input-control.checkbox {
-                line-height: 1;
-                min-height: 0;
-                height: auto;
+            html {
+                font-family: 'Titillium Web', "Roboto", sans-serif;
             }
 
-            @media screen and (max-width: 800px){
-                #cell-sidebar {
-                    flex-basis: 52px;
-                }
-                #cell-content {
-                    flex-basis: calc(100% - 52px);
-                }
+            .page-title {
+                color: #4dbcc4;
             }
+            .page-subtitle {
+                color: #666;
+            }
+            .btn-import {
+                background-color: #accc5f;
+            }
+            .table {
+                width: 100% !important;
+                max-width: 100%;
+            }
+            .head {
+                color: #999;
+            }
+            .sicv-table-th {
+	            color: #4dbcc4;
+	            padding: 0 !important;
+	            text-align: center;
+	        }
+	        .hr {
+		        border-top: 1px solid #bbb;
+	        }
+	        .sicv-table-td {
+	            border-top: 1px solid silver;
+	            border-bottom: 1px solid silver;
+	            color: #999;
+	            padding: 0 !important;
+	            text-align: center;
+	        }
+			
         </style>
     </head>
+
     <body>
-        <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
-        
-        <div class="page-content">
-            <div class="flex-grid no-responsive-future">
-                <div class="row">
-                    <jsp:include page="/WEB-INF/jsp/partials/nav.jsp" />
-                    <div class="cell auto-size padding20 bg-white" id="cell-content">
-                        <div class="row cells2">
-                            <div class="cell">
-                                <div id="chart_div"></div>
-                            </div>
-                            <div class="cell offset4">
-                                <div id="regions_div"></div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div id="chart_div2" style="width: 100%; height: 500px;"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
+		<jsp:include page="/WEB-INF/jsp/partials/nav.jsp" />
+		<div class="headerDiv">
+	        <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
+		</div>
+        <div class="principalDiv">
+        	
+   			<h4 class="page-title"></h4>
+   			<br><br>
+   	
+            <div style="margin:0px;" class="row" >
+	            <div class="col s1 sicv-table-th"> </div>
+	            <div class="col s2 sicv-table-th"> </div>
+	            <div class="col s2 sicv-table-th"> </div>
+	            <div class="col s1 sicv-table-th">Usuário</div>
+	            <div class="col s1 sicv-table-th">Revisor Qualidade</div>
+	            <div class="col s1 sicv-table-th">Gestor</div>
+	            <div class="col s1 sicv-table-th">Admin</div>
+	            <div class="col s1 sicv-table-th"> </div>
+			
+        	</div>
+            <c:forEach items="${users}" var="user" varStatus="loop" >
+	        	<div style="margin:0px;" class="row">
+				    <div style="height: 40px; position: relative; top: 10px;" class="col s1 sicv-table-td">
+				    	<a href="#"> Editar </a>
+				    </div>
+		   			<div style="height: 40px; position: relative; top: 10px;" class="col s2 sicv-table-td">${user.firstName} ${user.lastName}</div>   
+		   			<div style="height: 40px; position: relative; top: 10px;" class="col s2 sicv-table-td">${user.email}</div>
+		            <div style="height: 40px; position: relative; top: 10px;" class="col s1 sicv-table-td">
+						<input type="checkbox" id="box1[${loop.index}]" name="perfil" value="USER" ${user.perfil == 'USER' ? 'checked="checked"' : '' }/>
+						<label for="box1[${loop.index}]"></label>
+		            </div>
+				    <div style="height: 40px; position: relative; top: 10px;" class="col s1 sicv-table-td">
+						<input type="checkbox" id="box2[${loop.index}]" name="perfil" value="QUALITY_REVIEWER" ${user.perfil == 'QUALITY_REVIEWER' ? 'checked="checked"' : '' }/>
+						<label for="box2[${loop.index}]"></label>
+				    </div>
+		   			<div style="height: 40px; position: relative; top: 10px;" class="col s1 sicv-table-td">
+						<input type="checkbox" id="box3[${loop.index}]" name="perfil" value="GESTOR" ${user.perfil == 'MANAGER' ? 'checked="checked"' : '' }/>
+						<label for="box3[${loop.index}]"></label>
+		   			</div>   
+		            <div style="height: 40px; position: relative; top: 10px;" class="col s1 sicv-table-td">
+						<input type="checkbox" id="box4[${loop.index}]" name="perfil" value="ADMIN" ${user.perfil == 'ADMIN' ? 'checked="checked"' : '' }/>
+						<label for="box4[${loop.index}]"></label>
+		            </div>
+		   			<div style="height: 40px; position: relative; top: 10px;" class="col s1 sicv-table-td">Confirmar</div>
+	   			</div>
+			</c:forEach>
+
         </div>
-        <jsp:include page="/WEB-INF/jsp/partials/scriptsLibs.jsp" />
-        <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
-        <script type="text/javascript">
-
-            $(document).ready(function () {
-                $.getJSON("<%=Strings.BASE%>/admin/notification.json", function (data) {
-                    if (data.data.length > 0)
-                        metroDialog.create({
-                            title: "Notificação",
-                            content: "Solicitação para homologação.",
-                            actions: [
-                                {
-                                    title: "Ver",
-                                    onclick: function (el) {
-                                        //$(el).data('dialog').close();
-                                        window.location = "<%=Strings.BASE%>/admin/homologacao/"+data.data[0].id;
-                                    }
-                                },
-                                {
-                                    title: "Fechar",
-                                    cls: "js-dialog-close"
-                                }
-                            ],
-                            options: {// dialog options
-                            }
-                        });
-
-                });
-            });
-
-            // Load the Visualization API and the corechart package.
-            google.charts.load('current', {'packages': ['corechart']});
-
-            // Set a callback to run when the Google Visualization API is loaded.
-            google.charts.setOnLoadCallback(drawChart);
-
-            // Callback that creates and populates a data table,
-            // instantiates the pie chart, passes in the data and
-            // draws it.
-            function drawChart() {
-
-                // Create the data table.
-                var data = new google.visualization.DataTable();
-                data.addColumn('string', 'Topping');
-                data.addColumn('number', 'Slices');
-                data.addRows([
-                    ['Aprovados', 3],
-                    ['Reprovados', 1],
-                    ['Em Homologação', 1],
-                    ['Aguardando Homologação', 1]
-                ]);
-
-                // Set chart options
-                var options = {'title': 'Ilcd Status',
-                    'width': 400,
-                    'height': 300};
-
-                // Instantiate and draw our chart, passing in some options.
-                var chart = new google.visualization.PieChart(document.getElementById('chart_div'));
-                chart.draw(data, options);
-            }
-
-            google.charts.setOnLoadCallback(drawChart2);
-            function drawChart2() {
-                var data = google.visualization.arrayToDataTable([
-                    ['Mes', 'Acessos'],
-                    ['Janeiro', 7],
-                    ['Fevereiro', 22],
-                    ['Março', 58],
-                    ['Abril', 120],
-                ]);
-
-                var options = {
-                    title: 'Nivel de Acessos',
-                    hAxis: {title: 'Mes', titleTextStyle: {color: '#333'}},
-                    vAxis: {minValue: 0}
-                };
-
-                var chart = new google.visualization.AreaChart(document.getElementById('chart_div2'));
-                chart.draw(data, options);
-            }
-
-            google.charts.load('current', {'packages': ['geochart']});
-            google.charts.setOnLoadCallback(drawRegionsMap);
-
-            function drawRegionsMap() {
-
-                var data = google.visualization.arrayToDataTable([
-                    ['Country', 'Acessos'],
-                    ['Germany', 3],
-                    ['United States', 1],
-                    ['Brazil', 205],
-                    ['Canada', 0],
-                    ['France', 0],
-                    ['RU', 0]
-                ]);
-
-                var options = {'title': 'Acessos por região',
-                    'width': 400,
-                    'height': 300};
-
-                var chart = new google.visualization.GeoChart(document.getElementById('regions_div'));
-
-                chart.draw(data, options);
-            }
-        </script>
-    </body>
+		    <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
+			<script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
+	    </body>
+		
 </html>
+
+<!--                         <td><a class="waves-effect waves-light btn">Revisão Qualidata</a></td>
+                        <td><a class="btn-import waves-effect waves-light btn">Revisão Técnica</a></td> -->

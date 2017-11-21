@@ -47,7 +47,7 @@ public class Ilcd implements Serializable {
     private Long id;
 	
     @Expose
-    private String UUID;
+    private String uuid;
 
     @NotNull
     @Expose
@@ -147,12 +147,20 @@ public class Ilcd implements Serializable {
         //this.status = status;
     }
 
-    public String getUUID() {
-		return UUID;
+    public Long getId() {
+		return id;
 	}
     
-    public void setUUID(String uUID) {
-		UUID = uUID;
+    public void setId(Long id) {
+		this.id = id;
+	}
+    
+    public String getUuid() {
+		return uuid;
+	}
+    
+    public void setUuid(String uuid) {
+		this.uuid = uuid;
 	}
     
     public String getAuthor() {

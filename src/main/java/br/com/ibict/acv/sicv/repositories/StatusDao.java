@@ -1,23 +1,18 @@
 package br.com.ibict.acv.sicv.repositories;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.ibict.acv.sicv.model.Ilcd;
+import br.com.ibict.acv.sicv.model.Status;
 
 @Transactional
-public interface IlcdDao extends JpaRepository<Ilcd, Long> {
-
-    public List<Ilcd> findByBase(Long base);
-
-    public Ilcd findByUuid(String UUID);
+public interface StatusDao extends JpaRepository<Status, Long> {
     
     public Ilcd findById(Long id);
     
-    public List<Ilcd> findByEmail(String email);
+//    public List<Ilcd> findByEmail(String email);
 
     /*
      @Modifying

@@ -58,7 +58,9 @@ public class CustomAuthenticationHandler implements AuthenticationSuccessHandler
 			roles.add(a.getAuthority());
 		}
 
-		if ( isAdmin(roles) || isManager(roles) ) {
+		if ( isAdmin(roles) )
+			url = "/admin";
+		else if (isManager(roles) ) {
 			url = "/";
 		} else if (isQualityReviewer(roles)) {
 			url = "/";

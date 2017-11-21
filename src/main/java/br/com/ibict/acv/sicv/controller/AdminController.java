@@ -38,17 +38,32 @@ import resources.Strings;
 @RequestMapping("/admin")
 public class AdminController {
 
-    @RequestMapping("/")
+    @Autowired
+    private UserDao userDao;
+
+    @Autowired
+    private IlcdDao ilcdDao;
+
+    @Autowired
+    private HomologacaoDao homologacaoDao;
+
+    @Autowired
+    private NotificationDao notificationDao;
+
+    @Autowired
+    private TechnicalReviewerDao technicalReviewerDao;
+    
+    List<User> users;
+	
+    @RequestMapping("")
     public String root(Map<String, Object> model, Principal principal) {
         if (principal == null) {
             return "/login";
         } else {
-        	User user = (User) session().getAttribute("user");
-            model.put("user", user);
-            if(user.getPerfil().equalsIgnoreCase(EnumProfile.ADMIN.name())){
-            	return "admin/home";            	
-            }else
-            	return "admin/gestorhome";
+        	users = userDao.findAll();
+            model.put("users", users);
+
+            return "admin/home";
         }
     }
 
@@ -80,7 +95,7 @@ public class AdminController {
     public String homologacaoAccept(Map<String, Object> model, @PathVariable("id") String id) {
         try {
             User user = (User) session().getAttribute("user");
-            Ilcd ilcd = ilcdDao.findById(id);
+            Ilcd ilcd = ilcdDao.findByUuid(id);
             Homologacao homologacao = ilcd.getHomologation();
             homologacao.setStatus(2);
             homologacaoDao.save(homologacao);
@@ -96,7 +111,7 @@ public class AdminController {
             return "login/login";
         } else {
             model.put("user", session().getAttribute("user"));
-            Ilcd ilcd = ilcdDao.findById(id);
+            Ilcd ilcd = ilcdDao.findByUuid(id);
             model.put("ilcd", ilcd);
             return "admin/homologacao";
         }
@@ -123,7 +138,7 @@ public class AdminController {
             System.out.println(id);
             System.out.println(json);
 
-            Ilcd ilcd = ilcdDao.findById(id);
+            Ilcd ilcd = ilcdDao.findByUuid(id);
             ilcd.getHomologation().setStatus(3);
             ilcd.setJson1(json);
             try {
@@ -158,7 +173,7 @@ public class AdminController {
             return "login/login";
         } else {
             model.put("user", session().getAttribute("user"));
-            Ilcd ilcd = ilcdDao.findById(id);
+            Ilcd ilcd = ilcdDao.findByUuid(id);
             model.put("json", new Gson().toJson(ilcd));
 
             return "admin/parecer";
@@ -172,7 +187,7 @@ public class AdminController {
         } else {
             model.put("user", session().getAttribute("user"));
 
-            Ilcd ilcd = ilcdDao.findById(id);
+            Ilcd ilcd = ilcdDao.findByUuid(id);
             ilcd.getHomologation().setStatus(4);
             ilcdDao.save(ilcd);
             model.put("ilcd", ilcd);
@@ -188,7 +203,7 @@ public class AdminController {
         } else {
             model.put("user", session().getAttribute("user"));
 
-            Ilcd ilcd = ilcdDao.findById(id);
+            Ilcd ilcd = ilcdDao.findByUuid(id);
             ilcd.getHomologation().setStatus(9);
             ilcdDao.save(ilcd);
             return "reprovarqualidata";
@@ -201,7 +216,7 @@ public class AdminController {
             return "login/login";
         } else {
             model.put("user", session().getAttribute("user"));
-            Ilcd ilcd = ilcdDao.findById(id);
+            Ilcd ilcd = ilcdDao.findByUuid(id);
             model.put("ilcd", ilcd);
 //            return "admin/invitetechnicalreviewer";
 
@@ -213,7 +228,7 @@ public class AdminController {
     public String technicalReviewerAccept(Map<String, Object> model, @PathVariable("id") String id) {
         try {
             User user = (User) session().getAttribute("user");
-            Ilcd ilcd = ilcdDao.findById(id);
+            Ilcd ilcd = ilcdDao.findByUuid(id);
             Homologacao homologacao = ilcd.getHomologation();
             homologacao.setStatus(6);
             homologacao.setUser(user);
@@ -228,7 +243,7 @@ public class AdminController {
     public String technicalReviewerRefused(Map<String, Object> model, @PathVariable("id") String id) {
         try {
             User user = (User) session().getAttribute("user");
-            Ilcd ilcd = ilcdDao.findById(id);
+            Ilcd ilcd = ilcdDao.findByUuid(id);
             Homologacao homologacao = ilcd.getHomologation();
             homologacao.setStatus(9);
             homologacaoDao.save(homologacao);
@@ -244,7 +259,7 @@ public class AdminController {
             return "login/login";
         } else {
             model.put("user", session().getAttribute("user"));
-            Ilcd ilcd = ilcdDao.findById(id);
+            Ilcd ilcd = ilcdDao.findByUuid(id);
             model.put("ilcd", id);
 //            return "admin/invitetechnicalreviewer";
 
@@ -259,11 +274,11 @@ public class AdminController {
             return "login/login";
         } else {
             User user = (User) session().getAttribute("user");
-            Ilcd ilcd = ilcdDao.findById(id);
+            Ilcd ilcd = ilcdDao.findByUuid(id);
             Homologacao homologacao = ilcd.getHomologation();
 
             try {
-                TechnicalReviewer technicalReviewer = new TechnicalReviewer(null, comment, ilcd.getUUID(), user);
+                TechnicalReviewer technicalReviewer = new TechnicalReviewer(null, comment, ilcd.getUuid(), user);
                 technicalReviewerDao.save(technicalReviewer);
                 homologacao.setTechnicalReviewer(technicalReviewer);
                 homologacao.setStatus(7);
@@ -305,7 +320,7 @@ public class AdminController {
     public String inviteTechnicalReviewerAction(@RequestParam("user") Long userID, @PathVariable("id") String id) {
         try {
             User user = userDao.findOne(userID);
-            Ilcd ilcd = ilcdDao.findById(id);
+            Ilcd ilcd = ilcdDao.findByUuid(id);
             Homologacao homologacao = ilcd.getHomologation();
             homologacao.setStatus(5);
             homologacao.setUser(user);
@@ -359,7 +374,7 @@ public class AdminController {
             return "login/login";
         } else {
             model.put("user", session().getAttribute("user"));
-            Ilcd ilcd = ilcdDao.findById(id);
+            Ilcd ilcd = ilcdDao.findByUuid(id);
             model.put("ilcd", ilcd);
 //            return "admin/invitetechnicalreviewer";
 
@@ -375,7 +390,7 @@ public class AdminController {
             model.put("user", session().getAttribute("user"));
 
             try {
-                Ilcd ilcd = ilcdDao.findById(id);
+                Ilcd ilcd = ilcdDao.findByUuid(id);
                 ilcd.getHomologation().setStatus(8);
                 
                 User ilcdUser = ilcd.getUser();
@@ -405,7 +420,7 @@ public class AdminController {
             return "login/login";
         } else {
             model.put("user", session().getAttribute("user"));
-            Ilcd ilcd = ilcdDao.findById(id);
+            Ilcd ilcd = ilcdDao.findByUuid(id);
             model.put("ilcd", ilcd);
             
             try {
@@ -441,19 +456,5 @@ public class AdminController {
     public static HttpSession session() {
         return CustomAuthProvider.getHttpSession();
     }
-
-    @Autowired
-    private UserDao userDao;
-
-    @Autowired
-    private IlcdDao ilcdDao;
-
-    @Autowired
-    private HomologacaoDao homologacaoDao;
-
-    @Autowired
-    private NotificationDao notificationDao;
-
-    @Autowired
-    private TechnicalReviewerDao technicalReviewerDao;
+    
 }

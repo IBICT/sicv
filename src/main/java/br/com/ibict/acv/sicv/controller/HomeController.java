@@ -20,7 +20,6 @@ import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 
-import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -75,24 +74,22 @@ public class HomeController {
     
     public List<Homologacao> homologations;
     
-    public List<Ilcd> ilcds;
+    public static List<Ilcd> ilcds;
     
     @Autowired
     private IlcdDao ilcdDao;
     
-    public boolean hasSubmit = false;
-    
-    @PostConstruct()
-    public void buildLists(){
-    }
+    public static boolean hasSubmitOrStatus = false;
 
     @RequestMapping("/")
     public String getRoot(Map<String, Object> model) {
         User user = (User) session().getAttribute("user");
         String name = user.getUserName();
         model.put("username", name);
-        if( ilcds == null || hasSubmit)
+        if( ilcds == null || hasSubmitOrStatus){
         	ilcds = ilcdDao.findByEmail( user.getEmail() );
+        	hasSubmitOrStatus = false;
+        }
         model.put("ilcds", ilcds);
         
         return "home/home";
@@ -201,15 +198,16 @@ public class HomeController {
         try {
 
             // Get the file and save it somewhere. 1 is inicial version
-            byte[] bytes = (file.getOriginalFilename()+"1").getBytes();
-            byte[] bytesFile = file.getBytes();
+            byte[] bytes = file.getBytes();
             Path path = Paths.get(Strings.UPLOADED_FOLDER + MD5(bytes));
+            String pathResolve = path.resolve("ILCD.zip").toString();
 
             if (path.toFile().exists()) {
                 redirectAttributes.addFlashAttribute("message", "File exist, not replace.");
                 return "redirect:/admin/ilcd/uploadStatus";
             }
-            Files.write(path, bytesFile);
+            Files.createDirectory(path);
+            Files.write(path.resolve("./ILCD.zip"), bytes);
             User ilcdUser = (User) session().getAttribute("user");
             Status status = new Status();
             status.setStatus(1);
@@ -218,13 +216,12 @@ public class HomeController {
             status.setIlcd(ilcd);
             ilcd.addStatus(status);
             
-            zipToIlcd(path.toString(), ilcd);
-            
-            status.getArchive().setName( file.getOriginalFilename() );
+            zipToIlcd(pathResolve, ilcd);
+            status.getArchive().setPathFile( MD5(bytes) );
             Notification notification = new Notification();
             Homologacao homolog = new Homologacao();
             notification.setUser( ilcd.getUser().getId() );
-            notification.fillMsgWAIT_REV( ilcd.getUUID() , ilcd.getName() );
+            notification.fillMsgWAIT_REV( ilcd.getUuid() , ilcd.getName() );
             notification.setStatus(status);
             notification.setIlcd(ilcd);
             notification.setNotifyDate( Calendar.getInstance().getTime() );
@@ -252,7 +249,7 @@ public class HomeController {
             model.put("url", Strings.BASE);
             Mail mail = RegisterController.getMailUtil();
             ilcds = ilcdDao.findByEmail( ilcdUser.getEmail() );
-            this.hasSubmit = true;
+            this.hasSubmitOrStatus = true;
             mail.sendEmail(ilcdUser.getEmail(), RegisterController.EMAIL_ADMIN, "Submissão de Inventário", model, "emailSubmission.ftl");
             model.put("urlTrack", Strings.BASE + "/admin/ilcd");
             mail.sendEmail(RegisterController.EMAIL_ADMIN, RegisterController.EMAIL_ADMIN, "Submissão de Inventário", model, "emailSubmissionToAdmin.ftl");
@@ -266,12 +263,13 @@ public class HomeController {
         return "redirect:" + Strings.BASE;
     }
 
-    @RequestMapping(value = "/ilcd/{file_name}/{version}", method = RequestMethod.GET)
+    @RequestMapping(value = "/ilcd/{MD5_folder}", method = RequestMethod.GET)
     public void getFile(
-            @PathVariable("file_name") String fileName,@PathVariable("version") Integer version, 
-            HttpServletResponse response) {
+    		@PathVariable("MD5_folder") String MD5folder, 
+            HttpServletResponse response, HttpServletRequest request) {
         try {
-            File fileToDownload = new File(Strings.UPLOADED_FOLDER + MD5((fileName+version).getBytes()) );
+        	String fileName = request.getParameter("name");
+            File fileToDownload = new File(Strings.UPLOADED_FOLDER + MD5folder + "/" + fileName);
             if (!fileToDownload.exists()) {
                 String errorMessage = "Sorry. The file you are looking for does not exist";
                 System.out.println(errorMessage);
@@ -402,12 +400,11 @@ public class HomeController {
         }
         User user = (User) session().getAttribute("user");
         Archive archive = new Archive();
-        archive.setPathFile(path);
         archive.setStatus( ilcd.getStatus().get(0) );
         //TODO: make a comparator to order list by version
         archive.setVersion(1);
         ilcd.getStatus().get(0).setArchive(archive);
-        ilcd.setUUID(id);
+        ilcd.setUuid(id);
         ilcd.setName(name);
         ilcd.setUser(user);
 //        Ilcd ilcd = new Ilcd(id, name, type, location, classification, new Date(), new Date(), new File(path).getName(), user, 1L, 1L);
