@@ -1,5 +1,9 @@
 package br.com.ibict.acv.sicv.controller;
 
+import static br.com.ibict.acv.sicv.controller.HomeController.hasSubmitOrStatus;
+import static br.com.ibict.acv.sicv.controller.HomeController.ilcds;
+import static br.com.ibict.acv.sicv.controller.HomeController.session;
+import br.com.ibict.acv.sicv.model.Homologacao;
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -30,10 +34,11 @@ import br.com.ibict.acv.sicv.repositories.StatusDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.Mail;
 import br.com.ibict.sicv.enums.EnumProfile;
+import org.springframework.web.bind.annotation.PostMapping;
 import resources.Strings;
 
 @Controller
-@RequestMapping("/manager")
+@RequestMapping("/gestor")
 public class ManagerController {
 	    
     //@Autowired
@@ -62,6 +67,18 @@ public class ManagerController {
     }
     
     //HomeController.session()
+    @RequestMapping("/")
+    public String getRoot(Map<String, Object> model) {
+        User user = (User) session().getAttribute("user");
+        String name = user.getUserName();
+        model.put("username", name);
+        List<User> users = userDao.findAll();
+        List<Ilcd> ilcds = ilcdDao.findAll();
+        model.put("users", users);
+        model.put("ilcds", ilcds);
+        
+        return "manager/index";
+    }
     
     @RequestMapping("/authorIlcd/{index}")
     public String getAuthorIlcd(ModelMap model, @PathVariable("index") Integer index) {
@@ -71,6 +88,28 @@ public class ManagerController {
     	model.put("users", users);
         return "manager/index";
 
+    }
+    
+    @RequestMapping(value = "/invite", method = RequestMethod.POST)
+    @ResponseBody
+    public String invite(@RequestParam("user") Long userID, @RequestParam("ilcd") Long ilcdID){
+        
+       // User user = userDao.findOne(user);
+        
+        //List<Ilcd> ilcd = ilcdDao.;
+        //Ilcd ilcd = 
+        User user = userDao.findOne(userID);
+        Ilcd ilcd = ilcdDao.findById(ilcdID);
+        Homologacao homologacao = ilcd.getHomologation();
+        homologacao.setUser(user);
+        homologacaoDao.save(homologacao);
+        Status status = homologacao.getLastArchive().getStatus();
+        status.setStatus(2);
+        status.setType(1);
+        statusDao.save(status);
+        
+        
+        return "teste";
     }
     
     @RequestMapping("/invite-quality-review")

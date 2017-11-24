@@ -1,0 +1,64 @@
+@font-face {
+	font-family: 'TitilliumWeb-ExtraLight';
+	src: url('../fonts/TitilliumWeb-ExtraLight.ttf') format('truetype');
+}
+
+@font-face {
+	font-family: 'TitilliumWeb-Regular';
+	src: url('../fonts/TitilliumWeb-Regular.ttf') format('truetype');
+}
+
+
+html, body {
+	height: 100%;
+}
+
+body {
+	font-family: 'TitilliumWeb-Regular', sans-serif ;
+}
+
+.page-content {
+	padding-top: 3.125rem;
+	min-height: 100%;
+	height: 100%;
+}
+
+.table .input-control.checkbox {
+	line-height: 1;
+	min-height: 0;
+	height: auto;
+}
+
+@media screen and (max-width: 800px) {
+	#cell-sidebar {
+		flex-basis: 52px;
+	}
+	#cell-content {
+		flex-basis: calc(100% - 52px);
+	}
+}
+.divs{
+	font-family: 'TitilliumWeb-ExtraLight', sans-serif !important;
+	font-weight: normal;
+}
+.titleNotify{
+	font-family: 'TitilliumWeb-ExtraLight', sans-serif !important;
+	font-size:30px;
+	margin: 2% 0% 2% 0%;
+}
+.tdCenter{
+	text-align: center;
+}
+.tdCenterHeader{
+	text-align: center;
+	width:1%;
+    white-space:nowrap;
+	border-right: 1px solid ;
+	border-color: black;
+}
+.tdAlertHeader{
+	border-right: 1px solid;
+	border-color:black;
+	text-align: right;
+	color:#c3697c;
+}
