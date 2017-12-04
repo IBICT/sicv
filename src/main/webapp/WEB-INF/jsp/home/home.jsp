@@ -90,7 +90,7 @@
 		            <p class="page-description page-subtitle"><i>Envie seu inventário e acompanhe o processo. Você receberá notificações no sistema e no e-mail cadastrado sempre que o status sofrer alterações</i></p>
 		            <br>
 		            <c:if test="${not isManager}">
-			            <a class="btn-import waves-effect waves-light btn modal-trigger" href="<%=Strings.BASE%>ilcd/new">Submeter Inventário</a>
+			            <a class="btn-import waves-effect waves-light btn modal-trigger" href="<%=Strings.BASE%>/ilcd/new">Submeter Inventário</a>
 		            </c:if>
 					<br><br>
 					

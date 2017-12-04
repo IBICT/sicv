@@ -59,7 +59,6 @@
             }
 
             .container {
-                //margin: 10px 50px;
             }
 
             .page-title {
@@ -152,25 +151,29 @@
         </div>
         <div class="row  sicv-container">
             <div class="row">
+
                 <div class="row">
-                    <div class="col s8"><h5 class="page-title"></h5></div>
-                    <div class="col s2" style="color:red;"><i class="material-icons">do_not_disturb</i> Não, obrigado</div>
-                    <div class="col s2" style="color:green;"><i class="material-icons">check</i> Aceito</div>
+                    <div class="col s8"><h5 class="page-title">${ilcd.title}</h5></div>
+                        <c:if test="${ilcd.homologation.status < 3}">
+                        <div class="col s2" style="color:red;"><i class="material-icons">do_not_disturb</i> Não, obrigado</div>
+                        <div class="col s2" style="color:green;"><i class="material-icons">check</i> Aceito</div>
+                    </c:if>
                 </div>
                 <hr />
+
                 <div class="col s6">
                     <h5>Usuário</h5>
-                    <h6>Lucas</h6>
+                    <h6>${username}</h6>
                     <h6>Autor/es</h6>
-                    <p>Edivan Cherubini; Felipe Lion Motta; Paulo Trigo Ribeiro<br />
-                        edivan@enciclo.com.br;felipe@acvbrasil.com.br;pribeiro@3drivers.pt
+                    <p>${ilcd.title}<br />
+                        ${ilcd.email}
                     </p>
                     <hr />
                     <h6>Categoria</h6>
-                    <p>Construction</p>
+                    <p>${ilcd.category}</p>
                     <hr />
                     <h6>Descrição</h6>
-                    <p>The data set represents a generic Portland cement production and covers some relevant process steps. Post-clinker processing and raw materials preparation emissions are not considered in the dataset. The inventory is based on an adaptation of LCI cement production in Mexico, with adjusted data for raw material consumption and for the CO2 emissions due to clinker production and emissions from thermal energy used in the kiln. The dataset considers an emission factor of 0.371 kg CO2/ ton of cement for the decarbonizing process of clinker production based on Carvalho et al. (2010). The generic composition of the cement was based on estimates according to Carpio (2005) and Costa et al. (2013) for limestone, clay and silicon. For iron it was assumed the same amount from the Mexican dataset. Alternative additives (pozzolana, blast furnace slag and fly ashes) and gypsum are based on data from the WBCSD (2012). The water consumption were not considered due to lack of data. Inventory is also based on secondary data from the national inventory of greenhouse gas emissions in the cement sector. The fuel mix of thermal energy used in the cement production are based on coke petroleum (71.7%), electricity (12.2%), charcoal (2.4%), fuel oil (0.4%), steam coal (1.9%), diesel (1.2%), wood (0.9%), natural gas (0.7%) and other alternatives fuels (8.7%), such as tires, industrial waste and biomass(rice husk, bagasse, among others). However, due to lack of data on the share of these alternative fuels, the dataset only considers the fuel source from fossil fuels and electricity. Data on the fuel mix are weighted average (2009-2013) from the Brazilian Energy Balance (EPE, 2014).</p>
+                    <p>${ilcd.description}</p>
                     <hr />
                 </div>
                 <div class="col s6">
@@ -180,9 +183,10 @@
                         <div style="color:#27bec3;" class="col s3">Devolução Qualidata</div>
                     </div>
                     <div class="row">
-                        <div class="col s3"><i style="color:#006b7b;" class="medium material-icons">insert_drive_file</i>ILCD.zip</div>
-                        <a href="<%=Strings.BASE%>/qualityreview//review" style="background-color:#27bec3;" class="btn col s6">Aplicar Qualidata</a>
+                        <div class="col s3"><a href="<%=Strings.BASE%>/ilcd/${archive.pathFile}"><i style="color:#006b7b;" class="medium material-icons">insert_drive_file</i>ILCD.zip</a></div>
+                        <a href="<%=Strings.BASE%>/qualityreview/${archive.id}/review" style="background-color:#27bec3;" class="btn col s6">Aplicar Qualidata</a>
                     </div>
+                    <!--
                     <hr />
                     <div class="row">
                         <div class="col s3"><i style="color:#006b7b;" class="medium material-icons">insert_drive_file</i>ILCD.zip</div>
@@ -197,7 +201,7 @@
                             <i style="color:#27bec3;" class="medium material-icons">insert_drive_file</i>12/08/2017
                         </div>
                     </div>
-
+                    -->
                     <hr />
 
                 </div>

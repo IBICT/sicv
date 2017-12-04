@@ -269,7 +269,7 @@ public class HomeController {
             HttpServletResponse response, HttpServletRequest request) {
         try {
         	String fileName = request.getParameter("name");
-            File fileToDownload = new File(Strings.UPLOADED_FOLDER + MD5folder + "/" + fileName);
+            File fileToDownload = new File(Strings.UPLOADED_FOLDER + MD5folder + "/ILCD.zip");
             if (!fileToDownload.exists()) {
                 String errorMessage = "Sorry. The file you are looking for does not exist";
                 System.out.println(errorMessage);
@@ -281,7 +281,7 @@ public class HomeController {
 
             InputStream inputStream = new FileInputStream(fileToDownload);
             response.setContentType("application/force-download");
-            response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+            response.setHeader("Content-Disposition", "attachment; filename=ILCD.zip");
             IOUtils.copy(inputStream, response.getOutputStream());
             response.flushBuffer();
             inputStream.close();

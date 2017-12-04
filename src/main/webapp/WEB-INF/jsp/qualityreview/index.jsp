@@ -59,7 +59,6 @@
             }
 
             .container {
-                //margin: 10px 50px;
             }
 
             .page-title {
@@ -151,54 +150,63 @@
             <h4 class="page-title">Revisão Qualidata</h4>
         </div>
 
-        <div class="row sicv-container">
-            <p class="page-description">Confirme sua participação como revisor e acompanhe os inventários que lhe foram atribuidos para realizar a revisão de Qualidade</p>
-        </div>
+        <c:if test="${not empty invite}">
+            <div class="row sicv-container">
+                <p class="page-description">Confirme sua participação como revisor e acompanhe os inventários que lhe foram atribuidos para realizar a revisão de Qualidade</p>
+            </div>
+            <c:forEach var="homologacao" items="${invite}"> 
 
-        <div class="row sicv-container" style="padding-top:10px;background-color: #d7eef0;">
-            <h5 style="color:#4dbcc4; margin:20px;">Aguardando confirmação ou cancelamento</h5>
-            <!--<div class="row">
-                <a style="margin:20px;color:#00728a;" href="#">Particle board, at plant, for indoor use, 7.4% water content, from virgin wood, BR 2012</a><i style="color:red;" class="material-icons">do_not_disturb</i><i style="color:green;" class="material-icons">check</i>
-            </div>
-            <div class="row">
-                <a style="margin:20px;color:#00728a;" href="#">Cotton boll production_unlinked</a><i style="color:red;" class="material-icons">do_not_disturb</i><i style="color:green;" class="material-icons">check</i>
-            </div>-->
-            <div class="row">
-                <a style="margin:20px;color:#00728a;" href="#">${ilcd.title}</a><a href="refused" ><i style="color:red;" class="material-icons">do_not_disturb</i></a><a href="<%=Strings.BASE%>/qualityreview/accept/${ilcd.homologation.id}" ><i style="color:green;" class="material-icons">check</i></a>
-            </div>
-        </div>
+                <div class="row sicv-container" style="padding-top:10px;background-color: #d7eef0;">
+                    <h5 style="color:#4dbcc4; margin:20px;">Aguardando confirmação ou cancelamento</h5>
+                    <!--<div class="row">
+                        <a style="margin:20px;color:#00728a;" href="#">Particle board, at plant, for indoor use, 7.4% water content, from virgin wood, BR 2012</a><i style="color:red;" class="material-icons">do_not_disturb</i><i style="color:green;" class="material-icons">check</i>
+                    </div>
+                    <div class="row">
+                        <a style="margin:20px;color:#00728a;" href="#">Cotton boll production_unlinked</a><i style="color:red;" class="material-icons">do_not_disturb</i><i style="color:green;" class="material-icons">check</i>
+                    </div>-->
+                    <div class="row">
+                        <a class="col s1 offset-s7" style="margin:0 20px;color:#00728a;" href="#">${homologacao.ilcd.title}</a><a class="col s1" href="refused" ><i style="color:red;" class="material-icons">do_not_disturb</i></a><a class="col s1" href="<%=Strings.BASE%>/qualityreview/accept/${homologacao.id}" ><i style="color:green;" class="material-icons">check</i></a>
+                    </div>
+                </div>
+            </c:forEach>
+        </c:if>
 
-        <div class="sicv-container sicv-inventori-table">
-            <div class="row">
-                <h6 style="color:#4dbcc4;">Invéntarios em andamento</h6>
+        <c:if test="${not empty work}">
+            <div class="sicv-container sicv-inventori-table">
+                <div class="row">
+                    <h6 style="color:#4dbcc4;">Invéntarios em andamento</h6>
+                </div>
+                <div style="margin:0px;" class="row">
+                    <div class="col s3 sicv-table-th">Id</div>
+                    <div class="col s3 sicv-table-th">Nome</div>
+                    <div class="col s1 sicv-table-th" style="text-align: center;">Pendências</div>
+                    <div class="col s2 sicv-table-th" style="text-align: center;">Prazo para entregar</div>
+                </div>
+                <c:forEach var="homologacao" items="${work}">
+                    <div style="margin:0px;cursor:pointer;" class="row" onclick="window.location = '<%=Strings.BASE%>/qualityreview/${homologacao.ilcd.id}';">
+                        <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">${homologacao.ilcd.uuid}</div>
+                        <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">${homologacao.ilcd.title}</div>
+                        <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #c3697c;" class="material-icons">report_problem</i></div>
+                        <div style="height: 40px;  text-align: center; position: relative; top: 10px;" class="col s2 sicv-table-td">5 dias</div>
+                    </div>
+                        <!--
+                    <div style="margin:0px;cursor:pointer;" class="row" onclick="window.location = '<%=Strings.BASE%>/qualityreview/1';">
+                        <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">266c5da8-55bc-4d58-a4af-cbf7724f7939</div>
+                        <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">Phenol from cumene production mix, at producer</div>
+                        <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #accc5f;" class="material-icons">check</i></div>
+                        <div style="height: 40px;  text-align: center; position: relative; top: 10px;" class="col s2 sicv-table-td">Entregue</div>
+                    </div>-->
+                </c:forEach>
             </div>
-            <div style="margin:0px;" class="row">
-                <div class="col s3 sicv-table-th">Id</div>
-                <div class="col s3 sicv-table-th">Nome</div>
-                <div class="col s1 sicv-table-th" style="text-align: center;">Pendências</div>
-                <div class="col s2 sicv-table-th" style="text-align: center;">Prazo para entregar</div>
-            </div>
-            <div style="margin:0px;cursor:pointer;" class="row" onclick="window.location='<%=Strings.BASE%>/qualityreview/1';">
-                <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">266c5da8-55bc-4d58-a4af-cbf7724f7939</div>
-                <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">Phenol from cumene production mix, at producer</div>
-                <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #c3697c;" class="material-icons">report_problem</i></div>
-                <div style="height: 40px;  text-align: center; position: relative; top: 10px;" class="col s2 sicv-table-td">5 dias</div>
-            </div>
-            <div style="margin:0px;cursor:pointer;" class="row" onclick="window.location='<%=Strings.BASE%>/qualityreview/1';">
-                <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">266c5da8-55bc-4d58-a4af-cbf7724f7939</div>
-                <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">Phenol from cumene production mix, at producer</div>
-                <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #c3697c;" class="material-icons">report_problem</i></div>
-                <div style="height: 40px;  text-align: center; position: relative; top: 10px; color: #c3697c;" class="col s2 sicv-table-td">Atrasado</div>
-            </div>
-            <div style="margin:0px;cursor:pointer;" class="row" onclick="window.location='<%=Strings.BASE%>/qualityreview/1';">
-                <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">266c5da8-55bc-4d58-a4af-cbf7724f7939</div>
-                <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">Phenol from cumene production mix, at producer</div>
-                <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #accc5f;" class="material-icons">check</i></div>
-                <div style="height: 40px;  text-align: center; position: relative; top: 10px;" class="col s2 sicv-table-td">Entregue</div>
-            </div>
-        </div>
+        </c:if>
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
+        <c:if test="${not empty teste}">
+            <c:forEach var="contato" items="${teste}"> 
+                ${contato}
+            </c:forEach>
+        </c:if>
+
 
     </body>
 
