@@ -31,7 +31,7 @@
         }
         
         .container {
-            //margin: 10px 50px;
+            /*margin: 10px 50px;*/
         }
         
         .page-title {

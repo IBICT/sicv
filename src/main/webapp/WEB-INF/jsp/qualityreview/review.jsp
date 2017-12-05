@@ -1630,15 +1630,15 @@
                         </div>
                         <div class="row">
                             <p>
-                                <input class="with-gap" name="group2" type="radio" id="test1" />
+                                <input class="with-gap" name="resultado" value="aprovado" type="radio" id="test1" />
                                 <label for="test1">aprovado</label>
                             </p>
                             <p>
-                                <input class="with-gap" name="group2" type="radio" id="test2" />
+                                <input class="with-gap" name="resultado" value="aprovado com correções" type="radio" id="test2" />
                                 <label for="test2">aprovado com correções</label>
                             </p>
                             <p>
-                                <input class="with-gap" name="group2" type="radio" id="test3" />
+                                <input class="with-gap" name="resultado" value="reprovado" type="radio" id="test3" />
                                 <label for="test3">reprovado</label>
                             </p>
                         </div>

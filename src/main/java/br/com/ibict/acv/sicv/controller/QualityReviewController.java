@@ -9,6 +9,7 @@ import br.com.ibict.acv.sicv.model.QualiData;
 import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.HomologacaoDao;
 import br.com.ibict.acv.sicv.repositories.IlcdDao;
+import br.com.ibict.acv.sicv.repositories.QualiDataDao;
 import br.com.ibict.acv.sicv.repositories.StatusDao;
 import com.google.gson.Gson;
 import java.security.Principal;
@@ -40,6 +41,9 @@ public class QualityReviewController {
 
     @Autowired
     private HomologacaoDao homologacaoDao;
+    
+    @Autowired
+    private QualiDataDao qualiDataDao;
 
     @RequestMapping(value = {"", "/"})
     public String index(Map<String, Object> model) {
@@ -127,13 +131,19 @@ public class QualityReviewController {
 //                System.out.println(key+" = "+value);
 //            }
             
+            Ilcd ilcd = ilcdDao.findById(id);
+            Homologacao homologacao = ilcd.getHomologation();
+            homologacao.setStatus(4);
+            homologacaoDao.save(homologacao);
             Gson gson = new Gson();
             QualiData qualiData = gson.fromJson(allRequestParams.get("json"), QualiData.class);
+            qualiData.setArchive(ilcd.getHomologation().getLastArchive());
+            qualiDataDao.save(qualiData);
             System.out.println(qualiData.getComment1());
             
-            return "ERRO 500";
+            return "Sucesso";
         } catch (Exception e) {
-            return "error";
+            return "ERRO 500";
         }
     }
 
