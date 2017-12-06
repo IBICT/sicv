@@ -1,9 +1,3 @@
-<%-- 
-    Document   : login
-    Created on : 10/05/2017, 16:23:25
-    Author     : Deivdy.Silva
---%>
-
 <%@page import="resources.Strings"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -40,6 +34,10 @@
     </head>
 
     <body>
+    	<jsp:include page="/WEB-INF/jsp/partials/nav.jsp" />
+		<div class="headerDiv">
+	        <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
+		</div>
         <h1>Usuario cadastrado com sucesso!!!</h1>
         <a href="#">Voltar</a>
     </body>

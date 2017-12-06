@@ -77,6 +77,14 @@
             <version>2.8.0</version>
         </dependency>
         
+<!-- https://mvnrepository.com/artifact/org.json/json -->
+<dependency>
+    <groupId>org.json</groupId>
+    <artifactId>json</artifactId>
+    <version>20171018</version>
+</dependency>
+      
+        
         <!-- JPA Spring-Data, (Equivaleten Ebean ORM) -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

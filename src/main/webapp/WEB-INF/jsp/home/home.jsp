@@ -85,12 +85,12 @@
 
         <div class="principalDiv">
         	<c:choose>
-        		<c:when test="${isUser}">
+        		<c:when test="${isUserLabel}">
 					<h4 class="page-title">Meus inventários</h4>
 		            <p class="page-description page-subtitle"><i>Envie seu inventário e acompanhe o processo. Você receberá notificações no sistema e no e-mail cadastrado sempre que o status sofrer alterações</i></p>
 		            <br>
 		            <c:if test="${not isManager}">
-			            <a class="btn-import waves-effect waves-light btn modal-trigger" href="<%=Strings.BASE%>/ilcd/new">Submeter Inventário</a>
+			            <a class="btn-import waves-effect waves-light btn modal-trigger" href="<%=Strings.BASE%>ilcd/new">Submeter Inventário</a>
 		            </c:if>
 					<br><br>
 					
@@ -104,28 +104,44 @@
         	</c:choose>
             
             <div style="margin:0px;" class="row">
-	            <div class="col s3 sicv-table-th">Id</div>
-	            <div class="col s3 sicv-table-th">Nome</div>
+	            <div class="col sicv-table-th" style="width: 20%">Id</div>
+	            <div class="col sicv-table-th" style="width: 30%">Nome</div>
 	            <div class="col s1 sicv-table-th" style="text-align: center;">Pendências</div>
 	            <div class="col s2 sicv-table-th" style="text-align: center;">Prazo para entregar</div>
 	            <div class="col s3" style="position: relative; left: 20px; color: #4dbcc4;">Status</div>
         	</div>
         
             <c:forEach items="${ilcds}" var="ilcd" varStatus="loop">
-		        <div style="margin:0px;" class="row" onclick="location.href='${link}/${loop.index}'">
-        		    <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">${ilcd.uuid}</div>
-           			<div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">${ilcd.name}</div>
+		        <div style="margin:0px;" class="row">
+        		    <div style="height: 40px; width:20%; position: relative; top: 10px;" class="col s3 sicv-table-td">
+        		    	<button class="button" style="padding-left: 0%;" onclick="location.href='${link}/${loop.index}'">${ilcd.uuid}</button>
+        		    </div>
+           			<div style="height: 40px;width:30%; position: relative; top: 10px;" class="col s3 sicv-table-td">
+           				<button class="button" style="padding-left: 0%;" onclick="location.href='${link}/${loop.index}'">${ilcd.name}</button>
+           			</div>
 					<c:choose>
                        	<c:when test="${ilcd.homologation.pending}">
                             <!-- <td style="text-align: center;"><i style="color: #c3697c;" class="material-icons">report_problem</i></td>
                        		<td style="text-align: center;"><i style="color: #accc5f;" class="material-icons">check</i></td>
                              -->
-				            <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #c3697c;" class="material-icons">report_problem</i></div>
-		       				<div style="height: 40px;  text-align: center; position: relative; top: 10px; color: #c3697c;" class="col s2 sicv-table-td">${ilcd.homologation.prazo}</div>
+				            <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td" onclick="location.href='#'">
+				            	<button class="button">
+				            		<i style="color: #c3697c;" class="material-icons">report_problem</i>
+				            	</button>
+				            </div>
+		       				<div style="height: 40px;  text-align: center; position: relative; top: 10px; color: #c3697c;" class="col s2 sicv-table-td">
+		       					<button class="button" onclick="location.href='#'">${ilcd.homologation.prazo}</button>
+		       				</div>
                        	</c:when>
                        	<c:when test="${not ilcd.homologation.pending}">
-                        	 <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #accc5f;" class="material-icons">check</i></div>
-   	        				 <div style="height: 40px;  text-align: center; position: relative; top: 10px;" class="col s2 sicv-table-td">${ilcd.homologation.prazo}</div>
+                        	 <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td" onclick="location.href='#'">
+                        	 	<button class="button">
+                        	 		<i style="color: #accc5f;" class="material-icons">check</i>
+                        	 	</button>
+                        	 </div>
+   	        				 <div style="height: 40px;  text-align: center; position: relative; top: 10px;" class="col s2 sicv-table-td">
+   	        				 	<button class="button" onclick="location.href='#'">${ilcd.homologation.prazo}</button>
+   	        				 </div>
                        	</c:when>
                        	<c:otherwise>
                        	</c:otherwise>

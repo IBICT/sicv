@@ -25,6 +25,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -56,6 +58,7 @@ import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.ExclStrat;
 import br.com.ibict.acv.sicv.util.Mail;
 import br.com.ibict.acv.sicv.util.Password;
+import br.com.ibict.sicv.enums.EnumProfile;
 import resources.Strings;
 
 @Controller
@@ -85,10 +88,26 @@ public class HomeController {
     public String getRoot(Map<String, Object> model) {
         User user = (User) session().getAttribute("user");
         String name = user.getUserName();
+        model.put("isUserLabel", true);
         model.put("username", name);
         if( ilcds == null || hasSubmitOrStatus){
-        	ilcds = ilcdDao.findByEmail( user.getEmail() );
-        	hasSubmitOrStatus = false;
+        	ilcds = ilcdDao.findIlcdsByLikeEmail( user.getEmail() );
+        	hasSubmitOrStatus = true;
+        }
+        model.put("ilcds", ilcds);
+        
+        return "home/home";
+    }
+    
+    @RequestMapping("/manager")
+    public String getRootManager(Map<String, Object> model) {
+        User user = (User) session().getAttribute("user");
+        String name = user.getUserName();
+        model.put("isUserLabelFalse", true);
+        model.put("username", name);
+        if( ilcds == null || hasSubmitOrStatus){
+        	ilcds = ilcdDao.findAll();
+        	hasSubmitOrStatus = true;
         }
         model.put("ilcds", ilcds);
         
@@ -143,6 +162,7 @@ public class HomeController {
     @RequestMapping("/authorIlcd/{index}")
     public String getAuthorIlcd(Map<String, Object> model, @PathVariable("index") Integer index) {
     	Ilcd ilcd = ilcds.get(index);
+    	model.put("user", (User)session().getAttribute("user"));
     	model.put("ilcd", ilcd);
         return "index";
     }
@@ -183,12 +203,23 @@ public class HomeController {
 
     @PostMapping("/ilcd/new") // //new annotation since 4.3
     public String singleFileUpload(@RequestParam("file") MultipartFile file,
-            @RequestParam("json") String json,@RequestParam("ilcd") String jsonIlcd,
-            RedirectAttributes redirectAttributes) throws Exception {
+            @RequestParam("json") String json,@RequestParam("ilcd") String jsonIlcd, @RequestParam("authors") String jsonAuthors,
+            @RequestParam("emails") String jsonEmails, RedirectAttributes redirectAttributes) throws Exception {
     	
-    	jsonIlcd = jsonIlcd.replaceAll("\\[", "").replaceAll("\\]","");
     	Gson gson = new Gson();
+    	//JSONObject jsonObj = new JSONObject(jsonAuthors);    	
     	Ilcd ilcd = gson.fromJson(jsonIlcd, Ilcd.class);
+
+    	JSONArray authors = new JSONArray(jsonAuthors);
+    	JSONArray emails = new JSONArray(jsonEmails);
+    	for (int i = 0; i < authors.length(); i++) {
+    		JSONObject jsonObjAuthors = authors.getJSONObject(i);
+    		System.out.println(jsonObjAuthors.getString("value"));
+    		JSONObject jsonObjEmails = emails.getJSONObject(i);
+    		System.out.println(jsonObjEmails.getString("value"));
+    		ilcd.addAuthor(jsonObjAuthors.getString("value"));
+    		ilcd.addEmail(jsonObjEmails.getString("value"));
+    	}
     	
         if (file.isEmpty()) {
             redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
@@ -209,10 +240,11 @@ public class HomeController {
             Files.createDirectory(path);
             Files.write(path.resolve("./ILCD.zip"), bytes);
             User ilcdUser = (User) session().getAttribute("user");
+            User manager = userDao.findByEmail("carlagama@ibict.br");
             Status status = new Status();
             status.setStatus(1);
             status.setType(1);
-            status.setRevisor(userDao.findOne(1L));
+            status.setRevisor(manager);
             status.setIlcd(ilcd);
             ilcd.addStatus(status);
             
@@ -229,7 +261,7 @@ public class HomeController {
             ilcd.setJson1(json);
             ilcd.addNotification(notification);
             homolog.setStatus(1);
-            homolog.setUser( ilcdUser );
+            //homolog.setUser( manager );
             homolog.setSubmission( Calendar.getInstance().getTime() );
             homolog.setIlcd(ilcd);
             //salva o último arquivo para a homologacao
@@ -248,8 +280,8 @@ public class HomeController {
             model.put("urlTrack", Strings.BASE + "/login");
             model.put("url", Strings.BASE);
             Mail mail = RegisterController.getMailUtil();
-            ilcds = ilcdDao.findByEmail( ilcdUser.getEmail() );
-            this.hasSubmitOrStatus = true;
+            ilcds = ilcdDao.findIlcdsByLikeEmail( ilcdUser.getEmail() );
+            HomeController.hasSubmitOrStatus = true;
             mail.sendEmail(ilcdUser.getEmail(), RegisterController.EMAIL_ADMIN, "Submissão de Inventário", model, "emailSubmission.ftl");
             model.put("urlTrack", Strings.BASE + "/admin/ilcd");
             mail.sendEmail(RegisterController.EMAIL_ADMIN, RegisterController.EMAIL_ADMIN, "Submissão de Inventário", model, "emailSubmissionToAdmin.ftl");
@@ -269,7 +301,7 @@ public class HomeController {
             HttpServletResponse response, HttpServletRequest request) {
         try {
         	String fileName = request.getParameter("name");
-            File fileToDownload = new File(Strings.UPLOADED_FOLDER + MD5folder + "/ILCD.zip");
+            File fileToDownload = new File(Strings.UPLOADED_FOLDER + MD5folder + "/" + fileName);
             if (!fileToDownload.exists()) {
                 String errorMessage = "Sorry. The file you are looking for does not exist";
                 System.out.println(errorMessage);
@@ -281,7 +313,7 @@ public class HomeController {
 
             InputStream inputStream = new FileInputStream(fileToDownload);
             response.setContentType("application/force-download");
-            response.setHeader("Content-Disposition", "attachment; filename=ILCD.zip");
+            response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
             IOUtils.copy(inputStream, response.getOutputStream());
             response.flushBuffer();
             inputStream.close();

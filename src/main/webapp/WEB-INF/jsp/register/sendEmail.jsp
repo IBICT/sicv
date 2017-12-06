@@ -1,9 +1,3 @@
-<%-- 
-    Document   : login
-    Created on : 10/05/2017, 16:23:25
-    Author     : Deivdy.Silva
---%>
-
 <%@page import="resources.Strings"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -35,13 +29,19 @@
         <meta name="theme-color" content="#ffffff" />
         
         <title>SICV - ACV | Banco Nacional de Inventários dos inventários brasileiros do Ciclo de Vida (ICVs)</title>
-        
+        <link href="<%=Strings.BASE%>/assets/css/defaultNotifications.css" rel="stylesheet">
+        <!-- Bootstrap core CSS -->
+		<link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="<%=Strings.BASE%>assets/materialize/css/materialize.min.css">
 
     </head>
 
     <body>
-        <h1>Registro efetuado com sucesso. Acesse seu email para concluir a confirmação da conta.</h1>
-        <a href="./">Início</a>
+    	<jsp:include page="/WEB-INF/jsp/partials/nav.jsp" />
+    	<div class="principalDiv">
+	        <h4>Registro efetuado com sucesso. Acesse seu email para concluir a confirmação da conta.</h4>
+	        <a href="./"><h4>Início</h4></a>
+    	</div>
     </body>
 
 </html>

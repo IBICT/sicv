@@ -62,10 +62,16 @@
             <div class="col s6">
 	            <div style="padding-bottom: 2%;">
 	                <h5>Usuário</h5>
-	                <h6 class="page-title bold italic">${ilcd.author}</h6>
+	                <h6 class="page-title bold italic">${user.userName}</h6>
 	            </div>
                 <h6 class="bold">Autor/es</h6>
-                <p>${ilcd.email} </p>
+                <c:forEach items="${ilcd.authors}" var="author" varStatus="loop">
+	                <i>${author};</i>
+               	</c:forEach>
+                <p>
+                <c:forEach items="${ilcd.emails}" var="email" varStatus="loop">
+                	<i>${email};</i>
+                </c:forEach>
                 <hr />
                 <h6 class="bold">Categoria</h6>
                 <p>${ilcd.category}</p>

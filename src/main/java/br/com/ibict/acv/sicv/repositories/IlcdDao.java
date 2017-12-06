@@ -5,6 +5,8 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 
 import br.com.ibict.acv.sicv.model.Ilcd;
 
@@ -17,7 +19,14 @@ public interface IlcdDao extends JpaRepository<Ilcd, Long> {
     
     public Ilcd findById(Long id);
     
-    public List<Ilcd> findByEmail(String email);
+    /*s.status=0 and (s.serviceType=9 or 'College' in elements(s.tags)) 
+    @Query("SELECT i FROM Ilcd i WHERE i.emails[emails] =:email")
+    public List<Ilcd> findByEmail(@Param("email") String email);*/
+    
+    @Query("SELECT DISTINCT i FROM Ilcd i JOIN i.emails e "
+            + "WHERE e LIKE CONCAT('%', :emails, '%')")
+    public List<Ilcd> findIlcdsByLikeEmail(@Param("emails") String email);
+    
 
     /*
      @Modifying
