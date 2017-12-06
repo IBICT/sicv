@@ -6,6 +6,8 @@ function getData() {
 	return data;
 }
 $(document).ready(
+		
+		
 	function() {
 		$("form").submit(
 				function() {
@@ -18,6 +20,15 @@ $(document).ready(
 					$.each($('form').serializeArray(), function() {
 						result[this.name] = this.value;
 					});
+					
+					var authors = $('.aut').serializeArray();
+					var mails = $('.mail').serializeArray();
+					var input = $("<input />").attr("type", "hidden").attr(
+							"name", "authors").val(JSON.stringify(authors));
+					$('form').append($(input));
+					var input = $("<input />").attr("type", "hidden").attr(
+							"name", "emails").val(JSON.stringify(mails));
+					$('form').append($(input));
 					// reference to form object
 					$(":input[value='']").attr('disabled', true);
 					var input = $("<input />").attr("type", "hidden").attr(

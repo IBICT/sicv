@@ -46,20 +46,26 @@
 		            <div class="row full-screen">
 				        <form class="col s12 formILCD" method="POST" action="<%=Strings.BASE%>ilcd/new" enctype="multipart/form-data" id="teste">
 		            		<h4 class="page-title">Submissão Inventário</h4>
-		                    <div class="row">
-		                        <div class="input-field col s3">
-		                            <input placeholder="" id="author" type="text" class="validate" name="author">
-		                            <label for="author">Autor</label>
-  								
-		                            <button class="waves-effect waves-light btn">Acrescentar autor +
-		                            </button>
-		                        
-		                        </div>
-		                        <div class="input-field col s3">
-		                            <input placeholder="" id="email" type="text" class="validate" name="email">
-		                            <label for="email">E-mail</label>
-		                        </div>
+		                    <div class="row" id="authorsClone">
+								<div id="divAuthorEmail" class="row">
+			                        <div class="input-field col s3">
+			                        	<div>
+			                        		<input placeholder="" id="author" type="text" class="validate aut" name="authors[0].name" />
+				                            <label for="author">Autor</label>
+			                        	</div>
+	
+			                        </div>
+			                        <div class="input-field col s3">
+			                        	<div>
+			                        		<input placeholder="" id="email" type="text" class="validate mail" name="authors[0].email" />
+				                            <label for="email">E-mail</label>
+			                            </div>
+			                        </div>
+		                    	</div>
 		                    </div>
+							<div class="row col s12" style="margin-top: -3%;">
+		                       	 <button class="waves-effect waves-light btn" id="btnAuthor">Acrescentar autor +</button>
+							</div>
 		                    <div class="row">
 		                        <div class="input-field col s6">
 		                            <input placeholder="" id="title" type="text" class="validate" name="title">
@@ -79,8 +85,11 @@
 		                        </div>
 		                    </div>
 		                    <div class="row col s12">
-		                        <h6>Sugestão Revisor Técnico</h6>
-		                        <a href="#" class="page-title">Conflitos de interesses</a>
+								<h6>Sugestão Revisor Técnico</h6>
+									<div class="col s5">
+										<input type="checkbox" id="conflitosRevisores" required="required" />
+										<label for="conflitosRevisores">Não há conflitos de interesses entre os revisores</label>
+									</div>
 		                    </div>
 		                    <div class="row">
 		                        <div class="input-field col s3">
@@ -119,8 +128,8 @@
 		                            </div>
 	                            </div>
 		                        <div class="col s4">
-		                            <input type="checkbox" id="test5" required="required" />
-		                            <label for="test5">Li e aceito os termos de uso</label>
+		                            <input type="checkbox" id="termosEnvio" required="required" />
+		                            <label for="termosEnvio">Li e aceito os termos de uso</label>
 		                        </div>
 		                        <div class="col offset-s1">
 <!-- 									<a href="#!" class="modal-close btn-flat waves-effect waves-red">CANCELAR</a> -->
@@ -153,7 +162,20 @@
 		</style>
 
         <script>
-            
+	        $(document).ready(function(){
+        		var i = 1;
+	        	$('#btnAuthor').click(function(){
+	        		var clone2 = $('#divAuthorEmail').clone();
+	        		$(clone2).find(".aut").val("");
+	        		$(clone2).find(".mail").val("");
+	        		$(clone2).appendTo("#authorsClone");
+	        		$(clone2).attr("id","divAuthorEmail"+i);
+	        		$(clone2).find(".aut").attr("name","authors[" + i + "].author");
+	        		$(clone2).find(".mail").attr("name","authors[" + i + "].email");
+	        		i++;
+	        	});
+	        });
+			
         </script>
     </body>
 </html>

@@ -9,6 +9,7 @@ import java.util.Set;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
+import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -50,13 +51,18 @@ public class Ilcd implements Serializable {
     private String uuid;
 
     @NotNull
+    @Column(name = "authors", nullable = false)
     @Expose
-    @Column(columnDefinition = "TEXT")
-    private String author;
-        
+    @ElementCollection(targetClass=String.class)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<String> authors = new ArrayList<String>();
+    
     @NotNull
+    @Column(name = "emails", nullable = false)
     @Expose
-    private String email;
+    @ElementCollection(targetClass=String.class)
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<String> emails = new ArrayList<String>();
     
     @NotNull
     @Expose
@@ -163,21 +169,35 @@ public class Ilcd implements Serializable {
 		this.uuid = uuid;
 	}
     
-    public String getAuthor() {
-		return author;
+    public List<String> getAuthors() {
+    	if(authors == null){
+    		authors = new ArrayList<String>();
+    	}
+		return authors;
 	}
     
-    public void setAuthor(String author) {
-		this.author = author;
+    public void setAuthors(List<String> authors) {
+		this.authors = authors;
 	}
     
-    public String getEmail() {
-		return email;
+    public List<String> getEmails() {
+    	if(emails == null){
+    		emails = new ArrayList<String>();
+    	}
+		return emails;
 	}
     
-    public void setEmail(String email) {
-		this.email = email;
+    public void setEmails(List<String> emails) {
+		this.emails = emails;
 	}
+    
+    public void addEmail(String email){
+    	emails.add(email);
+    }
+    
+    public void addAuthor(String author){
+    	authors.add(author);
+    }
     
     public String getTitle() {
 		return title;
