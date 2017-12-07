@@ -92,7 +92,13 @@
 	                <h5>Autor correpondente</h5>
 	            </div>
                 <h6 class="bold">Autor/es</h6>
-                <p>${ilcd.email} </p>
+				<c:forEach items="${ilcd.authors}" var="author" varStatus="loop">
+	                <i>${author};</i>
+               	</c:forEach>
+                <p>
+				<c:forEach items="${ilcd.emails}" var="email" varStatus="loop">
+                	<i>${email};</i>
+                </c:forEach>
                 <br>
                 <h6 class="bold">Categoria</h6>
                 <p>${ilcd.category}</p>
@@ -109,12 +115,13 @@
 	                <div class="col s2 offset-s2">
 		                <button class="btn btn-yellow modal-trigger" data-target="inviteT" >Convidar T+</button>
 	                </div>
-	                <div class="col s2 offset-s2">
+	                <div class="col s3 offset-s3">
+						<div class="s4 page-title bold">Arquivo inicial</div>
 
 						<c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
 						<div>
-							<h6>Arquivo Inicial</h6>
-							<i class="material-icons page-title offset-s5">insert_drive_file</i>
+							
+							<i class="material-icons page-title ">insert_drive_file</i>
 							<a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=ILCD.zip">
 								ILCD.zip
 							</a>
