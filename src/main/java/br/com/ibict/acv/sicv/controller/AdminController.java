@@ -9,6 +9,8 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -53,7 +55,7 @@ public class AdminController {
     @Autowired
     private TechnicalReviewerDao technicalReviewerDao;
     
-    List<User> users;
+    private List<User> users;
 	
     @RequestMapping("")
     public String root(Map<String, Object> model, Principal principal) {
@@ -64,6 +66,31 @@ public class AdminController {
             model.put("users", users);
 
             return "admin/home";
+        }
+    }
+    
+    @RequestMapping(value = "/profiles", method = RequestMethod.POST)
+    @ResponseBody
+    public String profiles(ModelMap model, @RequestParam("emails") String emails, @RequestParam("perfis") String perfis) {
+        if (session().getAttribute("user") == null) {
+            return "login/login";
+        } else {
+
+            try {
+/*            	Ilcd ilcd = ilcdDao.findByUuid(id);
+            	ilcd.getHomologation().setStatus(3);
+            	ilcd.setJson1(json);
+            	ilcdDao.save(ilcd);
+            	User ilcdUser = ilcd.getUser();
+            	User user = (User) session().getAttribute("user");
+  */          	
+				
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
+
+//            model.put("user", session().getAttribute("user"));
+            return "true";
         }
     }
 

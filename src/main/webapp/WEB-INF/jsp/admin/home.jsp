@@ -92,27 +92,23 @@
 	            <div class="col s2 sicv-table-th"> </div>
 	            <div class="col s2 sicv-table-th"> </div>
 	            <div class="col s1 sicv-table-th">Usuário</div>
-	            <div class="col s1 sicv-table-th">Revisor Qualidade</div>
 	            <div class="col s1 sicv-table-th">Gestor</div>
 	            <div class="col s1 sicv-table-th">Admin</div>
 	            <div class="col s1 sicv-table-th"> </div>
 			
         	</div>
+        	<form class="col s12 formAdminProfiles" method="POST" action="<%=Strings.BASE%>admin/profiles" >
             <c:forEach items="${users}" var="user" varStatus="loop" >
 	        	<div style="margin:0px;" class="row">
 				    <div style="height: 40px; position: relative; top: 10px;" class="col s1 sicv-table-td">
 				    	<a href="#"> Editar </a>
 				    </div>
-		   			<div style="height: 40px; position: relative; top: 10px;" class="col s2 sicv-table-td">${user.firstName} ${user.lastName}</div>   
-		   			<div style="height: 40px; position: relative; top: 10px;" class="col s2 sicv-table-td">${user.email}</div>
+		   			<div style="height: 40px; position: relative; top: 10px;" class="col s2 sicv-table-td fullName">${user.firstName} ${user.lastName}</div>   
+		   			<div style="height: 40px; position: relative; top: 10px;" class="col s2 sicv-table-td mail">${user.email}</div>
 		            <div style="height: 40px; position: relative; top: 10px;" class="col s1 sicv-table-td">
-						<input type="checkbox" id="box1[${loop.index}]" name="perfil" value="USER" ${user.perfil == 'USER' ? 'checked="checked"' : '' }/>
+						<input class="perfis" type="checkbox" id="box1[${loop.index}]" name="perfil" value="USER" ${user.perfil == 'USER' ? 'checked="checked"' : '' }/>
 						<label for="box1[${loop.index}]"></label>
 		            </div>
-				    <div style="height: 40px; position: relative; top: 10px;" class="col s1 sicv-table-td">
-						<input type="checkbox" id="box2[${loop.index}]" name="perfil" value="QUALITY_REVIEWER" ${user.perfil == 'QUALITY_REVIEWER' ? 'checked="checked"' : '' }/>
-						<label for="box2[${loop.index}]"></label>
-				    </div>
 		   			<div style="height: 40px; position: relative; top: 10px;" class="col s1 sicv-table-td">
 						<input type="checkbox" id="box3[${loop.index}]" name="perfil" value="GESTOR" ${user.perfil == 'MANAGER' ? 'checked="checked"' : '' }/>
 						<label for="box3[${loop.index}]"></label>
@@ -121,13 +117,17 @@
 						<input type="checkbox" id="box4[${loop.index}]" name="perfil" value="ADMIN" ${user.perfil == 'ADMIN' ? 'checked="checked"' : '' }/>
 						<label for="box4[${loop.index}]"></label>
 		            </div>
-		   			<div style="height: 40px; position: relative; top: 10px;" class="col s1 sicv-table-td">Confirmar</div>
+		   			<div style="height: 40px; position: relative; top: 10px;" class="col s1 sicv-table-td">
+		   				<button class="button" id="btnSubmit" type="submit">Confirmar</button>
+		   			</div>
 	   			</div>
 			</c:forEach>
+			</form>
 
         </div>
 		    <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
 			<script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
+			<script type="application/javascript" src="<%=Strings.BASE%>/assets/teste.js"></script>
 	    </body>
 		
 </html>
