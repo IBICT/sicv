@@ -3,6 +3,16 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<%
+	String base = Strings.BASE;
+	pageContext.setAttribute("base", base);
+%>
+
+<c:set var="link" value="${base}" />
+<c:if test="${isAdmin}">
+	<c:set var="link" value="${base}admin/" />
+</c:if>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -34,7 +44,7 @@
 		</div>
 		<div class="principalDiv">
             
-			<form class="userForm" action="<%=Strings.BASE%>profile" method="POST">
+			<form class="userForm" action="${link}profile" method="POST">
                 <input id="id" name="id" type="text" class="validate" value="${user.id}" hidden="true">
                 <input id="dsPurpose" name="dsPurpose" type="text" class="validate" value="${user.dsPurpose}" hidden="true">
                 <input id="gender" name="gender" type="text" class="validate" value="${user.gender}" hidden="true">
@@ -46,11 +56,9 @@
 				<input id="streetAddress" name="streetAddress" type="text" class="validate" value="${user.streetAddress}" hidden="true">
 				<input id="zipCode" name="zipCode" type="text" class="validate" value="${user.zipCode}" hidden="true">
 				<input id="organization" name="organization" type="text" class="validate" value="${user.organization}" hidden="true">
-				<input id="perfil" name="perfil" type="text" class="validate" value="${user.perfil}" hidden="true">
 				<input id="purpose" name="purpose" type="text" class="validate" value="${user.purpose}" hidden="true">
 				<input id="qntdNotificacoes" name="qntdNotificacoes" type="text" class="validate" value="${user.qntdNotificacoes}" hidden="true">
 
-                
 				<div class="row">
 					<h5 class="page-title">Perfil</h5>
 				</div>

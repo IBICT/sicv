@@ -108,7 +108,7 @@
 	            <div class="col sicv-table-th" style="width: 30%">Nome</div>
 	            <div class="col s1 sicv-table-th" style="text-align: center;">Pendências</div>
 	            <div class="col s2 sicv-table-th" style="text-align: center;">Prazo para entregar</div>
-	            <div class="col s3" style="position: relative; left: 20px; color: #4dbcc4;">Status ${base}</div>
+	            <div class="col s3" style="position: relative; left: 20px; color: #4dbcc4;">Status</div>
         	</div>
         
             <c:forEach items="${ilcds}" var="ilcd" varStatus="loop">

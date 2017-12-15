@@ -1,13 +1,9 @@
 package br.com.ibict.acv.sicv.controller;
 
-import br.com.ibict.acv.sicv.model.User;
-import br.com.ibict.acv.sicv.repositories.UserDao;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
 import static br.com.ibict.acv.sicv.controller.AdminController.session;
 
 import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,6 +11,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.google.gson.GsonBuilder;
+
+import br.com.ibict.acv.sicv.model.User;
+import br.com.ibict.acv.sicv.repositories.UserDao;
 
 /**
  *
@@ -59,7 +60,6 @@ public class UsersController {
     public String loginHandle(@RequestParam("id") Long id, @RequestParam("perfil") String perfil) {
         
         User user = userDao.findOne(id);
-        user.setPerfil(perfil);
         userDao.save(user);
         
         return "true";

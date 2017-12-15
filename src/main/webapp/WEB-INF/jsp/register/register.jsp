@@ -87,7 +87,7 @@
                 <input class="form-control" type="text" name="firstName" placeholder="NOME" required="" /><br />
                 <input class="form-control" type="text" name="lastName" placeholder="SOBRE NOME" required="" /><br />
                 <p>Sexo: </p>
-                <label>Feminino</label> <input type="radio" name="gender" value="F" />
+                <label>Feminino</label> <input type="radio" name="gender" value="F" checked="checked" />
                 <label>Masculino</label> <input type="radio" name="gender" value="M" /><br />
                 <p>Pais: </p>
                 <select class="form-control" name="country">
@@ -106,7 +106,7 @@
                 <label>Pesquisa</label> <input type="radio" name="dsPurpose" value="2" />
                 <label>Educacional</label> <input type="radio" name="dsPurpose" value="3" />
                 <label>Outra</label> <input type="radio" name="dsPurpose" /> <input type="text" /><br />
-
+				<%-- <a href="${pageContext.request.contextPath}/Test.pdf">Download file.pdf</a> --%>
                 <h2 class="form-signin-heading">Termo de aceite</h2>
                 
                 <br />

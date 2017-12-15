@@ -72,12 +72,17 @@
                 <c:forEach items="${ilcd.emails}" var="email" varStatus="loop">
                 	<i>${email};</i>
                 </c:forEach>
+                <a href="#" style="float: right;"> Editar </a>
                 <hr />
                 <h6 class="bold">Categoria</h6>
-                <p>${ilcd.category}</p>
+                <p>${ilcd.category}
+                <a href="#" style="float: right;"> Editar </a>
+                </p>
                 <hr />
                 <h6 class="bold">Descrição</h6>
-                <p>${ilcd.description}</p>
+                <p>${ilcd.description}
+                <a href="#" style="float: right;"> Editar </a>
+                </p>
                 <hr />
                 <button class="btn" style="float: right;">Salvar alterações</button>
             </div>
