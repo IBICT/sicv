@@ -28,7 +28,7 @@ import resources.Strings;
 public class RegisterController {
 
 	//TODO make file.properties to get admin email and other informations
-	public static String EMAIL_ADMIN = "wellingtonsousa@ibict.br";
+	public static String EMAIL_ADMIN = "acv@ibict.br";
 	
     @Autowired
     private UserDao userDao;

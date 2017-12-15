@@ -29,7 +29,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
 	    	//TODO colocar outras authorities que faltam para definir os acessos aos revisores
 	    	http
             .authorizeRequests()
-            .antMatchers("/assets/**","/register**").permitAll()
+            .antMatchers("/assets/**","/documents/**","/register**").permitAll()
                 .antMatchers("/admin/**").hasAnyAuthority(EnumProfile.ADMIN.name(),EnumProfile.QUALITY_REVIEWER.name(),EnumProfile.MANAGER.name())
                 .anyRequest().authenticated()
                 .and()
@@ -44,6 +44,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login?logout")
                 .invalidateHttpSession(true)
                 .permitAll();
+	    	http.headers().frameOptions().sameOrigin();
 	    	http.csrf().disable();
 	    }
 	    
