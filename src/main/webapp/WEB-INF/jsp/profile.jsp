@@ -57,6 +57,7 @@
 				<input id="zipCode" name="zipCode" type="text" class="validate" value="${user.zipCode}" hidden="true">
 				<input id="organization" name="organization" type="text" class="validate" value="${user.organization}" hidden="true">
 				<input id="purpose" name="purpose" type="text" class="validate" value="${user.purpose}" hidden="true">
+				<input id="userName" name="userName" type="text" value="${user.userName}" hidden="true">
 				<input id="qntdNotificacoes" name="qntdNotificacoes" type="text" class="validate" value="${user.qntdNotificacoes}" hidden="true">
 
 				<div class="row">

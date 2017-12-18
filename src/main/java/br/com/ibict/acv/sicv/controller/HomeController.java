@@ -88,7 +88,7 @@ public class HomeController {
         User user = (User) session().getAttribute("user");
         String name = user.getUserName();
         model.put("isUserLabel", true);
-        model.put("username", name);
+        //model.put("username", name);
         if( ilcds == null || hasSubmitOrStatus){
         	ilcds = ilcdDao.findIlcdsByLikeEmail( user.getEmail() );
         	hasSubmitOrStatus = true;
