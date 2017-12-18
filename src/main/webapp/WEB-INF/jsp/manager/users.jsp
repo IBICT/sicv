@@ -18,9 +18,19 @@
 		</div>
 		<hr />
 		<c:forEach items="${users}" var="user" varStatus="loop">
+			<c:set var="containsMANAGER" value="false" />
+				<c:set var="containsADMIN" value="false" />
+				<c:forEach items="${user.roles}" var="rol">
+					<c:if test="${rol.role eq 'MANAGER'}">
+						<c:set var="containsMANAGER" value="true" />
+					</c:if>
+					<c:if test="${rol.role eq 'ADMIN'}">
+						<c:set var="containsADMIN" value="true" />
+					</c:if>
+				</c:forEach>
 			<c:choose>
 				<c:when test="${ilcd.homologation.lastArchive.status.type lt 3 and ilcd.homologation.lastArchive.status.status lt 3}">
-					<c:if test="${user.perfil == 'QUALITY_REVIEWER' }">
+					<c:if test="${not containsADMIN }">
 						<div style="margin: 0px;" class="row" id="qRadios">
 							
 							<div style="height: 40px; position: relative; top: 10px;" class="col s3 ">
@@ -41,7 +51,7 @@
 				<c:when test="${ilcd.homologation.lastArchive.status.type > 1}">
 					<c:if test="${(ilcd.homologation.lastArchive.status.type eq 2 and ilcd.homologation.lastArchive.status.status gt 3)
 								or (ilcd.homologation.lastArchive.status.type eq 3 and ilcd.homologation.lastArchive.status.status lt 5) }">
-						<c:if test="${user.perfil == 'USER'}">
+						<c:if test="${not containsAdmin}">
 							<div style="margin: 0px;" class="row">
 								
 								<div style="height: 40px; position: relative; top: 10px;" class="col s3 ">

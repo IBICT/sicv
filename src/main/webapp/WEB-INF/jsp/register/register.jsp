@@ -141,7 +141,7 @@
                 </div>
 
                 <input class="btn btn-lg btn-primary btn-block" type="submit" value="ENVIAR" /><br />
-                <a href="#" class="btn btn-lg btn-default btn-block">CANCELAR</a><br />
+                <a href="<%=Strings.BASE%>" class="btn btn-lg btn-default btn-block">CANCELAR</a><br />
             </form>
 
         </div>

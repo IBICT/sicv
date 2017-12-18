@@ -1,7 +1,6 @@
 package br.com.ibict.acv.sicv.controller;
 
 import java.security.Principal;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -26,6 +25,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import br.com.ibict.acv.sicv.CustomAuthProvider;
+import br.com.ibict.acv.sicv.exception.ProfileException;
 import br.com.ibict.acv.sicv.model.Homologacao;
 import br.com.ibict.acv.sicv.model.Ilcd;
 import br.com.ibict.acv.sicv.model.Notification;
@@ -120,8 +120,7 @@ public class AdminController {
     }
     
     @RequestMapping(value = "/saveProfiles", method = RequestMethod.POST)
-    @ResponseBody
-    public String profiles(ModelMap model, @RequestParam("perfis") String jsonPerfis) {
+    public String profiles(ModelMap model, @RequestParam("perfis") String jsonPerfis) throws Exception {
         if (session().getAttribute("user") == null) {
             return "login/login";
         } else {
@@ -143,17 +142,17 @@ public class AdminController {
     			}
             	position = jsonObjPerfis.getInt("position");
         	}
-        	User user = users.get(position);
-        	user.setRoles(roles);
-
-            try {
-            	userDao.saveAndFlush(user);
-				
-			} catch (Exception e) {
-				// TODO: handle exception
+        	
+        	try {
+        		User user = users.get(position);
+        		user.setRoles(roles);
+        		userDao.saveAndFlush(user);				
+			} catch (ProfileException e) {
+				throw new ProfileException("Erro ao atualizar o usuário", e);
+				//TODO: Return some page 
 			}
 
-            return "true";
+            return "successAlterProfile";
         }
     }
 

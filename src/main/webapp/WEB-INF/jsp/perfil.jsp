@@ -9,67 +9,7 @@
         <title>Home</title>
         <link rel="stylesheet" href="<%=Strings.BASE%>assets/materialize/css/materialize.min.css">
         <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
-        <style>
-            html {
-                font-family: 'Titillium Web', "Roboto", sans-serif;
-            }
-
-            nav {
-                background-color: #4dbcc4;
-            }
-
-            nav .brand-logo {
-                margin-left: 50px;
-            }
-
-            nav .brand-logo img {
-                margin-right: 20px;
-                vertical-align: middle;
-            }
-
-            .container {
-                margin: 10px 50px;
-            }
-
-            .page-title {
-                color: #00697c;
-            }
-
-            .btn-import {
-                background-color: #accc5f;
-            }
-
-            table {
-                width: 1800px;
-            }
-
-            table > thead > tr > th {
-                color: #4dbcc4;
-                border-bottom: 1px solid silver;
-                border-top: 1px solid silver;
-            }
-
-            table > thead > tr > th:last-child {
-                border: 0;
-            }
-
-            table > thead > tr > th {
-                padding: 1px;
-            }
-
-            table > tbody > tr > td {
-                border-bottom: 1px solid silver;
-            }
-
-            table > tbody > tr:last-child {
-                border-bottom: 1px solid black;
-            }
-
-            table > tbody > tr:last-child {
-                border: 0;
-            }
-
-        </style>
+        
         <link rel="stylesheet" href="steps.css">
     </head>
 

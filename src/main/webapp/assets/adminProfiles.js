@@ -12,8 +12,11 @@ function submitForm(index) {
     {
         ar.push({position:index,perfil:$("#"+index+"box3").attr('value')}); 
     }
+    if( !$("#"+index+"box2").is(':checked') && !$("#"+index+"box2").is(':checked')){
+    	ar.push({position:index,perfil:""});
+    }
 
-    alert(JSON.stringify(ar));
+    //alert(JSON.stringify(ar));
 	
     var input = $("<input />").attr("type", "hidden").attr(
     		"name", "perfis").val(JSON.stringify(ar));
