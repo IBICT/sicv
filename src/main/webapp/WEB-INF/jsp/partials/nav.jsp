@@ -32,7 +32,7 @@
 <nav>
     <div class="nav-wrapper">
     	<sec:authorize access="hasAuthority('ADMIN')">
-	        <a href="<%=Strings.BASE%>admin" class="brand-logo">		
+	        <a href="<%=Strings.BASE%>/admin" class="brand-logo">		
 	        <img src="<%=Strings.BASE%>/assets/img/logo.png" alt="SICV"> Importador de Inventários</a>
     	</sec:authorize>
     	<c:if test="${not isAdmin}">

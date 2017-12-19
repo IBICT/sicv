@@ -132,8 +132,8 @@
                 <h2 class="form-signin-heading" >Termos de aceite</h2>
                 <br />
                 
-                <a href="#" data-toggle="modal" data-target="#modal-terms_SICV">Termos de Uso</a><br />
-                <a href="#" data-toggle="modal" data-target="#modal-privacyPolicy_SICV">Politica de Privacidade</a><br />
+                <a href="" data-toggle="modal" data-target="#modal-terms_SICV">Termos de Uso</a><br />
+                <a href="" data-toggle="modal" data-target="#modal-privacyPolicy_SICV">Politica de Privacidade</a><br />
                 
                 <div class="col s4">
                     <input type="checkbox" id="termosAcima" required="required" />
@@ -146,8 +146,8 @@
 
         </div>
 		
-		<script type="application/javascript" src="<%=Strings.BASE%>assets/jquery-3.2.1.min.js"></script>
-		<script type="application/javascript" src="<%=Strings.BASE%>assets/bootstrap-3.3.7/js/bootstrap.min.js"></script>
+		<script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
+		<script type="application/javascript" src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/bootstrap.min.js"></script>
     </body>
 
 </html>

@@ -10,7 +10,7 @@
 
 <c:set var="link" value="${base}" />
 <c:if test="${isAdmin}">
-	<c:set var="link" value="${base}admin/" />
+	<c:set var="link" value="${base}/admin/" />
 </c:if>
 
 <!DOCTYPE html>
@@ -19,8 +19,8 @@
     <head>
         <meta charset="UTF-8">
         <title>Home</title>
-  		<link href="<%=Strings.BASE%>assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
-		<link rel="stylesheet" href="<%=Strings.BASE%>assets/materialize/css/materialize.min.css">
+  		<link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
         <style>
             html {
                 font-family: 'Titillium Web', "Roboto", sans-serif;
@@ -44,7 +44,7 @@
 		</div>
 		<div class="principalDiv">
             
-			<form class="userForm" action="${link}profile" method="POST">
+			<form class="userForm" action="${link}/profile" method="POST">
                 <input id="id" name="id" type="text" class="validate" value="${user.id}" hidden="true">
                 <input id="dsPurpose" name="dsPurpose" type="text" class="validate" value="${user.dsPurpose}" hidden="true">
                 <input id="gender" name="gender" type="text" class="validate" value="${user.gender}" hidden="true">
@@ -123,8 +123,8 @@
                      
              </form>
 		</div>
-        <script type="application/javascript" src="<%=Strings.BASE%>assets/jquery-3.2.1.min.js"></script>
-        <script type="application/javascript" src="<%=Strings.BASE%>assets/materialize/js/materialize.min.js"></script>
+        <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
+        <script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
 		
         <script>
 	        $(document).ready(function () {

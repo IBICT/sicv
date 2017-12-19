@@ -141,14 +141,14 @@
 		                    <div class="col s3">
 								<c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
 		                        <i class="material-icons page-title">insert_drive_file</i>
-			                    <a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=ILCD.zip">
+			                    <a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
 		                       		ILCD.zip
 		                       	</a>
 		                    </div>
 		                    <div class="col s3">
 			                    <c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
 		                        <i class="material-icons page-title">insert_drive_file</i>
-	       		                    <a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=${status.archive.commentName}">
+	       		                    <a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=${status.archive.commentName}">
 		                       		${status.archive.commentName}
 		                       	</a>
 		                    </div>
@@ -179,14 +179,14 @@
 		                    <div class="col s3">
 			                    <c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
 		                        <i class="material-icons page-title">insert_drive_file</i>
-		                        	<a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=ILCD.zip">
+		                        	<a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
 		                        		ILCD.zip
 		                        	</a>
 		                    </div>
 		                    <div class="col s3">
 			                    <c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
 		                        <i class="material-icons page-title">insert_drive_file</i>
-								<a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=${status.archive.commentName}">
+								<a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=${status.archive.commentName}">
 		                       		${status.archive.commentName}
 		                       	</a>
 		                    </div>
@@ -202,7 +202,7 @@
                     <div class="col offset-s3">
 	                    <c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
                         <i class="material-icons page-title">insert_drive_file</i>
-                        	<a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=ILCD.zip">
+                        	<a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
                         		ILCD.zip
                         	</a>
                     </div>

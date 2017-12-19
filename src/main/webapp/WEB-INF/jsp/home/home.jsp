@@ -8,7 +8,7 @@
 	String base = Strings.BASE;
 	pageContext.setAttribute("base", base);
 %>
-<c:set var="link" value="${base}authorIlcd" />
+<c:set var="link" value="${base}/authorIlcd" />
 <sec:authorize access="hasAuthority('USER')" var="isUser" />
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -90,14 +90,14 @@
 		            <p class="page-description page-subtitle"><i>Envie seu inventário e acompanhe o processo. Você receberá notificações no sistema e no e-mail cadastrado sempre que o status sofrer alterações</i></p>
 		            <br>
 		            <c:if test="${not isManager}">
-			            <a class="btn-import waves-effect waves-light btn modal-trigger" href="<%=Strings.BASE%>ilcd/new">Submeter Inventário</a>
+			            <a class="btn-import waves-effect waves-light btn modal-trigger" href="<%=Strings.BASE%>/ilcd/new">Submeter Inventário</a>
 		            </c:if>
 					<br><br>
 					
 		            <h6 style="color:#4dbcc4;">Invéntarios em andamento</h6>	
         		</c:when>
         		<c:otherwise>
-        			<c:set var="link" value="${base}manager/authorIlcd" />
+        			<c:set var="link" value="${base}/manager/authorIlcd" />
         			<h4 class="page-title">Gestão</h4>
         			<br><br>
         		</c:otherwise>

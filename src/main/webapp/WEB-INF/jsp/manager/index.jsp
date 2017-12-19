@@ -63,7 +63,7 @@
 	  </div>
 	  <div class="modal-footer">
 	    <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancelar</a>
-	    <a href="<%=Strings.BASE%>manager/invite-quality-review" class="modal-action modal-close waves-effect waves-green btn-flat"
+	    <a href="<%=Strings.BASE%>/manager/invite-quality-review" class="modal-action modal-close waves-effect waves-green btn-flat"
 			id="sendInviteQ" onclick="sendInviteQ(${ilcd.id});">OK</a>
 	  </div>
 	</div>
@@ -76,7 +76,7 @@
 	  </div>
 	  <div class="modal-footer">
 	    <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancelar</a>
-	    <a href="<%=Strings.BASE%>manager/invite-technical-review"" class="modal-action modal-close waves-effect waves-green btn-flat "
+	    <a href="<%=Strings.BASE%>/manager/invite-technical-review"" class="modal-action modal-close waves-effect waves-green btn-flat "
 	    	id="sendInviteT" onclick="sendInviteT(${ilcd.id});" disabled="true" >OK</a>
 	  </div>
 	</div>	
@@ -124,7 +124,7 @@
 						<div>
 							
 							<i class="material-icons page-title ">insert_drive_file</i>
-							<a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=ILCD.zip">
+							<a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
 								ILCD.zip
 							</a>
 			        	</div>
@@ -140,7 +140,7 @@
 		                	<h6 class="">Revisão Entregue</h6>
 		                    <div>
 								<c:set var="pathFile" value="${status.archive.pathFile}" />
-		                    	<a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=ILCD.zip">
+		                    	<a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
 		      		                <i class="material-icons page-title">insert_drive_file</i>
 		                       	</a>
 			                    ${status.endDate}
@@ -150,7 +150,7 @@
 							<div>
 								<c:set var="pathFile" value="${status.archive.pathFile}" />
 		                        <i class="material-icons page-title">insert_drive_file</i>
-			                    <a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=ILCD.zip">
+			                    <a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
 		                       		ILCD.zip
 		                       	</a>
 		                    </div>
@@ -167,7 +167,7 @@
 							<h6 class="">Revisão Entregue</h6>
 			               
 			           		<c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
-			               	<a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=ILCD.zip">
+			               	<a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
 				                <i class="material-icons yellow-title">insert_drive_file</i>
 							</a>
 			                 30/08/2017
@@ -177,7 +177,7 @@
 							<div>
 								<c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
 			                       <i class="material-icons page-title">insert_drive_file</i>
-			                    <a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=ILCD.zip">
+			                    <a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
 			                      		ILCD.zip
 			                      	</a>
 							</div>
@@ -198,14 +198,14 @@
 		                    <div class="col s3">
 								<c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
 		                        <i class="material-icons page-title">insert_drive_file</i>
-			                    <a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=ILCD.zip">
+			                    <a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
 		                       		ILCD.zip
 		                       	</a>
 		                    </div>
 		                    <div class="col s3">
 			                    <c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
 		                        <i class="material-icons page-title">insert_drive_file</i>
-	       		                    <a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=${status.archive.commentName}">
+	       		                    <a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=${status.archive.commentName}">
 		                       		${status.archive.commentName}
 		                       	</a>
 		                    </div>

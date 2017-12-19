@@ -8,7 +8,7 @@
 	String base = Strings.BASE;
 	pageContext.setAttribute("base", base);
 %>
-<c:set var="link" value="${base}authorIlcd" />
+<c:set var="link" value="${base}/authorIlcd" />
 <sec:authorize access="hasAuthority('USER')" var="isUser" />
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -101,7 +101,7 @@
 	            <div class="col s1 sicv-table-th"> </div>
 			
         	</div>
-        	<form class="col s12" id="formAdminProfiles" method="POST" action="<%=Strings.BASE%>admin/saveProfiles" >
+        	<form class="col s12" id="formAdminProfiles" method="POST" action="<%=Strings.BASE%>/admin/saveProfiles" >
             <c:forEach items="${users}" var="user" varStatus="loop" >
 				<c:set var="containsMANAGER" value="false" />
 				<c:set var="containsADMIN" value="false" />
