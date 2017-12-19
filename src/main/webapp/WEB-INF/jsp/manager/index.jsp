@@ -59,11 +59,12 @@
 	<div id="inviteQ" class="modal modal-fixed-footer">
 	  <div class="modal-content">
 	    <h2 >Selecione um revisor de qualidade</h2>
-	    <jsp:include page="/WEB-INF/jsp/manager/users.jsp" />
+	    <jsp:include page="/WEB-INF/jsp/manager/usersQ.jsp" />
 	  </div>
 	  <div class="modal-footer">
 	    <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancelar</a>
-	    <a href="<%=Strings.BASE%>manager/invite-quality-review?user=${user.id}&ilcd=${ilcd.id}" class="modal-action modal-close waves-effect waves-green btn-flat ">OK</a>
+	    <a href="<%=Strings.BASE%>manager/invite-quality-review" class="modal-action modal-close waves-effect waves-green btn-flat"
+			id="sendInviteQ" onclick="sendInviteQ(${ilcd.id});">OK</a>
 	  </div>
 	</div>
 	
@@ -71,11 +72,12 @@
 	<div id="inviteT" class="modal modal-fixed-footer">
 	  <div class="modal-content">
 	    <h2 >Selecione um revisor técnico</h2>
-	    <jsp:include page="/WEB-INF/jsp/manager/users.jsp" />
+	    <jsp:include page="/WEB-INF/jsp/manager/usersT.jsp" />
 	  </div>
 	  <div class="modal-footer">
 	    <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancelar</a>
-	    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">OK</a>
+	    <a href="<%=Strings.BASE%>manager/invite-technical-review"" class="modal-action modal-close waves-effect waves-green btn-flat "
+	    	id="sendInviteT" onclick="sendInviteT(${ilcd.id});" disabled="true" >OK</a>
 	  </div>
 	</div>	
 	
@@ -113,7 +115,7 @@
 						<button class="btn btn-save modal-trigger" data-target="inviteQ" style="float: left;" >Convidar Q+</button>
 	                </div>
 	                <div class="col s2 offset-s2">
-		                <button class="btn btn-yellow modal-trigger" data-target="inviteT" >Convidar T+</button>
+		                <button class="btn btn-yellow modal-trigger" data-target="inviteT" disabled="disabled">Convidar T+</button>
 	                </div>
 	                <div class="col s3 offset-s3">
 						<div class="s4 page-title bold">Arquivo inicial</div>
@@ -217,6 +219,7 @@
     </div>
     <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
     <script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
+	<script type="application/javascript" src="<%=Strings.BASE%>/assets/managerInvite.js"></script>
     <script>
     $(document).ready(function(){
         // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered

@@ -31,7 +31,7 @@
 			<c:choose>
 				<c:when test="true">
 					<c:if test="${not containsADMIN }">
-						<div style="margin: 0px;" class="row" id="qRadios">
+						<div style="margin: 0px;" class="row" id="tRadios">
 							
 							<div style="height: 40px; position: relative; top: 10px;" class="col s3 ">
 								${user.firstName} ${user.lastName}
@@ -40,8 +40,8 @@
 								${user.email}
 							</div>
 							<div style="height: 40px; position: relative; top: 10px;text-align: center;" class="col s2 ">
-								<input type="radio" id="radio1[${loop.index}]" value="${user.id}" />
-								<label for="radio1[${loop.index}]"></label>
+								<input type="radio" id="radiot1[${loop.index}]" value="${user.id}" name="userInvited" />
+								<label for="radiot1[${loop.index}]"></label>
 							</div>
 						</div>
 						<hr />

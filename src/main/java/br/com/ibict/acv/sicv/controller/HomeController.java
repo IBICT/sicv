@@ -242,11 +242,9 @@ public class HomeController {
             Files.createDirectory(path);
             Files.write(path.resolve("./ILCD.zip"), bytes);
             User ilcdUser = (User) session().getAttribute("user");
-            User manager = userDao.findByEmail("carlagama@ibict.br");
             Status status = new Status();
             status.setStatus(1);
             status.setType(1);
-            status.setRevisor(manager);
             status.setIlcd(ilcd);
             ilcd.addStatus(status);
             

@@ -105,26 +105,26 @@
 	                            <div class="file-field input-field">
 	                                <div class="btn btn-anexar">
 	                                    <span>Anexar ILCD</span>
-	                                    <input type="file">
 	                                </div>
-	                                <div class="file-path-wrapper">
-	                                    <input placeholder="Escolha arquivo em formato ILCD" class="file-path validate" type="text">
-	                                </div>
+	                                <input type="file" class="btn" name="anexar" id="file" disabled="disabled">
+		                            <div class="file-path-wrapper">
+		                                <input placeholder="Escolha arquivo em formato ILCD" class="file-path validate" type="text" disabled="disabled">
+		                            </div>
 	                            </div>
 	                        </div>
 	                        <div class="row">
 	                            <div class="file-field input-field">
 	                                <div class="btn btn-anexar">
-	                                    <span>Anexar ILCD</span>
-	                                    <input type="file">
+	                                    <span>Comentário</span>
 	                                </div>
-	                                <div class="file-path-wrapper">
-	                                    <input placeholder="Escolha arquivo em formato ILCD" class="file-path validate" type="text">
-	                                </div>
+									<input type="file" class="btn" name="anexar" id="file" disabled="disabled">
+		                            <div class="file-path-wrapper">
+		                                <input placeholder="Escolha arquivo em formato ILCD" class="file-path validate" type="text" disabled="disabled">
+		                            </div>
 	                            </div>
 	                        </div>
 	                        <div class="row">
-	                            <button class="btn col s6 offset-s6 btn-anexar">Enviar</button>
+	                            <button class="btn col s6 offset-s6 btn-anexar" disabled="disabled">Enviar</button>
 	                        </div>
 	                    </div>
 	                </div>
