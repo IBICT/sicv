@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.ibict.acv.sicv.exception.RegisterException;
+import br.com.ibict.acv.sicv.model.Role;
 import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.Mail;
@@ -27,7 +28,7 @@ import resources.Strings;
 public class RegisterController {
 
 	//TODO make file.properties to get admin email and other informations
-	public static String EMAIL_ADMIN = "wellingtonsousa@ibict.br";
+	public static String EMAIL_ADMIN = "acv@ibict.br";
 	
     @Autowired
     private UserDao userDao;
@@ -62,6 +63,7 @@ public class RegisterController {
             @RequestParam("dsPurpose") String dsPurpose) throws Exception {
         
         User user = new User();
+        Role role = new Role( 1, "USER" );
         user.setEmail(email);
         
         user.setPasswordHashSalt( Password.generateSalt( 20 ) );
@@ -78,7 +80,7 @@ public class RegisterController {
         user.setTelefone(telefone);
         user.setInstituicao(instituicao);
         user.setDsPurpose(dsPurpose);
-        user.setPerfil( EnumProfile.USER.name() );
+        user.addRole(role);
         user.setQntdNotificacoes(0L);
         
         Map<String, Object> model = new HashMap<String, Object>();

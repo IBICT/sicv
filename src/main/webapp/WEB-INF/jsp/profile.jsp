@@ -3,14 +3,24 @@
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
+<%
+	String base = Strings.BASE;
+	pageContext.setAttribute("base", base);
+%>
+
+<c:set var="link" value="${base}" />
+<c:if test="${isAdmin}">
+	<c:set var="link" value="${base}/admin/" />
+</c:if>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 
     <head>
         <meta charset="UTF-8">
         <title>Home</title>
-  		<link href="<%=Strings.BASE%>assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
-		<link rel="stylesheet" href="<%=Strings.BASE%>assets/materialize/css/materialize.min.css">
+  		<link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+		<link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
         <style>
             html {
                 font-family: 'Titillium Web', "Roboto", sans-serif;
@@ -34,7 +44,7 @@
 		</div>
 		<div class="principalDiv">
             
-			<form class="userForm" action="<%=Strings.BASE%>profile" method="POST">
+			<form class="userForm" action="${link}/profile" method="POST">
                 <input id="id" name="id" type="text" class="validate" value="${user.id}" hidden="true">
                 <input id="dsPurpose" name="dsPurpose" type="text" class="validate" value="${user.dsPurpose}" hidden="true">
                 <input id="gender" name="gender" type="text" class="validate" value="${user.gender}" hidden="true">
@@ -46,11 +56,10 @@
 				<input id="streetAddress" name="streetAddress" type="text" class="validate" value="${user.streetAddress}" hidden="true">
 				<input id="zipCode" name="zipCode" type="text" class="validate" value="${user.zipCode}" hidden="true">
 				<input id="organization" name="organization" type="text" class="validate" value="${user.organization}" hidden="true">
-				<input id="perfil" name="perfil" type="text" class="validate" value="${user.perfil}" hidden="true">
 				<input id="purpose" name="purpose" type="text" class="validate" value="${user.purpose}" hidden="true">
+				<input id="userName" name="userName" type="text" value="${user.userName}" hidden="true">
 				<input id="qntdNotificacoes" name="qntdNotificacoes" type="text" class="validate" value="${user.qntdNotificacoes}" hidden="true">
 
-                
 				<div class="row">
 					<h5 class="page-title">Perfil</h5>
 				</div>
@@ -114,8 +123,8 @@
                      
              </form>
 		</div>
-        <script type="application/javascript" src="<%=Strings.BASE%>assets/jquery-3.2.1.min.js"></script>
-        <script type="application/javascript" src="<%=Strings.BASE%>assets/materialize/js/materialize.min.js"></script>
+        <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
+        <script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
 		
         <script>
 	        $(document).ready(function () {

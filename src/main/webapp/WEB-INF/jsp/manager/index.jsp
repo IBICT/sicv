@@ -57,28 +57,27 @@
 	
 	<!-- Modal Structure -->
 	<div id="inviteQ" class="modal modal-fixed-footer">
-            <form method="POST" action="http://localhost:8080/gestor/invite">
-                <div class="modal-content">
-                  <h2 >Selecione um revisor de qualidade</h2>
-                  <jsp:include page="/WEB-INF/jsp/manager/users.jsp" />
-                </div>
-                <div class="modal-footer">
-                  <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancelar</a>
-                  <input type="hidden" value="1" name="ilcd" />
-                  <input type="submit" value="OK" class="modal-action modal-close waves-effect waves-green btn-flat " />
-                </div>
-            </form>
+	  <div class="modal-content">
+	    <h2 >Selecione um revisor de qualidade</h2>
+	    <jsp:include page="/WEB-INF/jsp/manager/usersQ.jsp" />
+	  </div>
+	  <div class="modal-footer">
+	    <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancelar</a>
+	    <a href="<%=Strings.BASE%>/manager/invite-quality-review" class="modal-action modal-close waves-effect waves-green btn-flat"
+			id="sendInviteQ" onclick="sendInviteQ(${ilcd.id});">OK</a>
+	  </div>
 	</div>
 	
 	<!-- Modal Structure -->
 	<div id="inviteT" class="modal modal-fixed-footer">
 	  <div class="modal-content">
 	    <h2 >Selecione um revisor técnico</h2>
-	    <jsp:include page="/WEB-INF/jsp/manager/users.jsp" />
+	    <jsp:include page="/WEB-INF/jsp/manager/usersT.jsp" />
 	  </div>
 	  <div class="modal-footer">
 	    <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancelar</a>
-	    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat ">OK</a>
+	    <a href="<%=Strings.BASE%>/manager/invite-technical-review"" class="modal-action modal-close waves-effect waves-green btn-flat "
+	    	id="sendInviteT" onclick="sendInviteT(${ilcd.id});" disabled="true" >OK</a>
 	  </div>
 	</div>	
 	
@@ -95,7 +94,13 @@
 	                <h5>Autor correpondente</h5>
 	            </div>
                 <h6 class="bold">Autor/es</h6>
-                <p>${ilcd.email} </p>
+				<c:forEach items="${ilcd.authors}" var="author" varStatus="loop">
+	                <i>${author};</i>
+               	</c:forEach>
+                <p>
+				<c:forEach items="${ilcd.emails}" var="email" varStatus="loop">
+                	<i>${email};</i>
+                </c:forEach>
                 <br>
                 <h6 class="bold">Categoria</h6>
                 <p>${ilcd.category}</p>
@@ -110,15 +115,16 @@
 						<button class="btn btn-save modal-trigger" data-target="inviteQ" style="float: left;" >Convidar Q+</button>
 	                </div>
 	                <div class="col s2 offset-s2">
-		                <button class="btn btn-yellow modal-trigger" data-target="inviteT" >Convidar T+</button>
+		                <button class="btn btn-yellow modal-trigger" data-target="inviteT" disabled="disabled">Convidar T+</button>
 	                </div>
-	                <div class="col s2 offset-s2">
+	                <div class="col s3 offset-s3">
+						<div class="s4 page-title bold">Arquivo inicial</div>
 
 						<c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
 						<div>
-							<h6>Arquivo Inicial</h6>
-							<i class="material-icons page-title offset-s5">insert_drive_file</i>
-							<a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=ILCD.zip">
+							
+							<i class="material-icons page-title ">insert_drive_file</i>
+							<a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
 								ILCD.zip
 							</a>
 			        	</div>
@@ -134,7 +140,7 @@
 		                	<h6 class="">Revisão Entregue</h6>
 		                    <div>
 								<c:set var="pathFile" value="${status.archive.pathFile}" />
-		                    	<a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=ILCD.zip">
+		                    	<a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
 		      		                <i class="material-icons page-title">insert_drive_file</i>
 		                       	</a>
 			                    ${status.endDate}
@@ -144,7 +150,7 @@
 							<div>
 								<c:set var="pathFile" value="${status.archive.pathFile}" />
 		                        <i class="material-icons page-title">insert_drive_file</i>
-			                    <a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=ILCD.zip">
+			                    <a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
 		                       		ILCD.zip
 		                       	</a>
 		                    </div>
@@ -161,7 +167,7 @@
 							<h6 class="">Revisão Entregue</h6>
 			               
 			           		<c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
-			               	<a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=ILCD.zip">
+			               	<a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
 				                <i class="material-icons yellow-title">insert_drive_file</i>
 							</a>
 			                 30/08/2017
@@ -171,7 +177,7 @@
 							<div>
 								<c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
 			                       <i class="material-icons page-title">insert_drive_file</i>
-			                    <a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=ILCD.zip">
+			                    <a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
 			                      		ILCD.zip
 			                      	</a>
 							</div>
@@ -192,14 +198,14 @@
 		                    <div class="col s3">
 								<c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
 		                        <i class="material-icons page-title">insert_drive_file</i>
-			                    <a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=ILCD.zip">
+			                    <a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
 		                       		ILCD.zip
 		                       	</a>
 		                    </div>
 		                    <div class="col s3">
 			                    <c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
 		                        <i class="material-icons page-title">insert_drive_file</i>
-	       		                    <a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=${status.archive.commentName}">
+	       		                    <a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=${status.archive.commentName}">
 		                       		${status.archive.commentName}
 		                       	</a>
 		                    </div>
@@ -213,6 +219,7 @@
     </div>
     <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
     <script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
+	<script type="application/javascript" src="<%=Strings.BASE%>/assets/managerInvite.js"></script>
     <script>
     $(document).ready(function(){
         // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered

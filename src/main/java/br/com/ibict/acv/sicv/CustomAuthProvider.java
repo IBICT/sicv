@@ -1,6 +1,7 @@
 package br.com.ibict.acv.sicv;
 
-import java.util.HashSet;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Set;
 
 import javax.servlet.http.HttpSession;
@@ -21,6 +22,7 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
+import br.com.ibict.acv.sicv.model.Role;
 import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 
@@ -56,12 +58,13 @@ public class CustomAuthProvider implements AuthenticationProvider {
 	            	boolean passwordMatch = isPasswordMatching(usuarioBd.getPasswordHash(), password, hashSalt);
 	                
 	            	if( passwordMatch ){
+	            		/*
 		            	Set<GrantedAuthority> authorities = new HashSet<>();
-		            	authorities.add(new SimpleGrantedAuthority( usuarioBd.getPerfil() ));
-		//                Collection<? extends GrantedAuthority> authorities = usuarioBd.getPerfil();
+		            	authorities.add(new  SimpleGrantedAuthority( usuarioBd.getPerfil() ));
+		                Collection<? extends GrantedAuthority> authorities = usuarioBd.getPerfil();*/
 		            	usuarioBd.setPlainPassword(password);
 		                getHttpSession().setAttribute("user", usuarioBd);
-		                return new UsernamePasswordAuthenticationToken(email, usuarioBd.getPasswordHash(), authorities);
+		                return new UsernamePasswordAuthenticationToken(email, usuarioBd.getPasswordHash(), getGrantedAuthorities(usuarioBd.getRoles()));
 	            	}
 	            } else {
 	                throw new BadCredentialsException("User is not enabled.");
@@ -80,6 +83,15 @@ public class CustomAuthProvider implements AuthenticationProvider {
     public boolean supports(Class<?> auth) {
         return auth.equals(UsernamePasswordAuthenticationToken.class);
     }
+    
+    private List<GrantedAuthority> getGrantedAuthorities(Set<Role> roles) {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        for (Role role : roles) {
+            authorities.add(new SimpleGrantedAuthority(role.getRole()));
+        }
+        return authorities;
+    }
+    
 
     private boolean usuarioAtivo(User usuario) {
         if (usuario != null) {

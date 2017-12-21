@@ -58,7 +58,6 @@ import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.ExclStrat;
 import br.com.ibict.acv.sicv.util.Mail;
 import br.com.ibict.acv.sicv.util.Password;
-import br.com.ibict.sicv.enums.EnumProfile;
 import resources.Strings;
 
 @Controller
@@ -89,7 +88,7 @@ public class HomeController {
         User user = (User) session().getAttribute("user");
         String name = user.getUserName();
         model.put("isUserLabel", true);
-        model.put("username", name);
+        //model.put("username", name);
         if( ilcds == null || hasSubmitOrStatus){
         	ilcds = ilcdDao.findIlcdsByLikeEmail( user.getEmail() );
         	hasSubmitOrStatus = true;
@@ -133,11 +132,10 @@ public class HomeController {
     }
     
     @PostMapping("/profile")
-    @ResponseBody
     public String loginHandle(@RequestParam("profile") String profile) {
         
     	User userSession = (User) session().getAttribute("user"); 
-    	profile = profile.replaceAll("\\[", "").replaceAll("\\]","");
+    	//profile = profile.replaceAll("\\[", "").replaceAll("\\]","");
     	Gson gson = new Gson();
     	User user = gson.fromJson(profile, User.class);
     	if( user.getPlainPassword().trim() != "" ){
@@ -153,10 +151,14 @@ public class HomeController {
     	
     	user.setHomologacoes(userSession.getHomologacoes());
     	user.setStatus(userSession.getStatus());  
+    	user.setRoles(userSession.getRoles());
         userDao.save(user);
         session().setAttribute("user",user);
         
-        return "true";
+        Map<String, Object> model = new HashMap<String, Object>();
+        model.put("successMessage", "Perfil atualizado com sucesso!");
+        
+        return "successAlterProfile";
     }
     
     @RequestMapping("/authorIlcd/{index}")
@@ -214,9 +216,9 @@ public class HomeController {
     	JSONArray emails = new JSONArray(jsonEmails);
     	for (int i = 0; i < authors.length(); i++) {
     		JSONObject jsonObjAuthors = authors.getJSONObject(i);
-    		System.out.println(jsonObjAuthors.getString("value"));
+    		//System.out.println(jsonObjAuthors.getString("value"));
     		JSONObject jsonObjEmails = emails.getJSONObject(i);
-    		System.out.println(jsonObjEmails.getString("value"));
+    		//System.out.println(jsonObjEmails.getString("value"));
     		ilcd.addAuthor(jsonObjAuthors.getString("value"));
     		ilcd.addEmail(jsonObjEmails.getString("value"));
     	}
@@ -240,11 +242,9 @@ public class HomeController {
             Files.createDirectory(path);
             Files.write(path.resolve("./ILCD.zip"), bytes);
             User ilcdUser = (User) session().getAttribute("user");
-            User manager = userDao.findByEmail("carlagama@ibict.br");
             Status status = new Status();
             status.setStatus(1);
             status.setType(1);
-            status.setRevisor(manager);
             status.setIlcd(ilcd);
             ilcd.addStatus(status);
             

@@ -1,9 +1,3 @@
-<%-- 
-    Document   : login
-    Created on : 10/05/2017, 16:23:25
-    Author     : Deivdy.Silva
---%>
-
 <%@page import="resources.Strings"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -54,17 +48,45 @@
           <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
+        
     </head>
 
     <body>
+		<div class="modal fade" id="modal-terms_SICV">
+		  <div class="modal-dialog modal-lg" role="document">
+		    <div class="modal-content">
+		      <div class="modal-body">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		        <object type="application/pdf" data="documents/terms_SICV.pdf" width="100%" height="500" style="height: 85vh;">No Support</object>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		
+		<div class="modal fade" id="modal-privacyPolicy_SICV">
+		  <div class="modal-dialog modal-lg" role="document">
+		    <div class="modal-content">
+		      <div class="modal-body">
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">&times;</span>
+		        </button>
+		        <object type="application/pdf" data="documents/privacyPolicy_SICV.pdf" width="100%" height="500" style="height: 85vh;">No Support</object>
+		      </div>
+		    </div><!-- /.modal-content -->
+		  </div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+		
+		<jsp:include page="/WEB-INF/jsp/partials/nav.jsp"/>
+		
+		<div class="container">
 
-        <div class="container">
-
-            <h1>Formulário de registro de Usuário</h1>
+            <h2>Formulário de registro de Usuário</h2>
             
             <form method="post" class="form-signin">
 
-                <h2 class="form-signin-heading">Informações de Login</h2>
+                <h3 class="form-signin-heading">Informações de Login</h3>
                 
                 <br />
                 
@@ -85,9 +107,9 @@
                     <option>Nao Informado</option>
                 </select><br />
                 <input class="form-control" type="text" name="firstName" placeholder="NOME" required="" /><br />
-                <input class="form-control" type="text" name="lastName" placeholder="SOBRE NOME" required="" /><br />
+                <input class="form-control" type="text" name="lastName" placeholder="SOBRENOME" required="" /><br />
                 <p>Sexo: </p>
-                <label>Feminino</label> <input type="radio" name="gender" value="F" />
+                <label>Feminino</label> <input type="radio" name="gender" value="F" checked="checked" />
                 <label>Masculino</label> <input type="radio" name="gender" value="M" /><br />
                 <p>Pais: </p>
                 <select class="form-control" name="country">
@@ -107,24 +129,25 @@
                 <label>Educacional</label> <input type="radio" name="dsPurpose" value="3" />
                 <label>Outra</label> <input type="radio" name="dsPurpose" /> <input type="text" /><br />
 
-                <h2 class="form-signin-heading">Termo de aceite</h2>
-                
+                <h2 class="form-signin-heading" >Termos de aceite</h2>
                 <br />
                 
-                <a href="#">Termos de Uso</a><br />
-                <a href="#">Politica de Privacidade</a><br />
-                <div class="checkbox">
-                    <label>
-                        <input type="checkbox"> Concordo com os termos acima.
-                    </label>
+                <a href="" data-toggle="modal" data-target="#modal-terms_SICV">Termos de Uso</a><br />
+                <a href="" data-toggle="modal" data-target="#modal-privacyPolicy_SICV">Politica de Privacidade</a><br />
+                
+                <div class="col s4">
+                    <input type="checkbox" id="termosAcima" required="required" />
+                    <label for="termosAcima">Concordo com os termos acima.</label>
                 </div>
 
                 <input class="btn btn-lg btn-primary btn-block" type="submit" value="ENVIAR" /><br />
-                <a href="#" class="btn btn-lg btn-default btn-block">CANCELAR</a><br />
+                <a href="<%=Strings.BASE%>" class="btn btn-lg btn-default btn-block">CANCELAR</a><br />
             </form>
 
         </div>
-
+		
+		<script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
+		<script type="application/javascript" src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/bootstrap.min.js"></script>
     </body>
 
 </html>

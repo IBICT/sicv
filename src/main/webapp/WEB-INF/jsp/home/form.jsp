@@ -30,7 +30,7 @@
 		<link href="<%=Strings.BASE%>/assets/css/defaultNotifications.css" rel="stylesheet">
         <!-- Bootstrap core CSS -->
 		<link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
-		<link rel="stylesheet" href="<%=Strings.BASE%>assets/materialize/css/materialize.min.css">
+		<link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
     </head>
     <body>
 
@@ -44,7 +44,7 @@
 		    <div id="modal1" class=" modal-fixed-footer full-screen">
 		        <div class="modal-content">
 		            <div class="row full-screen">
-				        <form class="col s12 formILCD" method="POST" action="<%=Strings.BASE%>ilcd/new" enctype="multipart/form-data" id="teste">
+				        <form class="col s12 formILCD" method="POST" action="<%=Strings.BASE%>/ilcd/new" enctype="multipart/form-data" id="teste">
 		            		<h4 class="page-title">Submissão Inventário</h4>
 		                    <div class="row" id="authorsClone">
 								<div id="divAuthorEmail" class="row">

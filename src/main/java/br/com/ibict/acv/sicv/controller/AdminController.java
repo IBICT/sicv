@@ -2,13 +2,18 @@ package br.com.ibict.acv.sicv.controller;
 
 import java.security.Principal;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,17 +25,21 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import br.com.ibict.acv.sicv.CustomAuthProvider;
+import br.com.ibict.acv.sicv.exception.ProfileException;
 import br.com.ibict.acv.sicv.model.Homologacao;
 import br.com.ibict.acv.sicv.model.Ilcd;
 import br.com.ibict.acv.sicv.model.Notification;
+import br.com.ibict.acv.sicv.model.Role;
 import br.com.ibict.acv.sicv.model.TechnicalReviewer;
 import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.HomologacaoDao;
 import br.com.ibict.acv.sicv.repositories.IlcdDao;
 import br.com.ibict.acv.sicv.repositories.NotificationDao;
+import br.com.ibict.acv.sicv.repositories.RoleDao;
 import br.com.ibict.acv.sicv.repositories.TechnicalReviewerDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.Mail;
+import br.com.ibict.acv.sicv.util.Password;
 import br.com.ibict.sicv.enums.EnumProfile;
 import resources.Strings;
 
@@ -43,6 +52,9 @@ public class AdminController {
 
     @Autowired
     private IlcdDao ilcdDao;
+    
+    @Autowired
+    private RoleDao roleDao;
 
     @Autowired
     private HomologacaoDao homologacaoDao;
@@ -53,7 +65,7 @@ public class AdminController {
     @Autowired
     private TechnicalReviewerDao technicalReviewerDao;
     
-    List<User> users;
+    private List<User> users;
 	
     @RequestMapping("")
     public String root(Map<String, Object> model, Principal principal) {
@@ -64,6 +76,83 @@ public class AdminController {
             model.put("users", users);
 
             return "admin/home";
+        }
+    }
+    
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String gatLogin(Map<String, Object> model) {
+        return "home/login";
+    }
+    
+    @RequestMapping(value = "/profile/{index}", method = RequestMethod.GET)
+    public String getProfileHandler(Map<String, Object> model, @PathVariable("index") Integer index) {
+    	User user = users.get(index);
+
+    	model.put("isAdmin", true);
+    	model.put("user", user);
+        return "/profile";
+    }
+    
+    @PostMapping("/profile")
+    public String loginHandle(@RequestParam("profile") String profile) {
+        
+    	//profile = profile.replaceAll("\\[", "").replaceAll("\\]","");
+    	Gson gson = new Gson();
+    	User user = gson.fromJson(profile, User.class);
+    	User userDB = (User) userDao.findOne(user.getId()); 
+    	if( user.getPlainPassword().trim() != "" ){
+    		if( user.getPlainPassword().equals( userDB.getPlainPassword() ) && !user.getNewPassword().trim().equals("") ){
+    			user.setPasswordHashSalt( Password.generateSalt( 20 ) );
+    			user.setPasswordHash( Password.getEncryptedPassword( user.getNewPassword() , user.getPasswordHashSalt() ) );
+    			user.setPlainPassword( user.getNewPassword() );
+    			user.setNewPassword(null);
+    		}else
+    			user.setPasswordHash( userDB.getPasswordHash() );
+    			user.setPlainPassword( userDB.getPlainPassword() );
+    	}
+    	
+    	user.setHomologacoes(userDB.getHomologacoes());
+    	user.setStatus(userDB.getStatus());  
+    	user.setRoles(userDB.getRoles());
+        userDao.saveAndFlush(user);
+        
+        return "successAlterProfile";
+    }
+    
+    @RequestMapping(value = "/saveProfiles", method = RequestMethod.POST)
+    public String profiles(ModelMap model, @RequestParam("perfis") String jsonPerfis) throws Exception {
+        if (session().getAttribute("user") == null) {
+            return "login/login";
+        } else {
+        	Set<Role> profileList = new HashSet<Role>();
+        	profileList.addAll(roleDao.findAll());
+        	Set<Role> roles = new HashSet<Role>();
+        	
+        	JSONArray perfis = new JSONArray(jsonPerfis);
+        	Integer position = 0;
+        	for (int i = 0; i < perfis.length(); i++) {
+        		JSONObject jsonObjPerfis = perfis.getJSONObject(i);
+        		String perfil = jsonObjPerfis.getString("perfil");
+        		//add each string role to list 
+            	for (Role role : profileList) {
+            		if( role.getRole().equals("USER") )
+            			roles.add(role);
+    				if( role.getRole().equals(perfil) )
+    					roles.add(role);
+    			}
+            	position = jsonObjPerfis.getInt("position");
+        	}
+        	
+        	try {
+        		User user = users.get(position);
+        		user.setRoles(roles);
+        		userDao.saveAndFlush(user);				
+			} catch (ProfileException e) {
+				throw new ProfileException("Erro ao atualizar o usuário", e);
+				//TODO: Return some page 
+			}
+
+            return "successAlterProfile";
         }
     }
 

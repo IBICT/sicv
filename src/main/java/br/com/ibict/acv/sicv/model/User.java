@@ -2,6 +2,7 @@ package br.com.ibict.acv.sicv.model;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -12,7 +13,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
@@ -112,16 +116,18 @@ public class User implements Serializable{
     @Column(name = "organization")
     @Expose
     private Boolean organization;
-
-    @NotNull
-    @Column(name = "PERFIL")
-    @Expose
-    private String perfil;
     
-//    @NotNull
+    @Expose
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
+    @JoinTable(name = "user_roles",
+            joinColumns = {@JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
+    private Set<Role> roles;
+    
+/*    @NotNull
     @Column(name = "authority")
     @Expose
-    private String role;
+    private String role;*/
 
     @Column(name = "TELEFONE")
     @Expose
@@ -180,7 +186,6 @@ public class User implements Serializable{
         this.streetAddress = streetAddress;
         this.zipCode = zipCode;
         this.organization = organization;
-        this.perfil = perfil;
         this.telefone = telefone;
         this.instituicao = instituicao;
         this.purpose = purpose;
@@ -347,19 +352,6 @@ public class User implements Serializable{
         this.organization = organization;
     }
 
-    public String getPerfil() {
-        return perfil;
-    }
-
-    public String getRole() {
-		return role;
-	}
-    
-    public void setPerfil(String perfil) {
-    	this.role = perfil;
-        this.perfil = perfil;
-    }
-
     public String getTelefone() {
         return telefone;
     }
@@ -422,5 +414,19 @@ public class User implements Serializable{
     public void setStatus(Set<Status> status) {
 		this.status = status;
 	}
+    
+    public Set<Role> getRoles() {
+		return roles;
+	}
+    
+    public void setRoles(Set<Role> roles) {
+		this.roles = roles;
+	}
 
-} // class User
+    public boolean addRole(Role role){
+    	if(roles == null ){
+    		this.roles = new HashSet<Role>();
+    	}
+		return this.roles.add(role);
+    }
+}

@@ -72,12 +72,17 @@
                 <c:forEach items="${ilcd.emails}" var="email" varStatus="loop">
                 	<i>${email};</i>
                 </c:forEach>
+                <a href="#" style="float: right;"> Editar </a>
                 <hr />
                 <h6 class="bold">Categoria</h6>
-                <p>${ilcd.category}</p>
+                <p>${ilcd.category}
+                <a href="#" style="float: right;"> Editar </a>
+                </p>
                 <hr />
                 <h6 class="bold">Descrição</h6>
-                <p>${ilcd.description}</p>
+                <p>${ilcd.description}
+                <a href="#" style="float: right;"> Editar </a>
+                </p>
                 <hr />
                 <button class="btn" style="float: right;">Salvar alterações</button>
             </div>
@@ -100,26 +105,26 @@
 	                            <div class="file-field input-field">
 	                                <div class="btn btn-anexar">
 	                                    <span>Anexar ILCD</span>
-	                                    <input type="file">
 	                                </div>
-	                                <div class="file-path-wrapper">
-	                                    <input placeholder="Escolha arquivo em formato ILCD" class="file-path validate" type="text">
-	                                </div>
+	                                <input type="file" class="btn" name="anexar" id="file" disabled="disabled">
+		                            <div class="file-path-wrapper">
+		                                <input placeholder="Escolha arquivo em formato ILCD" class="file-path validate" type="text" disabled="disabled">
+		                            </div>
 	                            </div>
 	                        </div>
 	                        <div class="row">
 	                            <div class="file-field input-field">
 	                                <div class="btn btn-anexar">
-	                                    <span>Anexar ILCD</span>
-	                                    <input type="file">
+	                                    <span>Comentário</span>
 	                                </div>
-	                                <div class="file-path-wrapper">
-	                                    <input placeholder="Escolha arquivo em formato ILCD" class="file-path validate" type="text">
-	                                </div>
+									<input type="file" class="btn" name="anexar" id="file" disabled="disabled">
+		                            <div class="file-path-wrapper">
+		                                <input placeholder="Escolha arquivo em formato ILCD" class="file-path validate" type="text" disabled="disabled">
+		                            </div>
 	                            </div>
 	                        </div>
 	                        <div class="row">
-	                            <button class="btn col s6 offset-s6 btn-anexar">Enviar</button>
+	                            <button class="btn col s6 offset-s6 btn-anexar" disabled="disabled">Enviar</button>
 	                        </div>
 	                    </div>
 	                </div>
@@ -136,14 +141,14 @@
 		                    <div class="col s3">
 								<c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
 		                        <i class="material-icons page-title">insert_drive_file</i>
-			                    <a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=ILCD.zip">
+			                    <a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
 		                       		ILCD.zip
 		                       	</a>
 		                    </div>
 		                    <div class="col s3">
 			                    <c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
 		                        <i class="material-icons page-title">insert_drive_file</i>
-	       		                    <a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=${status.archive.commentName}">
+	       		                    <a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=${status.archive.commentName}">
 		                       		${status.archive.commentName}
 		                       	</a>
 		                    </div>
@@ -174,14 +179,14 @@
 		                    <div class="col s3">
 			                    <c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
 		                        <i class="material-icons page-title">insert_drive_file</i>
-		                        	<a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=ILCD.zip">
+		                        	<a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
 		                        		ILCD.zip
 		                        	</a>
 		                    </div>
 		                    <div class="col s3">
 			                    <c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
 		                        <i class="material-icons page-title">insert_drive_file</i>
-								<a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=${status.archive.commentName}">
+								<a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=${status.archive.commentName}">
 		                       		${status.archive.commentName}
 		                       	</a>
 		                    </div>
@@ -197,7 +202,7 @@
                     <div class="col offset-s3">
 	                    <c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
                         <i class="material-icons page-title">insert_drive_file</i>
-                        	<a href="<%=Strings.BASE%>ilcd/${pathFile}/?name=ILCD.zip">
+                        	<a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
                         		ILCD.zip
                         	</a>
                     </div>

@@ -8,7 +8,7 @@
 	String base = Strings.BASE;
 	pageContext.setAttribute("base", base);
 %>
-<c:set var="link" value="${base}authorIlcd" />
+<c:set var="link" value="${base}/authorIlcd" />
 <sec:authorize access="hasAuthority('USER')" var="isUser" />
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -35,6 +35,8 @@
         <meta name="msapplication-TileImage" content="<%=Strings.BASE%>/assets/images/favicon/ms-icon-144x144.png" />
         <meta name="theme-color" content="#ffffff" />
         
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
 
         <style>
@@ -87,50 +89,78 @@
    			<h4 class="page-title"></h4>
    			<br><br>
    	
+<%--             		<input name="role" value="${user.roles['role']}"/> --%>
+   	
             <div style="margin:0px;" class="row" >
 	            <div class="col s1 sicv-table-th"> </div>
 	            <div class="col s2 sicv-table-th"> </div>
 	            <div class="col s2 sicv-table-th"> </div>
 	            <div class="col s1 sicv-table-th">Usuário</div>
-	            <div class="col s1 sicv-table-th">Revisor Qualidade</div>
 	            <div class="col s1 sicv-table-th">Gestor</div>
 	            <div class="col s1 sicv-table-th">Admin</div>
 	            <div class="col s1 sicv-table-th"> </div>
 			
         	</div>
+        	<form class="col s12" id="formAdminProfiles" method="POST" action="<%=Strings.BASE%>/admin/saveProfiles" >
             <c:forEach items="${users}" var="user" varStatus="loop" >
+				<c:set var="containsMANAGER" value="false" />
+				<c:set var="containsADMIN" value="false" />
+				<c:forEach items="${user.roles}" var="rol">
+					<c:if test="${rol.role eq 'MANAGER'}">
+						<c:set var="containsMANAGER" value="true" />
+					</c:if>
+					<c:if test="${rol.role eq 'ADMIN'}">
+						<c:set var="containsADMIN" value="true" />
+					</c:if>
+				</c:forEach>
+
 	        	<div style="margin:0px;" class="row">
 				    <div style="height: 40px; position: relative; top: 10px;" class="col s1 sicv-table-td">
-				    	<a href="#"> Editar </a>
+				    	<a href="<%=Strings.BASE%>admin/profile/${loop.index}"> Editar </a>
 				    </div>
-		   			<div style="height: 40px; position: relative; top: 10px;" class="col s2 sicv-table-td">${user.firstName} ${user.lastName}</div>   
-		   			<div style="height: 40px; position: relative; top: 10px;" class="col s2 sicv-table-td">${user.email}</div>
+		   			<div style="height: 40px; position: relative; top: 10px;" class="col s2 sicv-table-td fullName">${user.firstName} ${user.lastName}</div>   
+		   			<div style="height: 40px; position: relative; top: 10px;" class="col s2 sicv-table-td mail">${user.email}</div>
 		            <div style="height: 40px; position: relative; top: 10px;" class="col s1 sicv-table-td">
-						<input type="checkbox" id="box1[${loop.index}]" name="perfil" value="USER" ${user.perfil == 'USER' ? 'checked="checked"' : '' }/>
-						<label for="box1[${loop.index}]"></label>
+						<input type="checkbox" checked="checked" readonly="readonly" disabled="disabled" name="user.roles[]" id="${loop.index}box1" value="USER" checked="checked"/>
+						<label for="${loop.index}box1"></label>
 		            </div>
-				    <div style="height: 40px; position: relative; top: 10px;" class="col s1 sicv-table-td">
-						<input type="checkbox" id="box2[${loop.index}]" name="perfil" value="QUALITY_REVIEWER" ${user.perfil == 'QUALITY_REVIEWER' ? 'checked="checked"' : '' }/>
-						<label for="box2[${loop.index}]"></label>
-				    </div>
 		   			<div style="height: 40px; position: relative; top: 10px;" class="col s1 sicv-table-td">
-						<input type="checkbox" id="box3[${loop.index}]" name="perfil" value="GESTOR" ${user.perfil == 'MANAGER' ? 'checked="checked"' : '' }/>
-						<label for="box3[${loop.index}]"></label>
-		   			</div>   
+						<input class="perfis" type="checkbox" id="${loop.index}box2" name="user.roles[]" value="MANAGER" ${containsMANAGER ? 'checked="checked"' : '' }
+						onclick="enableSubmit('btnSubmit${loop.index}');"/>
+						<label for="${loop.index}box2"></label>
+		   			</div>
 		            <div style="height: 40px; position: relative; top: 10px;" class="col s1 sicv-table-td">
-						<input type="checkbox" id="box4[${loop.index}]" name="perfil" value="ADMIN" ${user.perfil == 'ADMIN' ? 'checked="checked"' : '' }/>
-						<label for="box4[${loop.index}]"></label>
+						<input class="perfis" type="checkbox" id="${loop.index}box3" name="user.roles[]" value="ADMIN" ${containsADMIN ? 'checked="checked"' : '' }
+						onclick="enableSubmit('btnSubmit${loop.index}');"/>
+						<label for="${loop.index}box3"></label>
 		            </div>
-		   			<div style="height: 40px; position: relative; top: 10px;" class="col s1 sicv-table-td">Confirmar</div>
+
+		   			<div style="height: 40px; position: relative; top: 10px;" class="col s1 sicv-table-td">
+		   				<input value="Confirmar" type="button" class="button btnSaveProfile" id="btnSubmit${loop.index}" disabled="disabled" onclick="submitForm('${loop.index}');" />
+		   			</div>
 	   			</div>
 			</c:forEach>
+			</form>
 
         </div>
 		    <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
 			<script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
+			<script type="application/javascript" src="<%=Strings.BASE%>/assets/adminProfiles.js"></script>
+
 	    </body>
 		
 </html>
 
-<!--                         <td><a class="waves-effect waves-light btn">Revisão Qualidata</a></td>
-                        <td><a class="btn-import waves-effect waves-light btn">Revisão Técnica</a></td> -->
+<!--                    
+     <td><a class="waves-effect waves-light btn">Revisão Qualidata</a></td>
+     <td><a class="btn-import waves-effect waves-light btn">Revisão Técnica</a></td> 
+				var ar=[];
+	        $('.perfis').each(function(){
+	            if($(this).is(':checked'))
+	            {
+	                ar.push({id:$(this).attr('id'),perfil:$(this).attr('value')}); 
+	            }        
+	        });
+	        alert(JSON.stringify(ar));
+	
+-->
