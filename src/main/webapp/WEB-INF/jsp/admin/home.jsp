@@ -116,7 +116,7 @@
 
 	        	<div style="margin:0px;" class="row">
 				    <div style="height: 40px; position: relative; top: 10px;" class="col s1 sicv-table-td">
-				    	<a href="<%=Strings.BASE%>admin/profile/${loop.index}"> Editar </a>
+				    	<a href="<%=Strings.BASE%>/admin/profile/${loop.index}"> Editar </a>
 				    </div>
 		   			<div style="height: 40px; position: relative; top: 10px;" class="col s2 sicv-table-td fullName">${user.firstName} ${user.lastName}</div>   
 		   			<div style="height: 40px; position: relative; top: 10px;" class="col s2 sicv-table-td mail">${user.email}</div>

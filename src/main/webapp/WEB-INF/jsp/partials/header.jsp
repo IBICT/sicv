@@ -29,12 +29,12 @@
 			</td>
 			<c:if test="${isManager or isAdmin}">
 				<td class="tdCenterHeader" >
-					<button class="button" onclick="location.href='<%=Strings.BASE%>manager'">Gestão</button>
+					<button class="button" onclick="location.href='<%=Strings.BASE%>/manager'">Gestão</button>
 				</td>
 			</c:if>
 			<c:if test="${isAdmin}">
 				<td class="tdCenterHeader" >
-					<button class="button" onclick="location.href='<%=Strings.BASE%>admin'"><b>Administrador</b></button>
+					<button class="button" onclick="location.href='<%=Strings.BASE%>/admin'"><b>Administrador</b></button>
 				</td>
 			</c:if>
 			<td class="tdAlertHeader"><a style="color: #c3697c;" href="<%=Strings.BASE%>/notifications"><span class="glyphicon glyphicon-bell"><%=notifications%></span></a></td>
