@@ -101,7 +101,7 @@
 		<div class="principalDiv">
 		
             <p>
-            <form method="post" action="<%=Strings.BASE%>/register">
+            <form method="post" action="<%=Strings.BASE%>/register" style="margin: 0 auto;">
 	            <div class="row">
 		            <div class="input-field col s4">
 		            	<b>CADASTRO</b> | <a href="<%=Strings.BASE%>/" style="color: white;">Já possuo cadastro</a>

@@ -41,23 +41,21 @@
 		<jsp:include page="/WEB-INF/jsp/partials/nav.jsp" />
 		<div class="headerDiv">
 	        <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
+			<div style="margin-top: 1%;">
+                <div class="card-panel blue lighten-5 black-text">
+					<b>Você está em:  Perfil de Usuário.</b>
+                </div>
+	        </div>
 		</div>
+		
+
 		<div class="principalDiv">
             
 			<form class="userForm" action="${link}/profile" method="POST">
                 <input id="id" name="id" type="text" class="validate" value="${user.id}" hidden="true">
-                <input id="dsPurpose" name="dsPurpose" type="text" class="validate" value="${user.dsPurpose}" hidden="true">
-                <input id="gender" name="gender" type="text" class="validate" value="${user.gender}" hidden="true">
-                <input id="jobPosition" name="jobPosition" type="text" class="validate" value="${user.jobPosition}" hidden="true">
-                <input id="passwordHashSalt" name="passwordHashSalt" type="text" class="validate" value="${user.passwordHashSalt}" hidden="true">
 				<input id="registrationKey" name="registrationKey" type="text" class="validate" value="${user.registrationKey}" hidden="true">
+                <input id="passwordHashSalt" name="passwordHashSalt" type="text" class="validate" value="${user.passwordHashSalt}" hidden="true">
 				<input id="superAdminPermission" name="superAdminPermission" type="text" class="validate" value="${user.superAdminPermission}" hidden="true">
-				<input id="title" name="title" type="text" class="validate" value="${user.title}" hidden="true">
-				<input id="streetAddress" name="streetAddress" type="text" class="validate" value="${user.streetAddress}" hidden="true">
-				<input id="zipCode" name="zipCode" type="text" class="validate" value="${user.zipCode}" hidden="true">
-				<input id="organization" name="organization" type="text" class="validate" value="${user.organization}" hidden="true">
-				<input id="purpose" name="purpose" type="text" class="validate" value="${user.purpose}" hidden="true">
-				<input id="userName" name="userName" type="text" value="${user.userName}" hidden="true">
 				<input id="qntdNotificacoes" name="qntdNotificacoes" type="text" class="validate" value="${user.qntdNotificacoes}" hidden="true">
 
 				<div class="row">
@@ -91,7 +89,7 @@
                          <label for="email">E-mail</label>
                      </div>
                      <div class="input-field col s2">
-                         <input placeholder="" id="phone" name="telefone" type="text" class="validate" value="${user.telefone}">
+                         <input placeholder="" id="phone" name="phone" type="text" class="validate" value="${user.phone}">
                          <label for="phone">Telefone</label>
                      </div>
                      <div class="input-field col s2">
@@ -101,8 +99,8 @@
                  </div>
                  <div class="row">
                      <div class="input-field col s4">
-                         <input placeholder="" id="intituition" name="instituicao" type="text" class="validate" value="${user.instituicao}">
-                         <label for="instituition">Instituição</label>
+                         <input placeholder="" id="organization" name="organization" type="text" class="validate" value="${user.organization}">
+                         <label for="organization">Afiliação</label>
                      </div>
                      <div class="input-field col s2">
                          <input placeholder="" id="confirm" type="password" class="validate">
@@ -111,8 +109,8 @@
                  </div>
                  <div class="row">
                      <div class="input-field col s2">
-                         <input placeholder="" id="city" name="city" type="text" class="validate" value="${user.city}">
-                         <label for="city">Cidade</label>
+                         <input placeholder="" id="language" name="language" type="text" class="validate" value="${user.language}">
+                         <label for="city">Idioma</label>
                      </div>
                      <div class="input-field col s2">
                          <input placeholder="" id="country" name="country" type="text" class="validate" value="${user.country}">

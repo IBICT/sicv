@@ -43,7 +43,7 @@
 				</button>
 			</td>
 			<td class="sortable-column tdCenterHeader" style="color: #4dbcc4;" >
-				Perfil: <button class="button" href="<%=Strings.BASE%>/profile" style="color: #4dbcc4;">
+				Perfil: <button class="button" onclick="location.href='<%=Strings.BASE%>/profile'" style="color: #4dbcc4;">
 					<b><%=name%></b>
 				</button>
 			</td>
