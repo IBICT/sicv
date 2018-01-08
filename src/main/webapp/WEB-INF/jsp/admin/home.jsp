@@ -92,12 +92,12 @@
 <%--             		<input name="role" value="${user.roles['role']}"/> --%>
    	
             <div style="margin:0px;" class="row" >
-	            <div class="col s1 sicv-table-th"> </div>
+	            <div class="col s2 sicv-table-th" style="float: left;"><b><h5>Lista de Usuários</h5></b></div>
 	            <div class="col s2 sicv-table-th"> </div>
 	            <div class="col s2 sicv-table-th"> </div>
 	            <div class="col s1 sicv-table-th">Usuário</div>
 	            <div class="col s1 sicv-table-th">Gestor</div>
-	            <div class="col s1 sicv-table-th">Admin</div>
+	            <div class="col s1 sicv-table-th">Administrador</div>
 	            <div class="col s1 sicv-table-th"> </div>
 			
         	</div>

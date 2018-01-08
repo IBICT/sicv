@@ -11,7 +11,7 @@ data ${date}. Seguem os dados do contato:
 
 <b>Nome:</b> ${user.getFirstName()} ${user.getLastName()}<br/>
 <b>E-mail:</b> ${user.getEmail()}<br/>
-<b>Instituição:</b> ${user.getInstituicao()}
+<b>Instituição:</b> ${user.getOrganization()}
 
 <p>
 Atenciosamente, <br/>

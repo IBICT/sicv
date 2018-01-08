@@ -8,7 +8,7 @@
 <sec:authorize access="hasAuthority('ADMIN')" var="isAdmin" />
 <%
     User user = (User) request.getSession().getAttribute("user");
-    String name = user.getUserName();
+    String name = user.getFirstName();
     Long notifications = user.getQntdNotificacoes(); 
 %>
 
@@ -37,9 +37,17 @@
 					<button class="button" onclick="location.href='<%=Strings.BASE%>/admin'"><b>Administrador</b></button>
 				</td>
 			</c:if>
-			<td class="tdAlertHeader"><a style="color: #c3697c;" href="<%=Strings.BASE%>/notifications"><span class="glyphicon glyphicon-bell"><%=notifications%></span></a></td>
-			<td class="sortable-column tdCenterHeader" >Perfil: <a href="<%=Strings.BASE%>/profile"><%=name%></a></td>
-			<td class="sortable-column" style="text-align: center; width:1%; white-space:nowrap;" >
+			<td class="tdAlertHeader">
+				<button class="button" style="color: #c3697c;white-space:nowrap;" onclick="location.href='<%=Strings.BASE%>/notifications'">
+					<span class="glyphicon glyphicon-bell"><%=notifications%></span>
+				</button>
+			</td>
+			<td class="sortable-column tdCenterHeader" style="color: #4dbcc4;" >
+				Perfil: <button class="button" href="<%=Strings.BASE%>/profile" style="color: #4dbcc4;">
+					<b><%=name%></b>
+				</button>
+			</td>
+			<td class="sortable-column" style="text-align: center; width:1%; white-space:nowrap;color: #4dbcc4;" >
 				<button class="button" onclick="location.href='<%=Strings.BASE%>/logout'">SAIR</button>
 			</td>
 		</tr>

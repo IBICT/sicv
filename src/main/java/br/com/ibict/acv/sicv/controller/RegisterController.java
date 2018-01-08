@@ -21,7 +21,6 @@ import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.Mail;
 import br.com.ibict.acv.sicv.util.Password;
-import br.com.ibict.sicv.enums.EnumProfile;
 import resources.Strings;
 
 @Controller
@@ -50,17 +49,20 @@ public class RegisterController {
 
     @PostMapping("/register") // //new annotation since 4.3
     public String register(
+    		@RequestParam("firstName") String firstName,
+    		@RequestParam("lastName") String lastName,
+    		@RequestParam("phone") String phone,
             @RequestParam("email") String email,
-            @RequestParam("senha") String senha,
+            @RequestParam("organization") String organization,
+            @RequestParam("country") String country,
+            @RequestParam("language") String language,
+            @RequestParam("otherLanguage") String otherLanguage,
             @RequestParam("title") String title,
-            @RequestParam("userName") String userName,
-            @RequestParam("firstName") String firstName,
-            @RequestParam("lastName") String lastName,
-            @RequestParam("gender") String gender,
             @RequestParam("jobPosition") String jobPosition,
-            @RequestParam("telefone") String telefone,
-            @RequestParam("instituicao") String instituicao,
-            @RequestParam("dsPurpose") String dsPurpose) throws Exception {
+            @RequestParam("orcid") String orcid,
+            @RequestParam("curriculum") String curriculum,
+            @RequestParam("dsPurpose") String dsPurpose,
+            @RequestParam("senha") String senha) throws Exception {
         
         User user = new User();
         Role role = new Role( 1, "USER" );
@@ -71,14 +73,12 @@ public class RegisterController {
         //Activation Code
         user.setRegistrationKey(Password.generateSalt( 8 ) );
         
-        user.setUserName(userName);
         user.setTitle(title);
         user.setFirstName(firstName);
         user.setLastName(lastName);
-        user.setGender(gender);
         user.setJobPosition(jobPosition);
-        user.setTelefone(telefone);
-        user.setInstituicao(instituicao);
+        user.setPhone(phone);
+        user.setOrganization(organization);
         user.setDsPurpose(dsPurpose);
         user.addRole(role);
         user.setQntdNotificacoes(0L);

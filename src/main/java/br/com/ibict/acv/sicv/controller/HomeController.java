@@ -86,7 +86,6 @@ public class HomeController {
     @RequestMapping("/")
     public String getRoot(Map<String, Object> model) {
         User user = (User) session().getAttribute("user");
-        String name = user.getUserName();
         model.put("isUserLabel", true);
         //model.put("username", name);
         if( ilcds == null || hasSubmitOrStatus){
@@ -101,7 +100,7 @@ public class HomeController {
     @RequestMapping("/manager")
     public String getRootManager(Map<String, Object> model) {
         User user = (User) session().getAttribute("user");
-        String name = user.getUserName();
+        String name = user.getFirstName();
         model.put("isUserLabelFalse", true);
         model.put("username", name);
         if( ilcds == null || hasSubmitOrStatus){

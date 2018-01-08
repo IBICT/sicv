@@ -44,31 +44,55 @@ public class User implements Serializable{
     @Expose
     private Long id;
 
-    @Column(name = "DSPURPOSE")
+    @Column(name = "FIRSTNAME")
     @Expose
-    private String dsPurpose;
+    private String firstName;
 
+    @Column(name = "LASTNAME")
+    @Expose
+    private String lastName;
+    
     @NotEmpty
     @NotNull
     @Column(name = "EMAIL", unique = true)
     @Expose
     private String email;
 
-    @Column(name = "FIRSTNAME")
+    @Column(name = "organization")
     @Expose
-    private String firstName;
+    private String organization;
 
-    @Column(name = "GENDER")
+    @Column(name = "COUNTRY")
     @Expose
-    private String gender;
-
+    private String country;
+    
+    @Column(name = "LANGUAGE")
+    @Expose
+    private String language;
+    
+    @Column(name = "OTHERLANGUAGE")
+    @Expose
+    private String otherLanguage;
+    
+    @Column(name = "TITLE")
+    @Expose
+    private String title;
+    
     @Column(name = "JOBPOSITION")
     @Expose
     private String jobPosition;
 
-    @Column(name = "LASTNAME")
+    @Column(name = "ORCID")
     @Expose
-    private String lastName;
+    private String orcid;
+    
+    @Column(name = "CURRICULUM")
+    @Expose
+    private String curriculum;
+    
+    @Column(name = "DSPURPOSE")
+    @Expose
+    private String dsPurpose;
 
     @Column(name = "PASSWORD_HASH")
     private String passwordHash;
@@ -82,40 +106,11 @@ public class User implements Serializable{
     @Transient
     private String newPassword;
 
-
     @Column(name = "REGISTRATIONKEY")
     private String registrationKey;
 
     @Column(name = "super_admin_permission")
     private Boolean superAdminPermission;
-
-    @Column(name = "TITLE")
-    @Expose
-    private String title;
-
-    @Column(name = "USERNAME")
-    @Expose
-    private String userName;
-
-    @Column(name = "CITY")
-    @Expose
-    private String city;
-
-    @Column(name = "COUNTRY")
-    @Expose
-    private String country;
-
-    @Column(name = "STREETADDRESS")
-    @Expose
-    private String streetAddress;
-
-    @Column(name = "ZIPCODE")
-    @Expose
-    private String zipCode;
-
-    @Column(name = "organization")
-    @Expose
-    private Boolean organization;
     
     @Expose
     @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
@@ -124,26 +119,10 @@ public class User implements Serializable{
             inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
     private Set<Role> roles;
     
-/*    @NotNull
-    @Column(name = "authority")
+    @Column(name = "PHONE")
     @Expose
-    private String role;*/
-
-    @Column(name = "TELEFONE")
-    @Expose
-    private String telefone;
-
-    @Column(name = "INSTITUICAO")
-    @Expose
-    private String instituicao;
-
-    @Column(name = "PURPOSE")
-    @Expose
-    private String purpose;
-
-    @Column(name = "MOSTRAR")
-    private Boolean mostrar;
-
+    private String phone;
+    
     @NotNull
     @Column(columnDefinition = "bigint")
     private Long qntdNotificacoes;
@@ -167,29 +146,23 @@ public class User implements Serializable{
     }
 
     // Getter and setter methods
-    public User(Long id, String dsPurpose, String email, String firstName, String gender, String jobPosition, String lastName, String passwordHash, String passwordHashSalt, String registrationKey, Boolean superAdminPermission, String title, String userName, String city, String country, String streetAddress, String zipCode, Boolean organization, String perfil, String telefone, String instituicao, String purpose, Boolean mostrar) {
+    public User(Long id, String dsPurpose, String email, String firstName, String jobPosition, String lastName, String passwordHash, String passwordHashSalt, String registrationKey, Boolean superAdminPermission, String title, String country, String organization, String perfil, String phone, String curriculum ,String language) {
         this.id = id;
-        this.dsPurpose = dsPurpose;
-        this.email = email;
         this.firstName = firstName;
-        this.gender = gender;
-        this.jobPosition = jobPosition;
         this.lastName = lastName;
+        this.phone = phone;
+        this.email = email;
+        this.organization = organization;
+        this.country = country;
+        this.language = language;
+        this.title = title;
+        this.jobPosition = jobPosition;
+        this.curriculum = curriculum;
+        this.dsPurpose = dsPurpose;
         this.passwordHash = passwordHash;
         this.passwordHashSalt = passwordHashSalt;
         this.registrationKey = registrationKey;
         this.superAdminPermission = superAdminPermission;
-        this.title = title;
-        this.userName = userName;
-        this.city = city;
-        this.country = country;
-        this.streetAddress = streetAddress;
-        this.zipCode = zipCode;
-        this.organization = organization;
-        this.telefone = telefone;
-        this.instituicao = instituicao;
-        this.purpose = purpose;
-        this.mostrar = mostrar;
     }
 
     public Long getId() {
@@ -224,14 +197,6 @@ public class User implements Serializable{
         this.firstName = firstName;
     }
 
-    public String getGender() {
-        return gender;
-    }
-
-    public void setGender(String gender) {
-        this.gender = gender;
-    }
-
     public String getJobPosition() {
         return jobPosition;
     }
@@ -239,6 +204,22 @@ public class User implements Serializable{
     public void setJobPosition(String jobPosition) {
         this.jobPosition = jobPosition;
     }
+    
+    public String getOrcid() {
+		return orcid;
+	}
+    
+    public void setOrcid(String orcid) {
+		this.orcid = orcid;
+	}
+    
+    public String getCurriculum() {
+		return curriculum;
+	}
+    
+    public void setCurriculum(String curriculum) {
+		this.curriculum = curriculum;
+	}
 
     public String getLastName() {
         return lastName;
@@ -304,22 +285,6 @@ public class User implements Serializable{
         this.title = title;
     }
 
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String city) {
-        this.city = city;
-    }
-
     public String getCountry() {
         return country;
     }
@@ -328,61 +293,37 @@ public class User implements Serializable{
         this.country = country;
     }
 
-    public String getStreetAddress() {
-        return streetAddress;
-    }
+	public String getOrganization() {
+		return organization;
+	}
+	
+	public void setOrganization(String organization) {
+		this.organization = organization;
+	}
+	
+	public String getLanguage() {
+		return language;
+	}
+	
+	public void setLanguage(String language) {
+		this.language = language;
+	}
+	
+	public String getOtherLanguage() {
+		return otherLanguage;
+	}
+	
+	public void setOtherLanguage(String otherLanguage) {
+		this.otherLanguage = otherLanguage;
+	}
 
-    public void setStreetAddress(String streetAddress) {
-        this.streetAddress = streetAddress;
-    }
-
-    public String getZipCode() {
-        return zipCode;
-    }
-
-    public void setZipCode(String zipCode) {
-        this.zipCode = zipCode;
-    }
-
-    public Boolean getOrganization() {
-        return organization;
-    }
-
-    public void setOrganization(Boolean organization) {
-        this.organization = organization;
-    }
-
-    public String getTelefone() {
-        return telefone;
-    }
-
-    public void setTelefone(String telefone) {
-        this.telefone = telefone;
-    }
-
-    public String getInstituicao() {
-        return instituicao;
-    }
-
-    public void setInstituicao(String instituicao) {
-        this.instituicao = instituicao;
-    }
-
-    public String getPurpose() {
-        return purpose;
-    }
-
-    public void setPurpose(String purpose) {
-        this.purpose = purpose;
-    }
-
-    public Boolean getMostrar() {
-        return mostrar;
-    }
-
-    public void setMostrar(Boolean mostrar) {
-        this.mostrar = mostrar;
-    }
+    public String getPhone() {
+		return phone;
+	}
+    
+    public void setPhone(String phone) {
+		this.phone = phone;
+	}
     
     public Long getQntdNotificacoes() {
 		return qntdNotificacoes;

@@ -51,38 +51,35 @@
         
     </head>
     	<style>
-    	
-    	.logoSICVLogin {
-			display: block;
-			margin: 0 auto;
-			margin-top: 3%;
-		}
-		
-		.principalDiv{
-		   	width: 85%;
-		   	margin-left:10%;
-		   	margin-top: 4%;
-    	}
-	   
-		/* label color */
-	   .input-field input{
-	     color: #DDD;
-	     border-bottom: .2px solid #DDD !important;
-	     box-shadow: 0 .2px 0 0 #DDD !important;
-	   }
-	   
-	   /* label focus color */
-	   .input-field input:focus{
-	     color: white;
-	     border-bottom: 1px solid white !important;
-	     box-shadow: 0 1px 0 0 white !important;
-	   }
-	   .register-form{
-	  	font-family: 'TitilliumWeb-ExtraLight', sans-serif !important;
-		background-color: #4dbcc4;
-		color: white;
-	   }
-	   
+	    	.logoSICVLogin {
+				display: block;
+				margin: 0 auto;
+				margin-top: 3%;
+			}
+			.principalDiv{
+			   	width: 85%;
+			   	display: block;
+			   	margin: 0 auto;
+	    	}
+		   
+			/* label color */
+		   .input-field input{
+				color: #DDD;
+				border-bottom: .2px solid #DDD !important;
+				box-shadow: 0 .2px 0 0 #DDD !important;
+		   }
+		   
+		   /* label focus color */
+		   .input-field input:focus{
+				color: white;
+				border-bottom: 1px solid white !important;
+				box-shadow: 0 1px 0 0 white !important;
+		   }
+		   .register-form{
+			  	font-family: 'TitilliumWeb-ExtraLight', sans-serif !important;
+				background-color: #4dbcc4;
+				color: white;
+		   }
 	</style>
 
     <body class="register-form">
@@ -121,25 +118,25 @@
 					<div class="input-field col s3">
 					    <input placeholder="Nome*" id="first_name" name="firstName" type="text" class="validate" required="required">
 					</div>
-					<div class="input-field col s3">
+					<div class="input-field col s4">
 						<input placeholder="Sobrenome*" id="last_name" name="lastName" type="text" class="validate" required="required">
 					</div>
 					<div class="input-field col s2">
-						<input placeholder="Telefone*" id="phone" name="telefone" type="text" class="validate" required="" /><br />
+						<input placeholder="Telefone*" id="phone" name="phone" type="text" class="validate" required="" /><br />
 					</div>
 				</div>
 				
 				<div class="row">
-					<div class="input-field col s4">
+					<div class="input-field col s5">
 		                <input placeholder="E-mail*" id="email" name="email" type="email" class="validate" required="" /><br />
 					</div>
 					<div class="input-field col s4">
-						<input placeholder="Afiliação*" id="instituicao" name="instituicao" type="text" class="validate" required="">
+						<input placeholder="Afiliação*" id="organization" name="organization" type="text" class="validate" required="">
 					</div>
 				</div>
 				<div class="row">
 					<div class="input-field col s3">
-						<select required="required">
+						<select required="required" name="country">
 							<option value="" disabled selected>Nacionalidade*</option>
 							<option value="Afghanistan">Afghanistan</option>
 						    <option value="Albania">Albania</option>
@@ -383,7 +380,7 @@
 					    </select>
 					</div>
 					<div class="input-field col s3">
-						<select required="required">
+						<select required="required" name="language">
 							<option value="" disabled selected>Idioma*</option>
 							<option value="Português">Português</option>
 						    <option value="Inglês">Inglês</option>
@@ -393,8 +390,8 @@
 						    <option value="Francês">Francês</option>
 					    </select>
 				    </div>
-					<div class="input-field col s2">
-						<input placeholder="Outros idiomas" id="idiomas" name="Otherlanguage" type="text">
+					<div class="input-field col s3">
+						<input placeholder="Outro idioma" id="otherLanguage" name="otherLanguage" type="text">
 					</div>
 				</div>
 
@@ -406,33 +403,33 @@
 	
 				<div class="row">
 					<div class="input-field col s3">
-						<select required="required">
-							<option value="" disabled selected>Grau*</option>Dr. Ms. Bel. Graduando
-							<option value="Português">Bel.</option>
-						    <option value="Inglês">Dr.</option>
-						    <option value="Espanhol">Graduando</option>
-						    <option value="Alemão">Ms.</option>
-						    <option value="Italiano">Especialista</option>
+						<select required="required" name="title">
+							<option value="" disabled selected>Grau*</option>
+							<option value="Bel">Bel.</option>
+						    <option value="Dr">Dr.</option>
+						    <option value="Graduando">Graduando</option>
+						    <option value="Ms">Ms.</option>
+						    <option value="Especialista">Especialista</option>
 					    </select>
 				    </div>
 					<div class="input-field col s3">
 						<input placeholder="Área*(ex:Ciências Florestais)" id="area" name="jobPosition" type="text" required="required">
 					</div>
-					<div class="input-field col s2">
+					<div class="input-field col s3">
 						<input placeholder="Orcid" id="orcid" name="orcid" type="text"/><br />
 					</div>
 				</div>
 				
 				<div class="row">
-					<div class="input-field col s8">
+					<div class="input-field col s6">
 		                <input placeholder="Currículo* (adicionar link do perfil no Currículo lattes, Linkedin ou ResearchGate)" 
-		                id="curriculo" name="curriculo" type="text" required="" /><br />
+		                id="curriculum" name="curriculum" type="text" required="" /><br />
 					</div>
 				</div>
 				<div class="row">
-					<div class="input-field col s4">
-		                <input placeholder="Áreas de interesse (ex: agroindústria, metalúrgica, eletroeletrônicos, etc)  
-		                id="curriculo" name="dsPurpose" type="text"/><br />
+					<div class="input-field col s6">
+		                <input placeholder="Áreas de interesse (ex: agroindústria, metalúrgica, eletroeletrônicos, etc)"  
+		                id="dsPurpose" name="dsPurpose" type="text"/><br />
 					</div>
 					<div class="col s6">
 		                <a href="#modal-terms_SICV" class="modal-trigger" style="color: white;">Termos de Uso</a><br />
@@ -464,6 +461,7 @@
 		<script type="text/javascript">
 			$(document).ready(function() {
 		    	$('select').material_select();
+		    	$("select[required]").css({position: "absolute", display: "inline", height: 0, padding: 0, width: 0});
 			});
 			$(document).ready(function(){
 			    $('.modal').modal();
