@@ -125,7 +125,7 @@
                         <button class="button" style="padding-left: 0%;" onclick="location.href = '${link}/${loop.index}'">${ilcd.name}</button>
                     </div>
                     <div style="height: 40px;width:10%; position: relative; top: 10px;" class="col s3 sicv-table-td">
-                        <button class="button" style="padding-left: 0%;" onclick="location.href = '${link}/${loop.index}'">${ilcd.homologation.user.firstName == null ? "N/A":ilcd.homologation.user.firstName}</button>
+                        <button class="button" style="padding-left: 0%;" onclick="location.href = '${link}/${loop.index}'">${ilcd.homologation.user.firstName == null ? "aguardando":ilcd.homologation.user.firstName}</button>
                     </div>
                     <c:choose>
                        	<c:when test="${ilcd.homologation.pending}">
