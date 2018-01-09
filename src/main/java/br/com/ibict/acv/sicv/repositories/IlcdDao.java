@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import br.com.ibict.acv.sicv.model.Ilcd;
+import br.com.ibict.acv.sicv.model.User;
 
 @Transactional
 public interface IlcdDao extends JpaRepository<Ilcd, Long> {
@@ -23,11 +24,12 @@ public interface IlcdDao extends JpaRepository<Ilcd, Long> {
     @Query("SELECT i FROM Ilcd i WHERE i.emails[emails] =:email")
     public List<Ilcd> findByEmail(@Param("email") String email);*/
     
-    @Query("SELECT DISTINCT i FROM Ilcd i JOIN i.emails e "
-            + "WHERE e LIKE CONCAT('%', :emails, '%')")
+    @Query("SELECT DISTINCT i FROM Ilcd i JOIN i.emails e WHERE e LIKE CONCAT('%', :emails, '%')")
     public List<Ilcd> findIlcdsByLikeEmail(@Param("emails") String email);
     
 
+    public List<Ilcd> findByUser(User user);
+    
     /*
      @Modifying
      @Query("update ilcd i set i.id = ?1, i.name = ?2, i.type = ?3, i.location = ?4, i.clasification = ?5, i.yearToReference = ?6, i.yearToValidate = ?7, i.pathFile = ?8 where i.id = ?9")

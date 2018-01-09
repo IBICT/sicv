@@ -25,12 +25,9 @@ import com.google.gson.annotations.Expose;
 @Table(name = "homologacao")
 public class Homologacao implements Serializable {
 
-    /**
-	 * 
-	 */
-	private static final long serialVersionUID = -8516924659813733068L;
+    private static final long serialVersionUID = -8516924659813733068L;
 
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     @Expose
@@ -49,15 +46,14 @@ public class Homologacao implements Serializable {
 
 //    @NotNull
     @Expose
-    @OneToOne(mappedBy="homologation", cascade = CascadeType.PERSIST)
+    @OneToOne(mappedBy = "homologation", cascade = CascadeType.PERSIST)
     private Ilcd ilcd;
 
 //    @NotNull
     @Expose
     private Integer status;
-    
+
 //  Verificar a necessidade dos atributos abaixo
-    
     @Expose
     @ManyToOne
     @JoinColumn(name = "technical_reviewer")
@@ -67,16 +63,16 @@ public class Homologacao implements Serializable {
     @Expose
     @OneToOne
     private Archive lastArchive;
-    
+
     @NotNull
     @Expose
-    @Column(nullable = false )
+    @Column(nullable = false)
     private boolean pending = false;
-    
+
     @Expose
     @Column(nullable = false)
     private String prazo = "";
-    
+
     public Homologacao() {
     }
 
@@ -89,12 +85,12 @@ public class Homologacao implements Serializable {
     }
 
     public Ilcd getIlcd() {
-		return ilcd;
-	}
-    
+        return ilcd;
+    }
+
     public void setIlcd(Ilcd ilcd) {
-		this.ilcd = ilcd;
-	}
+        this.ilcd = ilcd;
+    }
 
     public Integer getStatus() {
         return status;
@@ -111,45 +107,45 @@ public class Homologacao implements Serializable {
     public void setTechnicalReviewer(TechnicalReviewer technicalReviewer) {
         this.technicalReviewer = technicalReviewer;
     }
-    
+
     public User getUser() {
-		return user;
-	}
-    
+        return user;
+    }
+
     public void setUser(User user) {
-		this.user = user;
-	}
+        this.user = user;
+    }
 
     public Date getSubmission() {
-		return submission;
-	}
-    
+        return submission;
+    }
+
     public void setSubmission(Date submission) {
-		this.submission = submission;
-	}
-    
+        this.submission = submission;
+    }
+
     public Archive getLastArchive() {
-		return lastArchive;
-	}
-    
+        return lastArchive;
+    }
+
     public void setLastArchive(Archive lastArchive) {
-		this.lastArchive = lastArchive;
-	}
-    
+        this.lastArchive = lastArchive;
+    }
+
     public boolean isPending() {
-    	return pending;
+        return pending;
     }
-    
+
     public void setPending(boolean pending) {
-    	this.pending = pending;
+        this.pending = pending;
     }
-    
+
     public String getPrazo() {
-		return prazo;
-	}
-    
+        return prazo;
+    }
+
     public void setPrazo(String prazo) {
-		this.prazo = prazo;
-	}
+        this.prazo = prazo;
+    }
 
 }

@@ -86,13 +86,15 @@ public class HomeController {
     @RequestMapping("/")
     public String getRoot(Map<String, Object> model) {
         User user = (User) session().getAttribute("user");
-        String name = user.getUserName();
+        System.out.println(user);
+        String name = user.getFirstName();
         model.put("isUserLabel", true);
-        //model.put("username", name);
-        if( ilcds == null || hasSubmitOrStatus){
-        	ilcds = ilcdDao.findIlcdsByLikeEmail( user.getEmail() );
-        	hasSubmitOrStatus = true;
-        }
+        model.put("name", name);
+//        if( ilcds == null || hasSubmitOrStatus){
+//        	ilcds = ilcdDao.findIlcdsByLikeEmail( user.getEmail() );
+//        	hasSubmitOrStatus = true;
+//        }
+        ilcds = ilcdDao.findByUser(user);
         model.put("ilcds", ilcds);
         
         return "home/home";
