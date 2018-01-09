@@ -141,7 +141,7 @@
                                 <button class="button">
                                     <i style="color: #c3697c;" class="fa fa-exclamation-triangle"></i>
                                 </button>
-                            </div>
+                            </div> 
                             <div style="height: 40px;  text-align: center; position: relative; top: 10px;" class="col s2 sicv-table-td">
                                 <button class="button" onclick="location.href = '#'">${ilcd.homologation.prazo}</button>
                             </div>

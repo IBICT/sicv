@@ -38,7 +38,7 @@
 				</td>
 			</c:if>
 			<td class="tdAlertHeader"><a style="color: #c3697c;" href="<%=Strings.BASE%>/notifications"><span class="glyphicon glyphicon-bell"><%=notifications%></span></a></td>
-			<td class="sortable-column tdCenterHeader" >Perfil: <a href="<%=Strings.BASE%>/profile">${name}</a></td>
+			<td class="sortable-column tdCenterHeader" >Perfil: <a href="<%=Strings.BASE%>/profile">${name}</a></td> 
 			<td class="sortable-column" style="text-align: center; width:1%; white-space:nowrap;" >
 				<button class="button" onclick="location.href='<%=Strings.BASE%>/logout'">SAIR</button>
 			</td>

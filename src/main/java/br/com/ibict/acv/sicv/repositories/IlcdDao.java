@@ -17,7 +17,7 @@ public interface IlcdDao extends JpaRepository<Ilcd, Long> {
     public List<Ilcd> findByBase(Long base);
 
     public Ilcd findByUuid(String UUID);
-    
+     
     public Ilcd findById(Long id);
     
     /*s.status=0 and (s.serviceType=9 or 'College' in elements(s.tags)) 
