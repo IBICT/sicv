@@ -64,14 +64,11 @@ public class Homologacao implements Serializable {
     @OneToOne
     private Archive lastArchive;
 
-    @NotNull
     @Expose
-    @Column(nullable = false)
-    private boolean pending = false;
+    private boolean pending;
 
     @Expose
-    @Column(nullable = false)
-    private String prazo = "";
+    private Date prazo;
 
     public Homologacao() {
     }
@@ -140,11 +137,11 @@ public class Homologacao implements Serializable {
         this.pending = pending;
     }
 
-    public String getPrazo() {
+    public Date getPrazo() {
         return prazo;
     }
 
-    public void setPrazo(String prazo) {
+    public void setPrazo(Date prazo) {
         this.prazo = prazo;
     }
 

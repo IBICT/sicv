@@ -58,6 +58,7 @@ import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.ExclStrat;
 import br.com.ibict.acv.sicv.util.Mail;
 import br.com.ibict.acv.sicv.util.Password;
+import java.util.Date;
 import resources.Strings;
 
 @Controller
@@ -65,22 +66,22 @@ public class HomeController {
 
     @Autowired
     private UserDao userDao;
-    
+
     @Autowired
     private HomologacaoDao homologationDao;
-    
+
     @Autowired
     private NotificationDao notificationDao;
 
     public static List<Notification> notifications = new ArrayList<Notification>();
-    
+
     public List<Homologacao> homologations;
-    
+
     public static List<Ilcd> ilcds;
-    
+
     @Autowired
     private IlcdDao ilcdDao;
-    
+
     public static boolean hasSubmitOrStatus = false;
 
     @RequestMapping("/")
@@ -96,22 +97,22 @@ public class HomeController {
 //        }
         ilcds = ilcdDao.findByUser(user);
         model.put("ilcds", ilcds);
-        
+
         return "home/home";
     }
-    
+
     @RequestMapping("/manager")
     public String getRootManager(Map<String, Object> model) {
         User user = (User) session().getAttribute("user");
         String name = user.getUserName();
         model.put("isUserLabelFalse", true);
         model.put("username", name);
-        if( ilcds == null || hasSubmitOrStatus){
-        	ilcds = ilcdDao.findAll();
-        	hasSubmitOrStatus = true;
+        if (ilcds == null || hasSubmitOrStatus) {
+            ilcds = ilcdDao.findAll();
+            hasSubmitOrStatus = true;
         }
         model.put("ilcds", ilcds);
-        
+
         return "home/home";
     }
 
@@ -124,53 +125,54 @@ public class HomeController {
     public String gatLogin(Map<String, Object> model) {
         return "home/login";
     }
-    
+
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String getProfileHandler(Map<String, Object> model) {
-    	User user = (User) session().getAttribute("user");
+        User user = (User) session().getAttribute("user");
 
-    	model.put("user", user);
+        model.put("user", user);
         return "/profile";
     }
-    
+
     @PostMapping("/profile")
     public String loginHandle(@RequestParam("profile") String profile) {
-        
-    	User userSession = (User) session().getAttribute("user"); 
-    	//profile = profile.replaceAll("\\[", "").replaceAll("\\]","");
-    	Gson gson = new Gson();
-    	User user = gson.fromJson(profile, User.class);
-    	if( user.getPlainPassword().trim() != "" ){
-    		if( user.getPlainPassword().equals( userSession.getPlainPassword() ) && !user.getNewPassword().trim().equals("") ){
-    			user.setPasswordHashSalt( Password.generateSalt( 20 ) );
-    			user.setPasswordHash( Password.getEncryptedPassword( user.getNewPassword() , user.getPasswordHashSalt() ) );
-    			user.setPlainPassword( user.getNewPassword() );
-    			user.setNewPassword(null);
-    		}else
-    			user.setPasswordHash( userSession.getPasswordHash() );
-    			user.setPlainPassword( userSession.getPlainPassword() );
-    	}
-    	
-    	user.setHomologacoes(userSession.getHomologacoes());
-    	user.setStatus(userSession.getStatus());  
-    	user.setRoles(userSession.getRoles());
+
+        User userSession = (User) session().getAttribute("user");
+        //profile = profile.replaceAll("\\[", "").replaceAll("\\]","");
+        Gson gson = new Gson();
+        User user = gson.fromJson(profile, User.class);
+        if (user.getPlainPassword().trim() != "") {
+            if (user.getPlainPassword().equals(userSession.getPlainPassword()) && !user.getNewPassword().trim().equals("")) {
+                user.setPasswordHashSalt(Password.generateSalt(20));
+                user.setPasswordHash(Password.getEncryptedPassword(user.getNewPassword(), user.getPasswordHashSalt()));
+                user.setPlainPassword(user.getNewPassword());
+                user.setNewPassword(null);
+            } else {
+                user.setPasswordHash(userSession.getPasswordHash());
+            }
+            user.setPlainPassword(userSession.getPlainPassword());
+        }
+
+        user.setHomologacoes(userSession.getHomologacoes());
+        user.setStatus(userSession.getStatus());
+        user.setRoles(userSession.getRoles());
         userDao.save(user);
-        session().setAttribute("user",user);
-        
+        session().setAttribute("user", user);
+
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("successMessage", "Perfil atualizado com sucesso!");
-        
+
         return "successAlterProfile";
     }
-    
+
     @RequestMapping("/authorIlcd/{index}")
     public String getAuthorIlcd(Map<String, Object> model, @PathVariable("index") Integer index) {
-    	Ilcd ilcd = ilcds.get(index);
-    	model.put("user", (User)session().getAttribute("user"));
-    	model.put("ilcd", ilcd);
+        Ilcd ilcd = ilcds.get(index);
+        model.put("user", (User) session().getAttribute("user"));
+        model.put("ilcd", ilcd);
         return "index";
     }
-    
+
     @RequestMapping("/ilcd")
     public String listILCDs(Map<String, Object> model) {
         return "home/list";
@@ -207,24 +209,24 @@ public class HomeController {
 
     @PostMapping("/ilcd/new") // //new annotation since 4.3
     public String singleFileUpload(@RequestParam("file") MultipartFile file,
-            @RequestParam("json") String json,@RequestParam("ilcd") String jsonIlcd, @RequestParam("authors") String jsonAuthors,
+            @RequestParam("json") String json, @RequestParam("ilcd") String jsonIlcd, @RequestParam("authors") String jsonAuthors,
             @RequestParam("emails") String jsonEmails, RedirectAttributes redirectAttributes) throws Exception {
-    	
-    	Gson gson = new Gson();
-    	//JSONObject jsonObj = new JSONObject(jsonAuthors);    	
-    	Ilcd ilcd = gson.fromJson(jsonIlcd, Ilcd.class);
 
-    	JSONArray authors = new JSONArray(jsonAuthors);
-    	JSONArray emails = new JSONArray(jsonEmails);
-    	for (int i = 0; i < authors.length(); i++) {
-    		JSONObject jsonObjAuthors = authors.getJSONObject(i);
-    		//System.out.println(jsonObjAuthors.getString("value"));
-    		JSONObject jsonObjEmails = emails.getJSONObject(i);
-    		//System.out.println(jsonObjEmails.getString("value"));
-    		ilcd.addAuthor(jsonObjAuthors.getString("value"));
-    		ilcd.addEmail(jsonObjEmails.getString("value"));
-    	}
-    	
+        Gson gson = new Gson();
+        //JSONObject jsonObj = new JSONObject(jsonAuthors);    	
+        Ilcd ilcd = gson.fromJson(jsonIlcd, Ilcd.class);
+
+        JSONArray authors = new JSONArray(jsonAuthors);
+        JSONArray emails = new JSONArray(jsonEmails);
+        for (int i = 0; i < authors.length(); i++) {
+            JSONObject jsonObjAuthors = authors.getJSONObject(i);
+            //System.out.println(jsonObjAuthors.getString("value"));
+            JSONObject jsonObjEmails = emails.getJSONObject(i);
+            //System.out.println(jsonObjEmails.getString("value"));
+            ilcd.addAuthor(jsonObjAuthors.getString("value"));
+            ilcd.addEmail(jsonObjEmails.getString("value"));
+        }
+
         if (file.isEmpty()) {
             redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
             return "redirect:/admin/ilcd/uploadStatus";
@@ -249,30 +251,42 @@ public class HomeController {
             status.setType(1);
             status.setIlcd(ilcd);
             ilcd.addStatus(status);
-            
+
             zipToIlcd(pathResolve, ilcd);
-            status.getArchive().setPathFile( MD5(bytes) );
+            status.getArchive().setPathFile(MD5(bytes));
             Notification notification = new Notification();
             Homologacao homolog = new Homologacao();
-            notification.setUser( ilcd.getUser().getId() );
-            notification.fillMsgWAIT_REV( ilcd.getUuid() , ilcd.getName() );
+            notification.setUser(ilcd.getUser().getId());
+            notification.fillMsgWAIT_REV(ilcd.getUuid(), ilcd.getName());
             notification.setStatus(status);
             notification.setIlcd(ilcd);
-            notification.setNotifyDate( Calendar.getInstance().getTime() );
+            notification.setNotifyDate(Calendar.getInstance().getTime());
             redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "' ilcd:" + ilcd.getName());
             ilcd.setJson1(json);
             ilcd.addNotification(notification);
             homolog.setStatus(1);
+
+            //Pendecia inicial verdadeira
+            homolog.setPending(true);
+
+            // Prazo incial de 5 dias
+            Date dt = new Date();
+            Calendar c = Calendar.getInstance();
+            c.setTime(dt);
+            c.add(Calendar.DATE, 5);
+            dt = c.getTime();
+            homolog.setPrazo(dt);
+
             //homolog.setUser( manager );
-            homolog.setSubmission( Calendar.getInstance().getTime() );
+            homolog.setSubmission(Calendar.getInstance().getTime());
             homolog.setIlcd(ilcd);
             //salva o último arquivo para a homologacao
-            homolog.setLastArchive( ilcd.getStatus().get(0).getArchive() );
+            homolog.setLastArchive(ilcd.getStatus().get(0).getArchive());
             ilcd.setHomologation(homolog);
             //salvando homologação outros objetos são salvos e atualizados em cascata
             homologationDao.saveAndFlush(homolog);
 //            ilcdUser.addHomologacao(homolog);
-            ilcdUser.setQntdNotificacoes( ilcdUser.getQntdNotificacoes()+ 1 );
+            ilcdUser.setQntdNotificacoes(ilcdUser.getQntdNotificacoes() + 1);
             userDao.saveAndFlush(ilcdUser);
 
             Map<String, Object> model = new HashMap<String, Object>();
@@ -282,7 +296,7 @@ public class HomeController {
             model.put("urlTrack", Strings.BASE + "/login");
             model.put("url", Strings.BASE);
             Mail mail = RegisterController.getMailUtil();
-            ilcds = ilcdDao.findIlcdsByLikeEmail( ilcdUser.getEmail() );
+            ilcds = ilcdDao.findIlcdsByLikeEmail(ilcdUser.getEmail());
             HomeController.hasSubmitOrStatus = true;
             mail.sendEmail(ilcdUser.getEmail(), RegisterController.EMAIL_ADMIN, "Submissão de Inventário", model, "emailSubmission.ftl");
             model.put("urlTrack", Strings.BASE + "/admin/ilcd");
@@ -293,16 +307,16 @@ public class HomeController {
             // TODO: handle exception like RegisterException
             throw new Exception("Ocorreu um erro ao submeter o inventário", e);
         }
-        
+
         return "redirect:" + Strings.BASE;
     }
 
     @RequestMapping(value = "/ilcd/{MD5_folder}", method = RequestMethod.GET)
     public void getFile(
-    		@PathVariable("MD5_folder") String MD5folder, 
+            @PathVariable("MD5_folder") String MD5folder,
             HttpServletResponse response, HttpServletRequest request) {
         try {
-        	String fileName = request.getParameter("name");
+            String fileName = request.getParameter("name");
             File fileToDownload = new File(Strings.UPLOADED_FOLDER + MD5folder + "/" + fileName);
             if (!fileToDownload.exists()) {
                 String errorMessage = "Sorry. The file you are looking for does not exist";
@@ -434,7 +448,7 @@ public class HomeController {
         }
         User user = (User) session().getAttribute("user");
         Archive archive = new Archive();
-        archive.setStatus( ilcd.getStatus().get(0) );
+        archive.setStatus(ilcd.getStatus().get(0));
         //TODO: make a comparator to order list by version
         archive.setVersion(1);
         ilcd.getStatus().get(0).setArchive(archive);
@@ -448,11 +462,11 @@ public class HomeController {
     public static HttpSession session() {
         return CustomAuthProvider.getHttpSession();
     }
-    
-    public static boolean isPasswordMatching(String passwordHashBd, String password, String hashSalt){
-    	password = Password.getEncryptedPassword( password, hashSalt );
-    	
-    	return password.equals(passwordHashBd);    	
+
+    public static boolean isPasswordMatching(String passwordHashBd, String password, String hashSalt) {
+        password = Password.getEncryptedPassword(password, hashSalt);
+
+        return password.equals(passwordHashBd);
     }
 
 }

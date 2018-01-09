@@ -1,5 +1,9 @@
+<%@page import="java.util.Calendar"%>
+<%@page import="br.com.ibict.acv.sicv.model.Ilcd"%>
+<%@page import="java.util.Date"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <%@page import="resources.Strings"%>
 <%@page import="br.com.ibict.acv.sicv.model.User"%>
@@ -66,8 +70,9 @@
             .sicv-table-th {
                 color: #4dbcc4;
                 border-bottom: 1px solid silver;
-                border-top: 1px solid silver;
+                /*border-top: 1px solid silver;*/
                 padding: 0 !important;
+                height: 30px;
             }
 
             .sicv-table-td {
@@ -97,7 +102,7 @@
                     </c:if>
                     <br><br>
 
-                    <h6 style="color:#4dbcc4;">Invéntarios em andamento</h6>	
+                    <h6 style="color:#4dbcc4;font-weight: bold;">Invéntarios em andamento</h6>	
                 </c:when>
                 <c:otherwise>
                     <c:set var="link" value="${base}/manager/authorIlcd" />
@@ -120,7 +125,7 @@
                         <button class="button" style="padding-left: 0%;" onclick="location.href = '${link}/${loop.index}'">${ilcd.name}</button>
                     </div>
                     <div style="height: 40px;width:10%; position: relative; top: 10px;" class="col s3 sicv-table-td">
-                        <button class="button" style="padding-left: 0%;" onclick="location.href = '${link}/${loop.index}'">${ilcd.homologation.user.firstName}</button>
+                        <button class="button" style="padding-left: 0%;" onclick="location.href = '${link}/${loop.index}'">${ilcd.homologation.user.firstName == null ? "N/A":ilcd.homologation.user.firstName}</button>
                     </div>
                     <c:choose>
                        	<c:when test="${ilcd.homologation.pending}">
@@ -132,18 +137,38 @@
                                     <i style="color: #c3697c;" class="fa fa-exclamation-triangle"></i>
                                 </button>
                             </div>
-                            <div style="height: 40px;  text-align: center; position: relative; top: 10px; color: #c3697c;" class="col s2 sicv-table-td">
-                                <button class="button" onclick="location.href = '#'">${ilcd.homologation.prazo}</button>
+                            <%
+
+                                    Ilcd ilcd = (Ilcd) pageContext.getAttribute("ilcd");
+                                    Calendar cal = Calendar.getInstance();
+                                    cal.setTime(ilcd.getHomologation().getSubmission());
+                                    int dtInit = cal.get(Calendar.DAY_OF_YEAR);
+                                    cal.setTime(ilcd.getHomologation().getPrazo());
+                                    int dtLimit = cal.get(Calendar.DAY_OF_YEAR);
+                                    String resporta;
+                                    Boolean style;
+                                    if ((dtLimit - dtInit) < 0) {
+                                        resporta = "atrasado";
+                                        style = true;
+                                    } else {
+                                        resporta = (dtLimit - dtInit)+" dias";
+                                        style = false;
+                                    }
+                                    pageContext.setAttribute("prazoStyle", style);
+                                    pageContext.setAttribute("prazo", resporta);
+                                %>
+                            <div style="height: 40px;  text-align: center; position: relative; top: 10px; ${prazoStyle ? "color: #c3697c;":""}" class="col s2 sicv-table-td">
+                                <button class="button" onclick="location.href = '#'">${prazo}</button>
                             </div>
                        	</c:when>
                        	<c:when test="${not ilcd.homologation.pending}">
                             <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td" onclick="location.href = '#'">
                                 <button class="button">
-                                    <i style="color: #c3697c;" class="fa fa-exclamation-triangle"></i>
+                                    <i style="color: #accc5f;" class="fa fa-check"></i>
                                 </button>
                             </div> 
-                            <div style="height: 40px;  text-align: center; position: relative; top: 10px;" class="col s2 sicv-table-td">
-                                <button class="button" onclick="location.href = '#'">${ilcd.homologation.prazo}</button>
+                            <div style="height: 40px;  text-align: center; position: relative; top: 10px; color: #accc5f;" class="col s2 sicv-table-td">
+                                <button class="button" onclick="location.href = '#'">Entregue</button>
                             </div>
                        	</c:when>
                        	<c:otherwise>
