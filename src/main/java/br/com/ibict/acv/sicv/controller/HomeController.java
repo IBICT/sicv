@@ -89,6 +89,8 @@ public class HomeController {
         User user = (User) session().getAttribute("user");
         System.out.println(user);
         String name = user.getFirstName();
+        model.put("local", "Meus inventários");
+        model.put("localN", 0);
         model.put("isUserLabel", true);
         model.put("name", name);
 //        if( ilcds == null || hasSubmitOrStatus){
