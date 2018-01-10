@@ -64,6 +64,7 @@
 		   
 			/* label color */
 		   .input-field input{
+				font-size: 18px !important;
 				color: #DDD;
 				border-bottom: .2px solid #DDD !important;
 				box-shadow: 0 .2px 0 0 #DDD !important;
@@ -96,12 +97,12 @@
 		</div><!-- /.modal -->
 		
 		<img alt="SICV" class="logoSICVLogin" src="<%=Strings.BASE%>/assets/images/logoSICVLogin.png">
-		<h4 style="text-align: center;letter-spacing: 2px;">Importador de Inventários</h4>
+		<h4 style="text-align: center;font-size: 33px;">Importador de Inventários</h4>
 		
-		<div class="principalDiv">
+		<div class="">
 		
             <p>
-            <form method="post" action="<%=Strings.BASE%>/register" style="margin: 0 auto;">
+            <form method="post" action="<%=Strings.BASE%>/register" style="margin-left: 13%;">
 	            <div class="row">
 		            <div class="input-field col s4">
 		            	<b>CADASTRO</b> | <a href="<%=Strings.BASE%>/" style="color: white;">Já possuo cadastro</a>
@@ -118,7 +119,7 @@
 					<div class="input-field col s3">
 					    <input placeholder="Nome*" id="first_name" name="firstName" type="text" class="validate" required="required">
 					</div>
-					<div class="input-field col s4">
+					<div class="input-field col s5">
 						<input placeholder="Sobrenome*" id="last_name" name="lastName" type="text" class="validate" required="required">
 					</div>
 					<div class="input-field col s2">
@@ -130,12 +131,12 @@
 					<div class="input-field col s5">
 		                <input placeholder="E-mail*" id="email" name="email" type="email" class="validate" required="" /><br />
 					</div>
-					<div class="input-field col s4">
+					<div class="input-field col s5">
 						<input placeholder="Afiliação*" id="organization" name="organization" type="text" class="validate" required="">
 					</div>
 				</div>
 				<div class="row">
-					<div class="input-field col s3">
+					<div class="input-field col s4">
 						<select required="required" name="country">
 							<option value="" disabled selected>Nacionalidade*</option>
 							<option value="Afghanistan">Afghanistan</option>
@@ -379,7 +380,7 @@
 						    <option value="Zimbabwe">Zimbabwe</option>
 					    </select>
 					</div>
-					<div class="input-field col s3">
+					<div class="input-field col s2">
 						<select required="required" name="language">
 							<option value="" disabled selected>Idioma*</option>
 							<option value="Português">Português</option>
@@ -390,7 +391,7 @@
 						    <option value="Francês">Francês</option>
 					    </select>
 				    </div>
-					<div class="input-field col s3">
+					<div class="input-field col s4">
 						<input placeholder="Outro idioma" id="otherLanguage" name="otherLanguage" type="text">
 					</div>
 				</div>
@@ -412,7 +413,7 @@
 						    <option value="Especialista">Especialista</option>
 					    </select>
 				    </div>
-					<div class="input-field col s3">
+					<div class="input-field col s4">
 						<input placeholder="Área*(ex:Ciências Florestais)" id="area" name="jobPosition" type="text" required="required">
 					</div>
 					<div class="input-field col s3">
@@ -421,36 +422,40 @@
 				</div>
 				
 				<div class="row">
-					<div class="input-field col s6">
+					<div class="input-field col s7">
 		                <input placeholder="Currículo* (adicionar link do perfil no Currículo lattes, Linkedin ou ResearchGate)" 
 		                id="curriculum" name="curriculum" type="text" required="" /><br />
 					</div>
 				</div>
 				<div class="row">
-					<div class="input-field col s6">
+					<div class="input-field col s7">
 		                <input placeholder="Áreas de interesse (ex: agroindústria, metalúrgica, eletroeletrônicos, etc)"  
 		                id="dsPurpose" name="dsPurpose" type="text"/><br />
 					</div>
-					<div class="col s6">
+					<div class="col s5">
 		                <a href="#modal-terms_SICV" class="modal-trigger" style="color: white;">Termos de Uso</a><br />
 	    	            <a href="#modal-privacyPolicy_SICV" class="modal-trigger" style="color: white;" >Politica de Privacidade</a><br />
 	                    <input type="checkbox" id="termosAcima" required="required" />
 	                    <label for="termosAcima" style="color: white;"><b>Concordo com os termos acima.</b></label>
 	                </div>
 				</div>
+				
 				<div class="row">
-					<div class="input-field col s4">
-						<input placeholder="Senha* " id="password" name="senha" type="password" class="validate" required="required">
-					</div>
-					<div class="input-field col s4">
-						<input placeholder="Confirmar Senha* " id="confirm" type="password" class="validate" required="required">
-	                <div class="col s2 offset-s7">
-		                <input class="btn btn-lg btn-primary btn-block cyan darken-3" type="submit" value="Submeter Cadastro" /><br />
-	                </div>
+					<div class="input-field col s3">
+				    	<label for="title" style="color: white;"><b>Definir Senha</b></label>
 					</div>
 				</div>
+				
 				<div class="row">
-					
+					<div class="input-field col s5">
+						<input placeholder="Senha* " id="password" name="senha" type="password" class="validate" required="required">
+					</div>
+					<div class="input-field col s5">
+						<input placeholder="Confirmar Senha* " id="confirm" type="password" class="validate" required="required">
+	                <div style="float: right;">
+		                <input style="float: right;background: #00697C;" class="btn btn-lg btn-primary" type="submit" value="Submeter Cadastro" /><br />
+	                </div>
+					</div>
 				</div>
 
             </form>

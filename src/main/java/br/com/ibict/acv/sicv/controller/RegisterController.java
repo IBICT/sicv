@@ -66,19 +66,24 @@ public class RegisterController {
         
         User user = new User();
         Role role = new Role( 1, "USER" );
-        user.setEmail(email);
         
         user.setPasswordHashSalt( Password.generateSalt( 20 ) );
         user.setPasswordHash( Password.getEncryptedPassword( senha, user.getPasswordHashSalt() ) );
         //Activation Code
         user.setRegistrationKey(Password.generateSalt( 8 ) );
         
-        user.setTitle(title);
         user.setFirstName(firstName);
         user.setLastName(lastName);
-        user.setJobPosition(jobPosition);
         user.setPhone(phone);
+        user.setEmail(email);
         user.setOrganization(organization);
+        user.setCountry(country);
+        user.setLanguage(language);
+        user.setOtherLanguage(otherLanguage);
+        user.setTitle(title);
+        user.setJobPosition(jobPosition);
+        user.setOrcid(orcid);
+        user.setCurriculum(curriculum);
         user.setDsPurpose(dsPurpose);
         user.addRole(role);
         user.setQntdNotificacoes(0L);

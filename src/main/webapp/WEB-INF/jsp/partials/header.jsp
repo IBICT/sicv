@@ -42,12 +42,12 @@
 					<span class="glyphicon glyphicon-bell"><%=notifications%></span>
 				</button>
 			</td>
-			<td class="sortable-column tdCenterHeader" style="color: #4dbcc4;" >
-				Perfil: <button class="button" onclick="location.href='<%=Strings.BASE%>/profile'" style="color: #4dbcc4;">
+			<td class="sortable-column tdCenterHeader" style="color: #00697c;" >
+				Perfil: <button class="button" onclick="location.href='<%=Strings.BASE%>/profile'" style="color: #00697c;">
 					<b><%=name%></b>
 				</button>
 			</td>
-			<td class="sortable-column" style="text-align: center; width:1%; white-space:nowrap;color: #4dbcc4;" >
+			<td class="sortable-column" style="text-align: center; width:1%; white-space:nowrap;color: #00697c;" >
 				<button class="button" onclick="location.href='<%=Strings.BASE%>/logout'">SAIR</button>
 			</td>
 		</tr>
