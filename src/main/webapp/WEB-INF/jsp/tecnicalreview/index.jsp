@@ -138,7 +138,7 @@
         </div>
 
         <div class="row sicv-container">
-            <h4 class="page-title">Revisão Qualidata</h4>
+            <h4 class="page-title">Revisão Tecnica</h4>
         </div>
 
         <c:if test="${not empty invite}">
@@ -174,7 +174,7 @@
                     <div class="col s2 sicv-table-th" style="text-align: center;">Prazo para entregar</div>
                 </div>
                 <c:forEach var="homologacao" items="${work}">
-                    <div style="margin:0px;cursor:pointer;" class="row" onclick="window.location = '<%=Strings.BASE%>/qualityreview/${homologacao.ilcd.id}';">
+                    <div style="margin:0px;cursor:pointer;" class="row" onclick="window.location = '<%=Strings.BASE%>/tecnicalreview/${homologacao.ilcd.id}';">
                         <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">${homologacao.ilcd.uuid}</div>
                         <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">${homologacao.ilcd.title}</div>
                         <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #c3697c;" class="material-icons">report_problem</i></div>

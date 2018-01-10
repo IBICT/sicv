@@ -32,8 +32,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
  * @author deivdywilliamsilva
  */
 @Controller
-@RequestMapping("/qualityreview")
-public class QualityReviewController {
+@RequestMapping("/tecnicalreview")
+public class TecnicalReviewController {
 
     @Autowired
     private IlcdDao ilcdDao;
@@ -67,7 +67,7 @@ public class QualityReviewController {
         model.put("teste", null);
 
         //System.out.println(lista.isEmpty());
-        return "qualityreview/index";
+        return "tecnicalreview/index";
     }
 
     @RequestMapping(value = {"accept/{id}/", "/accept/{id}/", "accept/{id}", "/accept/{id}"})
@@ -79,7 +79,7 @@ public class QualityReviewController {
             Status status = homo.getLastArchive().getStatus();
             status.setExpectedDate(new Date());
             statusDao.save(status);
-            return "redirect:/qualityreview/";
+            return "redirect:/tecnicalreview/";
         } catch (Exception e) {
             return "error";
         }
@@ -106,7 +106,7 @@ public class QualityReviewController {
             //model.put("user", user);
             model.put("ilcd", ilcd);
             model.put("archive", ilcd.getHomologation().getLastArchive());
-            return "qualityreview/item";
+            return "tecnicalreview/item";
         } catch (Exception e) {
             return "error";
         }
@@ -120,7 +120,7 @@ public class QualityReviewController {
             Ilcd ilcd = ilcdDao.findById(id);
             model.put("username", name);
             model.put("ilcd", ilcd);
-            return "qualityreview/review";
+            return "tecnicalreview/review";
         } catch (Exception e) {
             return "error";
         }
@@ -148,7 +148,7 @@ public class QualityReviewController {
             status.setQualiData(qualiData);
             status.setStatus(resultado);
             statusDao.save(status);
-            return "redirect:/qualityreview/";
+            return "redirect:/tecnicalreview/";
         } catch (Exception e) {
             return "ERRO 500";
         }
