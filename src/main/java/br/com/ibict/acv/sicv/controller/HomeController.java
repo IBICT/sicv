@@ -87,7 +87,6 @@ public class HomeController {
     @RequestMapping("/")
     public String getRoot(Map<String, Object> model) {
         User user = (User) session().getAttribute("user");
-        System.out.println(user);
         String name = user.getFirstName();
         model.put("local", "Meus inventários");
         model.put("localN", 0);
@@ -250,7 +249,7 @@ public class HomeController {
             User ilcdUser = (User) session().getAttribute("user");
             Status status = new Status();
             status.setStatus(1);
-            status.setType(1);
+            status.setType(0);
             status.setIlcd(ilcd);
             ilcd.addStatus(status);
 

@@ -155,10 +155,10 @@
 
                 <div class="col s6">
                     <h5>Usuário</h5>
-                    <h6>${username}</h6>
+                    <h6>${name}</h6>
                     <h6>Autor/es</h6>
                     <p>${ilcd.title}<br />
-                        ${ilcd.email}
+                        
                     </p>
                     <hr />
                     <h6>Categoria</h6>
@@ -295,22 +295,7 @@
 
 
                     </c:forEach>
-                    <!--
-                    <hr />
-                    <div class="row">
-                        <div class="col s3"><i style="color:#006b7b;" class="medium material-icons">insert_drive_file</i>ILCD.zip</div>
-                        <div class="col s3">
-                            <i style="color:#27bec3;" class="medium material-icons">insert_drive_file</i>23/08/2017
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="row">
-                        <div class="col s3"><i style="color:#006b7b;" class="medium material-icons">insert_drive_file</i>ILCD.zip</div>
-                        <div class="col s3">
-                            <i style="color:#27bec3;" class="medium material-icons">insert_drive_file</i>12/08/2017
-                        </div>
-                    </div>
-                    -->
+
                     <hr />
 
                 </div>

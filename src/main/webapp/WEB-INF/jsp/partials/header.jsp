@@ -28,12 +28,12 @@
             </td>
             <c:if test="${isManager or isAdmin}">
                 <td class="tdCenterHeader" >
-                    <button class="button" style="${localN == 3 ? "color:#00697C;font-weight: bold;":""}" onclick="location.href='<%=Strings.BASE%>/manager'">Gestão</button>
+                    <button class="button" style="${localN == 3 ? "color:#00697C;font-weight: bold;":""}" onclick="location.href='<%=Strings.BASE%>/gestor'">Gestão</button>
                 </td>
             </c:if>
             <c:if test="${isAdmin}">
                 <td class="tdCenterHeader" >
-                    <button class="button" style="${localN == 4 ? "color:#00697C;font-weight: bold;":""}" onclick="location.href = '<%=Strings.BASE%>/admin'"><b>Administrador</b></button>
+                    <button class="button" style="${localN == 4 ? "color:#00697C;font-weight: bold;":""}" onclick="location.href = '<%=Strings.BASE%>/admin'">Administrador</button>
                 </td>
             </c:if>
             <td class="tdAlertHeader"><a style="color: #c3697c;" href="<%=Strings.BASE%>/notifications"><span class="glyphicon glyphicon-bell"><%=notifications%></span></a></td>
