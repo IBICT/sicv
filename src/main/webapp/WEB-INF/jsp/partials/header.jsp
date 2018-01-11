@@ -17,7 +17,7 @@
 <table class="table">
     <thead>
         <tr >
-            <td style="border-bottom:1px solid #6B6B6B;" class="tdCenterHeader" onclick="">
+            <td class="tdCenterHeader" onclick="">
                 <button class="button" style="${localN == 0 ? "color:#00697C;font-weight: bold;":""}" onclick="location.href='<%=Strings.BASE%>'">Meus Inventários</button>
             </td>
             <td class="tdCenterHeader">
