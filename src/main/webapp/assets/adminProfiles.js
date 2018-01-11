@@ -1,6 +1,6 @@
 function enableSubmit(btnID) {
 	$('.btnSaveProfile').prop('disabled',true).css({color:"#999", fontWeight:"bold"});
-	$("#"+btnID).prop('disabled',false).css('color','green');
+	$("#"+btnID).prop('disabled',false).css('color','#4DBCC4');
 }
 function submitForm(index) {
 	var ar=[];

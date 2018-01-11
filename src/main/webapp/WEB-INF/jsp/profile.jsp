@@ -81,9 +81,6 @@
 		<jsp:include page="/WEB-INF/jsp/partials/nav.jsp" />
 		<div class="headerDiv">
 	        <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
-            <div class="card-panel black-text" style="margin-top: -20px; background: #EBF4F5;">
-				<b>Você está em:  <u>Perfil de Usuário</u></b>
-            </div>
 		</div>
 
 		<div class="principalDiv">
@@ -103,10 +100,10 @@
 				 <div>
 					<div class="row">
 						<div class="input-field col s4 offset-s3">
-					       <input placeholder="Nome" id="first_name" name="firstName" type="text" class="validate" value="${user.firstName}">
+					       <input placeholder="Nome*" id="first_name" name="firstName" type="text" class="validate" value="${user.firstName}">
 						</div>
 						<div class="input-field col s5">
-							<input placeholder="Sobrenome" id="last_name" name="lastName" type="text" class="validate" value="${user.lastName}">
+							<input placeholder="Sobrenome*" id="last_name" name="lastName" type="text" class="validate" value="${user.lastName}">
 						</div>
 
 					</div>
@@ -123,10 +120,10 @@
     	             </div>
     	             <div class="row">
 						<div class="input-field col s6">
-						    <input placeholder="" id="email" name="email" type="text" class="validate" value="${user.email}" required="required">
+						    <input placeholder="E-mail*" id="email" name="email" type="text" class="validate" value="${user.email}" required="required">
 						</div>
 						<div class="input-field col s3">
-						    <input placeholder="" id="phone" name="phone" type="text" class="validate" value="${user.phone}" required="required">
+						    <input placeholder="Telefone*" id="phone" name="phone" type="text" class="validate" value="${user.phone}" required="required">
 						</div>
 	                 	<div class="row">
 							<div class="input-field col s6">

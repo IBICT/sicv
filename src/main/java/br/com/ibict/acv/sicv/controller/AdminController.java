@@ -93,6 +93,13 @@ public class AdminController {
         return "/profile";
     }
     
+    @RequestMapping(value = "/insertProfile", method = RequestMethod.GET)
+    public String insertProfileHandler(Map<String, Object> model) {
+    	model.put("isAdmin", true);
+    	
+        return "/admin/profile";
+    }
+    
     @PostMapping("/profile")
     public String loginHandle(@RequestParam("profile") String profile) {
         

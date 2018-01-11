@@ -8,7 +8,7 @@ O inventário ${ilcdName} foi importado com sucesso para a base ${urlTrack} na d
 <p>
 <b>Nome:</b> ${ilcdUser.getFirstName()} ${ilcdUser.getLastName()}<br/>
 <b>E-mail:</b> ${ilcdUser.getEmail()}<br/>
-<b>Instituição:</b> ${ilcdUser.getInstituicao()}<br/>
+<b>Instituição:</b> ${ilcdUser.getOrganization()}<br/>
 <b>Inventário:</b> ${ilcdName}<br/>
 <b>Objetivo do inventário:</b> objetivo do inventário
 </p>
