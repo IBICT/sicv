@@ -27,6 +27,13 @@
 	   	margin-left:5%;
 	   	margin-top: 2%;
     }
+    
+    .principalForm{
+	   	width: 91.75%;
+	   	margin-left:4%;
+	   	margin-top: 2%;
+	   	padding: 0px !important;
+   	}
 
 </style>
 <nav>

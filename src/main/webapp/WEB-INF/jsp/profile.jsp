@@ -8,9 +8,9 @@
 	pageContext.setAttribute("base", base);
 %>
 
-<c:set var="link" value="${base}" />
+<c:set var="link" value="${base}/profile" />
 <c:if test="${isAdmin}">
-	<c:set var="link" value="${base}/admin/" />
+	<c:set var="link" value="${base}/admin/profile" />
 </c:if>
 
 <!DOCTYPE html>
@@ -83,9 +83,9 @@
 	        <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
 		</div>
 
-		<div class="principalDiv">
+		<div class="principalForm">
             
-			<form class="userForm" action="${link}/profile" method="POST">
+			<form class="userForm" action="${link}" method="POST">
                 <input id="id" name="id" type="text" class="validate" value="${user.id}" hidden="true">
 				<input id="registrationKey" name="registrationKey" type="text" class="validate" value="${user.registrationKey}" hidden="true">
                 <input id="passwordHashSalt" name="passwordHashSalt" type="text" class="validate" value="${user.passwordHashSalt}" hidden="true">
@@ -432,26 +432,26 @@
 					</div>
 				</div>
 				
-				<div class="row">
+				<div class="row" ${isAdmin ? 'hidden' : ''}>
 					<div class="input-field col s3">
 				    	<h6 style="color: #3D3D3D;"><b>Definir Senha</b></h6>
 					</div>
 				</div>
 			
-				<div class="row">
+				<div class="row" ${isAdmin ? 'hidden' : ''}>
 					<div class="input-field col s6">
-						<input placeholder="Senha* " id="password" name="plainPassword" type="password" class="validate" required="required" value="${user.plainPassword}">
+						<input placeholder="Senha " id="password" name="plainPassword" type="password" class="validate" value="${user.plainPassword}">
 					</div>
 				</div>
 				<div class="row">
 					<div class="input-field col s6">
-						<input placeholder="Nova senha* " id="confirm" name="newPassword" type="password" class="validate">
+						<input placeholder="Nova senha " id="confirm" name="newPassword" type="password" class="validate" ${isAdmin ? 'hidden' : ''}>
 						<div style="float: left;">
 		                	<input style="float: left;background: #00697C;" class="btn btn-lg btn-primary" type="submit" value="Salvar Alterações" /><br />
 	                	</div>
 	                </div>
-                    <div class="input-field col s6">
-                        <input placeholder="Confirmar nova senha" id="confirm" type="password" class="validate">
+                    <div class="input-field col s6" >
+                        <input placeholder="Confirmar nova senha" id="confirm" type="password" class="validate" ${isAdmin ? 'hidden' : ''}>
                     </div>
 				</div>
                  

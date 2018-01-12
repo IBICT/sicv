@@ -35,7 +35,7 @@ public class RegisterController {
     @Autowired
     private Mail mail;
     
-    private static Mail mailUtil;
+    public static Mail mailUtil;
     
     @PostConstruct
     public void buildStatics(){

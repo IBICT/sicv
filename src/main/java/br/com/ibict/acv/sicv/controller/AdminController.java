@@ -1,6 +1,8 @@
 package br.com.ibict.acv.sicv.controller;
 
+import java.io.IOException;
 import java.security.Principal;
+import java.sql.SQLException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -21,9 +23,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import resources.Strings;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import br.com.ibict.acv.sicv.CustomAuthProvider;
 import br.com.ibict.acv.sicv.exception.ProfileException;
+import br.com.ibict.acv.sicv.exception.RegisterException;
 import br.com.ibict.acv.sicv.model.Homologacao;
 import br.com.ibict.acv.sicv.model.Ilcd;
 import br.com.ibict.acv.sicv.model.Notification;
@@ -39,9 +44,7 @@ import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.Mail;
 import br.com.ibict.acv.sicv.util.Password;
 import br.com.ibict.sicv.enums.EnumProfile;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import resources.Strings;
 
 @Controller
 @RequestMapping("/admin")
@@ -97,7 +100,51 @@ public class AdminController {
     public String insertProfileHandler(Map<String, Object> model) {
     	model.put("isAdmin", true);
     	
-        return "/admin/profile";
+        return "/admin/newProfile";
+    }
+    
+    @PostMapping("/insertProfile") // //new annotation since 4.3
+    public String register(
+    		@RequestParam("firstName") String firstName,
+    		@RequestParam("lastName") String lastName,
+            @RequestParam("email") String email) throws Exception {
+        
+        User user = new User();
+        Role role = new Role( 1, "USER" );
+        String senha = Password.generateSalt( 8 );
+        user.setPasswordHashSalt( Password.generateSalt( 20 ) );
+        user.setPasswordHash( Password.getEncryptedPassword( senha, user.getPasswordHashSalt() ) );
+        //Activation Code
+        user.setRegistrationKey(Password.generateSalt( 8 ) );
+        
+        user.setFirstName(firstName);
+        user.setLastName(lastName);
+        user.setEmail(email);
+        user.addRole(role);
+        user.setQntdNotificacoes(0L);
+        
+        Map<String, Object> model = new HashMap<String, Object>();
+        model.put("user", user);
+        model.put("senha", senha);
+        model.put("urlLogin", Strings.BASE+"/login");
+        model.put("url", Strings.BASE);
+        
+        try {
+        	userDao.save(user);
+			RegisterController.mailUtil.sendEmail(email, "acv@ibict.br", "Cadastro de Usuário", model, "emailRegister.ftl");
+			
+			model.put("urlTrack", Strings.BASE +"/admin/users/");
+			model.put("date", RegisterController.getDateString());
+			RegisterController.mailUtil.sendEmail(RegisterController.EMAIL_ADMIN, "acv@ibict.br", "Cadastro de Usuário", model, "emailRegisterToAdmin.ftl");
+			// TODO criar paginas ou mensagens para popular a view em caso de erro
+        } catch (IOException | SQLException e){
+        	throw new Exception("Erro no processo de registro de usuario.", e);
+		} catch (RegisterException e) {
+			throw new RegisterException("Erro no processo de envio de email.", e);
+		}
+        
+        return "register/sendEmail";
+
     }
     
     @PostMapping("/profile")

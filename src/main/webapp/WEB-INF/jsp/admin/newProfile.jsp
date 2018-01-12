@@ -20,6 +20,18 @@
             .page-title {
                 color: #00697c;
             }
+			.btn {
+                background-color: #00697C !important;
+                font-size: 16px !important;
+                border-radius: 5px !important;
+                text-transform: none !important;
+                font-weight: bold;
+                height: 32px;
+                width: 307px;
+                letter-spacing: .2px;
+                padding: 0px;
+                line-height: 0px;
+            }
             
             .input-field{
             	margin-top: -0.7rem;
@@ -50,7 +62,7 @@
 	        <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
 		</div>
 
-		<div class="principalDiv">
+		<div class="principalForm">
             
 			<form class="userForm" action="<%=Strings.BASE%>/admin/insertProfile" method="POST">
 
@@ -77,9 +89,7 @@
 		                	</div>
 						</div>
 					</div>
-					
 				</div>
-						
                  
              </form>
 		</div>
