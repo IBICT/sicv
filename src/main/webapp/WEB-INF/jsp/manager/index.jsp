@@ -119,6 +119,7 @@
         <div class="sicv-container sicv-inventori-table">
             <div class="row">
                 <h6 style="color:#4dbcc4;">Invéntarios em andamento</h6>
+                <input style="float: right;" type="text" />
             </div>
             <div style="margin:0px;" class="row">
                 <div class="col s3 sicv-table-th">Id</div>
