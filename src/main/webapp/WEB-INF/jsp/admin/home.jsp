@@ -202,8 +202,8 @@
 				    <div class="col s1 sicv-table-td">
 				    	<a href="<%=Strings.BASE%>/admin/profile/${loop.index}" style="margin-left: 5px; float: left;"> Editar </a>
 				    </div>
-		   			<div class="col s3 sicv-table-td fullName">${user.firstName} ${user.lastName}</div>   
-		   			<div class="col s4 sicv-table-td mail">${user.email}</div>
+		   			<div class="col s4 sicv-table-td fullName">${user.firstName} ${user.lastName}</div>   
+		   			<div class="col s3 sicv-table-td mail"><label for="name">${user.email}</label></div>
 		            <div class="col s1 sicv-table-td">
 						<input class="filled-in" type="checkbox" checked="checked" readonly="readonly" disabled="disabled" name="user.roles[]" id="${loop.index}box1" value="USER" checked="checked"/>
 						<label for="${loop.index}box1"></label>

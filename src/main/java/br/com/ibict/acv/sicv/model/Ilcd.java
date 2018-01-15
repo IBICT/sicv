@@ -76,6 +76,10 @@ public class Ilcd implements Serializable {
     @Expose
     private String description;
     
+    @NotNull
+    @Expose
+    private Boolean hasReview;
+    
     @Expose
     @OneToOne(cascade = CascadeType.REFRESH)
     private Homologacao homologation;
@@ -221,6 +225,14 @@ public class Ilcd implements Serializable {
     
     public void setDescription(String description) {
 		this.description = description;
+	}
+    
+    public Boolean getHasReview() {
+		return hasReview;
+	}
+    
+    public void setHasReview(Boolean hasReview) {
+		this.hasReview = hasReview;
 	}
     
     public String getName() {

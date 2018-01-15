@@ -3,6 +3,7 @@ package br.com.ibict.acv.sicv.controller;
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
@@ -19,6 +20,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,7 +43,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import resources.Strings;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import br.com.ibict.acv.sicv.CustomAuthProvider;
 import br.com.ibict.acv.sicv.model.Archive;
 import br.com.ibict.acv.sicv.model.Homologacao;
@@ -56,9 +60,7 @@ import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.ExclStrat;
 import br.com.ibict.acv.sicv.util.Mail;
 import br.com.ibict.acv.sicv.util.Password;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import resources.Strings;
 
 @Controller
 public class HomeController {
@@ -203,8 +205,9 @@ public class HomeController {
     }
 
     @PostMapping("/ilcd/new") // //new annotation since 4.3
-    public String singleFileUpload(@RequestParam("file") MultipartFile file,
-            @RequestParam("json") String json,@RequestParam("ilcd") String jsonIlcd, @RequestParam("authors") String jsonAuthors,
+    public String singleFileUpload(@RequestParam("review") MultipartFile review, @RequestParam("file") MultipartFile file,
+    		@RequestParam("fileComplement") MultipartFile fileComplement, @RequestParam("json") String json,
+    		@RequestParam("ilcd") String jsonIlcd, @RequestParam("authors") String jsonAuthors,
             @RequestParam("emails") String jsonEmails, RedirectAttributes redirectAttributes) throws Exception {
     	
     	Gson gson = new Gson();
@@ -230,8 +233,8 @@ public class HomeController {
         try {
 
             // Get the file and save it somewhere. 1 is inicial version
-            byte[] bytes = file.getBytes();
-            Path path = Paths.get(Strings.UPLOADED_FOLDER + MD5(bytes));
+            byte[] bytesfile = file.getBytes();
+            Path path = Paths.get(Strings.UPLOADED_FOLDER + MD5(bytesfile));
             String pathResolve = path.resolve("ILCD.zip").toString();
 
             if (path.toFile().exists()) {
@@ -239,7 +242,7 @@ public class HomeController {
                 return "redirect:/admin/ilcd/uploadStatus";
             }
             Files.createDirectory(path);
-            Files.write(path.resolve("./ILCD.zip"), bytes);
+            Files.write(path.resolve("./ILCD.zip"), bytesfile);
             User ilcdUser = (User) session().getAttribute("user");
             Status status = new Status();
             status.setStatus(1);
@@ -248,7 +251,32 @@ public class HomeController {
             ilcd.addStatus(status);
             
             zipToIlcd(pathResolve, ilcd);
-            status.getArchive().setPathFile( MD5(bytes) );
+            status.getArchive().setPathFile( MD5(bytesfile) );
+            if( !review.isEmpty() && ilcd.getHasReview() ){
+            	status.getArchive().setReviewName( review.getOriginalFilename() );
+            	File reviewFile = new File(path.resolve("./" + "review" + ".zip").toString() );
+            	ZipOutputStream out = new ZipOutputStream(new FileOutputStream(reviewFile));
+            	ZipEntry e = new ZipEntry(status.getArchive().getReviewName());
+            	out.putNextEntry(e);
+
+            	byte[] data = review.getBytes();
+            	out.write(data, 0, data.length);
+            	out.closeEntry();
+            	out.close();
+            }
+            if( !fileComplement.isEmpty() ){
+            	status.getArchive().setComplementName( fileComplement.getOriginalFilename() );
+            	File complementFile = new File(path.resolve("./" + "complement"+".zip").toString() );
+            	ZipOutputStream out = new ZipOutputStream(new FileOutputStream(complementFile));
+            	ZipEntry e = new ZipEntry(status.getArchive().getComplementName());
+            	out.putNextEntry(e);
+
+            	byte[] data = fileComplement.getBytes();
+            	out.write(data, 0, data.length);
+            	out.closeEntry();
+            	out.close();
+            }
+            
             Notification notification = new Notification();
             Homologacao homolog = new Homologacao();
             notification.setUser( ilcd.getUser().getId() );

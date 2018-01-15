@@ -23,7 +23,9 @@ public class Archive implements Serializable{
 	 */
 	private static final long serialVersionUID = -8565487720085084453L;
 	
-	private final String COMMENT = "comment"; 
+	private final String COMMENT = "comment";
+	private final String COMPLEMENT = "complement";
+	private final String REVIEW = "review";
 	
 	@Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -35,6 +37,16 @@ public class Archive implements Serializable{
     @Expose
     @Column(name = "comment_file_name")
     private String commentName;
+    
+	//nome do arquivo complementar relacionado ao .ILCD: .pdf, .doc, .rar...
+    @Expose
+    @Column(name = "complement_file_name")
+    private String complementName;
+    
+	//nome do arquivo complementar relacionado ao .ILCD: .pdf, .doc, .rar...
+    @Expose
+    @Column(name = "review_file_name")
+    private String reviewName;
     
     //pode ser string ou inteiro?
     @NotNull
@@ -72,6 +84,24 @@ public class Archive implements Serializable{
     public void setCommentName(String commentName) {
     	int indice = commentName.indexOf(".");
 		this.commentName = COMMENT + commentName.substring(indice) ;
+	}
+    
+    public String getComplementName() {
+		return complementName;
+	}
+    
+    public void setComplementName(String complementName) {
+    	int indice = complementName.indexOf(".");
+		this.complementName = COMPLEMENT + complementName.substring(indice) ;
+	}
+    
+    public String getReviewName() {
+		return reviewName;
+	}
+    
+    public void setReviewName(String reviewName) {
+    	int indice = reviewName.indexOf(".");
+		this.reviewName = REVIEW + reviewName.substring(indice);
 	}
     
     public Integer getVersion() {

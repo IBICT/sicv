@@ -128,6 +128,18 @@
 								ILCD.zip
 							</a>
 			        	</div>
+			        	<div>
+							<i class="material-icons page-title ">insert_drive_file</i>
+							<a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=complement.zip">
+								Arquivo complementar.zip
+							</a>
+			        	</div>
+			        	<div>
+							<i class="material-icons page-title ">insert_drive_file</i>
+							<a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=review.zip">
+								Revisao.zip
+							</a>
+			        	</div>
 	                </div>
             	</div>
                 <hr />

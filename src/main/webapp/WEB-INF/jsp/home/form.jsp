@@ -137,14 +137,14 @@
 				<div class="row">
 				    <div class="col s6">
 						<h6 style="font-size: 15px;"><b>Possui Revisão técnica / crítica de terceira parte? </b><b style="color: red;">*</b></h6>
-						<input class="with-gap" name="hasReview" type="radio" id="yesReview"  />
+						<input class="with-gap" name="hasReview" type="radio" id="yesReview" value="true" onclick="showFileInput();"/>
 						<label for="yesReview" style="color: #3D3D3D;">Sim</label>
-						<input class="with-gap" name="hasReview" type="radio" id="noReview"  checked="checked" />
+						<input class="with-gap" name="hasReview" type="radio" id="noReview"  value="false" checked="checked" onclick="hiddeFileInput();"/>
 						<label for="noReview" style="margin-left: 30px;color: #3D3D3D;">Não</label>
 				    </div>
 				</div>
 
-				<div class="row">
+				<div class="row" hidden="" id="fileInput">
 					<div class="file-field input-field col s6" style="bottom: 25px; margin-left: -10px">
 						<span class="btn">Escolher Arquivo</span> <input type="file" class="btn" name="review" id="review">
 						<div class="file-path-wrapper" style="padding-left: 0px;">
@@ -195,7 +195,7 @@
 				</div>
 				<div class="row">
 					<div class="file-field input-field col s6" style="bottom: 25px; margin-left: -10px">
-						<span class="btn">Escolher Arquivo</span> <input type="file" class="btn" name="file" id="review">
+						<span class="btn">Escolher Arquivo</span> <input type="file" class="btn" name="file" id="file">
 						<div class="file-path-wrapper" style="padding-left: 0px;">
 							<input placeholder="Escolha arquivo em formato ILCD" class="file-path validate" type="text" disabled="disabled" style="padding-left: 15px;">
 						</div>
@@ -208,18 +208,18 @@
 				</div>
                 <div class="row" style="margin-top: 15px;">
 				    <div class="col s12">
-						<h6 style="font-size: 15px;"><b>Upload Arquivo ILCD? </b><b style="color: red;">*</b></h6>
+						<h6 style="font-size: 15px;"><b>Upload de arquivo complementar </b><b style="color: red;">*</b></h6>
 				    </div>
 				</div>
 				<div class="row">
 					<div class="file-field input-field col s6" style="bottom: 25px; margin-left: -10px">
-						<span class="btn">Escolher Arquivo</span> <input type="file" class="btn" name="fileComplement" id="review">
+						<span class="btn">Escolher Arquivo</span> <input type="file" class="btn" name="fileComplement" id="fileComplement">
 						<div class="file-path-wrapper" style="padding-left: 0px;">
 							<input placeholder="Gráfico, fluxograma" class="file-path validate" type="text" disabled="disabled" style="padding-left: 15px;">
 						</div>
 					</div>
 	            	<div class="col" style="float: right;margin-top: 50px;">
-						<input type="submit" value="SALVAR" class="btn btn-salvar" id="btnSubmit" style="">
+						<input type="submit" value="SALVAR" class="btn btn-salvar" id="btnSubmit">
 						<input type="submit" value="ENVIAR" class="btn btn-enviar" id="btnSubmit">
 					</div>
 				</div>
@@ -259,6 +259,12 @@
 	        		i++;
 	        	});
 	        });
+			function showFileInput(){
+				$('#fileInput').show(500);
+			}
+			function hiddeFileInput(){
+				$('#fileInput').hide(500);
+			}
 			
         </script>
     </body>

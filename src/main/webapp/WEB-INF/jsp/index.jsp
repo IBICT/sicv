@@ -62,7 +62,7 @@
             <div class="col s6">
 	            <div style="padding-bottom: 2%;">
 	                <h5>Usuário</h5>
-	                <h6 class="page-title bold italic">${user.userName}</h6>
+	                <h6 class="page-title bold italic">${user.firstName} ${user.lastName}</h6>
 	            </div>
                 <h6 class="bold">Autor/es</h6>
                 <c:forEach items="${ilcd.authors}" var="author" varStatus="loop">
