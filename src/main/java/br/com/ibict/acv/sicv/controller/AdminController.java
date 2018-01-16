@@ -75,8 +75,11 @@ public class AdminController {
         if (principal == null) {
             return "/login";
         } else {
+        	User user = (User) session().getAttribute("user");
+            String name = user.getFirstName();
         	users = userDao.findAll();
             model.put("users", users);
+            model.put("name", name);
 
             return "admin/home";
         }

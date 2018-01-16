@@ -1,0 +1,116 @@
+/*
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+*/
+/* 
+    Created on : 08/01/2018, 10:39:53
+    Author     : deivdy
+*/
+
+
+@font-face {
+    font-family: 'TitilliumWeb-ExtraLight';
+    src: url('../../fonts/TitilliumWeb-ExtraLight.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'TitilliumWeb-Regular';
+    src: url('../../fonts/TitilliumWeb-Regular.ttf') format('truetype');
+}
+
+
+body {
+    padding-top: 40px;
+    padding-bottom: 40px;
+    background-color: #eee;
+}
+
+.form-signin {
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+    margin-bottom: 10px;
+}
+.form-signin .checkbox {
+    font-weight: normal;
+}
+.form-signin .form-control {
+    position: relative;
+    height: auto;
+    -webkit-box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    box-sizing: border-box;
+    padding: 10px;
+    font-size: 16px;
+}
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+.form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+
+.login-form {
+    font-family: 'TitilliumWeb-ExtraLight', sans-serif !important;
+    background-color: #4dbcc4;
+    color: white;
+    text-align: center;
+}
+
+.bgBtnEntrar {
+    font-family: 'TitilliumWeb-Regular', sans-serif !important;
+    background-color: #00697c;
+}
+
+.btnCadastrar {
+    font-family: 'TitilliumWeb-Regular', sans-serif !important;
+    border-radius: 0px !important;
+    color: white;
+}
+
+.inputEmail {
+    font-family: 'TitilliumWeb-Regular', sans-serif !important;
+    margin-bottom: 10px !important;
+    border-radius: 6px !important;
+}
+
+.logoSICVLogin {
+    display: block;
+    margin: 0 auto;
+}
+
+.div {
+    min-width: 25%;
+    margin: 0 auto;
+    max-width: 40%;
+}
+
+.linkLogin {
+    font-size: 16px;
+    color: #00697C;
+}
+
+.remember {
+    float: right;
+    font-size: 16px;
+    margin-right: 10px;
+}
+
+.container {
+    position:absolute;
+    top:22%;
+    right:0;
+    left:0;
+}

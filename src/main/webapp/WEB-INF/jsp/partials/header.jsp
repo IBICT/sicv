@@ -8,48 +8,46 @@
 <sec:authorize access="hasAuthority('ADMIN')" var="isAdmin" />
 <%
     User user = (User) request.getSession().getAttribute("user");
-    String name = user.getFirstName();
-    Long notifications = user.getQntdNotificacoes(); 
+    Long notifications = user.getQntdNotificacoes();
 %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <link href="<%=Strings.BASE%>/assets/css/defaultNotifications.css" rel="stylesheet">
 
 <table class="table">
-	<thead>
-		<tr style="border-bottom:1px solid black">
-			<td class="tdCenterHeader" onclick="">
-				<button class="button" onclick="location.href='<%=Strings.BASE%>'">Meus Inventários</button>
-			</td>
-			<td class="tdCenterHeader" style="color: #4dbcc4;" >
-				<button class="button" onclick="location.href='#'">Revisão Qualidata</button>
-			</td>
-			<td class="tdCenterHeader" style="color: #accc5f;" >
-				<button class="button" onclick="location.href='#'">Revisão Técnica</button>
-			</td>
-			<c:if test="${isManager or isAdmin}">
-				<td class="tdCenterHeader" >
-					<button class="button" onclick="location.href='<%=Strings.BASE%>/manager'">Gestão</button>
-				</td>
-			</c:if>
-			<c:if test="${isAdmin}">
-				<td class="tdCenterHeader" >
-					<button class="button" onclick="location.href='<%=Strings.BASE%>/admin'"><b>Administrador</b></button>
-				</td>
-			</c:if>
-			<td class="tdAlertHeader">
-				<button class="button" style="color: #c3697c;white-space:nowrap;" onclick="location.href='<%=Strings.BASE%>/notifications'">
-					<span class="glyphicon glyphicon-bell"><%=notifications%></span>
-				</button>
-			</td>
-			<td class="sortable-column tdCenterHeader" style="color: #00697c;" >
-				Perfil: <button class="button" onclick="location.href='<%=Strings.BASE%>/profile'" style="color: #00697c;">
-					<b><%=name%></b>
-				</button>
-			</td>
-			<td class="sortable-column" style="text-align: center; width:1%; white-space:nowrap;color: #00697c;" >
-				<button class="button" onclick="location.href='<%=Strings.BASE%>/logout'">SAIR</button>
-			</td>
-		</tr>
-	</thead>		
+    <thead>
+        <tr >
+            <td class="tdCenterHeader" onclick="">
+                <button class="button" style="${localN == 0 ? "color:#00697C;font-weight: bold;":""}" onclick="location.href='<%=Strings.BASE%>'">Meus Inventários</button>
+            </td>
+            <td class="tdCenterHeader">
+                <button class="button" style="${localN == 1 ? "color:#00697C;font-weight: bold;":""}" onclick="location.href='<%=Strings.BASE%>/qualityreview'">Revisão Qualidata</button>
+            </td>
+            <td class="tdCenterHeader">
+                <button class="button" style="${localN == 2 ? "color:#00697C;font-weight: bold;":""}" onclick="location.href='<%=Strings.BASE%>/tecnicalreview'">Revisão Técnica</button>
+            </td>
+            <c:if test="${isManager or isAdmin}">
+                <td class="tdCenterHeader" >
+                    <button class="button" style="${localN == 3 ? "color:#00697C;font-weight: bold;":""}" onclick="location.href='<%=Strings.BASE%>/gestor'">Gestão</button>
+                </td>
+            </c:if>
+            <c:if test="${isAdmin}">
+                <td class="tdCenterHeader" >
+                    <button class="button" style="${localN == 4 ? "color:#00697C;font-weight: bold;":""}" onclick="location.href = '<%=Strings.BASE%>/admin'">Administrador</button>
+                </td>
+            </c:if>
+            <td class="tdAlertHeader"><a style="color: #c3697c;" href="<%=Strings.BASE%>/notifications"><span class="glyphicon glyphicon-bell"><%=notifications%></span></a></td>
+            <td class="sortable-column tdCenterHeader" >Perfil: <a href="<%=Strings.BASE%>/profile">${name}</a></td> 
+            <td class="sortable-column" style="text-align: center; width:1%; white-space:nowrap;" >
+                <button class="button" onclick="location.href='<%=Strings.BASE%>/logout'">SAIR</button>
+            </td>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td colspan="8" style="background-color: #EBF4F5;font-weight: bold;">
+                Você está em: ${local}
+            </td>
+        </tr>
+    </tbody>
 </table>

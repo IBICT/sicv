@@ -60,6 +60,7 @@ import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.ExclStrat;
 import br.com.ibict.acv.sicv.util.Mail;
 import br.com.ibict.acv.sicv.util.Password;
+import java.util.Date;
 import resources.Strings;
 
 @Controller
@@ -88,12 +89,16 @@ public class HomeController {
     @RequestMapping("/")
     public String getRoot(Map<String, Object> model) {
         User user = (User) session().getAttribute("user");
+        String name = user.getFirstName();
+        model.put("local", "Meus inventários");
+        model.put("localN", 0);
         model.put("isUserLabel", true);
-        //model.put("username", name);
-        if( ilcds == null || hasSubmitOrStatus){
-        	ilcds = ilcdDao.findIlcdsByLikeEmail( user.getEmail() );
-        	hasSubmitOrStatus = true;
-        }
+        model.put("name", name);
+//        if( ilcds == null || hasSubmitOrStatus){
+//        	ilcds = ilcdDao.findIlcdsByLikeEmail( user.getEmail() );
+//        	hasSubmitOrStatus = true;
+//        }
+        ilcds = ilcdDao.findByUser(user);
         model.put("ilcds", ilcds);
         
         return "home/home";
@@ -288,6 +293,18 @@ public class HomeController {
             ilcd.setJson1(json);
             ilcd.addNotification(notification);
             homolog.setStatus(1);
+            
+            //Pendecia inicial verdadeira
+            homolog.setPending(true);
+
+            // Prazo incial de 5 dias
+            Date dt = new Date();
+            Calendar c = Calendar.getInstance();
+            c.setTime(dt);
+            c.add(Calendar.DATE, 5);
+            dt = c.getTime();
+            homolog.setPrazo(dt);
+            
             //homolog.setUser( manager );
             homolog.setSubmission( Calendar.getInstance().getTime() );
             homolog.setIlcd(ilcd);

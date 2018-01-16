@@ -5,240 +5,286 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 
-<head>
-    <meta charset="UTF-8">
-    <title>Home</title>
-    <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
-    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <style>
-        html {
-            font-family: 'Titillium Web', "Roboto", sans-serif;
-            color: #999;
-        }
-        hr {
-        	border-top: 2px solid #000;
-        }
-        .page-title {
-            color: #00697c;
-        }
-        .italic{
-        	font-style: italic;
-        }
-        .bold{
-        	font-weight: bold;
-        }
-        .yellow-title {
-            color: #accc5f;
-        }
-        .liteblue-title {
-            color: #4dbcc4;
-        }
-        .btn-save {
-            background-color: #4dbcc4;
-        }
-        .btn-yellow {
-            background-color: #accc5f;
-        }
-        .btn-anexar {
-        	background-color: #00697c;
-        }
-        
-    </style>
+    <head>
+        <meta charset="UTF-8">
+        <title>Home</title>
+        <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/steps.css">
+        <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <style>
+            html {
+                font-family: 'Titillium Web', "Roboto", sans-serif;
+            }
 
-</head>
+            nav {
+                background-color: #4dbcc4;
+            }
 
-<body>
-	<jsp:include page="/WEB-INF/jsp/partials/nav.jsp" />
-	<div class="headerDiv">
-        <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
-	</div>
-	
-	<!-- Modal Structure -->
-	<div id="inviteQ" class="modal modal-fixed-footer">
-	  <div class="modal-content">
-	    <h2 >Selecione um revisor de qualidade</h2>
-	    <jsp:include page="/WEB-INF/jsp/manager/usersQ.jsp" />
-	  </div>
-	  <div class="modal-footer">
-	    <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancelar</a>
-	    <a href="<%=Strings.BASE%>/manager/invite-quality-review" class="modal-action modal-close waves-effect waves-green btn-flat"
-			id="sendInviteQ" onclick="sendInviteQ(${ilcd.id});">OK</a>
-	  </div>
-	</div>
-	
-	<!-- Modal Structure -->
-	<div id="inviteT" class="modal modal-fixed-footer">
-	  <div class="modal-content">
-	    <h2 >Selecione um revisor técnico</h2>
-	    <jsp:include page="/WEB-INF/jsp/manager/usersT.jsp" />
-	  </div>
-	  <div class="modal-footer">
-	    <a href="#!" class="modal-action modal-close waves-effect waves-red btn-flat ">Cancelar</a>
-	    <a href="<%=Strings.BASE%>/manager/invite-technical-review"" class="modal-action modal-close waves-effect waves-green btn-flat "
-	    	id="sendInviteT" onclick="sendInviteT(${ilcd.id});" disabled="true" >OK</a>
-	  </div>
-	</div>	
-	
-	<div class="principalDiv ">
-    	<div class="row" style="width: 90%;">
-        	<div class="row">
-	        	<div >
-		        	<h5 class="page-title ">${ilcd.name}</h5>
-		        	<hr />
-	        	</div>
+            nav .brand-logo {
+                margin-left: 50px;
+            }
 
-            <div class="col s6">
-	            <div style="padding-bottom: 2%;">
-	                <h5>Autor correpondente</h5>
-	            </div>
-                <h6 class="bold">Autor/es</h6>
-				<c:forEach items="${ilcd.authors}" var="author" varStatus="loop">
-	                <i>${author};</i>
-               	</c:forEach>
-                <p>
-				<c:forEach items="${ilcd.emails}" var="email" varStatus="loop">
-                	<i>${email};</i>
-                </c:forEach>
-                <br>
-                <h6 class="bold">Categoria</h6>
-                <p>${ilcd.category}</p>
-                <br>
-                <h6 class="bold">Descrição</h6>
-                <p>${ilcd.description}</p>
-                
-            </div>
-			<div class="col s6">
-            	<div class="row">
-                	<div class="col s2">
-						<button class="btn btn-save modal-trigger" data-target="inviteQ" style="float: left;" >Convidar Q+</button>
-	                </div>
-	                <div class="col s2 offset-s2">
-		                <button class="btn btn-yellow modal-trigger" data-target="inviteT" disabled="disabled">Convidar T+</button>
-	                </div>
-	                <div class="col s3 offset-s3">
-						<div class="s4 page-title bold">Arquivo inicial</div>
+            nav .brand-logo img {
+                margin-right: 20px;
+                vertical-align: middle;
+            }
 
-						<c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
-						<div>
-							
-							<i class="material-icons page-title ">insert_drive_file</i>
-							<a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
-								ILCD.zip
-							</a>
-			        	</div>
-			        	<div>
-							<i class="material-icons page-title ">insert_drive_file</i>
-							<a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=complement.zip">
-								Arquivo complementar.zip
-							</a>
-			        	</div>
-			        	<div>
-							<i class="material-icons page-title ">insert_drive_file</i>
-							<a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=review.zip">
-								Revisao.zip
-							</a>
-			        	</div>
-	                </div>
-            	</div>
-                <hr />
-                
-                <c:forEach items="${ilcd.status}" var="status" varStatus="loop">
-                	<c:if test="${status.type eq 2 and status.status gt 2}">
-		                <div class="row">
-				            <h5 class="liteblue-title">Revisão Qualidata</h5> 
-			                <h6>Suelen Santos</h6>
-		                	<h6 class="">Revisão Entregue</h6>
-		                    <div>
-								<c:set var="pathFile" value="${status.archive.pathFile}" />
-		                    	<a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
-		      		                <i class="material-icons page-title">insert_drive_file</i>
-		                       	</a>
-			                    ${status.endDate}
-		                    </div>
-		                    <hr />
-		                	<h5 class="page-title">Envio do Autor</h5>
-							<div>
-								<c:set var="pathFile" value="${status.archive.pathFile}" />
-		                        <i class="material-icons page-title">insert_drive_file</i>
-			                    <a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
-		                       		ILCD.zip
-		                       	</a>
-		                    </div>
-		                    <hr />
-		                </div>
-					</c:if>
-                </c:forEach>
-                
-                <c:forEach items="${ilcd.status}" var="status" varStatus="loop">
-                	<c:if test="${status.type eq 3 and status.status gt 3}">
-		                <div class="row">
-							<h5 class="yellow-title">Revisão Técnica</h5>
-							<h6>Wellington Stanley</h6>
-							<h6 class="">Revisão Entregue</h6>
-			               
-			           		<c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
-			               	<a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
-				                <i class="material-icons yellow-title">insert_drive_file</i>
-							</a>
-			                 30/08/2017
-			                <hr />
-			                
-			               	<h5 class="page-title">Envio do Autor</h5>
-							<div>
-								<c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
-			                       <i class="material-icons page-title">insert_drive_file</i>
-			                    <a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
-			                      		ILCD.zip
-			                      	</a>
-							</div>
-							<hr />
-		                </div>
-					</c:if>
-				</c:forEach>
-                
-                <c:forEach items="${ilcd.status}" var="status" varStatus="loop">
-                	<c:if test="${status.type eq 3 and status.status ne 4}">
-		                <div class="row">
-		                    <div class="col s3">${status.endDate}</div>
-		                    <div class="col s3 "><i class="material-icons yellow-title">insert_drive_file</i>
-	                    	<a href="#">
-	                       		PDF
-	                       	</a>
-		                    </div>
-		                    <div class="col s3">
-								<c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
-		                        <i class="material-icons page-title">insert_drive_file</i>
-			                    <a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
-		                       		ILCD.zip
-		                       	</a>
-		                    </div>
-		                    <div class="col s3">
-			                    <c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
-		                        <i class="material-icons page-title">insert_drive_file</i>
-	       		                    <a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=${status.archive.commentName}">
-		                       		${status.archive.commentName}
-		                       	</a>
-		                    </div>
-		                </div>
-	                	<hr />
-	                </c:if>
-                </c:forEach>
-                
-			</div>
+            .container {
+                /*margin: 10px 50px;*/
+            }
+
+            .page-title {
+                color: #00697c;
+            }
+
+            .btn-import {
+                background-color: #accc5f;
+            }
+
+            .user-menu {
+                border-bottom: 2px solid silver;
+                margin: 60px 80px 20px 80px;
+                height: 30px;
+            }
+
+            .item-menu {
+                border-right: 2px solid silver;
+                height: 30px;
+            }
+
+            .item-menu2 {
+                text-align: center;
+                border-left: 2px solid silver;
+                height: 30px;
+            }
+
+            .item-menu3 {
+                text-align: right;
+                height: 30px;
+            }
+
+            .link-menu {
+                color: #00697c;
+                font-weight: bold;
+                font-size: 16px;
+            }
+
+            .link-menu2 {
+                color: #c3697c;
+                font-weight: bold;
+                font-size: 16px;
+            }
+
+            .link-menu3 {
+                color: #00697c;
+                font-size: 16px;
+            }
+
+            .notif-num {
+                position: relative;
+                top: -5px;
+            }
+
+            .sicv-container {
+                margin: 0px 80px 0px 80px;
+            }
+
+            .sicv-table-th {
+                color: #4dbcc4;
+                border-bottom: 1px solid silver;
+                border-top: 1px solid black;
+            }
+
+            .sicv-table-td {
+                border-bottom: 1px solid silver;
+            }
+        </style>
+
+    </head>
+
+    <body>
+        <jsp:include page="/WEB-INF/jsp/partials/nav.jsp" />
+        <div class="headerDiv">
+            <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
         </div>
-    </div>
-    <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
-    <script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
-	<script type="application/javascript" src="<%=Strings.BASE%>/assets/managerInvite.js"></script>
-    <script>
-    $(document).ready(function(){
-        // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
-        $('.modal').modal();
 
-      });
-    </script>
-</body>
+
+
+        <div class="row sicv-container">
+            <h4 class="page-title">Gestão</h4>
+        </div>
+
+        <div class="sicv-container sicv-inventori-table">
+            <div class="row">
+                <h6 style="color:#4dbcc4;">Invéntarios em andamento</h6>
+                <input style="float: right;" type="text" />
+            </div>
+            <div style="margin:0px;" class="row">
+                <div class="col s3 sicv-table-th">Id</div>
+                <div class="col s3 sicv-table-th">Nome</div>
+                <div class="col s1 sicv-table-th" style="text-align: center;">Pendências</div>
+                <div class="col s2 sicv-table-th" style="text-align: center;">Prazo para entregar</div>
+                <div class="col s3" style="position: relative; left: 20px; color: #4dbcc4;">Status</div>
+            </div>
+            <c:forEach var="ilcd" items="${ilcds}"> 
+                <div style="margin:0px;" class="row" onclick="window.location = '<%=Strings.BASE%>/gestor/${ilcd.id}';">
+                    
+                    <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">${ilcd.uuid}</div>
+                    <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">${ilcd.title}</div>
+                    <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #c3697c;" class="material-icons">report_problem</i></div>
+                    <div style="height: 40px;  text-align: center; position: relative; top: 10px; color: #c3697c;" class="col s2 sicv-table-td">Atrasado</div>
+                    <div style="height: 40px;" class="col s3">
+                        <!-- Progress Tracker v2 -->
+                        <ol style="position: relative;" class="progress-steps"
+                            data-steps="5">
+                            <li class="${ilcd.homologation.status == 1 ? 'active' : 'done'}">
+                                <span class="step"><span>1</span></span>
+                            </li>
+
+                            <c:choose>
+                                <c:when test="${ilcd.homologation.status == 2}">
+                                    <li class="active"><span class="step"><span>2</span></span>
+                                    </li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li class="${ilcd.homologation.status lt 2 ? '' : 'done'}">
+                                        <span class="step"><span>2</span></span>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
+                            <c:choose>
+                                <c:when test="${ilcd.homologation.status == 3}">
+                                    <li class="active"><span class="step"><span>3</span></span>
+                                    </li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li class="${ilcd.homologation.status lt 3 ? '' : 'done'}">
+                                        <span class="step"><span>3</span></span>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
+                            <c:choose>
+                                <c:when test="${ilcd.homologation.status == 4}">
+                                    <li class="active"><span class="step"><span>4</span></span>
+                                    </li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li class="${ilcd.homologation.status lt 4 ? '' : 'done'}">
+                                        <span class="step"><span>4</span></span>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
+                            <c:choose>
+                                <c:when test="${ilcd.homologation.status == 5}">
+                                    <li class="active"><span class="step"><span>5</span></span>
+                                    </li>
+                                </c:when>
+                                <c:otherwise>
+                                    <li class="${ilcd.homologation.status lt 5 ? '' : 'done'}">
+                                        <span class="step"><span>5</span></span>
+                                    </li>
+                                </c:otherwise>
+                            </c:choose>
+
+                        </ol>
+                        <!-- Progress Tracker v2 -->
+                    </div>
+                </div>
+            </c:forEach>
+<!--            
+            <div style="margin:0px;" class="row">
+                <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">266c5da8-55bc-4d58-a4af-cbf7724f7939</div>
+                <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">Phenol from cumene production mix, at producer</div>
+                <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #c3697c;" class="material-icons">report_problem</i></div>
+                <div style="height: 40px;  text-align: center; position: relative; top: 10px;" class="col s2 sicv-table-td">5 dias</div>
+                <div style="height: 40px;" class="col s3">
+                    <ol style="position: relative; top: -10px;" class="progress-steps" data-steps="5">
+                        <li class="active">
+                            <span class="step"><span>1</span></span>
+                        </li>
+                        <li>
+                            <span class="step"><span>2</span></span>
+                        </li>
+                        <li>
+                            <span class="step"><span>3</span></span>
+                        </li>
+                        <li>
+                            <span class="step"><span>4</span></span>
+                        </li>
+                        <li>
+                            <span class="step"><span>5</span></span>
+                        </li>
+                    </ol>
+                </div>
+            </div>
+            <div style="margin:0px;" class="row">
+                <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">266c5da8-55bc-4d58-a4af-cbf7724f7939</div>
+                <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">Phenol from cumene production mix, at producer</div>
+                <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #c3697c;" class="material-icons">report_problem</i></div>
+                <div style="height: 40px;  text-align: center; position: relative; top: 10px; color: #c3697c;" class="col s2 sicv-table-td">Atrasado</div>
+                <div style="height: 40px;" class="col s3">
+                     Progress Tracker v2 
+                    <ol style="position: relative; top: -10px;" class="progress-steps" data-steps="5">
+                        <li class="done">
+                            <span class="step"><span>1</span></span>
+                        </li>
+                        <li class="done">
+                            <span class="step"><span>2</span></span>
+                        </li>
+                        <li class="done">
+                            <span class="step"><span>3</span></span>
+                        </li>
+                        <li class="done">
+                            <span class="step"><span>4</span></span>
+                        </li>
+                        <li class="active">
+                            <span class="step"><span>5</span></span>
+                        </li>
+                    </ol>
+                     Progress Tracker v2 
+                </div>
+            </div>
+            <div style="margin:0px;" class="row">
+                <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">266c5da8-55bc-4d58-a4af-cbf7724f7939</div>
+                <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">Phenol from cumene production mix, at producer</div>
+                <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #accc5f;" class="material-icons">check</i></div>
+                <div style="height: 40px;  text-align: center; position: relative; top: 10px;" class="col s2 sicv-table-td">Entregue</div>
+                <div style="height: 40px;" class="col s3">
+                     Progress Tracker v2 
+                    <ol style="position: relative; top: -10px;" class="progress-steps" data-steps="5">
+                        <li class="done">
+                            <span class="step"><span>1</span></span>
+                        </li>
+                        <li class="active">
+                            <span class="step"><span>2</span></span>
+                        </li>
+                        <li>
+                            <span class="step"><span>3</span></span>
+                        </li>
+                        <li>
+                            <span class="step"><span>4</span></span>
+                        </li>
+                        <li>
+                            <span class="step"><span>5</span></span>
+                        </li>
+                    </ol>
+                     Progress Tracker v2 
+                </div>
+            </div>
+            -->
+        </div>
+
+        <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
+        <script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
+        <script>
+            $(document).ready(function () {
+                // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+                $('.modal').modal();
+
+            });
+        </script>
+    </body>
 
 </html>
