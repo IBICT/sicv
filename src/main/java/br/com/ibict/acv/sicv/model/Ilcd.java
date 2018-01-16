@@ -74,6 +74,7 @@ public class Ilcd implements Serializable {
     
     @NotNull
     @Expose
+    @Column(columnDefinition = "TEXT")
     private String description;
     
     @NotNull

@@ -1,7 +1,7 @@
 <%-- 
-    Document   : home
+    Document   : login
     Created on : 11/05/2017, 09:48:46
-    Author     : Deivdy.Silva
+    Author     : Deivdy William Silva
 --%>
 <%@page import="resources.Strings"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
@@ -41,13 +41,11 @@
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
         <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
 
-        <!-- Custom styles for this template -->
-        <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/signin.css" rel="stylesheet">
-        
-        <link href="<%=Strings.BASE%>/assets/css/defaultLogin.css" rel="stylesheet">
+        <!-- Custom styles for this template -->        
+        <link href="<%=Strings.BASE%>/assets/css/login/index.css" rel="stylesheet">
 
         <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-        <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
+        <!--[if lt IE 9]><script src="../../assets/bootstrap-3.3.7/js/ie8-responsive-file-warning.js"></script><![endif]-->
         <script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/ie-emulation-modes-warning.js"></script>
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -55,34 +53,64 @@
           <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
           <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
         <![endif]-->
+        <script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/jquery.min.js"></script>
+        <script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/jquery.cookie.js"></script>
+        <script>
+            $(function () {
+
+                if (localStorage.chkbox && localStorage.chkbox != '') {
+                    $('#rememberChkBox').attr('checked', 'checked');
+                    $('#inputEmail').val(localStorage.username);
+                    $('#inputPassword').val(localStorage.pass);
+                } else {
+                    $('#rememberChkBox').removeAttr('checked');
+                    $('#inputEmail').val('');
+                    $('#inputPassword').val('');
+                }
+
+                $('#rememberChkBox').click(function () {
+
+                    if ($('#rememberChkBox').is(':checked')) {
+                        // save username and password
+                        localStorage.username = $('#inputEmail').val();
+                        localStorage.pass = $('#inputPassword').val();
+                        localStorage.chkbox = $('#rememberChkBox').val();
+                    } else {
+                        localStorage.username = '';
+                        localStorage.pass = '';
+                        localStorage.chkbox = '';
+                    }
+                });
+            });
+        </script>
     </head>
 
     <body class="login-form">
 
         <div class="container">
-			<img alt="SICV" class="logoSICVLogin" src="<%=Strings.BASE%>/assets/images/logoSICVLogin.png">
+            <img alt="SICV" class="logoSICVLogin" src="<%=Strings.BASE%>/assets/images/logoSICVLogin.png">
             <h2 style="text-align: center;letter-spacing: 2px;">Importador de Inventários</h2>
             <form action="login" method="post" class="form-signin">
                 <input type="email" name="email" id="inputEmail" class="form-control inputEmail" placeholder="Email address" required autofocus>
 
                 <input type="password" name="senha" id="inputPassword" class="form-control inputEmail" placeholder="Password" required>
                 <div class="checkbox">
-                    <label>
-                        <input type="checkbox" value="remember-me"> Remember me
+                    <label class="remember">
+                        <input id="rememberChkBox" type="checkbox" value="remember-me"> Remember me
                     </label>
                 </div>
                 <button class="btn btn-lg btn-block bgBtnEntrar" type="submit">Entrar</button>
-                
+
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             </form>
-
+            <a class="btn btn-outlined btnCadastrar linkLogin" href="#">Esqueci minha senha</a>
+            <a class="btn btn-outlined btnCadastrar linkLogin" href="./register">Cadastrar</a>
         </div> <!-- /container -->
-		<div class="div">
-               <a class="btn btn-outlined btnCadastrar" href="#">Esqueci minha senha</a>
-  	            <a class="btn btn-outlined btnCadastrar" href="./register">Cadastrar</a>
-         </div>
 
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
         <script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/ie10-viewport-bug-workaround.js"></script>
+
+
+
     </body>
 </html>

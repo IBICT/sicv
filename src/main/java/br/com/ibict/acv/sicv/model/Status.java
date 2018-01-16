@@ -22,133 +22,140 @@ import com.google.gson.annotations.Expose;
 
 @Entity
 @Table(name = "status")
-public class Status implements Serializable{
+public class Status implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -1747311392295606955L;
+    /**
+     *
+     */
+    private static final long serialVersionUID = -1747311392295606955L;
 
-	@Id
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     @Expose
     private Long id;
-	
+
 //    @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
     @Expose
     private Date requestDate;
-    
+
     //@NotNull
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
     @Expose
     private Date expectedDate;
-	
+
     @Temporal(TemporalType.TIMESTAMP)
     @DateTimeFormat(pattern = "dd-MM-yyyy hh:mm:ss")
     @Expose
     private Date endDate;
-    
+
     //informa tipos: q+, t+, gestor
     @Expose
     @Column(name = "type")
-	private Integer type;
-	
+    private Integer type;
+
     @ManyToOne
     @JoinColumn(name = "revisor_id")
     @Expose
     private User revisor;
-    
-/*    @LazyCollection(LazyCollectionOption.FALSE)
+
+    /*    @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "status", targetEntity = Archive.class, cascade = CascadeType.PERSIST)
     private List<Archive> archive;*/
     @Expose
-    @OneToOne(mappedBy="status", cascade = CascadeType.PERSIST)
+    @OneToOne(mappedBy = "status", cascade = CascadeType.PERSIST)
     private Archive archive;
-    
+
     //status relacionado o arquivo .ILCD
     //informa o andamento do arquivo: AG_REV, AG_AC ...
 //    @NotNull
     @Expose
     private Integer status;
-    
+
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "ilcd_id")
     @Expose
     Ilcd ilcd;
     
-    @Expose
-    @OneToOne(mappedBy="status", cascade = CascadeType.PERSIST)
-    private Notification notify ;
+    //@OneToOne(cascade = CascadeType.REFRESH)
+    //private Reviewer reviewer;
     
-    public Status(Status status){
-    	this.archive = status.archive;
-    	this.revisor = status.revisor;
-    	this.status =  2;
-    }
-    
-    public Status() {
-	}
+    @OneToOne(cascade = CascadeType.REFRESH)
+    private QualiData qualiData;
 
-	public Long getId() {
-		return id;
-	}
-    
+    @Expose
+    @OneToOne(mappedBy = "status", cascade = CascadeType.PERSIST)
+    private Notification notify;
+
+    public Status(Status status) {
+        this.archive = status.archive;
+        this.revisor = status.revisor;
+        this.status = 2;
+    }
+
+    public Status() {
+    }
+
+    public Long getId() {
+        return id;
+    }
+
     public void setId(Long id) {
-		this.id = id;
-	}
-    
+        this.id = id;
+    }
+
     public Date getRequestDate() {
-		return requestDate;
-	}
-    
+        return requestDate;
+    }
+
     public void setRequestDate(Date requestDate) {
-		this.requestDate = requestDate;
-	}
-    
+        this.requestDate = requestDate;
+    }
+
     public Date getExpectedDate() {
-		return expectedDate;
-	}
-    
+        return expectedDate;
+    }
+
     public void setExpectedDate(Date expectedDate) {
-		this.expectedDate = expectedDate;
-	}
-    
+        this.expectedDate = expectedDate;
+    }
+
     public Date getEndDate() {
-		return endDate;
-	}
-    
+        return endDate;
+    }
+
     public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-    
+        this.endDate = endDate;
+    }
+
     public Integer getType() {
-		return type;
-	}
-    
+        return type;
+    }
+
     public void setType(Integer type) {
-		this.type = type;
-	}
-    
+        this.type = type;
+    }
+
     public User getRevisor() {
-		return revisor;
-	}
-    
+        return revisor;
+    }
+
     public void setRevisor(User revisor) {
-		this.revisor = revisor;
-	}
-    
+        this.revisor = revisor;
+    }
+
     public Archive getArchive() {
-		return archive;
-	}
-    
+        return archive;
+    }
+
     public void setArchive(Archive archive) {
-		this.archive = archive;
-	}
-	/*public List<Archive> getArchive() {
+        this.archive = archive;
+    }
+
+    /*public List<Archive> getArchive() {
 		return archive;
 	}
 	
@@ -162,28 +169,45 @@ public class Status implements Serializable{
     	}
 		return this.archive.add(archive);
     }*/
-    
+
     public Integer getStatus() {
-		return status;
-	}
-    
+        return status;
+    }
+
     public void setStatus(Integer status) {
-		this.status = status;
-	}
-    
+        this.status = status;
+    }
+
     public Ilcd getIlcd() {
-		return ilcd;
-	}
-    
+        return ilcd;
+    }
+
     public void setIlcd(Ilcd ilcd) {
-		this.ilcd = ilcd;
-	}
-    
+        this.ilcd = ilcd;
+    }
+
     public Notification getNotify() {
-		return notify;
-	}
-    
+        return notify;
+    }
+
     public void setNotify(Notification notify) {
-		this.notify = notify;
-	}
+        this.notify = notify;
+    }
+//
+//    public Reviewer getReviewer() {
+//        return reviewer;
+//    }
+//
+//    public void setReviewer(Reviewer reviewer) {
+//        this.reviewer = reviewer;
+//    }
+
+    public QualiData getQualiData() {
+        return qualiData;
+    }
+
+    public void setQualiData(QualiData qualiData) {
+        this.qualiData = qualiData;
+    }
+    
 }

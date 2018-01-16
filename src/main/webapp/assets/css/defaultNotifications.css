@@ -54,14 +54,17 @@ body {
 	width:1%;
     white-space:nowrap;
 	border-right: 1px solid ;
-	border-color: black;
+	border-color: #6B6B6B;
 }
 .tdAlertHeader{
 	border-right: 1px solid;
-	border-color:black;
+	border-color: #6B6B6B;
 	text-align: right;
 	color:#c3697c;
-	outline:none;
+}
+
+table thead tr td {
+    border-bottom:1px solid #6B6B6B;
 }
 
 .button {

@@ -14,4 +14,6 @@ public interface HomologacaoDao extends JpaRepository<Homologacao, Long> {
 
 	public List<Homologacao> findByUser(User user);
     
+        public List<Homologacao> findByUserAndStatus(User user, Integer status);
+        
 }
