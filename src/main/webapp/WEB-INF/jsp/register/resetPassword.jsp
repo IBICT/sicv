@@ -1,8 +1,3 @@
-<%-- 
-    Document   : login
-    Created on : 11/05/2017, 09:48:46
-    Author     : Deivdy William Silva
---%>
 <%@page import="resources.Strings"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -36,7 +31,7 @@
         <title>SICV - ACV | Banco Nacional de Inventários dos inventários brasileiros do Ciclo de Vida (ICVs)</title>
 
         <!-- Bootstrap core CSS -->
-        <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
 
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
         <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
@@ -55,62 +50,51 @@
         <![endif]-->
         <script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/jquery.min.js"></script>
         <script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/jquery.cookie.js"></script>
-        <script>
-            $(function () {
 
-                if (localStorage.chkbox && localStorage.chkbox != '') {
-                    $('#rememberChkBox').attr('checked', 'checked');
-                    $('#inputEmail').val(localStorage.username);
-                    $('#inputPassword').val(localStorage.pass);
-                } else {
-                    $('#rememberChkBox').removeAttr('checked');
-                    $('#inputEmail').val('');
-                    $('#inputPassword').val('');
-                }
-
-                $('#rememberChkBox').click(function () {
-
-                    if ($('#rememberChkBox').is(':checked')) {
-                        // save username and password
-                        localStorage.username = $('#inputEmail').val();
-                        localStorage.pass = $('#inputPassword').val();
-                        localStorage.chkbox = $('#rememberChkBox').val();
-                    } else {
-                        localStorage.username = '';
-                        localStorage.pass = '';
-                        localStorage.chkbox = '';
-                    }
-                });
-            });
-        </script>
     </head>
+    	<style>
+			/* label color */
+		   .input-field input{
+				font-size: 18px !important;
+				color: #DDD;
+				border-bottom: .2px solid #DDD !important;
+				box-shadow: 0 .2px 0 0 #DDD !important;
+		   }
+		   
+		   /* label focus color */
+		   .input-field input:focus{
+				color: white;
+				border-bottom: 1px solid white !important;
+				box-shadow: 0 1px 0 0 white !important;
+		   }
 
+		</style>
+	
     <body class="login-form">
 
         <div class="container">
             <img alt="SICV" class="logoSICVLogin" src="<%=Strings.BASE%>/assets/images/logoSICVLogin.png">
             <h2 style="text-align: center;letter-spacing: 2px;">Importador de Inventários</h2>
-            <form action="login" method="post" class="form-signin">
-                <input type="email" name="email" id="inputEmail" class="form-control inputEmail" placeholder="Email address" required autofocus>
+            <form action="<%=Strings.BASE%>/register/resetPassword" method="post" class="form-signin">
+				<div class="input-field col s3">
+	                <input type="password" name="plainPassword" id="plainPassword" placeholder="Digite uma nova senha" required autofocus>
+				</div>
+				<div class="input-field col s3">
+					<input type="password" name="newPassword" id="newPassword" placeholder="Confirmar senha" required>
+				</div>
+            	<h6 style="font-size: 14px;float: left;color: #00697C;" ${resetSuccess ? '' : 'hidden'}>Sua senha foi redefinida com sucesso!</h6>
 
-                <input type="password" name="senha" id="inputPassword" class="form-control inputEmail" placeholder="Password" required>
-                <div class="checkbox">
-                    <label class="remember">
-                        <input id="rememberChkBox" type="checkbox" value="remember-me"> Remember me
-                    </label>
-                </div>
-                <button class="btn btn-lg btn-block bgBtnEntrar" type="submit">Entrar</button>
+                <button class="btn btn-lg btn-block bgBtnEntrar" type="submit" ${resetSuccess ? 'hidden' : ''}>Redefinir senha</button>
+                <button class="btn btn-lg btn-block bgBtnEntrar" type="button" ${resetSuccess ? 'hidden' : ''} onclick="location.href='<%=Strings.BASE%>/register/login'">Fazer login</button>
 
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+
+				</c:choose
+				<h6 style="font-size: 16px;float: left;color: #00697C;">${recoveryMsg}</h6>
             </form>
-            <a class="btn btn-outlined btnCadastrar linkLogin" href="./register/forgotPassword">Esqueci minha senha</a>
-            <a class="btn btn-outlined btnCadastrar linkLogin" href="./register">Cadastrar</a>
         </div> <!-- /container -->
 
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
         <script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/ie10-viewport-bug-workaround.js"></script>
-
-
 
     </body>
 </html>

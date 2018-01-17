@@ -14,6 +14,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
@@ -60,7 +61,6 @@ import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.ExclStrat;
 import br.com.ibict.acv.sicv.util.Mail;
 import br.com.ibict.acv.sicv.util.Password;
-import java.util.Date;
 import resources.Strings;
 
 @Controller
@@ -125,7 +125,7 @@ public class HomeController {
     }
 
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String gatLogin(Map<String, Object> model) {
+    public String getLogin(Map<String, Object> model) {
         return "home/login";
     }
     

@@ -1,8 +1,3 @@
-<%-- 
-    Document   : login
-    Created on : 11/05/2017, 09:48:46
-    Author     : Deivdy William Silva
---%>
 <%@page import="resources.Strings"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -55,34 +50,7 @@
         <![endif]-->
         <script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/jquery.min.js"></script>
         <script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/jquery.cookie.js"></script>
-        <script>
-            $(function () {
 
-                if (localStorage.chkbox && localStorage.chkbox != '') {
-                    $('#rememberChkBox').attr('checked', 'checked');
-                    $('#inputEmail').val(localStorage.username);
-                    $('#inputPassword').val(localStorage.pass);
-                } else {
-                    $('#rememberChkBox').removeAttr('checked');
-                    $('#inputEmail').val('');
-                    $('#inputPassword').val('');
-                }
-
-                $('#rememberChkBox').click(function () {
-
-                    if ($('#rememberChkBox').is(':checked')) {
-                        // save username and password
-                        localStorage.username = $('#inputEmail').val();
-                        localStorage.pass = $('#inputPassword').val();
-                        localStorage.chkbox = $('#rememberChkBox').val();
-                    } else {
-                        localStorage.username = '';
-                        localStorage.pass = '';
-                        localStorage.chkbox = '';
-                    }
-                });
-            });
-        </script>
     </head>
 
     <body class="login-form">
@@ -90,21 +58,13 @@
         <div class="container">
             <img alt="SICV" class="logoSICVLogin" src="<%=Strings.BASE%>/assets/images/logoSICVLogin.png">
             <h2 style="text-align: center;letter-spacing: 2px;">Importador de Inventários</h2>
-            <form action="login" method="post" class="form-signin">
-                <input type="email" name="email" id="inputEmail" class="form-control inputEmail" placeholder="Email address" required autofocus>
+            <form action="<%=Strings.BASE%>/register/forgotPassword" method="post" class="form-signin">
+            	<h6 style="font-size: 16px;float: left;">Digite seu e-mail para redefinir a senha</h6>
+                <input type="email" name="email" id="inputEmail" class="form-control inputEmail" placeholder="e-mail" required autofocus>
 
-                <input type="password" name="senha" id="inputPassword" class="form-control inputEmail" placeholder="Password" required>
-                <div class="checkbox">
-                    <label class="remember">
-                        <input id="rememberChkBox" type="checkbox" value="remember-me"> Remember me
-                    </label>
-                </div>
-                <button class="btn btn-lg btn-block bgBtnEntrar" type="submit">Entrar</button>
-
-                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                <button class="btn btn-lg btn-block bgBtnEntrar" type="submit">Enviar</button>
+				<h6 style="font-size: 16px;float: left;color: #00697C;">${recoveryMsg}</h6>
             </form>
-            <a class="btn btn-outlined btnCadastrar linkLogin" href="./register/forgotPassword">Esqueci minha senha</a>
-            <a class="btn btn-outlined btnCadastrar linkLogin" href="./register">Cadastrar</a>
         </div> <!-- /container -->
 
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->

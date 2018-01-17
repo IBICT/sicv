@@ -42,7 +42,7 @@ public class RegisterController {
     	RegisterController.mailUtil = mail;
     }
     
-     @RequestMapping("/register")
+    @RequestMapping("/register")
     public String register(Map<String, Object> model) {
         return "register/register";
     }
@@ -110,6 +110,49 @@ public class RegisterController {
         
         return "register/sendEmail";
 
+    }
+    
+    @RequestMapping("/register/forgotPassword")
+    public String getForgotPassword(Map<String, Object> model) {
+        return "register/forgotPassword";
+    }
+    
+    @PostMapping("/register/forgotPassword")
+    public String register(@RequestParam("email") String email) throws Exception {
+        
+    	Map<String, Object> model = new HashMap<String, Object>();
+        User user = userDao.findByEmail(email);
+        if( user != null ){
+        	model.put("user", user);
+        	model.put("recoveryMsg", "O e-mail com link para redefinir a senha foi enviado!");        	
+        	model.put("urlReset", Strings.BASE+"/resetPassword");
+        	model.put("url", Strings.BASE);
+        	try {
+        		model.put("date", getDateString());
+        		mail.sendEmail(email, EMAIL_ADMIN, "Redefinição de senha", model, "emailResetPassword.ftl");
+        		
+        		// TODO criar paginas ou mensagens para popular a view em caso de erro
+        	} catch (IOException | SQLException e){
+        		throw new Exception("Erro no processo de solicitação de redefinição de senha de usuario.", e);
+        	} catch (RegisterException e) {
+        		throw new RegisterException("Erro no processo de envio de email.", e);
+        	}
+        }
+        return "register/forgotPassword";
+    }
+
+    @RequestMapping("/register/resetPassword")
+    public String getResetPassword(Map<String, Object> model) {
+    	//TODO if token is valid return page else return resetPassword
+    	model.put("resetSuccess", false);
+        return "register/resetPassword";
+    }
+    
+    @PostMapping("/register/resetPassword")
+    public String resetPassword(Map<String, Object> model) {
+    	//TODO if token is valid return page else return resetPassword
+    	model.put("resetSuccess", false);
+        return "register/resetPassword";
     }
     
     public static String getDateString(){
