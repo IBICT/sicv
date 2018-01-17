@@ -89,7 +89,7 @@ public class ManagerController {
             model.put("isUserLabel", true);
             model.put("name", name);
             Ilcd ilcd = ilcdDao.findOne(id);
-            model.put("local", "Gestor > <u>" + ilcd.getName() + "</u>");
+            model.put("local", "Gestor > <u>" + ilcd.getTitle() + "</u>");
             model.put("ilcd", ilcd);
             List<Status> status = statusDao.findByIlcd(ilcd);
             Collections.reverse(status);

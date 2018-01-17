@@ -99,7 +99,9 @@
                         <input id="rememberChkBox" type="checkbox" value="remember-me"> Remember me
                     </label>
                 </div>
-                <button class="btn btn-lg btn-block bgBtnEntrar" type="submit">Entrar</button>
+                <div >
+	                <button class="btn btn-lg btn-block bgBtnEntrar" type="submit">Entrar</button>
+                </div>
 
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             </form>

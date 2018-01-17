@@ -82,11 +82,14 @@
 				<div class="input-field col s3">
 					<input type="password" name="newPassword" id="newPassword" placeholder="Confirmar senha" required>
 				</div>
-            	<h6 style="font-size: 14px;float: left;color: #00697C;" ${resetSuccess ? '' : 'hidden'}>Sua senha foi redefinida com sucesso!</h6>
 
-                <button class="btn btn-lg btn-block bgBtnEntrar" type="submit" ${resetSuccess ? 'hidden' : ''}>Redefinir senha</button>
-                <button class="btn btn-lg btn-block bgBtnEntrar" type="button" ${resetSuccess ? 'hidden' : ''} onclick="location.href='<%=Strings.BASE%>/register/login'">Fazer login</button>
-
+				<div class="row col s2" ${resetSuccess ? 'hidden' : ''}>
+	                <button class="btn btnReset bgBtnEntrar" type="submit">Redefinir senha</button>
+				</div>
+				<div class="row col s2" ${resetSuccess ? '' : 'hidden'}>
+	            	<h6 style="font-size: 14px;margin-right: 80px;color: #00697C;" ><b>Sua senha foi redefinida com sucesso!</b></h6>
+	                <button class="btn btnReset bgBtnEntrar" type="button" onclick="location.href='<%=Strings.BASE%>/register/login'">Fazer login</button>
+				</div>
 
 				</c:choose
 				<h6 style="font-size: 16px;float: left;color: #00697C;">${recoveryMsg}</h6>

@@ -6,7 +6,7 @@ Prezado (a) Sr./Sra. ${ilcdUser.getFirstName()} ${ilcdUser.getLastName()},<br/>
 Parabéns!
 </p>
 <p>
-Informamos que o inventário ${ilcdName}, submetido em ${date}, foi analisado e aprovado para publicação pela equipe do <b>SICV Brasil</b>.
+Informamos que o inventário ${ilcdTitle}, submetido em ${date}, foi analisado e aprovado para publicação pela equipe do <b>SICV Brasil</b>.
 </p>
 <p>
 Em Caso de dúvidas, entre em contato pelo e-mail: acv@ibict.br ou telefone (61) 3217.6286.

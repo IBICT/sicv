@@ -61,9 +61,8 @@
             <form action="<%=Strings.BASE%>/register/forgotPassword" method="post" class="form-signin">
             	<h6 style="font-size: 16px;float: left;">Digite seu e-mail para redefinir a senha</h6>
                 <input type="email" name="email" id="inputEmail" class="form-control inputEmail" placeholder="e-mail" required autofocus>
-
+				<h6 style="font-size: 14px;float: left;color: #00697C;margin-top: 0px !important; font-weight: bold;">${recoveryMsg}</h6>
                 <button class="btn btn-lg btn-block bgBtnEntrar" type="submit">Enviar</button>
-				<h6 style="font-size: 16px;float: left;color: #00697C;">${recoveryMsg}</h6>
             </form>
         </div> <!-- /container -->
 

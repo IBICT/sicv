@@ -175,7 +175,7 @@
                         
                             <tbody>
                                 <tr>
-                                    <td>Nome</td><td>${ilcd.getName()}</td>
+                                    <td>Nome</td><td>${ilcd.getTitle()}</td>
                                 </tr>
                                 <tr>
                                     <td>Localização</td><td>${ilcd.getLocation()}</td>

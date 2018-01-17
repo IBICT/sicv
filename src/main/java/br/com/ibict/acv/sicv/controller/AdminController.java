@@ -293,7 +293,7 @@ public class AdminController {
             	User user = (User) session().getAttribute("user");
             	
                 Map<String, Object> emailModel = new HashMap<String, Object>();
-                emailModel.put("ilcdName", ilcd.getName());
+                emailModel.put("ilcdTitle", ilcd.getTitle());
                 emailModel.put("date", RegisterController.getDateString());
                 emailModel.put("ilcdUser", ilcdUser);
                 emailModel.put("reviewer", user);
@@ -432,7 +432,7 @@ public class AdminController {
             	User ilcdUser = ilcd.getUser();
             	
                 Map<String, Object> emailModel = new HashMap<String, Object>();
-                emailModel.put("ilcdName", ilcd.getName());
+                emailModel.put("ilcdTitle", ilcd.getTitle());
                 emailModel.put("date", RegisterController.getDateString());
                 emailModel.put("ilcdUser", ilcdUser);
                 emailModel.put("reviewer", user);
@@ -478,7 +478,7 @@ public class AdminController {
 
         	User ilcdUser = ilcd.getUser();
             Map<String, Object> model = new HashMap<String, Object>();
-            model.put("ilcdName", ilcd.getName());
+            model.put("ilcdTitle", ilcd.getTitle());
             //TODO create field date in ilcd table to retrieve date that ilcd was sent.
             model.put("date", RegisterController.getDateString());
             model.put("ilcdUser", ilcdUser);
@@ -541,7 +541,7 @@ public class AdminController {
                 
                 User ilcdUser = ilcd.getUser();
                 Map<String, Object> modelMail = new HashMap<String, Object>();
-                modelMail.put("ilcdName", ilcd.getName());
+                modelMail.put("ilcdTitle", ilcd.getTitle());
                 //TODO create field date in ilcd table to retrieve date that ilcd was sent.
                 modelMail.put("date", RegisterController.getDateString());
                 modelMail.put("ilcdUser", ilcdUser);
@@ -572,7 +572,7 @@ public class AdminController {
             try {
                 User ilcdUser = ilcd.getUser();
                 Map<String, Object> modelMail = new HashMap<String, Object>();
-                modelMail.put("ilcdName", ilcd.getName());
+                modelMail.put("ilcdTitle", ilcd.getTitle());
                 //TODO create field date in ilcd table to retrieve date that ilcd was sent.
                 modelMail.put("date", RegisterController.getDateString());
                 modelMail.put("ilcdUser", ilcdUser);

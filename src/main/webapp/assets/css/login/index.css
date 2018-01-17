@@ -103,7 +103,6 @@ body {
 }
 
 .remember {
-    float: right;
     font-size: 16px;
     margin-right: 10px;
 }
@@ -113,4 +112,16 @@ body {
     top:22%;
     right:0;
     left:0;
+}
+    
+.btn-lg{
+	height: 32px;
+	width: 170px;
+	padding: 0px;
+    margin-left: 60px;
+}
+
+.btnReset{
+	border-radius: 5px;
+	text-transform: none;
 }

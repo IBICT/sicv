@@ -11,6 +11,7 @@ import javax.annotation.PostConstruct;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -118,14 +119,14 @@ public class RegisterController {
     }
     
     @PostMapping("/register/forgotPassword")
-    public String register(@RequestParam("email") String email) throws Exception {
+    public String register(@RequestParam("email") String email, ModelMap modelMap) throws Exception {
         
     	Map<String, Object> model = new HashMap<String, Object>();
         User user = userDao.findByEmail(email);
         if( user != null ){
         	model.put("user", user);
-        	model.put("recoveryMsg", "O e-mail com link para redefinir a senha foi enviado!");        	
-        	model.put("urlReset", Strings.BASE+"/resetPassword");
+        	modelMap.put("recoveryMsg", "O e-mail com link para redefinir a senha foi enviado!");        	
+        	model.put("urlReset", Strings.BASE+"/register/resetPassword");
         	model.put("url", Strings.BASE);
         	try {
         		model.put("date", getDateString());
@@ -149,9 +150,9 @@ public class RegisterController {
     }
     
     @PostMapping("/register/resetPassword")
-    public String resetPassword(Map<String, Object> model) {
-    	//TODO if token is valid return page else return resetPassword
-    	model.put("resetSuccess", false);
+    public String resetPassword(@RequestParam("plainPassword") String plainPassword, Map<String, Object> model) {
+    	//TODO data of user to set new password... how to retrieve?
+    	model.put("resetSuccess", true);
         return "register/resetPassword";
     }
     

@@ -12,7 +12,7 @@ Seguem os dados do contato:
 <b>Nome:</b> ${ilcdUser.getFirstName()} ${ilcdUser.getLastName()}<br>
 <b>E-mail:</b> ${ilcdUser.getEmail()}<br>
 <b>Instituição:</b> ${ilcdUser.getInstituicao()}<br>
-<b>Inventário:</b> ${ilcdName}<br>
+<b>Inventário:</b> ${ilcdTitle}<br>
 <b>Objetivo do inventário:</b> objetivo do inventário
 </p>
 <p>

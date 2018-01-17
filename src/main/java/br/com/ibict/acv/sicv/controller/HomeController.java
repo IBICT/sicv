@@ -286,11 +286,11 @@ public class HomeController {
             Notification notification = new Notification();
             Homologacao homolog = new Homologacao();
             notification.setUser( ilcd.getUser().getId() );
-            notification.fillMsgWAIT_REV( ilcd.getUuid() , ilcd.getName() );
+            notification.fillMsgWAIT_REV( ilcd.getUuid() , ilcd.getTitle() );
             notification.setStatus(status);
             notification.setIlcd(ilcd);
             notification.setNotifyDate( Calendar.getInstance().getTime() );
-            redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "' ilcd:" + ilcd.getName());
+            redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "' ilcd:" + ilcd.getTitle());
             ilcd.setJson1(json);
             ilcd.addNotification(notification);
             homolog.setStatus(1);
@@ -319,7 +319,7 @@ public class HomeController {
             userDao.saveAndFlush(ilcdUser);
 
             Map<String, Object> model = new HashMap<String, Object>();
-            model.put("ilcdName", ilcd.getName());
+            model.put("ilcdTitle", ilcd.getTitle());
             model.put("date", RegisterController.getDateString());
             model.put("ilcdUser", ilcdUser);
             model.put("urlTrack", Strings.BASE + "/login");

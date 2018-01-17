@@ -98,8 +98,6 @@ public class TecnicalReviewController {
             //if (!ilcds.isEmpty()) {
             //Ilcd ilcd = ilcds.get(0);
             Ilcd ilcd = ilcdDao.findOne(id);
-            System.out.println(ilcd.getName());
-            System.out.println(ilcd.getUuid());
             //} else {
             //    System.out.println("Esta vazio");
             //}

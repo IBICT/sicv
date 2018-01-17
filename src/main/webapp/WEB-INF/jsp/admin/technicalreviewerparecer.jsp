@@ -176,7 +176,7 @@
                 </thead>
                 <tbody>
                     <tr>
-                        <td id="ilcdName">${ilcd.getName()}</td>
+                        <td id="ilcdName">${ilcd.getTitle()}</td>
                     </tr>
                 </tbody>
                 <thead>
