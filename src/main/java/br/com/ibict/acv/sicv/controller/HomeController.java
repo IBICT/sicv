@@ -61,6 +61,7 @@ import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.ExclStrat;
 import br.com.ibict.acv.sicv.util.Mail;
 import br.com.ibict.acv.sicv.util.Password;
+import java.util.Date;
 import resources.Strings;
 
 @Controller
