@@ -9,7 +9,8 @@
         <meta charset="UTF-8">
         <title>Home</title>
         <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.css">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/font/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/steps.css">
         <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
@@ -100,6 +101,47 @@
             .sicv-table-td {
                 border-bottom: 1px solid silver;
             }
+
+            .search {
+                width: 300px;
+                position: relative
+            }
+
+            .searchTerm {
+
+                float: left;
+                width: 100%;
+                height: 32px;
+                border: 1px solid #00B4CC;
+                padding: 5px;
+                border-radius: 5px;
+                outline: none;
+                color: #9DBFAF;
+            }
+
+            .searchTerm:focus{
+                color: #00B4CC;
+            }
+
+            .searchButton {
+                position: absolute;  
+                right: -35px;
+                width: 40px;
+                height: 32px;
+                border: 1px solid #00B4CC;
+                border-left: 0;
+                background: #fff;
+                text-align: center;
+                color: #00697C;
+                border-radius: 5px;
+                border-top-left-radius: 0;
+                border-bottom-left-radius: 0;
+                cursor: pointer;
+                font-size: 20px;
+            }
+
+
+
         </style>
 
     </head>
@@ -116,10 +158,20 @@
             <h4 class="page-title">Gestão</h4>
         </div>
 
+        <div class="row">
+            <div style="margin-right: 5%; float: right;">
+                <div class="search">
+                <input type="text" class="searchTerm" placeholder="busque autor, gestor, título">
+                <button type="submit" class="searchButton">
+                    <i class="fa fa-search"></i>
+                </button>
+            </div>
+            </div>
+        </div>
+
         <div class="sicv-container sicv-inventori-table">
             <div class="row">
                 <h6 style="color:#4dbcc4;">Invéntarios em andamento</h6>
-                <input style="float: right;" type="text" />
             </div>
             <div style="margin:0px;" class="row">
                 <div class="col s3 sicv-table-th">Id</div>
@@ -130,7 +182,7 @@
             </div>
             <c:forEach var="ilcd" items="${ilcds}"> 
                 <div style="margin:0px;" class="row" onclick="window.location = '<%=Strings.BASE%>/gestor/${ilcd.id}';">
-                    
+
                     <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">${ilcd.uuid}</div>
                     <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">${ilcd.title}</div>
                     <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #c3697c;" class="material-icons">report_problem</i></div>
@@ -193,97 +245,97 @@
                     </div>
                 </div>
             </c:forEach>
-<!--            
-            <div style="margin:0px;" class="row">
-                <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">266c5da8-55bc-4d58-a4af-cbf7724f7939</div>
-                <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">Phenol from cumene production mix, at producer</div>
-                <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #c3697c;" class="material-icons">report_problem</i></div>
-                <div style="height: 40px;  text-align: center; position: relative; top: 10px;" class="col s2 sicv-table-td">5 dias</div>
-                <div style="height: 40px;" class="col s3">
-                    <ol style="position: relative; top: -10px;" class="progress-steps" data-steps="5">
-                        <li class="active">
-                            <span class="step"><span>1</span></span>
-                        </li>
-                        <li>
-                            <span class="step"><span>2</span></span>
-                        </li>
-                        <li>
-                            <span class="step"><span>3</span></span>
-                        </li>
-                        <li>
-                            <span class="step"><span>4</span></span>
-                        </li>
-                        <li>
-                            <span class="step"><span>5</span></span>
-                        </li>
-                    </ol>
-                </div>
-            </div>
-            <div style="margin:0px;" class="row">
-                <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">266c5da8-55bc-4d58-a4af-cbf7724f7939</div>
-                <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">Phenol from cumene production mix, at producer</div>
-                <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #c3697c;" class="material-icons">report_problem</i></div>
-                <div style="height: 40px;  text-align: center; position: relative; top: 10px; color: #c3697c;" class="col s2 sicv-table-td">Atrasado</div>
-                <div style="height: 40px;" class="col s3">
-                     Progress Tracker v2 
-                    <ol style="position: relative; top: -10px;" class="progress-steps" data-steps="5">
-                        <li class="done">
-                            <span class="step"><span>1</span></span>
-                        </li>
-                        <li class="done">
-                            <span class="step"><span>2</span></span>
-                        </li>
-                        <li class="done">
-                            <span class="step"><span>3</span></span>
-                        </li>
-                        <li class="done">
-                            <span class="step"><span>4</span></span>
-                        </li>
-                        <li class="active">
-                            <span class="step"><span>5</span></span>
-                        </li>
-                    </ol>
-                     Progress Tracker v2 
-                </div>
-            </div>
-            <div style="margin:0px;" class="row">
-                <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">266c5da8-55bc-4d58-a4af-cbf7724f7939</div>
-                <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">Phenol from cumene production mix, at producer</div>
-                <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #accc5f;" class="material-icons">check</i></div>
-                <div style="height: 40px;  text-align: center; position: relative; top: 10px;" class="col s2 sicv-table-td">Entregue</div>
-                <div style="height: 40px;" class="col s3">
-                     Progress Tracker v2 
-                    <ol style="position: relative; top: -10px;" class="progress-steps" data-steps="5">
-                        <li class="done">
-                            <span class="step"><span>1</span></span>
-                        </li>
-                        <li class="active">
-                            <span class="step"><span>2</span></span>
-                        </li>
-                        <li>
-                            <span class="step"><span>3</span></span>
-                        </li>
-                        <li>
-                            <span class="step"><span>4</span></span>
-                        </li>
-                        <li>
-                            <span class="step"><span>5</span></span>
-                        </li>
-                    </ol>
-                     Progress Tracker v2 
-                </div>
-            </div>
+            <!--            
+                        <div style="margin:0px;" class="row">
+                            <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">266c5da8-55bc-4d58-a4af-cbf7724f7939</div>
+                            <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">Phenol from cumene production mix, at producer</div>
+                            <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #c3697c;" class="material-icons">report_problem</i></div>
+                            <div style="height: 40px;  text-align: center; position: relative; top: 10px;" class="col s2 sicv-table-td">5 dias</div>
+                            <div style="height: 40px;" class="col s3">
+                                <ol style="position: relative; top: -10px;" class="progress-steps" data-steps="5">
+                                    <li class="active">
+                                        <span class="step"><span>1</span></span>
+                                    </li>
+                                    <li>
+                                        <span class="step"><span>2</span></span>
+                                    </li>
+                                    <li>
+                                        <span class="step"><span>3</span></span>
+                                    </li>
+                                    <li>
+                                        <span class="step"><span>4</span></span>
+                                    </li>
+                                    <li>
+                                        <span class="step"><span>5</span></span>
+                                    </li>
+                                </ol>
+                            </div>
+                        </div>
+                        <div style="margin:0px;" class="row">
+                            <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">266c5da8-55bc-4d58-a4af-cbf7724f7939</div>
+                            <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">Phenol from cumene production mix, at producer</div>
+                            <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #c3697c;" class="material-icons">report_problem</i></div>
+                            <div style="height: 40px;  text-align: center; position: relative; top: 10px; color: #c3697c;" class="col s2 sicv-table-td">Atrasado</div>
+                            <div style="height: 40px;" class="col s3">
+                                 Progress Tracker v2 
+                                <ol style="position: relative; top: -10px;" class="progress-steps" data-steps="5">
+                                    <li class="done">
+                                        <span class="step"><span>1</span></span>
+                                    </li>
+                                    <li class="done">
+                                        <span class="step"><span>2</span></span>
+                                    </li>
+                                    <li class="done">
+                                        <span class="step"><span>3</span></span>
+                                    </li>
+                                    <li class="done">
+                                        <span class="step"><span>4</span></span>
+                                    </li>
+                                    <li class="active">
+                                        <span class="step"><span>5</span></span>
+                                    </li>
+                                </ol>
+                                 Progress Tracker v2 
+                            </div>
+                        </div>
+                        <div style="margin:0px;" class="row">
+                            <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">266c5da8-55bc-4d58-a4af-cbf7724f7939</div>
+                            <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">Phenol from cumene production mix, at producer</div>
+                            <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #accc5f;" class="material-icons">check</i></div>
+                            <div style="height: 40px;  text-align: center; position: relative; top: 10px;" class="col s2 sicv-table-td">Entregue</div>
+                            <div style="height: 40px;" class="col s3">
+                                 Progress Tracker v2 
+                                <ol style="position: relative; top: -10px;" class="progress-steps" data-steps="5">
+                                    <li class="done">
+                                        <span class="step"><span>1</span></span>
+                                    </li>
+                                    <li class="active">
+                                        <span class="step"><span>2</span></span>
+                                    </li>
+                                    <li>
+                                        <span class="step"><span>3</span></span>
+                                    </li>
+                                    <li>
+                                        <span class="step"><span>4</span></span>
+                                    </li>
+                                    <li>
+                                        <span class="step"><span>5</span></span>
+                                    </li>
+                                </ol>
+                                 Progress Tracker v2 
+                            </div>
+                        </div>
             -->
         </div>
 
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
         <script>
-            $(document).ready(function () {
-                // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
-                $('.modal').modal();
+                    $(document).ready(function () {
+                        // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+                        $('.modal').modal();
 
-            });
+                    });
         </script>
     </body>
 
