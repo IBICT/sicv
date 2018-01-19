@@ -103,6 +103,21 @@ public class ManagerController {
         }
     }
 
+    @RequestMapping(value = {"/{id}/invite", "{id}/invite", "/{id}/invite/", "{id}/invite/"}, method = RequestMethod.GET)
+    public String invite(Map<String, Object> model, @PathVariable("id") Long id) {
+        User user = (User) session().getAttribute("user");
+        String name = user.getFirstName();
+        model.put("localN", 3);
+        model.put("isUserLabel", true);
+        model.put("name", name);
+        Ilcd ilcd = ilcdDao.findOne(id);
+        model.put("local", "Gestor > <u>" + ilcd.getTitle() + "</u>");
+        model.put("ilcd", ilcd);
+        List<User> users = userDao.findAll();
+        model.put("users", users);
+        return "manager/invite";
+    }
+
     @RequestMapping(value = "/invite", method = RequestMethod.POST)
     public String invite(@RequestParam("user") Long userID, @RequestParam("ilcd") Long ilcdID, @RequestParam("tipo") Integer tipo) {
 
