@@ -76,10 +76,26 @@
 				border-bottom: 1px solid white !important;
 				box-shadow: 0 1px 0 0 white !important;
 		   }
+		   
+		   [type="checkbox"].filled-in:not(:checked)+label:after, [type="checkbox"].filled-in:checked+label:after
+		   {
+				background: #FFFFFF;
+				border-color: #FFFFFF !important;
+	       }
+	       [type="checkbox"].filled-in:checked+label:before{
+				border-right: 2px solid #4dbcc4 !important;
+    			border-bottom: 2px solid #4dbcc4 !important;
+	       }
 		   .register-form{
 			  	font-family: 'TitilliumWeb-ExtraLight', sans-serif !important;
 				background-color: #4dbcc4;
 				color: white;
+		   }
+		   .initialized{
+		   		border: 1px solid #4dbcc4 !important;
+		   }
+		   .select-wrapper span.caret{
+		   		display: none;
 		   }
 	</style>
 
@@ -435,7 +451,7 @@
 					<div class="col s5">
 		                <a href="#modal-terms_SICV" class="modal-trigger" style="color: white;">Termos de Uso</a><br />
 	    	            <a href="#modal-privacyPolicy_SICV" class="modal-trigger" style="color: white;" >Politica de Privacidade</a><br />
-	                    <input type="checkbox" id="termosAcima" required="required" />
+	                    <input type="checkbox" class="filled-in" id="termosAcima" required="required" />
 	                    <label for="termosAcima" style="color: white;"><b>Concordo com os termos acima.</b></label>
 	                </div>
 				</div>
