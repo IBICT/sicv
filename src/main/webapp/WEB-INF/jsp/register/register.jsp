@@ -55,27 +55,38 @@
 	    	.logoSICVLogin {
 				display: block;
 				margin: 0 auto;
-				margin-top: 3%;
+				text-align: center;
+				font-size: 33px;
+				color: white;
+				font-family: 'TitilliumWeb-ExtraLight', sans-serif !important;
 			}
-			.principalDiv{
-			   	width: 85%;
-			   	display: block;
-			   	margin: 0 auto;
-	    	}
+			
+			.select-wrapper input.select-dropdown{
+				color: #888C8C;
+			}
 		   
 			/* label color */
 		   .input-field input{
 				font-size: 18px !important;
-				color: #DDD;
-				border-bottom: .2px solid #DDD !important;
-				box-shadow: 0 .2px 0 0 #DDD !important;
+				color: #00697C;
+				border-bottom: .2px solid #4DBCC4 !important;
+				box-shadow: none !important;
+				font-weight: bold;
 		   }
 		   
 		   /* label focus color */
 		   .input-field input:focus{
-				color: white;
-				border-bottom: 1px solid white !important;
-				box-shadow: 0 1px 0 0 white !important;
+				color: #00697C !important;
+				border-bottom: 2px solid #4DBCC4 !important;
+				box-shadow: 1px solid ##4DBCC4 !important;
+				font-weight: bold;
+		   }
+		   input[type=text].valid:not(.browser-default){
+		   		font-size: 18px !important;
+				color: #00697C;
+				border-bottom: .2px solid #4DBCC4 !important;
+				box-shadow: none !important;
+				font-weight: bold;
 		   }
 		   
 		   [type="checkbox"].filled-in:not(:checked)+label:after, [type="checkbox"].filled-in:checked+label:after
@@ -89,11 +100,8 @@
 	       }
 		   .register-form{
 			  	font-family: 'TitilliumWeb-ExtraLight', sans-serif !important;
-				background-color: #4dbcc4;
-				color: white;
-		   }
-		   .initialized{
-		   		border: 1px solid #4dbcc4 !important;
+				background-color: white !important;
+				color: #4DBCC4;
 		   }
 		   .select-wrapper span.caret{
 		   		display: none;
@@ -108,9 +116,21 @@
 			    font-size: 10px;
 			    line-height: 10px;
 		   }
+		   .btn{
+				float: right;
+				background: #00697C;
+				color: white !important;
+				border: none;
+    			border-radius: 5px;
+    			text-transform: none;
+    			font-weight: bold;
+		   }
+		   ::placeholder { /* Most modern browsers support this now. */
+				color: #888C8C;
+		   }
 	</style>
 
-    <body class="register-form">
+    <body>
 		<div class="modal" id="modal-terms_SICV" style="overflow-y: hidden;max-height: 90%;">
 		    <div class="modal-content">
 		        <object type="application/pdf" data="documents/terms_SICV.pdf" width="100%" height="500" style="height: 85vh;">No Support</object>
@@ -122,23 +142,22 @@
 		        <object type="application/pdf" data="documents/privacyPolicy_SICV.pdf" width="100%" height="500" style="height: 85vh;">No Support</object>
 		    </div><!-- /.modal-content -->
 		</div><!-- /.modal -->
+		<div style="background-color: #4dbcc4;height: 193px;" class="logoSICVLogin">
+			<img alt="SICV" style="margin-top: 50px;" src="<%=Strings.BASE%>/assets/images/logoSICVLogin.png">
+			<h4>Importador de Inventários</h4>
+		</div>
 		
-		<img alt="SICV" class="logoSICVLogin" src="<%=Strings.BASE%>/assets/images/logoSICVLogin.png">
-		<h4 style="text-align: center;font-size: 33px;">Importador de Inventários</h4>
+		<div class="register-form">
 		
-		<div class="">
-		
-            <p>
             <form method="post" action="<%=Strings.BASE%>/register" style="margin-left: 13%;">
-	            <div class="row">
-		            <div class="input-field col s4">
-		            	<b>CADASTRO</b> | <a href="<%=Strings.BASE%>/" style="color: white;">Já possuo cadastro</a>
-		            </div>
+	            
+	            <div class="input-field col s4" style="left:0.75rem;">
+	            	<b style="color: #00697C;font-size: 20px">CADASTRO </b><a href="<%=Strings.BASE%>/" style="color: #00697C;font-size: 20px;">| Já possuo cadastro</a>
 	            </div>
-	            <p>
+	            
 				<div class="row">
 					<div class="input-field col s4">
-				    	<label for="title" style="color: white;"><b>Informação Pessoal</b></label>
+				    	<label for="title" style="color: #4DBCC4;font-size: 20px;"><b>Informação Pessoal</b></label>
 					</div>
 				</div>
 	
@@ -166,7 +185,7 @@
 					<div class="input-field col s4">
 						<i class="fa fa-chevron-down"></i>
 						<select required="required" name="country">
-							<option value="" disabled selected>Nacionalidade*
+							<option disabled selected>Nacionalidade*
 							</option>
 							<option value="Afghanistan">Afghanistan</option>
 						    <option value="Albania">Albania</option>
@@ -428,7 +447,7 @@
 
 				<div class="row">
 					<div class="input-field col s4">
-				    	<label for="title" style="color: white;"><b>Formação e Currículo</b></label>
+				    	<label for="title" style="color: #4DBCC4;"><b>Formação e Currículo</b></label>
 					</div>
 				</div>
 	
@@ -436,7 +455,7 @@
 					<div class="input-field col s3">
 						<i class="fa fa-chevron-down"></i>
 						<select required="required" name="title">
-							<option value="" disabled selected>Grau*</option>
+							<option disabled selected>Grau*</option>
 							<option value="Bel">Bel.</option>
 						    <option value="Dr">Dr.</option>
 						    <option value="Graduando">Graduando</option>
@@ -473,7 +492,7 @@
 				
 				<div class="row">
 					<div class="input-field col s3">
-				    	<label for="title" style="color: white;"><b>Definir Senha</b></label>
+				    	<label for="title" style="color: #4DBCC4;"><b>Definir Senha</b></label>
 					</div>
 				</div>
 				
@@ -484,7 +503,7 @@
 					<div class="input-field col s5">
 						<input placeholder="Confirmar Senha* " id="confirm" type="password" class="validate" required="required">
 	                <div style="float: right;">
-		                <input style="float: right;background: #00697C;" class="btn btn-lg btn-primary" type="submit" value="Submeter Cadastro" /><br />
+		                <input class="btn" type="submit" value="Submeter Cadastro" /><br />
 	                </div>
 					</div>
 				</div>
