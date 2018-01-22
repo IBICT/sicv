@@ -138,6 +138,10 @@
             .nav-tabs>li.disable>a {
                 color: white;
                 background-color: #E0E0E0;
+                pointer-events: none;
+            }
+            .nav-tabs>li.disable:hover{
+                cursor: not-allowed;
             }
             .nav-tabs>li.active>a {
                 color: white;
@@ -211,26 +215,54 @@
                             <a href="#2" data-toggle="tab" title="Revisão Técnica">Revisão Técnica</a>
                         </li>
                         <li class="disable">
-                            <a href="#3" data-toggle="tab" title="Publicar">Publicar</a>
+                            <a href="#3" disabled data-toggle="tab" title="Publicar">Publicar</a>
                         </li>
                     </ul> 
 
                     <div class="tab-content " >
                         <div class="tab-pane active" id="1">
+                            <div class="row" style="font-weight: bold; color: #00697C; margin: 10px 0;">
+                                Aprovado com correções
+                            </div>
+                            <div class="row">                         
+                                <div class="col s6">
+                                    <a href="#" style="color: #00697C;"><i class="fa fa-file-text-o" style="margin-right: 5px;" aria-hidden="true"></i> <span style="text-decoration: underline;">Ver revisão</span></a> - 11/10/2018
+                                </div>
+                                <div class="col s6">
+                                    <a class="btn" title="Convidar Revisor" style="color: #4DBCC4; background-color: #fff; border: 1px solid #4DBCC4; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;" href="#">Convidar Revisor</a>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col s12" style="font-weight: bold;">Caso não concorde com a Revisão “<span style="color: #00697C">aprovado com correções</span>”</div>
+                            </div>
+                            <div class="row">
+                                <input id="convidar_outro_qualidata" name="h1" type="radio" value="1" /><label for="convidar_outro_qualidata" style="color: #00697C; font-weight: normal;">Convidar outro qualidata</label>
+                            </div>
+                            <div class="row">
+                                <input id="arquivar" name="h1" type="radio" value="2" /><label for="arquivar" style="color: #00697C; font-weight: normal;">Arquivar</label>
+                            </div>
+                            <div class="row">
+                                <input id="aprovar_e_passar_para_revisso_tecnica" name="h1" type="radio" value="3" /><label for="aprovar_e_passar_para_revisso_tecnica" style="color: #00697C; font-weight: normal;">Aprovar e passar para Revisão Técnica</label>
+                            </div>
+                            <hr />
                             <div class="row" style="color: #00697C; margin: 10px 0;">
                                 Envio do autor
                             </div>
                             <div class="row">
-                                <i class="fa fa-chevron-right" aria-hidden="true" style="color: #00697C;"></i>
-                                <a href="#"><i class="fa fa-file-archive-o" aria-hidden="true"></i>
- ILCD.zip</a>
+                                <div class="col s1">
+                                    <i class="fa fa-angle-right" aria-hidden="true" style="color: #00697C;"></i>
+                                </div>
+                                <div class="col s4">
+                                    <a href="#"><i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i> ILCD.zip</a>
+                                </div>
+                                <div class="col offset-s1 s6">
+                                    <a href="<%=Strings.BASE%>/gestor/${ilcd.id}/invite" class="btn" title="Convidar Revisor" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Convidar Revisor</a>
+                                </div>
                             </div>
                         </div>
                         <div class="tab-pane" id="2">
-                            <h3>Notice the gap between the content and tab after applying a background color</h3>
                         </div>
                         <div class="tab-pane" id="3">
-                            <h3>add clearfix to tab-content (see the css)</h3>
                         </div>
                     </div>
                 </div>
