@@ -252,7 +252,7 @@ public class HomeController {
             User ilcdUser = (User) session().getAttribute("user");
             Status status = new Status();
             status.setStatus(1);
-            status.setType(1);
+            status.setType(0);
             status.setIlcd(ilcd);
             ilcd.addStatus(status);
             
