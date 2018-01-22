@@ -6,7 +6,7 @@ Prezado (a) Sr./Sra. ${ilcdUser.getFirstName()} ${ilcdUser.getLastName()},<br/>
 Obrigado pela sua contribuição!
 </p>
 <p>
-Informamos que a submissão do inventário ${ilcdName} foi realizada com sucesso no SICV Brasil em ${date} e será analisado por nossa equipe. Uma mensagem do administrador do sistema informará sobre todo o processo de avaliação e o resultado final da mesma.
+Informamos que a submissão do inventário ${ilcdTitle} foi realizada com sucesso no SICV Brasil em ${date} e será analisado por nossa equipe. Uma mensagem do administrador do sistema informará sobre todo o processo de avaliação e o resultado final da mesma.
 
 Para acompanhar a tramitação do inventário acesse o SICV Brasil ${urlTrack} .
 </p>

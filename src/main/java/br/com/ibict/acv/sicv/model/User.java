@@ -44,23 +44,23 @@ public class User implements Serializable{
     @Expose
     private Long id;
 
-    @Column(name = "FIRSTNAME")
+    @Column(name = "FIRSTNAME", columnDefinition = "varchar(255) default ''")
     @Expose
     private String firstName;
 
-    @Column(name = "LASTNAME")
+    @Column(name = "LASTNAME", columnDefinition = "varchar(255) default ''")
     @Expose
     private String lastName;
     
     @NotEmpty
     @NotNull
-    @Column(name = "EMAIL", unique = true)
+    @Column(name = "EMAIL", unique = true, columnDefinition = "varchar(255) default ''")
     @Expose
     private String email;
 
-    @Column(name = "organization")
+    @Column(name = "organization", columnDefinition = "varchar(255) default ''")
     @Expose
-    private String organization;
+    private String organization =  new String();
 
     @Column(name = "COUNTRY")
     @Expose

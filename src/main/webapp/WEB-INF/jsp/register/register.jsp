@@ -32,6 +32,7 @@
 
         <!-- Bootstrap core CSS -->
    		<link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
+   		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
         <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
@@ -97,6 +98,16 @@
 		   .select-wrapper span.caret{
 		   		display: none;
 		   }
+		   .fa-chevron-down{
+			    position: absolute;
+			    right: 0;
+			    top: 0;
+			    bottom: 15px;
+			    height: 10px;
+			    margin: auto 15px;
+			    font-size: 10px;
+			    line-height: 10px;
+		   }
 	</style>
 
     <body class="register-form">
@@ -153,8 +164,10 @@
 				</div>
 				<div class="row">
 					<div class="input-field col s4">
+						<i class="fa fa-chevron-down"></i>
 						<select required="required" name="country">
-							<option value="" disabled selected>Nacionalidade*</option>
+							<option value="" disabled selected>Nacionalidade*
+							</option>
 							<option value="Afghanistan">Afghanistan</option>
 						    <option value="Albania">Albania</option>
 						    <option value="Algeria">Algeria</option>
@@ -397,6 +410,7 @@
 					    </select>
 					</div>
 					<div class="input-field col s2">
+						<i class="fa fa-chevron-down"></i>
 						<select required="required" name="language">
 							<option value="" disabled selected>Idioma*</option>
 							<option value="Português">Português</option>
@@ -420,6 +434,7 @@
 	
 				<div class="row">
 					<div class="input-field col s3">
+						<i class="fa fa-chevron-down"></i>
 						<select required="required" name="title">
 							<option value="" disabled selected>Grau*</option>
 							<option value="Bel">Bel.</option>

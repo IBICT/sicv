@@ -50,6 +50,7 @@
 			  border-bottom: .2px solid #4dbcc4 !important;
 			  box-shadow: 0 1px 0 0 #4dbcc4;
 			}
+
             .btn-import {
                 background-color: #accc5f;
             }
@@ -58,10 +59,12 @@
 			  display: inline-flex;
 			  align-items: center;
 			}
+
 			i.fa-pencil {
 			  cursor: pointer;
 			  color: #00697C;
 			}
+
 			i:hover {
 			  opacity: 0.6;
 			}	        
@@ -73,6 +76,20 @@
 			  opacity: 0;
 			  filter: alpha(opacity=0); /* IE 5-7 */
 			}
+
+		   .select-wrapper span.caret{
+		   		display: none;
+		   }
+		   .fa-chevron-down{
+			    position: absolute;
+			    right: 0;
+			    top: 0;
+			    bottom: 15px;
+			    height: 10px;
+			    margin: auto 15px;
+			    font-size: 10px;
+			    line-height: 10px;
+		   }
 
         </style>
     </head>
@@ -131,6 +148,7 @@
 							</div>
 							
 							<div class="input-field col s3">
+								<i class="fa fa-chevron-down"></i>
 								<select required="required" name="country" class="validate">
 									<option value="${user.country}" selected>${user.country}*</option>
 									<option value="Afghanistan">Afghanistan</option>
@@ -376,6 +394,7 @@
 							</div>
 		                 	<div class="row">
 			                 	<div class="input-field col s4">
+			                 		<i class="fa fa-chevron-down"></i>
 									<select required="required" name="language">
 										<option value="${user.language}" selected>${user.language}*</option>
 										<option value="Português">Português</option>
@@ -402,6 +421,7 @@
 				
 				<div class="row">
 					<div class="input-field col s3">
+						<i class="fa fa-chevron-down"></i>
 						<select required="required" name="title" class="validate">
 							<option value="${user.title}" selected>${user.title}*</option>
 							<option value="Bel">Bel.</option>

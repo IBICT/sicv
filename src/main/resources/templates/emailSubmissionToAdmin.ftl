@@ -3,7 +3,7 @@
 <body>
 <p>
 Prezado Administrador,<br/>
-O inventário ${ilcdName} foi importado com sucesso para a base ${urlTrack} na data ${date}. Seguem os dados do contato:
+O inventário ${ilcdTitle} foi importado com sucesso para a base ${urlTrack} na data ${date}. Seguem os dados do contato:
 </p>
 <p>
 <b>Nome:</b> ${ilcdUser.getFirstName()} ${ilcdUser.getLastName()}<br/>

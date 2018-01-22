@@ -6,7 +6,7 @@ Prezado (a) Sr./Sra. ${ilcdUser.getFirstName()} ${ilcdUser.getLastName()},<br/>
 Parabéns!
 </p>
 <p>
-Informamos que o inventário ${ilcdName}, submetido em ${date}, foi analisado pela equipe do <b>SICV Brasil</b>.
+Informamos que o inventário ${ilcdTitle}, submetido em ${date}, foi analisado pela equipe do <b>SICV Brasil</b>.
 Durante a análise dos dados, foram identificadas algumas informações que necessitam de ajustes antes de aprovação 
 para publicação. Os ajustes necessários poderão ser acessados pelo SICV Brasil ${urlTrack}. Clique na opção “Anexo”.
 </p>

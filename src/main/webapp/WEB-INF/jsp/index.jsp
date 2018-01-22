@@ -42,6 +42,9 @@
        .btn-anexar {
         	background-color: #00697c;
         }
+        hr{
+        	border-top: 0.5px solid #6B6B6B;
+        }
         
     </style>
 
@@ -52,7 +55,6 @@
 	<div class="headerDiv">
         <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
 	</div>
-<div class="principalDiv ">
     <div class="row" style="width: 90%;">
         <div class="row">
 		    <div class="row">

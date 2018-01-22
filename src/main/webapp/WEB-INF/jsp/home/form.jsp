@@ -15,6 +15,7 @@
         <!-- Bootstrap core CSS -->
 		<link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
 		<link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
+		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
 		
         <style>
 	        html {
@@ -74,14 +75,30 @@
 	        .btn-import {
 	            background-color: #accc5f;
 	        }
+
 	        textarea{
 	        	height: auto;
 	        }
+
 	        .file-field input.file-path, input.file-path:focus, input.file-path:DISABLED, input[type=text]:not(.browser-default):disabled{
 	        	border: 1px solid #BDBDBD !important;
 	        	width: 95% !important;
 	        }
-	                
+	        .select-wrapper span.caret{
+		   		display: none;
+		    }
+		   
+		    .fa-chevron-down{
+			    position: absolute;
+			    right: 0;
+			    top: 40px;
+			    bottom: 0;
+			    height: 10px;
+			    margin: auto 15px;
+			    font-size: 10px;
+			    line-height: 10px;
+		    }
+	        
 	    </style>
     </head>
     <body>
@@ -119,6 +136,7 @@
 					    <h6 style="font-size: 15px;"><b>Categoria </b><b style="color: red;">*</b>
 					    	<p style="color:#3D3D3D; font-size: 14px;font-style: italic;margin-top: 8px;">CNA / Software
 					    </h6>
+					    <i class="fa fa-chevron-down"></i>
 				        <select required="required" name="category" class="validate">
 							<option value="" selected disabled="disabled"></option>
 							<option value="Categoria">Categoria1</option>
