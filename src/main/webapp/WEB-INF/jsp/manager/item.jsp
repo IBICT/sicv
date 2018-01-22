@@ -220,50 +220,38 @@
                     </ul> 
 
                     <div class="tab-content " >
-                        <div class="tab-pane active" id="1">
-                            <div class="row" style="font-weight: bold; color: #00697C; margin: 10px 0;">
-                                Aprovado com correções
+                        <c:forEach var="statu" items="${status}"> 
+                            <div class="tab-pane active" id="1">
+                                <c:choose>
+                                    <c:when test="${statu.type == 0}">
+                                        <div class="row" style="color: #00697C; margin: 10px 0;">
+                                            Envio do autor
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s1">
+                                                <i class="fa fa-angle-right" aria-hidden="true" style="color: #00697C;"></i>
+                                            </div>
+                                            <div class="col s4">
+                                                <a href="#"><i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i> ILCD.zip</a>
+                                            </div>
+                                            <div class="col offset-s1 s6">
+                                                <a href="<%=Strings.BASE%>/gestor/${ilcd.id}/invite" class="btn" title="Convidar Revisor" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Convidar Revisor</a>
+                                            </div>
+                                        </div>
+                                    </c:when>
+                                    <c:when test="${statu.type == 1}">
+                                        <div class="row" style="color: #00697C; margin: 10px 0;">
+                                            Enviado para  <a href="#" style="color: #00697C; font-weight: bold; margin: 0 10px;">${statu.revisor.firstName}</a> <a href="#" style="color:#6B6B6A;text-decoration: underline;">Cancelar Convite</a>
+                                        </div>
+                                        <hr />
+                                    </c:when>
+                                </c:choose>
                             </div>
-                            <div class="row">                         
-                                <div class="col s6">
-                                    <a href="#" style="color: #00697C;"><i class="fa fa-file-text-o" style="margin-right: 5px;" aria-hidden="true"></i> <span style="text-decoration: underline;">Ver revisão</span></a> - 11/10/2018
-                                </div>
-                                <div class="col s6">
-                                    <a class="btn" title="Convidar Revisor" style="color: #4DBCC4; background-color: #fff; border: 1px solid #4DBCC4; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;" href="#">Convidar Revisor</a>
-                                </div>
+                            <div class="tab-pane" id="2">
                             </div>
-                            <div class="row">
-                                <div class="col s12" style="font-weight: bold;">Caso não concorde com a Revisão “<span style="color: #00697C">aprovado com correções</span>”</div>
+                            <div class="tab-pane" id="3">
                             </div>
-                            <div class="row">
-                                <input id="convidar_outro_qualidata" name="h1" type="radio" value="1" /><label for="convidar_outro_qualidata" style="color: #00697C; font-weight: normal;">Convidar outro qualidata</label>
-                            </div>
-                            <div class="row">
-                                <input id="arquivar" name="h1" type="radio" value="2" /><label for="arquivar" style="color: #00697C; font-weight: normal;">Arquivar</label>
-                            </div>
-                            <div class="row">
-                                <input id="aprovar_e_passar_para_revisso_tecnica" name="h1" type="radio" value="3" /><label for="aprovar_e_passar_para_revisso_tecnica" style="color: #00697C; font-weight: normal;">Aprovar e passar para Revisão Técnica</label>
-                            </div>
-                            <hr />
-                            <div class="row" style="color: #00697C; margin: 10px 0;">
-                                Envio do autor
-                            </div>
-                            <div class="row">
-                                <div class="col s1">
-                                    <i class="fa fa-angle-right" aria-hidden="true" style="color: #00697C;"></i>
-                                </div>
-                                <div class="col s4">
-                                    <a href="#"><i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i> ILCD.zip</a>
-                                </div>
-                                <div class="col offset-s1 s6">
-                                    <a href="<%=Strings.BASE%>/gestor/${ilcd.id}/invite" class="btn" title="Convidar Revisor" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Convidar Revisor</a>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="tab-pane" id="2">
-                        </div>
-                        <div class="tab-pane" id="3">
-                        </div>
+                        </c:forEach>
                     </div>
                 </div>
             </div>
