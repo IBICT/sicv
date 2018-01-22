@@ -1,14 +1,21 @@
-<%-- 
-    Document   : home
-    Created on : 11/05/2017, 09:48:46
-    Author     : Deivdy.Silva
---%>
+<%@page import="br.com.ibict.acv.sicv.model.Homologacao"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="br.com.ibict.acv.sicv.model.Ilcd"%>
+<%@page import="java.util.Date"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%@page import="resources.Strings"%>
 <%@page import="br.com.ibict.acv.sicv.model.User"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<link rel="apple-touch-icon" sizes="57x57" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-57x57.png" />
+<%
+    String base = Strings.BASE;
+    pageContext.setAttribute("base", base);
+%>
+<c:set var="link" value="${base}/authorIlcd" />
+<sec:authorize access="hasAuthority('USER')" var="isUser" />
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -16,7 +23,6 @@
     <head>
         <meta charset="UTF-8">
         <title>SICV</title>
-
         <link rel="apple-touch-icon" sizes="57x57" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-57x57.png" />
         <link rel="apple-touch-icon" sizes="60x60" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-60x60.png" />
         <link rel="apple-touch-icon" sizes="72x72" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-72x72.png" />
@@ -35,121 +41,58 @@
         <meta name="msapplication-TileImage" content="<%=Strings.BASE%>/assets/images/favicon/ms-icon-144x144.png" />
         <meta name="theme-color" content="#ffffff" />
 
-        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
-        <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/steps.css">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/font/font-awesome/css/font-awesome.min.css">
+        <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
 
         <style>
             html {
                 font-family: 'Titillium Web', "Roboto", sans-serif;
             }
 
-            nav {
-                background-color: #4dbcc4;
-            }
-
-            nav .brand-logo {
-                margin-left: 50px;
-            }
-
-            nav .brand-logo img {
-                margin-right: 20px;
-                vertical-align: middle;
-            }
-
-            .container {
-            }
-
             .page-title {
-                color: #00697c;
+                color: #4dbcc4;
             }
-
+            .page-subtitle {
+                color: #666;
+            }
             .btn-import {
                 background-color: #accc5f;
             }
-
-            .user-menu {
-                border-bottom: 2px solid silver;
-                margin: 60px 80px 20px 80px;
-                height: 30px;
+            .table {
+                width: 100% !important;
+                max-width: 100%;
             }
-
-            .item-menu {
-                border-right: 2px solid silver;
-                height: 30px;
+            .head {
+                color: #999;
             }
-
-            .item-menu2 {
-                text-align: center;
-                border-left: 2px solid silver;
-                height: 30px;
-            }
-
-            .item-menu3 {
-                text-align: right;
-                height: 30px;
-            }
-
-            .link-menu {
-                color: #00697c;
-                font-weight: bold;
-                font-size: 16px;
-            }
-
-            .link-menu2 {
-                color: #c3697c;
-                font-weight: bold;
-                font-size: 16px;
-            }
-
-            .link-menu3 {
-                color: #00697c;
-                font-size: 16px;
-            }
-
-            .notif-num {
-                position: relative;
-                top: -5px;
-            }
-
-            .sicv-container {
-                margin: 0px 80px 0px 80px;
-            }
-
             .sicv-table-th {
                 color: #4dbcc4;
                 border-bottom: 1px solid silver;
-                border-top: 1px solid black;
+                /*border-top: 1px solid silver;*/
+                padding: 0 !important;
+                height: 30px;
             }
 
             .sicv-table-td {
                 border-bottom: 1px solid silver;
+                color: #999;
+                padding: 0 !important;
             }
+
         </style>
-        <link rel="stylesheet" href="steps.css">
     </head>
 
     <body>
 
-        <nav>
-            <div class="nav-wrapper">
-                <a href="#" class="brand-logo"><img src="img/logo.png" alt="SICV"> Importador de Inventários</a>
-            </div>
-        </nav>
-
-        <div class="row user-menu">
-            <div class="col s1 item-menu"><a href="<%=Strings.BASE%>" class="link-menu">Meus Inventários</a></div>
-            <div class="col s1 item-menu"><a href="<%=Strings.BASE%>/qualityreview" class="link-menu" style="color:#1bc3d8;">Revisão Qualidata</a></div>
-            <div class="col s1 offset-s7 item-menu3"><a href="#" class="link-menu2"><i class="material-icons">notifications</i><span class="notif-num">1</span></a></div>
-            <div class="col s1 item-menu2"><a href="#" class=""><span class="link-menu">Perfil:</span> <span class="link-menu3"></span></a></div>
-            <div class="col s1 item-menu2"><a href="<%=Strings.BASE%>/logout" class="link-menu">SAIR</a></div>
+        <jsp:include page="/WEB-INF/jsp/partials/nav.jsp"/>
+        <div class="headerDiv">
+            <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
         </div>
 
-        <div class="row sicv-container">
+        <div class="principalDiv">
 
-        </div>
-        <div class="row  sicv-container">
             <div class="row">
 
                 <div class="row">
@@ -160,56 +103,12 @@
                     </c:if>
                 </div>
                 <hr />
-
-                <div class="col s6">
-                    <h5>Usuário</h5>
-                    <h6>${username}</h6>
-                    <h6>Autor/es</h6>
-                    <p>${ilcd.title}<br />
-                        ${ilcd.email}
-                    </p>
-                    <hr />
-                    <h6>Categoria</h6>
-                    <p>${ilcd.category}</p>
-                    <hr />
-                    <h6>Descrição</h6>
-                    <p>${ilcd.description}</p>
-                    <hr />
-                </div>
-                <div class="col s6">
-                    <h5 style="color:#7c7c7c;">Histórico</h5>
-                    <div class="row">
-                        <div class="col s3" style="color:#006b7b;">Autor</div>
-                        <div style="color:#27bec3;" class="col s3">Devolução Qualidata</div>
-                    </div>
-                    <div class="row">
-                        <div class="col s3"><a href="<%=Strings.BASE%>/ilcd/${archive.pathFile}"><i style="color:#006b7b;" class="medium material-icons">insert_drive_file</i>ILCD.zip</a></div>
-                        <a href="<%=Strings.BASE%>/qualityreview/${archive.id}/review" style="background-color:#27bec3;" class="btn col s6">Aplicar Qualidata</a>
-                    </div>
-                    <!--
-                    <hr />
-                    <div class="row">
-                        <div class="col s3"><i style="color:#006b7b;" class="medium material-icons">insert_drive_file</i>ILCD.zip</div>
-                        <div class="col s3">
-                            <i style="color:#27bec3;" class="medium material-icons">insert_drive_file</i>23/08/2017
-                        </div>
-                    </div>
-                    <hr />
-                    <div class="row">
-                        <div class="col s3"><i style="color:#006b7b;" class="medium material-icons">insert_drive_file</i>ILCD.zip</div>
-                        <div class="col s3">
-                            <i style="color:#27bec3;" class="medium material-icons">insert_drive_file</i>12/08/2017
-                        </div>
-                    </div>
-                    -->
-                    <hr />
-
-                </div>
             </div>
+
         </div>
+
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
-
     </body>
 
 </html>
