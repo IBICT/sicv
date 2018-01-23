@@ -1,3 +1,4 @@
+<%@page import="br.com.ibict.acv.sicv.model.Status"%>
 <%@page import="br.com.ibict.acv.sicv.model.Homologacao"%>
 <%@page import="java.util.Calendar"%>
 <%@page import="br.com.ibict.acv.sicv.model.Ilcd"%>
@@ -98,12 +99,12 @@
             </div>
 
             <c:if test="${not empty invite}">
-                <c:forEach var="homologacao" items="${invite}"> 
+                <c:forEach var="status1" items="${invite}"> 
 
                     <div class="row sicv-container" style="padding-top:10px;background-color: #d7eef0; width: 75%; float: left;">
                         <h5 style="color:#4dbcc4; margin:20px;">Aguardando confirmação ou cancelamento</h5>
                         <div class="row">
-                            <a class="col s12" style="margin:0 20px;color:#00728a;" href="<%=Strings.BASE%>/qualityreview/${homologacao.ilcd.id}">${homologacao.ilcd.title}<i style="color: #c3697c; margin-left: 10px;" class="fa fa-eye"></i></a>
+                            <a class="col s12" style="margin:0 20px;color:#00728a;" href="<%=Strings.BASE%>/qualityreview/${status1.ilcd.id}">${status1.ilcd.title}<i style="color: #c3697c; margin-left: 10px;" class="fa fa-eye"></i></a>
                         </div>
                     </div>
                 </c:forEach>
@@ -123,23 +124,23 @@
                         <div class="col s2 sicv-table-th">Pendências</div>
                         <div class="col s2 sicv-table-th">Prazo para entregar</div>
                     </div>
-                    <c:forEach var="homologacao" items="${work}">
-                        <div style="cursor:pointer; margin:0px;" class="row" onclick="window.location = '<%=Strings.BASE%>/qualityreview/${homologacao.ilcd.id}';">
+                    <c:forEach var="status2" items="${work}">
+                        <div style="cursor:pointer; margin:0px;" class="row" onclick="window.location = '<%=Strings.BASE%>/qualityreview/${status2.ilcd.id}';">
                             <div style="height: 40px; position: relative; top: 10px;" class="col s2 sicv-table-td">
-                                ${homologacao.ilcd.user.firstName}
+                                ${status2.ilcd.user.firstName}
                             </div>
                             <div style="padding: 10px;text-overflow: ellipsis; white-space: nowrap; overflow: hidden; height: 40px; position: relative; top: 10px; " class="col s4 sicv-table-td">
-                                <div title="${homologacao.ilcd.title}" style="width: 75%;text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">${homologacao.ilcd.title}</div>
+                                <div title="${status2.ilcd.title}" style="width: 75%;text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">${status2.ilcd.title}</div>
                             </div>
                             <div style="height: 40px; position: relative; top: 10px;" class="col s2 sicv-table-td">
-                                ${homologacao.user.firstName}
+                                ${status2.ilcd.homologation.user.firstName}
                             </div>
                             <div style="height: 40px; position: relative; top: 10px;" class="col s2 sicv-table-td">
                                 <c:choose>
-                                    <c:when test="${ilcd.homologation.pending}">
+                                    <c:when test="${empty status2.endDate}">
                                         <i style="color: #c3697c;" class="fa fa-exclamation-triangle"></i>
                                     </c:when>
-                                    <c:when test="${not ilcd.homologation.pending}">
+                                    <c:when test="${not empty status2.endDate}">
                                         <i style="color: #accc5f;" class="fa fa-check"></i>
                                     </c:when>
                                 </c:choose>
@@ -147,12 +148,11 @@
                             </div>
                             <div style="height: 40px; position: relative; top: 10px;" class="col s2 sicv-table-td">
                                 <%
-                                    Homologacao homologacao = (Homologacao) pageContext.getAttribute("homologacao");
-                                    Ilcd ilcd = homologacao.getIlcd();
+                                    Status status = (Status) pageContext.getAttribute("status2");
                                     Calendar cal = Calendar.getInstance();
-                                    cal.setTime(ilcd.getHomologation().getSubmission());
+                                    cal.setTime(status.getRequestDate());
                                     int dtInit = cal.get(Calendar.DAY_OF_YEAR);
-                                    cal.setTime(ilcd.getHomologation().getPrazo());
+                                    cal.setTime(status.getExpectedDate());
                                     int dtLimit = cal.get(Calendar.DAY_OF_YEAR);
                                     String resporta;
                                     Boolean style;

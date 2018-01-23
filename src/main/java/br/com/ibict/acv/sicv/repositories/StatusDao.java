@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import br.com.ibict.acv.sicv.model.Ilcd;
 import br.com.ibict.acv.sicv.model.Status;
+import br.com.ibict.acv.sicv.model.User;
 import java.util.List;
 
 @Transactional
@@ -14,6 +15,8 @@ public interface StatusDao extends JpaRepository<Status, Long> {
     public Ilcd findById(Long id);
     
     public List<Status> findByIlcd(Ilcd ilcd);
+    
+    public List<Status> findByRevisorAndStatus(User user, Integer status);
 
     /*
      @Modifying

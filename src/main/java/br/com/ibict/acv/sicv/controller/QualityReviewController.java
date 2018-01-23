@@ -53,20 +53,15 @@ public class QualityReviewController {
         String name = user.getFirstName();
         model.put("username", name);
 
-        List<Homologacao> invites = homologacaoDao.findByUserAndStatus(user, 2);
+        List<Status> invites = statusDao.findByRevisorAndStatus(user, 2);
         model.put("invite", invites);
 
-        List<Homologacao> works = homologacaoDao.findByUserAndStatus(user, 3);
+        List<Status> works = statusDao.findByRevisorAndStatus(user, 3);
         model.put("work", works);
 
-        List<String> teste = new ArrayList<>();
-        teste.add("A");
-        teste.add("B");
-        teste.add("C");
-        teste.add("D");
-        model.put("teste", null);
-
-        //System.out.println(lista.isEmpty());
+        //List<Status> status = statusDao.findByRevisorAndStatus(user, 2);
+        //System.out.println(status.isEmpty());
+        
         return "qualityreview/index";
     }
 
