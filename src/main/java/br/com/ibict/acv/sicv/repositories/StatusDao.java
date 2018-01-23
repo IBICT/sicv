@@ -16,7 +16,9 @@ public interface StatusDao extends JpaRepository<Status, Long> {
     
     public List<Status> findByIlcd(Ilcd ilcd);
     
-    public List<Status> findByRevisorAndStatus(User user, Integer status);
+    public List<Status> findByIlcdAndType(Ilcd ilcd, Integer type);
+    
+    public List<Status> findByRevisorAndAcceptAndType(User user, Boolean accept, Integer type);
 
     /*
      @Modifying

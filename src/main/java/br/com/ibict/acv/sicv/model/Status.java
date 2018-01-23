@@ -85,6 +85,9 @@ public class Status implements Serializable {
     
     @OneToOne(cascade = CascadeType.REFRESH)
     private QualiData qualiData;
+    
+    @Expose
+    private Boolean accept;
 
     @Expose
     @OneToOne(mappedBy = "status", cascade = CascadeType.PERSIST)
@@ -208,6 +211,14 @@ public class Status implements Serializable {
 
     public void setQualiData(QualiData qualiData) {
         this.qualiData = qualiData;
+    }
+
+    public Boolean getAccept() {
+        return accept;
+    }
+
+    public void setAccept(Boolean accept) {
+        this.accept = accept;
     }
     
 }

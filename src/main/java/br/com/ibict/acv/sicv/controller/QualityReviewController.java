@@ -15,6 +15,7 @@ import br.com.ibict.acv.sicv.repositories.StatusDao;
 import com.google.gson.Gson;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -53,28 +54,43 @@ public class QualityReviewController {
         String name = user.getFirstName();
         model.put("username", name);
 
-        List<Status> invites = statusDao.findByRevisorAndStatus(user, 2);
+        List<Status> invites = statusDao.findByRevisorAndAcceptAndType(user, null, 1);
         model.put("invite", invites);
 
-        List<Status> works = statusDao.findByRevisorAndStatus(user, 3);
+        List<Status> works = statusDao.findByRevisorAndAcceptAndType(user, true, 1);
         model.put("work", works);
 
-        //List<Status> status = statusDao.findByRevisorAndStatus(user, 2);
-        //System.out.println(status.isEmpty());
-        
         return "qualityreview/index";
     }
 
     @RequestMapping(value = {"accept/{id}/", "/accept/{id}/", "accept/{id}", "/accept/{id}"})
     public String accept(Map<String, Object> model, @PathVariable("id") Long id) {
         try {
-            Homologacao homo = homologacaoDao.findOne(id);
-            homo.setStatus(3);
-            homologacaoDao.save(homo);
-            Status status = homo.getLastArchive().getStatus();
-            status.setExpectedDate(new Date());
+            
+            Status status = statusDao.findOne(id);
+            status.setAccept(true);
+            status.setRequestDate(new Date());
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.DATE, 5);
+            status.setExpectedDate(calendar.getTime());
             statusDao.save(status);
-            return "redirect:/qualityreview/";
+            
+            Homologacao homo = status.getIlcd().getHomologation();
+            homo.setStatus(2);
+            homologacaoDao.save(homo);
+            return "redirect:/qualityreview/"+status.getId();
+        } catch (Exception e) {
+            return "error";
+        }
+    }
+    
+    @RequestMapping(value = {"refuse/{id}/", "/refuse/{id}/", "refuse/{id}", "/refuse/{id}"})
+    public String refuse(Map<String, Object> model, @PathVariable("id") Long id) {
+        try {
+            Status status = statusDao.findOne(id);
+            status.setAccept(false);
+            statusDao.save(status);
+            return "redirect:/qualityreview/"+status.getId();
         } catch (Exception e) {
             return "error";
         }
@@ -86,19 +102,12 @@ public class QualityReviewController {
             User user = (User) session().getAttribute("user");
             String name = user.getFirstName();
             model.put("username", name);
-
-            //lcd ilcd = ilcdDao.findByUuid(id);
-            //List<Ilcd> ilcds = ilcdDao.findByUuid(id);
-            //System.out.println(ilcds.size());
-            //if (!ilcds.isEmpty()) {
-            //Ilcd ilcd = ilcds.get(0);
-            Ilcd ilcd = ilcdDao.findOne(id);
-            //} else {
-            //    System.out.println("Esta vazio");
-            //}
-            //model.put("user", user);
+            Status status1 = statusDao.findOne(id);
+            model.put("status1", status1);
+            Ilcd ilcd = status1.getIlcd();
             model.put("ilcd", ilcd);
-            model.put("archive", ilcd.getHomologation().getLastArchive());
+            List<Status> status2 = statusDao.findByIlcdAndType(ilcd, 1);
+            model.put("status2", status2);
             return "qualityreview/item";
         } catch (Exception e) {
             return "error";
@@ -110,7 +119,8 @@ public class QualityReviewController {
         try {
             User user = (User) session().getAttribute("user");
             String name = user.getFirstName();
-            Ilcd ilcd = ilcdDao.findById(id);
+            Status status = statusDao.findOne(id);
+            Ilcd ilcd = status.getIlcd();
             model.put("username", name);
             model.put("ilcd", ilcd);
             return "qualityreview/review";
