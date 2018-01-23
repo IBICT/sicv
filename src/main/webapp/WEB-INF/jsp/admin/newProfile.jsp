@@ -85,7 +85,7 @@
 						<div class="input-field col s12">
 						    <input placeholder="E-mail*" id="email" name="email" type="text" class="validate" required="required">
 							<div style="float: left;">
-			                	<input style="float: left;background: #00697C;" class="btn btn-lg btn-primary" type="submit" value="Salvar Alterações" /><br />
+			                	<input style="float: left;background: #00697C;" class="btn btn-lg btn-primary" type="submit" value="Cadastrar usuário" /><br />
 		                	</div>
 						</div>
 					</div>

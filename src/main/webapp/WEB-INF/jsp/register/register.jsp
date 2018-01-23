@@ -52,7 +52,7 @@
         
     </head>
     	<style>
-	    	.logoSICVLogin {
+			.logoSICVLogin {
 				display: block;
 				margin: 0 auto;
 				text-align: center;
@@ -61,74 +61,100 @@
 				font-family: 'TitilliumWeb-ExtraLight', sans-serif !important;
 			}
 			
-			.select-wrapper input.select-dropdown{
-				color: #888C8C;
-			}
-		   
 			/* label color */
-		   .input-field input{
+			.input-field input {
 				font-size: 18px !important;
 				color: #00697C;
 				border-bottom: .2px solid #4DBCC4 !important;
 				box-shadow: none !important;
 				font-weight: bold;
-		   }
-		   
-		   /* label focus color */
-		   .input-field input:focus{
+			}
+			
+			/* label focus color */
+			.input-field input:focus {
 				color: #00697C !important;
 				border-bottom: 2px solid #4DBCC4 !important;
-				box-shadow: 1px solid ##4DBCC4 !important;
+				box-shadow: 1px solid #4DBCC4 !important;
 				font-weight: bold;
-		   }
-		   input[type=text].valid:not(.browser-default){
-		   		font-size: 18px !important;
+			}
+			
+			input[type=text].valid:not(.browser-default){
+				font-size: 18px !important;
 				color: #00697C;
 				border-bottom: .2px solid #4DBCC4 !important;
 				box-shadow: none !important;
 				font-weight: bold;
-		   }
-		   
-		   [type="checkbox"].filled-in:not(:checked)+label:after, [type="checkbox"].filled-in:checked+label:after
-		   {
-				background: #FFFFFF;
-				border-color: #FFFFFF !important;
-	       }
-	       [type="checkbox"].filled-in:checked+label:before{
+			}
+			
+			[type="checkbox"].filled-in:not(:checked)+label:after, [type="checkbox"].filled-in:checked+label:after{
+				background: #FFFFFF !important;
+				border: 2px solid #00697C !important;
+			}
+			
+			[type="checkbox"].filled-in:checked+label:before {
 				border-right: 2px solid #4dbcc4 !important;
-    			border-bottom: 2px solid #4dbcc4 !important;
-	       }
-		   .register-form{
-			  	font-family: 'TitilliumWeb-ExtraLight', sans-serif !important;
+				border-bottom: 2px solid #4dbcc4 !important;
+			}
+			
+			.register-form {
+				font-family: 'TitilliumWeb-ExtraLight', sans-serif !important;
 				background-color: white !important;
 				color: #4DBCC4;
-		   }
-		   .select-wrapper span.caret{
-		   		display: none;
-		   }
-		   .fa-chevron-down{
-			    position: absolute;
-			    right: 0;
-			    top: 0;
-			    bottom: 15px;
-			    height: 10px;
-			    margin: auto 15px;
-			    font-size: 10px;
-			    line-height: 10px;
-		   }
-		   .btn{
+			}
+			
+			.select-wrapper span.caret {
+				display: none;
+			}
+			
+			.select-wrapper input.select-dropdown {
+				color: #888C8C;
+			}
+			
+			.select-wrapper input.select-dropdown ul.dropdown-content li.active.selected{
+				color: black !important;
+			}
+			
+			.dropdown-content {
+				background-color: #4DBCC4;
+			}
+			
+			.select-dropdown li span {
+				color: white !important;
+				font-weight: bold;
+			}
+			
+			.fa-chevron-down {
+				position: absolute;
+				right: 0;
+				top: 0;
+				bottom: 15px;
+				height: 10px;
+				margin: auto 15px;
+				font-size: 10px;
+				line-height: 10px;
+			}
+			
+			.btn {
 				float: right;
 				background: #00697C;
 				color: white !important;
 				border: none;
-    			border-radius: 5px;
-    			text-transform: none;
-    			font-weight: bold;
-		   }
-		   ::placeholder { /* Most modern browsers support this now. */
+				border-radius: 5px;
+				text-transform: none;
+				font-weight: bold;
+			}
+
+			::placeholder { /* Most modern browsers support this now. */
 				color: #888C8C;
-		   }
-	</style>
+			}
+			
+			.terms{
+				color: #4DBCC4;
+				font-size: 16px !important;
+				font-weight: bold;
+				text-decoration: underline;
+			}
+		</style>
 
     <body>
 		<div class="modal" id="modal-terms_SICV" style="overflow-y: hidden;max-height: 90%;">
@@ -482,11 +508,11 @@
 		                <input placeholder="Áreas de interesse (ex: agroindústria, metalúrgica, eletroeletrônicos, etc)"  
 		                id="dsPurpose" name="dsPurpose" type="text"/><br />
 					</div>
-					<div class="col s5">
-		                <a href="#modal-terms_SICV" class="modal-trigger" style="color: white;">Termos de Uso</a><br />
-	    	            <a href="#modal-privacyPolicy_SICV" class="modal-trigger" style="color: white;" >Politica de Privacidade</a><br />
+					<div class="col s5" style="margin-top: -8px;">
+		                <a href="#modal-terms_SICV" class="modal-trigger terms">Termos de Uso</a><br />
+	    	            <a href="#modal-privacyPolicy_SICV" class="modal-trigger terms">Politica de Privacidade</a><br />
 	                    <input type="checkbox" class="filled-in" id="termosAcima" required="required" />
-	                    <label for="termosAcima" style="color: white;"><b>Concordo com os termos acima.</b></label>
+	                    <label for="termosAcima" style="color: #00697C;"><i><b>Concordo com os termos acima.</b></i></label>
 	                </div>
 				</div>
 				

@@ -255,6 +255,8 @@ public class HomeController {
             status.setType(0);
             status.setIlcd(ilcd);
             ilcd.addStatus(status);
+            //move to zipToIlcd method after refactoring;
+            ilcd.setName(file.getOriginalFilename());
             
             zipToIlcd(pathResolve, ilcd);
             status.getArchive().setPathFile( MD5(bytesfile) );
@@ -393,96 +395,17 @@ public class HomeController {
         return null;
     }
 
+    //TODO: this method will be refact. It deal about reading files ILCD's.
     public static void zipToIlcd(String path, Ilcd ilcd) throws UnsupportedEncodingException, IOException {
 
-        String id = null;
-        String name = null;
-        String type = null;
-        String location = null;
-        String classification = null;
-        String referenceYear;
-        String dataSetValidUntil;
-        ZipFile zipFile = null;
-        try {
-            zipFile = new ZipFile(path);
-        } catch (IOException ex) {
-            //return null;
-        }
-        Enumeration<? extends ZipEntry> entries = zipFile.entries();
-        while (entries.hasMoreElements()) {
-            ZipEntry entry = entries.nextElement();
-            //System.out.println(entry.getName());
-            if (entry.getName().startsWith("ILCD/processes/") && (entry.getName().endsWith(".xml")
-                    || entry.getName().endsWith(".XML"))) {
-                InputStream stream = null;
-                try {
-                    stream = zipFile.getInputStream(entry);
-                } catch (IOException ex) {
-                    //return null;
-                }
-                ByteArrayOutputStream result = new ByteArrayOutputStream();
-                byte[] buffer = new byte[1024];
-                int length;
-                try {
-                    while ((length = stream.read(buffer)) != -1) {
-                        result.write(buffer, 0, length);
-                    }
-                } catch (IOException ex) {
-                    //return null;
-                }
-                String content = null;
-                try {
-                    content = result.toString("UTF-8");
-                    //System.out.println(content);
-                } catch (UnsupportedEncodingException ex) {
-                    //return null;
-                }
-
-                // Id
-                id = content.substring(content.indexOf("<common:UUID"), content.indexOf("</common:UUID>"));
-                id = id.substring(id.indexOf('>') + 1);
-
-                // Name
-                name = content.substring(content.indexOf("<baseName"), content.indexOf("</name>"));
-                String[] temp = name.split("\n");
-                name = "";
-                for (int i = 0; i < temp.length - 1; i++) {
-                    name += temp[i].substring(temp[i].indexOf(">") + 1, temp[i].lastIndexOf("<")) + " ";
-                }
-
-                // Type
-                type = "";
-
-                // Location
-                location = content.substring(content.indexOf("<locationOfOperationSupplyOrProduction"), content.indexOf("</locationOfOperationSupplyOrProduction>"));
-                location = location.substring(location.indexOf("location=\"") + 10, location.indexOf("\">"));
-
-                // Classification
-                classification = content.substring(content.indexOf("<common:classification"), content.indexOf("</common:classification>"));
-                temp = classification.split("\n");
-                classification = "";
-                for (int i = 1; i < temp.length - 1; i++) {
-                    classification += temp[i].substring(temp[i].indexOf(">") + 1, temp[i].lastIndexOf("<")) + " / ";
-                }
-
-                // ReferenceYear
-                referenceYear = content.substring(content.indexOf("<common:referenceYear"), content.indexOf("</common:referenceYear>"));
-                referenceYear = referenceYear.substring(referenceYear.indexOf('>') + 1);
-
-                // DataSetValidUntil
-                dataSetValidUntil = content.substring(content.indexOf("<common:dataSetValidUntil"), content.indexOf("</common:dataSetValidUntil>"));
-                dataSetValidUntil = dataSetValidUntil.substring(dataSetValidUntil.indexOf('>') + 1);
-
-            }
-        }
         User user = (User) session().getAttribute("user");
         Archive archive = new Archive();
         archive.setStatus( ilcd.getStatus().get(0) );
         //TODO: make a comparator to order list by version
         archive.setVersion(1);
         ilcd.getStatus().get(0).setArchive(archive);
-        ilcd.setUuid(id);
-        ilcd.setName(name);
+        ilcd.setUuid("");
+        //ilcd.setName("");
         ilcd.setUser(user);
 //        Ilcd ilcd = new Ilcd(id, name, type, location, classification, new Date(), new Date(), new File(path).getName(), user, 1L, 1L);
 //        return ilcd;
