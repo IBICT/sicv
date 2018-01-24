@@ -119,10 +119,17 @@ public class QualityReviewController {
         try {
             User user = (User) session().getAttribute("user");
             String name = user.getFirstName();
-            Status status = statusDao.findOne(id);
-            Ilcd ilcd = status.getIlcd();
+            Status status1 = statusDao.findOne(id);
+            Ilcd ilcd = status1.getIlcd();
+            QualiData qualiData2 = null;
+            if(status1.getId() > 2){
+                qualiData2 = statusDao.findOne(status1.getId()-1).getQualiData();
+            }
+            QualiData qualiData1 = status1.getQualiData();
+            model.put("qualiData1", qualiData1);
+            model.put("qualiData2", qualiData2);
             model.put("username", name);
-            model.put("ilcd", ilcd);
+            model.put("status", status1);
             return "qualityreview/review";
         } catch (Exception e) {
             return "error";
@@ -138,21 +145,26 @@ public class QualityReviewController {
 //                System.out.println(key+" = "+value);
 //            }
             
-            Ilcd ilcd = ilcdDao.findById(id);
-            Homologacao homologacao = ilcd.getHomologation();
-            homologacao.setStatus(4);
-            Status status = homologacao.getLastArchive().getStatus();
-            homologacaoDao.save(homologacao);
+            Status status = statusDao.findOne(id);
             Gson gson = new Gson();
             QualiData qualiData = gson.fromJson(allRequestParams.get("json"), QualiData.class);
             Integer resultado = gson.fromJson(allRequestParams.get("resultado"), Integer.class);
             qualiDataDao.save(qualiData);
-            //status.setReviewer(qualiData);
             status.setQualiData(qualiData);
-            status.setStatus(resultado);
-            statusDao.save(status);
-            return "redirect:/qualityreview/";
+            status.setResult(resultado);
+            status.setEndDate(new Date());
+            if(allRequestParams.get("tipo").equals("2")){
+               status.setClosed(true);
+               statusDao.save(status);
+               return "redirect:/qualityreview/"+status.getId();
+            } else {
+                status.setClosed(false);
+                statusDao.save(status);
+                return "redirect:/qualityreview/"+status.getId();
+            }
         } catch (Exception e) {
+            System.err.println(e.getMessage());
+            e.printStackTrace();
             return "ERRO 500";
         }
     }

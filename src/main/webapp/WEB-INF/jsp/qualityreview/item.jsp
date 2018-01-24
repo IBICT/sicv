@@ -149,7 +149,7 @@
                     </div>
                     <c:forEach var="status4" items="${status2}">
                         <c:choose>
-                            <c:when test="${empty status4.endDate}">
+                            <c:when test="${empty status4.closed or not status4.closed}">
                                 <div class="row">
                                     <div class="col s6">
                                         Autor
@@ -174,13 +174,13 @@
                                     </div>
                                 </div>
                             </c:when>
-                            <c:when test="${not empty status4.endDate and not empty status4.qualiData}">
+                            <c:when test="${not empty status4.closed and status4.closed}">
                                 <div class="row">
                                     <div class="col s6">
                                         <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${status4.archive.pathFile}?name=ILCD.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> ILCD.ZIP</a>
                                     </div>
                                     <div class="col s6">
-                                        <a href="" class="">Ver revisão - 23/08/2017</a>
+                                        <a href="" class="">Ver revisão - <fmt:formatDate value="${status4.endDate}" pattern="dd/MM/yyyy"/></a>
                                     </div>
                                 </div>
                             </c:when>

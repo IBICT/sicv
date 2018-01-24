@@ -144,7 +144,6 @@ public class TecnicalReviewController {
             qualiDataDao.save(qualiData);
             //status.setReviewer(qualiData);
             status.setQualiData(qualiData);
-            status.setStatus(resultado);
             statusDao.save(status);
             return "redirect:/tecnicalreview/";
         } catch (Exception e) {

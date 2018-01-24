@@ -73,7 +73,7 @@ public class Status implements Serializable {
     //informa o andamento do arquivo: AG_REV, AG_AC ...
 //    @NotNull
     @Expose
-    private Integer status;
+    private Integer result;
 
     @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "ilcd_id")
@@ -88,16 +88,13 @@ public class Status implements Serializable {
     
     @Expose
     private Boolean accept;
+    
+    @Expose
+    private Boolean closed;
 
     @Expose
     @OneToOne(mappedBy = "status", cascade = CascadeType.PERSIST)
     private Notification notify;
-
-    public Status(Status status) {
-        this.archive = status.archive;
-        this.revisor = status.revisor;
-        this.status = 2;
-    }
 
     public Status() {
     }
@@ -173,12 +170,12 @@ public class Status implements Serializable {
 		return this.archive.add(archive);
     }*/
 
-    public Integer getStatus() {
-        return status;
+    public Integer getResult() {
+        return result;
     }
 
-    public void setStatus(Integer status) {
-        this.status = status;
+    public void setResult(Integer result) {
+        this.result = result;
     }
 
     public Ilcd getIlcd() {
@@ -219,6 +216,14 @@ public class Status implements Serializable {
 
     public void setAccept(Boolean accept) {
         this.accept = accept;
+    }
+
+    public Boolean getClosed() {
+        return closed;
+    }
+
+    public void setClosed(Boolean closed) {
+        this.closed = closed;
     }
     
 }

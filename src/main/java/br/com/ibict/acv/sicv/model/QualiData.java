@@ -28,8 +28,6 @@ public class QualiData implements Serializable {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    private Archive archive;
-    
     private Boolean q1;
     
     private Boolean q2;
@@ -166,6 +164,8 @@ public class QualiData implements Serializable {
     
     private String comment26;
     
+    private String comment27;
+    
     private String comment28;
     
     private String comment29;
@@ -202,14 +202,6 @@ public class QualiData implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public Archive getArchive() {
-        return archive;
-    }
-
-    public void setArchive(Archive archive) {
-        this.archive = archive;
     }
 
     public Boolean getQ1() {
@@ -754,6 +746,14 @@ public class QualiData implements Serializable {
 
     public void setComment26(String comment26) {
         this.comment26 = comment26;
+    }
+    
+    public String getComment27() {
+        return comment27;
+    }
+
+    public void setComment27(String comment27) {
+        this.comment27 = comment27;
     }
 
     public String getComment28() {
