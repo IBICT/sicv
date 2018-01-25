@@ -168,6 +168,22 @@ public class QualityReviewController {
             return "ERRO 500";
         }
     }
+    
+    @RequestMapping(value = {"/{id}/view", "/{id}/view/"})
+    public String reviewView(Map<String, Object> model, @PathVariable("id") Long id) {
+        try {
+            User user = (User) session().getAttribute("user");
+            String name = user.getFirstName();
+            Status status1 = statusDao.findOne(id);
+            QualiData qualiData1 = status1.getQualiData();
+            model.put("qualiData1", qualiData1);
+            model.put("username", name);
+            model.put("status", status1);
+            return "qualityreview/view";
+        } catch (Exception e) {
+            return "error";
+        }
+    }
 
     public static HttpSession session() {
         return CustomAuthProvider.getHttpSession();
