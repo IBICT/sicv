@@ -161,7 +161,7 @@
             </div>
             <form action="<%=Strings.BASE%>/gestor/invite" method="post">
                 <input name="ilcd" type="hidden" value="${ilcd.id}" />
-                <input name="tipo" type="hidden" value="1" />
+                <input id="type" name="tipo" type="hidden" value="1" />
 
                 <div class="row">
 
@@ -208,9 +208,12 @@
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
         <script>
             $(document).ready(function () {
-                // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
-                $('.modal').modal();
-
+                var x = $(location).attr('search');
+                if(x === "?type=2"){
+                    $("#type").val(2);
+                } else {
+                    $("#type").val(1);
+                }
             });
         </script>
     </body>

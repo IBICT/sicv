@@ -96,16 +96,19 @@ public class QualityReviewController {
         }
     }
 
+     // TODO: resolver url path
     @RequestMapping(value = {"/{id}/", "{id}/", "{id}", "/{id}"})
     public String itemDeteil(Map<String, Object> model, @PathVariable("id") Long id) {
         try {
             User user = (User) session().getAttribute("user");
             String name = user.getFirstName();
             model.put("username", name);
+            // TODO: Alterara status1 para statusSelecionado
             Status status1 = statusDao.findOne(id);
             model.put("status1", status1);
             Ilcd ilcd = status1.getIlcd();
             model.put("ilcd", ilcd);
+            // TODO: Alterara status1 para statusHistorico
             List<Status> status2 = statusDao.findByIlcdAndType(ilcd, 1);
             model.put("status2", status2);
             return "qualityreview/item";

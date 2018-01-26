@@ -29,6 +29,7 @@ import br.com.ibict.acv.sicv.repositories.QualiDataDao;
 import br.com.ibict.acv.sicv.repositories.StatusDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.Mail;
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/gestor")

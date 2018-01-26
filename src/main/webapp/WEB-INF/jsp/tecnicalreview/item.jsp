@@ -1,14 +1,21 @@
-<%-- 
-    Document   : home
-    Created on : 11/05/2017, 09:48:46
-    Author     : Deivdy.Silva
---%>
+<%@page import="br.com.ibict.acv.sicv.model.Homologacao"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="br.com.ibict.acv.sicv.model.Ilcd"%>
+<%@page import="java.util.Date"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%@page import="resources.Strings"%>
 <%@page import="br.com.ibict.acv.sicv.model.User"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<link rel="apple-touch-icon" sizes="57x57" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-57x57.png" />
+<%
+    String base = Strings.BASE;
+    pageContext.setAttribute("base", base);
+%>
+<c:set var="link" value="${base}/authorIlcd" />
+<sec:authorize access="hasAuthority('USER')" var="isUser" />
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -16,7 +23,6 @@
     <head>
         <meta charset="UTF-8">
         <title>SICV</title>
-
         <link rel="apple-touch-icon" sizes="57x57" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-57x57.png" />
         <link rel="apple-touch-icon" sizes="60x60" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-60x60.png" />
         <link rel="apple-touch-icon" sizes="72x72" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-72x72.png" />
@@ -35,172 +41,166 @@
         <meta name="msapplication-TileImage" content="<%=Strings.BASE%>/assets/images/favicon/ms-icon-144x144.png" />
         <meta name="theme-color" content="#ffffff" />
 
-        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
-        <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/steps.css">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/font/font-awesome/css/font-awesome.min.css">
+        <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
 
         <style>
             html {
                 font-family: 'Titillium Web', "Roboto", sans-serif;
             }
 
-            nav {
-                background-color: #4dbcc4;
-            }
-
-            nav .brand-logo {
-                margin-left: 50px;
-            }
-
-            nav .brand-logo img {
-                margin-right: 20px;
-                vertical-align: middle;
-            }
-
-            .container {
-            }
-
             .page-title {
-                color: #00697c;
+                color: #4dbcc4;
             }
-
+            .page-subtitle {
+                color: #666;
+            }
             .btn-import {
                 background-color: #accc5f;
             }
-
-            .user-menu {
-                border-bottom: 2px solid silver;
-                margin: 60px 80px 20px 80px;
-                height: 30px;
+            .table {
+                width: 100% !important;
+                max-width: 100%;
             }
-
-            .item-menu {
-                border-right: 2px solid silver;
-                height: 30px;
+            .head {
+                color: #999;
             }
-
-            .item-menu2 {
-                text-align: center;
-                border-left: 2px solid silver;
-                height: 30px;
-            }
-
-            .item-menu3 {
-                text-align: right;
-                height: 30px;
-            }
-
-            .link-menu {
-                color: #00697c;
-                font-weight: bold;
-                font-size: 16px;
-            }
-
-            .link-menu2 {
-                color: #c3697c;
-                font-weight: bold;
-                font-size: 16px;
-            }
-
-            .link-menu3 {
-                color: #00697c;
-                font-size: 16px;
-            }
-
-            .notif-num {
-                position: relative;
-                top: -5px;
-            }
-
-            .sicv-container {
-                margin: 0px 80px 0px 80px;
-            }
-
             .sicv-table-th {
                 color: #4dbcc4;
                 border-bottom: 1px solid silver;
-                border-top: 1px solid black;
+                /*border-top: 1px solid silver;*/
+                padding: 0 !important;
+                height: 30px;
             }
 
             .sicv-table-td {
                 border-bottom: 1px solid silver;
+                color: #999;
+                padding: 0 !important;
+            }
+
+            .headerStatus {
+                font-family: Titillium Web;
+                font-style: normal;
+                font-weight: 300;
+                line-height: normal;
+                font-size: 20px;
+                color: #3D3D3D;
             }
         </style>
-        <link rel="stylesheet" href="steps.css">
     </head>
 
     <body>
 
-        <jsp:include page="/WEB-INF/jsp/partials/nav.jsp" />
+        <jsp:include page="/WEB-INF/jsp/partials/nav.jsp"/>
         <div class="headerDiv">
             <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
         </div>
 
-        <div class="row sicv-container">
+        <div class="principalDiv">
 
-        </div>
-        <div class="row  sicv-container">
             <div class="row">
 
                 <div class="row">
-                    <div class="col s8"><h5 class="page-title">${ilcd.title}</h5></div>
-                        <c:if test="${ilcd.homologation.status < 3}">
-                        <div class="col s2" style="color:red;"><i class="material-icons">do_not_disturb</i> Não, obrigado</div>
-                        <div class="col s2" style="color:green;"><i class="material-icons">check</i> Aceito</div>
+                    <div class="col s8">
+                        <div style="font-size: 18px; color: #00697C;">${ilcd.title}</div>
+                    </div>
+                    <c:if test="${empty status1.accept}">
+                        <div class="col s2">
+                            <a href="<%=Strings.BASE%>/tecnicalreview/refuse/${status1.id}/" style="color: #C3697C; font-size: 14px; position: relative; top: 4px;"><i class="fa fa-ban" aria-hidden="true"></i> Não, obrigado</a>
+                        </div>
+                        <div class="col s2">
+                            <a href="<%=Strings.BASE%>/tecnicalreview/accept/${status1.id}/" style="color: #ACCC5F; font-size: 14px; position: relative; top: 4px;"><i class="fa fa-check" aria-hidden="true"></i> Aceito</a>
+                        </div>
                     </c:if>
                 </div>
                 <hr />
-
-                <div class="col s6">
-                    <h5>Usuário</h5>
-                    <h6>${username}</h6>
-                    <h6>Autor/es</h6>
-                    <p>${ilcd.title}<br />
-                        ${ilcd.email}
+            </div>
+            <div class="row">
+                <div class="col s8">
+                    <div style="padding-bottom: 2%;">
+                        <h5>Usuário</h5>
+                    </div>
+                    <h6 class="bold">Autor/es</h6>
+                    <c:forEach items="${ilcd.authors}" var="author" varStatus="loop">
+                        <i>${author};</i>
+                    </c:forEach>
+                    <p>
+                        <c:forEach items="${ilcd.emails}" var="email" varStatus="loop">
+                            <i>${email};</i>
+                        </c:forEach>
+                        <br>
                     </p>
-                    <hr />
-                    <h6>Categoria</h6>
+                    <h6 class="bold">Categoria</h6>
                     <p>${ilcd.category}</p>
-                    <hr />
-                    <h6>Descrição</h6>
+                    <br>
+                    <h6 class="bold">Descrição</h6>
                     <p>${ilcd.description}</p>
-                    <hr />
                 </div>
-                <div class="col s6">
-                    <h5 style="color:#7c7c7c;">Histórico</h5>
+                <div class="col s4">
                     <div class="row">
-                        <div class="col s3" style="color:#006b7b;">Autor</div>
-                        <div style="color:#27bec3;" class="col s3">Devolução Qualidata</div>
-                    </div>
-                    <div class="row">
-                        <div class="col s3"><a href="<%=Strings.BASE%>/ilcd/${archive.pathFile}"><i style="color:#006b7b;" class="medium material-icons">insert_drive_file</i>ILCD.zip</a></div>
-                        <a href="<%=Strings.BASE%>/tecnicalreview/${archive.id}/review" style="background-color:#27bec3;" class="btn col s6">Aplicar Revisão Tecnica</a>
-                    </div>
-                    <!--
-                    <hr />
-                    <div class="row">
-                        <div class="col s3"><i style="color:#006b7b;" class="medium material-icons">insert_drive_file</i>ILCD.zip</div>
-                        <div class="col s3">
-                            <i style="color:#27bec3;" class="medium material-icons">insert_drive_file</i>23/08/2017
+                        <div class="col s12">
+                            <div class="headerStatus">
+                                Acompanhamento de revisões 
+                            </div>
                         </div>
                     </div>
-                    <hr />
-                    <div class="row">
-                        <div class="col s3"><i style="color:#006b7b;" class="medium material-icons">insert_drive_file</i>ILCD.zip</div>
-                        <div class="col s3">
-                            <i style="color:#27bec3;" class="medium material-icons">insert_drive_file</i>12/08/2017
-                        </div>
-                    </div>
-                    -->
-                    <hr />
+                    <c:forEach var="status4" items="${status2}">
+                        <c:choose>
+                            <c:when test="${empty status4.closed or not status4.closed}">
+                                <div class="row">
+                                    <div class="col s6">
+                                        Autor
+                                    </div>
+                                    <div class="col s6">
+                                        Revisão Qualidata
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s6">
+                                        <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${status4.archive.pathFile}?name=ILCD.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> ILCD.ZIP</a>
+                                    </div>
+                                    <div class="col s6">
+                                        <c:choose>
+                                            <c:when test="${status4.accept}">
+                                                <a href="<%=Strings.BASE%>/tecnicalreview/${status4.id}/review" class="btn">Aplicar Qualidata</a>
+                                            </c:when>
+                                            <c:when test="${not status4.accept}">
+                                                <a href="" class="btn disabled">Aplicar Qualidata</a>
+                                            </c:when>
+                                        </c:choose>
+                                    </div>
+                                </div>
+                            </c:when>
+                            <c:when test="${not empty status4.closed and status4.closed}">
+                                <div class="row">
+                                    <div class="row">
+                                        <div class="col s6">
+                                            <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${status4.archive.pathFile}?name=ILCD.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> ILCD.ZIP</a>
+                                        </div>
+                                        <div class="col s6">
+                                            <a href="<%=Strings.BASE%>/tecnicalreview/${status4.id}/view" class="">Ver revisão - <fmt:formatDate value="${status4.endDate}" pattern="dd/MM/yyyy"/></a>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col s6">
+                                            <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${status4.archive.pathFile}?name=complement.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> complement.zip</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </c:when>
+                        </c:choose>
 
+
+                    </c:forEach>
                 </div>
             </div>
         </div>
+
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
-
     </body>
 
 </html>

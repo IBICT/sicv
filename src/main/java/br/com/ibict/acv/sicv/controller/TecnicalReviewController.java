@@ -3,6 +3,7 @@ package br.com.ibict.acv.sicv.controller;
 import br.com.ibict.acv.sicv.CustomAuthProvider;
 import static br.com.ibict.acv.sicv.controller.AdminController.session;
 import static br.com.ibict.acv.sicv.controller.HomeController.session;
+import static br.com.ibict.acv.sicv.controller.QualityReviewController.session;
 import br.com.ibict.acv.sicv.model.Homologacao;
 import br.com.ibict.acv.sicv.model.Ilcd;
 import br.com.ibict.acv.sicv.model.QualiData;
@@ -15,6 +16,7 @@ import br.com.ibict.acv.sicv.repositories.StatusDao;
 import com.google.gson.Gson;
 import java.security.Principal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -53,58 +55,63 @@ public class TecnicalReviewController {
         String name = user.getFirstName();
         model.put("username", name);
 
-        List<Homologacao> invites = homologacaoDao.findByUserAndStatus(user, 2);
+        List<Status> invites = statusDao.findByRevisorAndAcceptAndType(user, null, 2);
         model.put("invite", invites);
 
-        List<Homologacao> works = homologacaoDao.findByUserAndStatus(user, 3);
+        List<Status> works = statusDao.findByRevisorAndAcceptAndType(user, true, 2);
         model.put("work", works);
-
-        List<String> teste = new ArrayList<>();
-        teste.add("A");
-        teste.add("B");
-        teste.add("C");
-        teste.add("D");
-        model.put("teste", null);
-
-        //System.out.println(lista.isEmpty());
         return "tecnicalreview/index";
     }
 
     @RequestMapping(value = {"accept/{id}/", "/accept/{id}/", "accept/{id}", "/accept/{id}"})
     public String accept(Map<String, Object> model, @PathVariable("id") Long id) {
         try {
-            Homologacao homo = homologacaoDao.findOne(id);
-            homo.setStatus(3);
-            homologacaoDao.save(homo);
-            Status status = homo.getLastArchive().getStatus();
-            status.setExpectedDate(new Date());
+            
+            Status status = statusDao.findOne(id);
+            status.setAccept(true);
+            status.setRequestDate(new Date());
+            Calendar calendar = Calendar.getInstance();
+            calendar.add(Calendar.DATE, 5);
+            status.setExpectedDate(calendar.getTime());
             statusDao.save(status);
-            return "redirect:/tecnicalreview/";
+            
+            Homologacao homo = status.getIlcd().getHomologation();
+            homo.setStatus(2);
+            homologacaoDao.save(homo);
+            return "redirect:/qualityreview/"+status.getId();
+        } catch (Exception e) {
+            return "error";
+        }
+    }
+    
+    @RequestMapping(value = {"refuse/{id}/", "/refuse/{id}/", "refuse/{id}", "/refuse/{id}"})
+    public String refuse(Map<String, Object> model, @PathVariable("id") Long id) {
+        try {
+            Status status = statusDao.findOne(id);
+            status.setAccept(false);
+            statusDao.save(status);
+            return "redirect:/qualityreview/"+status.getId();
         } catch (Exception e) {
             return "error";
         }
     }
 
+    // TODO: resolver url path
     @RequestMapping(value = {"/{id}/", "{id}/", "{id}", "/{id}"})
     public String itemDeteil(Map<String, Object> model, @PathVariable("id") Long id) {
         try {
             User user = (User) session().getAttribute("user");
             String name = user.getFirstName();
             model.put("username", name);
-
-            //lcd ilcd = ilcdDao.findByUuid(id);
-            //List<Ilcd> ilcds = ilcdDao.findByUuid(id);
-            //System.out.println(ilcds.size());
-            //if (!ilcds.isEmpty()) {
-            //Ilcd ilcd = ilcds.get(0);
-            Ilcd ilcd = ilcdDao.findOne(id);
-            //} else {
-            //    System.out.println("Esta vazio");
-            //}
-            //model.put("user", user);
+            // TODO: Alterara status1 para statusSelecionado
+            Status status1 = statusDao.findOne(id);
+            model.put("status1", status1);
+            Ilcd ilcd = status1.getIlcd();
             model.put("ilcd", ilcd);
-            model.put("archive", ilcd.getHomologation().getLastArchive());
-            return "tecnicalreview/item";
+            // TODO: Alterara status1 para statusHistorico
+            List<Status> status2 = statusDao.findByIlcdAndType(ilcd, 2);
+            model.put("status2", status2);
+            return "qualityreview/item";
         } catch (Exception e) {
             return "error";
         }

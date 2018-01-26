@@ -208,10 +208,10 @@
                         Acompanhamento de revisões 
                     </div>
                     <ul class="nav nav-tabs" style="padding: 1px;border-bottom:5px solid #4DBCC4;">
-                        <li class="active">
+                        <li class="active" id="abas1">
                             <a  href="#1" data-toggle="tab" title="Revisão Qualidata">Revisão Qualidata</a>
                         </li>
-                        <li>
+                        <li id="abas2" >
                             <a href="#2" data-toggle="tab" title="Revisão Técnica">Revisão Técnica</a>
                         </li>
                         <li class="disable">
@@ -219,39 +219,161 @@
                         </li>
                     </ul> 
 
-                    <div class="tab-content " >
+                    <div class="tab-content" >
                         <c:forEach var="statu" items="${status}"> 
-                            <div class="tab-pane active" id="1">
-                                <c:choose>
-                                    <c:when test="${statu.type == 0}">
-                                        <div class="row" style="color: #00697C; margin: 10px 0;">
-                                            Envio do autor
-                                        </div>
-                                        <div class="row">
-                                            <div class="col s1">
-                                                <i class="fa fa-angle-right" aria-hidden="true" style="color: #00697C;"></i>
-                                            </div>
-                                            <div class="col s4">
-                                                <a href="#"><i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i> ILCD.zip</a>
-                                            </div>
-                                            <div class="col offset-s1 s6">
-                                                <a href="<%=Strings.BASE%>/gestor/${ilcd.id}/invite" class="btn" title="Convidar Revisor" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Convidar Revisor</a>
-                                            </div>
-                                        </div>
-                                    </c:when>
-                                    <c:when test="${statu.type == 1}">
-                                        <div class="row" style="color: #00697C; margin: 10px 0;">
-                                            Enviado para  <a href="#" style="color: #00697C; font-weight: bold; margin: 0 10px;">${statu.revisor.firstName}</a> <a href="#" style="color:#6B6B6A;text-decoration: underline;">Cancelar Convite</a>
-                                        </div>
+                            <c:choose>
+
+                                <c:when test="${statu.type == 1}">
+                                    <div class="tab-pane active" id="1">
+                                        <c:choose>
+                                            <c:when test="${empty statu.accept}">
+                                                <div class="row" style="color: #00697C; margin: 10px 0;">
+                                                    Enviado para  <a href="#" style="color: #00697C; font-weight: bold; margin: 0 10px;">${statu.revisor.firstName}</a> <a href="#" style="color:#6B6B6A;text-decoration: underline;">Cancelar Convite</a>
+                                                </div>
+                                            </c:when>
+                                            <c:when test="${not empty statu.accept and not statu.accept}">
+                                                <div class="row" style="color: #00697C; margin: 10px 0;">
+                                                    <a href="#" style="color: #00697C; font-weight: bold; margin: 0 10px;">${statu.revisor.firstName}</a> recusou o convite.
+                                                </div>
+                                            </c:when>
+                                            <c:when test="${not empty statu.accept and statu.accept}">
+                                                <c:choose>
+                                                    <c:when test="${statu.closed}">
+                                                        <c:choose>
+                                                            <c:when test="${statu.result == 1}">
+                                                                <div class="row">
+                                                                    <div class="col s6" style="color: #ACCC5F;">
+                                                                        Aprovado
+                                                                    </div>
+                                                                    <div class="col s6">
+                                                                        <a href="#" style="color: #ACCC5F;"><i class="fa fa-file-text-o" aria-hidden="true"></i> Ver revisão<span style="color: #6B6B6A;"> - 11/10/2017</span></a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col s12">
+                                                                        <a href="#" class="btn">Ir para Revisão Técnica</a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col s12">
+                                                                        Caso não concorde com a Revisão “<span style="color: #ACCC5F;">aprovado</span>”
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin: 0;">
+                                                                    <div class="col s12">
+                                                                        <p style="margin: 0;">
+                                                                            <input class="with-gap" name="t1" value="1" type="radio" id="t1" />
+                                                                            <label for="t1">Convidar outro qualidata</label>
+                                                                        </p>  
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin: 0;">
+                                                                    <div class="col s12">
+                                                                        <p style="margin: 0;">
+                                                                            <input class="with-gap" name="t1" value="2" type="radio" id="t2" />
+                                                                            <label for="t2">Arquivar</label>
+                                                                        </p>  
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin: 0;">
+                                                                    <div class="col s12">
+                                                                        <p style="margin: 0;">
+                                                                            <input class="with-gap" name="t1" value="3" type="radio" id="t3" />
+                                                                            <label for="t3">Solicitar nova revisão</label>
+                                                                        </p>  
+                                                                    </div>
+                                                                </div>
+                                                            </c:when>
+                                                            <c:when test="${statu.result == 2}">
+                                                                <div class="row">
+                                                                    <div class="col s6" style="color: #00697C;">
+                                                                        Aprovado com correções
+                                                                    </div>
+                                                                    <div class="col s6">
+                                                                        <a href="#" style="color: #00697C;"><i class="fa fa-file-text-o" aria-hidden="true"></i> Ver revisão<span style="color: #6B6B6A;"> - 11/10/2017</span></a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col s12">
+                                                                        Caso não concorde com a Revisão “<span style="color: #00697C;">Aprovado com correções</span>”
+                                                                    </div>
+                                                                </div>
+                                                            </c:when>
+                                                            <c:when test="${statu.result == 3}">
+                                                                <div class="row">
+                                                                    <div class="col s6" style="color: #C3697C;">
+                                                                        Reprovado
+                                                                    </div>
+                                                                    <div class="col s6">
+                                                                        <a href="#" style="color: #C3697C;"><i class="fa fa-file-text-o" aria-hidden="true"></i> Ver revisão<span style="color: #6B6B6A;"> - 11/10/2017</span></a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col s12">
+                                                                        Caso não concorde com a Revisão “<span style="color: #C3697C;">reprovado</span>”
+                                                                    </div>
+                                                                </div>
+                                                            </c:when>
+                                                        </c:choose>
+                                                    </c:when>
+                                                    <c:when test="${not statu.closed}">
+                                                        <div class="row" style="color: #00697C; margin: 10px 0;">
+                                                            Em revisão com <a href="#" style="color: #00697C; font-weight: bold; margin: 0 10px;">${statu.revisor.firstName}</a>
+                                                        </div>
+                                                    </c:when>
+                                                </c:choose>
+                                            </c:when>
+                                        </c:choose>
                                         <hr />
-                                    </c:when>
-                                </c:choose>
-                            </div>
-                            <div class="tab-pane" id="2">
-                            </div>
-                            <div class="tab-pane" id="3">
-                            </div>
+                                    </div>
+                                </c:when>
+
+
+                                <c:when test="${statu.type == 2}">
+                                    <div class="tab-pane" id="2">
+                                        <c:choose>
+                                            <c:when test="${empty statu.accept}">
+                                                <div class="row" style="color: #00697C; margin: 10px 0;">
+                                                    Enviado para  <a href="#" style="color: #00697C; font-weight: bold; margin: 0 10px;">${statu.revisor.firstName}</a> <a href="#" style="color:#6B6B6A;text-decoration: underline;">Cancelar Convite</a>
+                                                </div>
+                                                <hr />
+                                            </c:when>
+                                            <c:when test="${not empty statu.accept and not statu.accept}">
+                                                <div class="row" style="color: #00697C; margin: 10px 0;">
+                                                    <a href="#" style="color: #00697C; font-weight: bold; margin: 0 10px;">${statu.revisor.firstName}</a> recusou o convite.
+                                                </div>
+                                                <hr />
+                                            </c:when>
+                                            <c:when test="${not empty statu.accept and statu.accept}">
+                                                Em revisão
+                                            </c:when>
+                                        </c:choose>
+                                    </div>
+                                </c:when>
+
+
+                                <c:when test="${statu.type == 3}">
+                                    <div class="tab-pane" id="3">
+                                    </div>
+                                </c:when>
+
+                            </c:choose>
                         </c:forEach>
+
+                    </div>
+                    <div class="row" style="color: #00697C; margin: 10px 0;">
+                        Envio do autor
+                    </div>
+                    <div class="row">
+                        <div class="col s1">
+                            <i class="fa fa-angle-right" aria-hidden="true" style="color: #00697C;"></i>
+                        </div>
+                        <div class="col s4">
+                            <a href="#"><i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i> ILCD.zip</a>
+                        </div>
+                        <div class="col offset-s1 s6">
+                            <a id="invite" href="<%=Strings.BASE%>/gestor/${ilcd.id}/invite?type=1" class="btn" title="Convidar Revisor" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Convidar Revisor</a>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -262,10 +384,21 @@
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
         <script>
             $(document).ready(function () {
-                // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
-                $('.modal').modal();
-
+                activaTab(2);
+                $("#abas1").on("click", function () {
+                    console.log(Object.keys($("#1")).length);
+                    $('#invite').attr("href", "<%=Strings.BASE%>/gestor/${ilcd.id}/invite?type=1");
+                });
+                $("#abas2").on("click", function () {
+                    if (Object.keys($("#2")).length === 0) {
+                        $('.tab-content').append('<div class="tab-pane" id="2"></div>');
+                    }
+                    $('#invite').attr("href", "<%=Strings.BASE%>/gestor/${ilcd.id}/invite?type=2");
+                });
             });
+            function activaTab(tab) {
+                $('.nav-tabs a[href="#' + tab + '"]').tab('show');
+            };
         </script>
     </body>
 

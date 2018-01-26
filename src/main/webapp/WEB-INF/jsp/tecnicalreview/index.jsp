@@ -1,14 +1,22 @@
-<%-- 
-    Document   : home
-    Created on : 11/05/2017, 09:48:46
-    Author     : Deivdy.Silva
---%>
+<%@page import="br.com.ibict.acv.sicv.model.Status"%>
+<%@page import="br.com.ibict.acv.sicv.model.Homologacao"%>
+<%@page import="java.util.Calendar"%>
+<%@page import="br.com.ibict.acv.sicv.model.Ilcd"%>
+<%@page import="java.util.Date"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+
 <%@page import="resources.Strings"%>
 <%@page import="br.com.ibict.acv.sicv.model.User"%>
+
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<link rel="apple-touch-icon" sizes="57x57" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-57x57.png" />
+<%
+    String base = Strings.BASE;
+    pageContext.setAttribute("base", base);
+%>
+<c:set var="link" value="${base}/authorIlcd" />
+<sec:authorize access="hasAuthority('USER')" var="isUser" />
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -16,7 +24,6 @@
     <head>
         <meta charset="UTF-8">
         <title>SICV</title>
-
         <link rel="apple-touch-icon" sizes="57x57" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-57x57.png" />
         <link rel="apple-touch-icon" sizes="60x60" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-60x60.png" />
         <link rel="apple-touch-icon" sizes="72x72" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-72x72.png" />
@@ -35,170 +42,141 @@
         <meta name="msapplication-TileImage" content="<%=Strings.BASE%>/assets/images/favicon/ms-icon-144x144.png" />
         <meta name="theme-color" content="#ffffff" />
 
-        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
-        <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/steps.css">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/font/font-awesome/css/font-awesome.min.css">
+        <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
 
         <style>
             html {
                 font-family: 'Titillium Web', "Roboto", sans-serif;
             }
 
-            nav {
-                background-color: #4dbcc4;
-            }
-
-            nav .brand-logo {
-                margin-left: 50px;
-            }
-
-            nav .brand-logo img {
-                margin-right: 20px;
-                vertical-align: middle;
-            }
-
-            .container {
-            }
-
             .page-title {
-                color: #00697c;
+                color: #4dbcc4;
             }
-
+            .page-subtitle {
+                color: #666;
+            }
             .btn-import {
                 background-color: #accc5f;
             }
-
-            .user-menu {
-                border-bottom: 2px solid silver;
-                margin: 60px 80px 20px 80px;
-                height: 30px;
+            .table {
+                width: 100% !important;
+                max-width: 100%;
             }
-
-            .item-menu {
-                border-right: 2px solid silver;
-                height: 30px;
+            .head {
+                color: #999;
             }
-
-            .item-menu2 {
-                text-align: center;
-                border-left: 2px solid silver;
-                height: 30px;
-            }
-
-            .item-menu3 {
-                text-align: right;
-                height: 30px;
-            }
-
-            .link-menu {
-                color: #00697c;
-                font-weight: bold;
-                font-size: 16px;
-            }
-
-            .link-menu2 {
-                color: #c3697c;
-                font-weight: bold;
-                font-size: 16px;
-            }
-
-            .link-menu3 {
-                color: #00697c;
-                font-size: 16px;
-            }
-
-            .notif-num {
-                position: relative;
-                top: -5px;
-            }
-
-            .sicv-container {
-                margin: 0px 80px 0px 80px;
-            }
-
             .sicv-table-th {
                 color: #4dbcc4;
                 border-bottom: 1px solid silver;
-                border-top: 1px solid black;
+                /*border-top: 1px solid silver;*/
+                padding: 0 !important;
+                height: 30px;
             }
 
             .sicv-table-td {
                 border-bottom: 1px solid silver;
+                color: #999;
+                padding: 0 !important;
             }
+
         </style>
-        <link rel="stylesheet" href="steps.css">
     </head>
 
     <body>
 
-        <jsp:include page="/WEB-INF/jsp/partials/nav.jsp" />
+        <jsp:include page="/WEB-INF/jsp/partials/nav.jsp"/>
         <div class="headerDiv">
             <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
         </div>
 
-        <div class="row sicv-container">
-            <h4 class="page-title">Revisão Tecnica</h4>
+        <div class="principalDiv">
+
+            <div class="row sicv-container">
+                <h4 class="page-title">Revisão Tecnica</h4>
+            </div>
+
+            <c:if test="${not empty invite}">
+                <c:forEach var="status1" items="${invite}"> 
+
+                    <div class="row sicv-container" style="padding-top:10px;background-color: #d7eef0; width: 75%; float: left;">
+                        <h5 style="color:#4dbcc4; margin:20px;">Aguardando confirmação ou cancelamento</h5>
+                        <div class="row">
+                            <a class="col s12" style="margin:0 20px;color:#00728a;" href="<%=Strings.BASE%>/tecnicalreview/${status1.id}">${status1.ilcd.title}<i style="color: #c3697c; margin-left: 10px;" class="fa fa-eye"></i></a>
+                        </div>
+                    </div>
+                </c:forEach>
+            </c:if>
+
+            <!--Lista de revisões-->
+            <c:if test="${not empty work}">
+
+                <div class="row">
+                    <h6 style="color:#4dbcc4;font-weight: bold;">Histórico de Revisões Qualidata</h6>	
+                </div>
+                <div class="row">
+                    <div style="margin:0px;" class="row">
+                        <div class="col s2 sicv-table-th">Autor</div>
+                        <div class="col s4 sicv-table-th">Nome</div>
+                        <div class="col s2 sicv-table-th">Gestor</div>
+                        <div class="col s2 sicv-table-th">Pendências</div>
+                        <div class="col s2 sicv-table-th">Prazo para entregar</div>
+                    </div>
+                    <c:forEach var="status2" items="${work}">
+                        <div style="cursor:pointer; margin:0px;" class="row" onclick="window.location = '<%=Strings.BASE%>/tecnicalreview/${status2.id}';">
+                            <div style="height: 40px; position: relative; top: 10px;" class="col s2 sicv-table-td">
+                                ${status2.ilcd.user.firstName}
+                            </div>
+                            <div style="padding: 10px;text-overflow: ellipsis; white-space: nowrap; overflow: hidden; height: 40px; position: relative; top: 10px; " class="col s4 sicv-table-td">
+                                <div title="${status2.ilcd.title}" style="width: 75%;text-overflow: ellipsis; white-space: nowrap; overflow: hidden;">${status2.ilcd.title}</div>
+                            </div>
+                            <div style="height: 40px; position: relative; top: 10px;" class="col s2 sicv-table-td">
+                                ${status2.ilcd.homologation.user.firstName}
+                            </div>
+                            <div style="height: 40px; position: relative; top: 10px;" class="col s2 sicv-table-td">
+                                <c:choose>
+                                    <c:when test="${empty status2.endDate}">
+                                        <i style="color: #c3697c;" class="fa fa-exclamation-triangle"></i>
+                                    </c:when>
+                                    <c:when test="${not empty status2.endDate}">
+                                        <i style="color: #accc5f;" class="fa fa-check"></i>
+                                    </c:when>
+                                </c:choose>
+
+                            </div>
+                            <div style="height: 40px; position: relative; top: 10px;" class="col s2 sicv-table-td">
+                                <%
+                                    Status status = (Status) pageContext.getAttribute("status2");
+                                    Calendar cal = Calendar.getInstance();
+                                    cal.setTime(status.getRequestDate());
+                                    int dtInit = cal.get(Calendar.DAY_OF_YEAR);
+                                    cal.setTime(status.getExpectedDate());
+                                    int dtLimit = cal.get(Calendar.DAY_OF_YEAR);
+                                    String resporta;
+                                    Boolean style;
+                                    if ((dtLimit - dtInit) < 0) {
+                                        resporta = "atrasado";
+                                        style = true;
+                                    } else {
+                                        resporta = (dtLimit - dtInit) + " dias";
+                                        style = false;
+                                    }
+                                    pageContext.setAttribute("prazoStyle", style);
+                                    pageContext.setAttribute("prazo", resporta);
+                                %>
+                                ${prazo}
+                            </div>
+                        </div>
+                    </c:forEach>
+                </div>
+            </c:if>
+
         </div>
 
-        <c:if test="${not empty invite}">
-            <div class="row sicv-container">
-                <p class="page-description">Confirme sua participação como revisor e acompanhe os inventários que lhe foram atribuidos para realizar a revisão de Qualidade</p>
-            </div>
-            <c:forEach var="homologacao" items="${invite}"> 
-
-                <div class="row sicv-container" style="padding-top:10px;background-color: #d7eef0;">
-                    <h5 style="color:#4dbcc4; margin:20px;">Aguardando confirmação ou cancelamento</h5>
-                    <!--<div class="row">
-                        <a style="margin:20px;color:#00728a;" href="#">Particle board, at plant, for indoor use, 7.4% water content, from virgin wood, BR 2012</a><i style="color:red;" class="material-icons">do_not_disturb</i><i style="color:green;" class="material-icons">check</i>
-                    </div>
-                    <div class="row">
-                        <a style="margin:20px;color:#00728a;" href="#">Cotton boll production_unlinked</a><i style="color:red;" class="material-icons">do_not_disturb</i><i style="color:green;" class="material-icons">check</i>
-                    </div>-->
-                    <div class="row">
-                        <a class="col s1 offset-s7" style="margin:0 20px;color:#00728a;" href="#">${homologacao.ilcd.title}</a><a class="col s1" href="refused" ><i style="color:red;" class="material-icons">do_not_disturb</i></a><a class="col s1" href="<%=Strings.BASE%>/qualityreview/accept/${homologacao.id}" ><i style="color:green;" class="material-icons">check</i></a>
-                    </div>
-                </div>
-            </c:forEach>
-        </c:if>
-
-        <c:if test="${not empty work}">
-            <div class="sicv-container sicv-inventori-table">
-                <div class="row">
-                    <h6 style="color:#4dbcc4;">Invéntarios em andamento</h6>
-                </div>
-                <div style="margin:0px;" class="row">
-                    <div class="col s3 sicv-table-th">Id</div>
-                    <div class="col s3 sicv-table-th">Nome</div>
-                    <div class="col s1 sicv-table-th" style="text-align: center;">Pendências</div>
-                    <div class="col s2 sicv-table-th" style="text-align: center;">Prazo para entregar</div>
-                </div>
-                <c:forEach var="homologacao" items="${work}">
-                    <div style="margin:0px;cursor:pointer;" class="row" onclick="window.location = '<%=Strings.BASE%>/tecnicalreview/${homologacao.ilcd.id}';">
-                        <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">${homologacao.ilcd.uuid}</div>
-                        <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">${homologacao.ilcd.title}</div>
-                        <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #c3697c;" class="material-icons">report_problem</i></div>
-                        <div style="height: 40px;  text-align: center; position: relative; top: 10px;" class="col s2 sicv-table-td">5 dias</div>
-                    </div>
-                        <!--
-                    <div style="margin:0px;cursor:pointer;" class="row" onclick="window.location = '<%=Strings.BASE%>/qualityreview/1';">
-                        <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">266c5da8-55bc-4d58-a4af-cbf7724f7939</div>
-                        <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">Phenol from cumene production mix, at producer</div>
-                        <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #accc5f;" class="material-icons">check</i></div>
-                        <div style="height: 40px;  text-align: center; position: relative; top: 10px;" class="col s2 sicv-table-td">Entregue</div>
-                    </div>-->
-                </c:forEach>
-            </div>
-        </c:if>
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
-        <c:if test="${not empty teste}">
-            <c:forEach var="contato" items="${teste}"> 
-                ${contato}
-            </c:forEach>
-        </c:if>
-
-
     </body>
 
 </html>
