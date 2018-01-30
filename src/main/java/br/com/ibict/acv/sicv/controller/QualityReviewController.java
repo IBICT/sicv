@@ -142,12 +142,6 @@ public class QualityReviewController {
     @RequestMapping(value = {"/{id}/review", "/{id}/review/"}, method = RequestMethod.POST)
     public String reviewAction(Map<String, Object> model, @PathVariable("id") Long id, @RequestParam Map<String,String> allRequestParams) {
         try {
-//            for (Map.Entry<String, String> param : allRequestParams.entrySet()) {
-//                String key = param.getKey();
-//                String value = param.getValue();
-//                System.out.println(key+" = "+value);
-//            }
-            
             Status status = statusDao.findOne(id);
             Gson gson = new Gson();
             QualiData qualiData = gson.fromJson(allRequestParams.get("json"), QualiData.class);

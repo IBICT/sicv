@@ -86,6 +86,9 @@ public class Status implements Serializable {
     @OneToOne(cascade = CascadeType.REFRESH)
     private QualiData qualiData;
     
+    @OneToOne(cascade = CascadeType.REFRESH)
+    private TechnicalReviewer technicalReviewer;
+    
     @Expose
     private Boolean accept;
     
@@ -224,6 +227,14 @@ public class Status implements Serializable {
 
     public void setClosed(Boolean closed) {
         this.closed = closed;
+    }
+
+    public TechnicalReviewer getTechnicalReviewer() {
+        return technicalReviewer;
+    }
+
+    public void setTechnicalReviewer(TechnicalReviewer technicalReviewer) {
+        this.technicalReviewer = technicalReviewer;
     }
     
 }
