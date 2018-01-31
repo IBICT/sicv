@@ -55,10 +55,10 @@ public class TecnicalReviewController {
 
     @Autowired
     private HomologacaoDao homologacaoDao;
-    
+
     @Autowired
     private QualiDataDao qualiDataDao;
-    
+
     @Autowired
     private TechnicalReviewerDao technicalReviewerDao;
 
@@ -79,7 +79,7 @@ public class TecnicalReviewController {
     @RequestMapping(value = {"accept/{id}/", "/accept/{id}/", "accept/{id}", "/accept/{id}"})
     public String accept(Map<String, Object> model, @PathVariable("id") Long id) {
         try {
-            
+
             Status status = statusDao.findOne(id);
             status.setAccept(true);
             status.setRequestDate(new Date());
@@ -87,23 +87,23 @@ public class TecnicalReviewController {
             calendar.add(Calendar.DATE, 5);
             status.setExpectedDate(calendar.getTime());
             statusDao.save(status);
-            
+
             Homologacao homo = status.getIlcd().getHomologation();
             homo.setStatus(2);
             homologacaoDao.save(homo);
-            return "redirect:/tecnicalreview/"+status.getId();
+            return "redirect:/tecnicalreview/" + status.getId();
         } catch (Exception e) {
             return "error";
         }
     }
-    
+
     @RequestMapping(value = {"refuse/{id}/", "/refuse/{id}/", "refuse/{id}", "/refuse/{id}"})
     public String refuse(Map<String, Object> model, @PathVariable("id") Long id) {
         try {
             Status status = statusDao.findOne(id);
             status.setAccept(false);
             statusDao.save(status);
-            return "redirect:/tecnicalreview/"+status.getId();
+            return "redirect:/tecnicalreview/" + status.getId();
         } catch (Exception e) {
             return "error";
         }
@@ -137,8 +137,8 @@ public class TecnicalReviewController {
             String name = user.getFirstName();
             Status status1 = statusDao.findOne(id);
             TechnicalReviewer technicalReviewer2 = null;
-            if(status1.getId() > 2){
-                technicalReviewer2 = statusDao.findOne(status1.getId()-1).getTechnicalReviewer();
+            if (status1.getId() > 2) {
+                technicalReviewer2 = statusDao.findOne(status1.getId() - 1).getTechnicalReviewer();
             }
             TechnicalReviewer technicalReviewer1 = status1.getTechnicalReviewer();
             model.put("technicalReviewer1", technicalReviewer1);
@@ -150,15 +150,18 @@ public class TecnicalReviewController {
             return "error";
         }
     }
-    
+
     @RequestMapping(value = {"/{id}/review", "/{id}/review/"}, method = RequestMethod.POST)
-    public String reviewAction(Map<String, Object> model, @PathVariable("id") Long id, @RequestParam Map<String,String> allRequestParams, @RequestParam("file") MultipartFile file) {
+    public String reviewAction(Map<String, Object> model, @PathVariable("id") Long id, @RequestParam Map<String, String> allRequestParams, @RequestParam("file") MultipartFile file) {
         try {
+
+            
             Status status = statusDao.findOne(id);
             Gson gson = new Gson();
             
             TechnicalReviewer technicalReviewer = gson.fromJson(allRequestParams.get("json"), TechnicalReviewer.class);
-            Integer resultado = gson.fromJson(allRequestParams.get("resultado"), Integer.class);
+            if (allRequestParams.containsKey("result"))
+                status.setResult(new Integer(allRequestParams.get("result")));
             
             if( !file.isEmpty() ){
                 Path path = Paths.get(Strings.UPLOADED_FOLDER + status.getArchive().getPathFile());
@@ -178,21 +181,37 @@ public class TecnicalReviewController {
             }
             technicalReviewerDao.save(technicalReviewer);
             status.setTechnicalReviewer(technicalReviewer);
-            status.setResult(resultado);
+            
             status.setEndDate(new Date());
             if(allRequestParams.get("tipo").equals("2")){
                status.setClosed(true);
                statusDao.save(status);
-               return "redirect:/qualityreview/"+status.getId();
+               return "redirect:/tecnicalreview/"+status.getId();
             } else {
                 status.setClosed(false);
                 statusDao.save(status);
-                return "redirect:/qualityreview/"+status.getId();
+                return "redirect:/tecnicalreview/"+status.getId();
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());
             e.printStackTrace();
             return "ERRO 500";
+        }
+    }
+    
+    @RequestMapping(value = {"/{id}/view", "/{id}/view/"})
+    public String reviewView(Map<String, Object> model, @PathVariable("id") Long id) {
+        try {
+            User user = (User) session().getAttribute("user");
+            String name = user.getFirstName();
+            Status status1 = statusDao.findOne(id);
+            TechnicalReviewer technicalReviewer1 = status1.getTechnicalReviewer();
+            model.put("technicalReviewer1", technicalReviewer1);
+            model.put("username", name);
+            model.put("status", status1);
+            return "tecnicalreview/view";
+        } catch (Exception e) {
+            return "error";
         }
     }
 

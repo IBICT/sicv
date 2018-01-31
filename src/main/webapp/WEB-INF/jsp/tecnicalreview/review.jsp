@@ -121,7 +121,7 @@
                                     </div>
                                 </div>
                                 <div class="row" style="margin:0px;">
-                                    <textarea name="comment1" class="col s6" style="resize: none; height:60px; border: 2px #008491 solid;" id="q1c" cols="30" rows="20">${qualiData1.comment1}</textarea>
+                                    <textarea name="comment1" class="col s6" style="resize: none; height:60px; border: 2px #008491 solid;" id="q1c" cols="30" rows="20">${technicalReviewer1.comment1}</textarea>
                                     <div class="col s6">
                                         <textarea disabled style="resize:none; border:0; height:60px;" name="" id="" cols="30" rows="10"></textarea>
                                     </div>
@@ -137,7 +137,7 @@
                                     </div>
                                 </div>
                                 <div class="row" style="margin:0px;">
-                                    <textarea name="comment2" class="col s6" style="resize: none; height:60px; border: 2px #008491 solid;" id="q1c" cols="30" rows="20">${qualiData1.comment2}</textarea>
+                                    <textarea name="comment2" class="col s6" style="resize: none; height:60px; border: 2px #008491 solid;" id="q1c" cols="30" rows="20">${technicalReviewer1.comment2}</textarea>
                                     <div class="col s6">
                                         <textarea disabled style="resize:none; border:0; height:60px;" name="" id="" cols="30" rows="10">
                                         </textarea>
@@ -154,7 +154,7 @@
                                     </div>
                                 </div>
                                 <div class="row" style="margin:0px;">
-                                    <textarea name="comment3" class="col s6" style="resize: none; height:60px; border: 2px #008491 solid;" id="q1c" cols="30" rows="20">${qualiData1.comment3}</textarea>
+                                    <textarea name="comment3" class="col s6" style="resize: none; height:60px; border: 2px #008491 solid;" id="q1c" cols="30" rows="20">${technicalReviewer1.comment3}</textarea>
                                     <div class="col s6">
                                         <textarea disabled style="resize:none; border:0; height:60px;" name="" id="" cols="30" rows="10"> 
                                         </textarea>
@@ -192,15 +192,15 @@
                             </div>
                             <div class="row">
                                 <p>
-                                    <input class="with-gap" name="resultado" value="1" type="radio" id="test1" />
+                                    <input class="with-gap" name="result" value="1" type="radio" id="test1" />
                                     <label for="test1">aprovado</label>
                                 </p>
                                 <p>
-                                    <input class="with-gap" name="resultado" value="2" type="radio" id="test2" />
+                                    <input class="with-gap" name="result" value="2" type="radio" id="test2" />
                                     <label for="test2">aprovado com correções</label>
                                 </p>
                                 <p>
-                                    <input class="with-gap" name="resultado" value="3" type="radio" id="test3" />
+                                    <input class="with-gap" name="result" value="3" type="radio" id="test3" />
                                     <label for="test3">reprovado</label>
                                 </p>
                             </div>
@@ -220,17 +220,20 @@
                                     function getData() {
                                         var data = {};
                                         $("form").serializeArray().map(function (x) {
-                                            data[x.name] = x.value;
+                                            if (/comment/.test(x.name)) {
+                                                data[x.name] = x.value;
+                                            }
                                         });
                                         return data;
                                     }
                                     function enviar(tipo) {
                                         $("form").submit(function () {
                                             var data = getData();
-                                            $(this).find("input[name^='q']").each(function () {
+                                            $(this).find("input[name^='comment']").each(function () {
                                                 $(this).val('');
                                             });
-                                            data['id'] = ${not empty qualiData1.id ? qualiData1.id:'null'};
+                                            data['id'] = ${not empty technicalReviewer1.id ? technicalReviewer1.id:'null'};
+                                            console.log(data);
                                             $(":input[value='']").attr('disabled', true);
                                             var input = $("<input />")
                                                     .attr("type", "hidden")
@@ -242,6 +245,7 @@
                                                     .attr("name", "tipo").val(tipo);
                                             $('form').append($(input2));
                                         });
+
                                     }
                                     $(document).ready(function () {
 
