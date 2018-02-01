@@ -1,6 +1,5 @@
 package br.com.ibict.acv.sicv.controller;
 
-import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -14,13 +13,13 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
-import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
-import java.util.zip.ZipFile;
 import java.util.zip.ZipOutputStream;
 
 import javax.servlet.http.HttpServletRequest;
@@ -57,11 +56,11 @@ import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.HomologacaoDao;
 import br.com.ibict.acv.sicv.repositories.IlcdDao;
 import br.com.ibict.acv.sicv.repositories.NotificationDao;
+import br.com.ibict.acv.sicv.repositories.StatusDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.ExclStrat;
 import br.com.ibict.acv.sicv.util.Mail;
 import br.com.ibict.acv.sicv.util.Password;
-import java.util.Date;
 import resources.Strings;
 
 @Controller
@@ -69,6 +68,9 @@ public class HomeController {
 
     @Autowired
     private UserDao userDao;
+    
+    @Autowired
+    private StatusDao statusDao;
     
     @Autowired
     private HomologacaoDao homologationDao;
@@ -171,8 +173,64 @@ public class HomeController {
     @RequestMapping("/authorIlcd/{index}")
     public String getAuthorIlcd(Map<String, Object> model, @PathVariable("index") Integer index) {
     	Ilcd ilcd = ilcds.get(index);
-    	model.put("user", (User)session().getAttribute("user"));
+    	Status initialStatus = null, lastStatusManager = null, lastStatusQuality = null, lastStatusUser = null;
+    	Ilcd currentIlcd = ilcdDao.findById(ilcd.getId());
+    	List<Status> allStatus = currentIlcd.getStatus();
+    	User user = (User) session().getAttribute("user");
+    	List<Status> statusHistory = new ArrayList<Status>();
+    	for (Status status : allStatus) {
+    		if(status.getType() == 3){
+    			statusHistory.add(status);
+    			if(lastStatusUser != null){
+    				if(lastStatusUser.getId() < status.getId()){
+    					lastStatusUser = status;
+    				}
+    			}else{
+    				lastStatusUser = status;
+    			}
+    		}
+    		//retrieve the initial status 
+    		if(status.getType() == 0){
+    			if(initialStatus != null){
+    				if(initialStatus.getId() > status.getId()){
+    					initialStatus = status;
+    				}
+    			}else{
+    				initialStatus = status;
+    			}
+    			if(lastStatusManager != null){
+    				if(lastStatusManager.getId() < status.getId()){
+    					lastStatusManager = status;
+    				}
+    			}else{
+    				lastStatusManager = status;
+    			}
+    		}
+    		//retrieve the last quality review status
+    		if(status.getType() == 1){
+    			if(lastStatusQuality != null){
+    				if(lastStatusQuality.getId() < status.getId()){
+    					lastStatusQuality = status;
+    				}
+    			}else{
+    				lastStatusQuality = status;
+    			}
+    		}
+		}
+    	//if the last status manager id is after than last status user id fill last q+ status 
+    	if(lastStatusUser.getId() < lastStatusManager.getId()){
+    		model.put("lastStatusManager", lastStatusManager);
+    	}else{
+    		model.put("lastStatusManager", null);
+    	}
+    	Collections.reverse(statusHistory);
+
+    	model.put("user", user);
     	model.put("ilcd", ilcd);
+        model.put("username", user.getFirstName());
+        model.put("lastStatusUser", lastStatusUser);
+        model.put("statusHistory", statusHistory);
+    	model.put("initialStatus", initialStatus);
         return "index";
     }
     
@@ -339,6 +397,100 @@ public class HomeController {
         }
         
         return "redirect:" + Strings.BASE;
+    }
+    
+    @PostMapping("/ilcd/newAdjust/{id}") // //new annotation since 4.3
+    public String singleFileUpload(@RequestParam("file") MultipartFile file,
+    		@RequestParam("fileComplement") MultipartFile fileComplement, @PathVariable("id") Long idIlcd,
+    		RedirectAttributes redirectAttributes) throws Exception {
+    	if(!file.isEmpty()){
+
+	        try {
+	
+	        	Ilcd ilcd = ilcdDao.findById(idIlcd);
+	            // Get the file and save it somewhere. 1 is inicial version
+	            byte[] bytesfile = file.getBytes();
+	            Path path = Paths.get(Strings.UPLOADED_FOLDER + MD5(bytesfile));
+	            String pathResolve = path.resolve("ILCD.zip").toString();
+	
+	            if (path.toFile().exists()) {
+	                redirectAttributes.addFlashAttribute("message", "File exist, not replace.");
+	                return "redirect:/admin/ilcd/uploadStatus";
+	            }
+	            Files.createDirectory(path);
+	            Files.write(path.resolve("./ILCD.zip"), bytesfile);
+	            User ilcdUser = (User) session().getAttribute("user");
+	            Status status = new Status();
+	            status.setType(0);
+	            status.setIlcd(ilcd);
+	            //move to zipToIlcd method after refactoring;
+	            ilcd.setName(file.getOriginalFilename());
+	            
+	            Archive archive = new Archive();
+	            archive.setStatus( status );
+	
+	            archive.setVersion( (ilcd.getHomologation().getLastArchive().getVersion() + 1) );
+	            status.setArchive(archive);
+	            ilcd.addStatus(status);
+	            
+	            status.getArchive().setPathFile( MD5(bytesfile) );
+	            if( !fileComplement.isEmpty() ){
+	            	status.getArchive().setComplementName( fileComplement.getOriginalFilename() );
+	            	File complementFile = new File(path.resolve("./" + "complement"+".zip").toString() );
+	            	ZipOutputStream out = new ZipOutputStream(new FileOutputStream(complementFile));
+	            	ZipEntry e = new ZipEntry(status.getArchive().getComplementName());
+	            	out.putNextEntry(e);
+	
+	            	byte[] data = fileComplement.getBytes();
+	            	out.write(data, 0, data.length);
+	            	out.closeEntry();
+	            	out.close();
+	            }
+	            
+	            Notification notification = new Notification();
+	            Homologacao homolog = ilcd.getHomologation();
+	            notification.setUser( ilcd.getUser().getId() );
+	            notification.fillMsgWAIT_REV( ilcd.getUuid() , ilcd.getTitle() );
+	            notification.setStatus(status);
+	            notification.setIlcd(ilcd);
+	            notification.setNotifyDate( Calendar.getInstance().getTime() );
+	            redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "' ilcd:" + ilcd.getTitle());
+	
+	            ilcd.addNotification(notification);
+	            homolog.setStatus(1);
+	            
+	            //Pendecia inicial verdadeira
+	            homolog.setPending(true);
+	
+	            // Prazo incial de 5 dias
+	            Date dt = new Date();
+	            Calendar c = Calendar.getInstance();
+	            c.setTime(dt);
+	            c.add(Calendar.DATE, 5);
+	            dt = c.getTime();
+	            homolog.setPrazo(dt);
+	            
+	            homolog.setSubmission( Calendar.getInstance().getTime() );
+	
+	            //salva o último arquivo para a homologacao
+	            homolog.setLastArchive( ilcd.getStatus().get(0).getArchive() );
+	            //ilcd.setHomologation(homolog);
+	            statusDao.save(status);
+	            //salvando homologação outros objetos são salvos e atualizados em cascata
+	            homologationDao.save(homolog);
+	            //ilcdUser.addHomologacao(homolog);
+	            //ilcdUser.setQntdNotificacoes( ilcdUser.getQntdNotificacoes()+ 1 );
+	            userDao.save(ilcdUser);
+	
+	        } catch (Exception e) {
+	            // TODO: handle exception like RegisterException
+	            throw new Exception("Ocorreu um erro ao submeter o inventário", e);
+	        }
+	        
+	        return "redirect:" + Strings.BASE;
+    	}
+        	redirectAttributes.addFlashAttribute("message", "Nenhum arquivo ILCD adicionado");
+        	return "redirect:/admin/ilcd/uploadStatus";
     }
 
     @RequestMapping(value = "/ilcd/{MD5_folder}", method = RequestMethod.GET)

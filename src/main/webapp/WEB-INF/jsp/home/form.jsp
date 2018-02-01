@@ -46,6 +46,20 @@
 	            padding: 0px !important;
 	            line-height: 0px;
 	        }
+	        
+	        .btn-addAuthor {
+	            background-color: #4DBCC4 !important;
+	            border-radius: 5px !important;
+	            font-size: 16px !important;
+	            font-weight: bold;
+	            text-align: center;
+	            color: white;
+	            padding-top: 10px;
+	            height: 49px;
+	            width: 182px;
+	            letter-spacing: .2px;
+	        }
+	        
 	        .btn-salvar {
 	            background-color: transparent !important;
 	            margin-left: 10px !important;
@@ -122,8 +136,8 @@
 	                   </div>
 	              	</div>
 				</div>
-				<div class="row" style="margin-top: -33px;">
-					<button class="btn-import waves-effect waves-light btn" id="btnAuthor">Acrescentar autor +</button>
+				<div class="row" style="margin-top: -33px;margin-left: 10px;cursor: pointer;">
+					<div class="btn-addAuthor" id="btnAuthor">Acrescentar autor +</div>
 				</div>
 				<div class="row">
 				    <div class="input-field col s6">
