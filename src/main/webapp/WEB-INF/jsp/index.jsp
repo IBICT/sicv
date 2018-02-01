@@ -199,7 +199,7 @@
                         <c:forEach var="statu" items="${statusHistory}"> 
                             <div class="tab-pane active" id="1">
                             	<c:choose>
-                            		<c:when test="${lastStatusUser.result != 3}">
+                            		<c:when test="${lastStatusUser.result != 2}">
                             			<c:if test="${lastStatusUser.result == 1}">
 	                            			<div class="col yellow-title bold" style="padding: 0;">Aprovado</div>
 											<div class="row">
@@ -213,7 +213,7 @@
 												 </a>
 											</div>
 										</c:if>
-										<c:if test="${lastStatusUser.result == 2}">
+										<c:if test="${lastStatusUser.result == 3}">
 	                            			<div class="col red-title bold" style="padding: 0;">Reprovado</div>
 											<div class="row">
 											</div>
@@ -228,17 +228,17 @@
 										</c:if>
                             		</c:when>
                             		<c:otherwise>
-		                            	<c:if test="${lastStatusManager.id != null}">
+		                            	<c:if test="${lastStatusUser.archive != null}">
 		                           		    <div class="row" style="margin: 10px 0;">
 		                                           <i style="font-size: 14px;">Enviado para  nova revisão</i>
 		                                    </div>
 		                                    <div class="row">
 												<i class="fa fa-angle-right" aria-hidden="true" style="color: #00697C;"></i>
-												<a href="<%=Strings.BASE%>/ilcd/${lastStatusManager.archive.pathFile}/?name=ILCD.zip"><i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i> ILCD.zip</a>
+												<a href="<%=Strings.BASE%>/ilcd/${lastStatusUser.archive.pathFile}/?name=ILCD.zip"><i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i> ILCD.zip</a>
 		                                    </div>
 		                                    <hr />
 		                            	</c:if>
-		                               	<c:if test="${lastStatusManager.id == null}">
+		                               	<c:if test="${lastStatusUser.archive == null}">
 		                                   	<div class="row input field">
 		                                   		<div class="row input-field">
 		                                    		<i>Anexar arquivos com as correções sugeridas</i>
@@ -249,7 +249,7 @@
 			                                        <div class="file-field input-field" style="bottom: 25px;margin-left: -10px;">
 														<span class="btn">Anexar ILCD *</span> <input type="file" class="btn" name="file" id="file">
 														<div class="file-path-wrapper" style="padding-left: 0px;">
-															<input placeholder="Escolha arquivo em formato ILCD" class="file-path validate" type="text" disabled="disabled" style="padding-left: 15px;">
+															<input placeholder="Escolha arquivo em formato ILCD" class="file-path validate" type="text" required="required" disabled="disabled" style="padding-left: 15px;">
 														</div>
 													</div>
 													<div class="file-field input-field" style="bottom: 25px; margin-left: -10px; margin-top: -5px;">

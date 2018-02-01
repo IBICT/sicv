@@ -1,12 +1,30 @@
 package br.com.ibict.acv.sicv.controller;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+import java.util.Map;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
+
+import javax.servlet.http.HttpSession;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+
+import resources.Strings;
 import br.com.ibict.acv.sicv.CustomAuthProvider;
-import static br.com.ibict.acv.sicv.controller.AdminController.session;
-import static br.com.ibict.acv.sicv.controller.HomeController.session;
-import static br.com.ibict.acv.sicv.controller.QualityReviewController.session;
 import br.com.ibict.acv.sicv.model.Homologacao;
 import br.com.ibict.acv.sicv.model.Ilcd;
-import br.com.ibict.acv.sicv.model.QualiData;
 import br.com.ibict.acv.sicv.model.Status;
 import br.com.ibict.acv.sicv.model.TechnicalReviewer;
 import br.com.ibict.acv.sicv.model.User;
@@ -15,29 +33,8 @@ import br.com.ibict.acv.sicv.repositories.IlcdDao;
 import br.com.ibict.acv.sicv.repositories.QualiDataDao;
 import br.com.ibict.acv.sicv.repositories.StatusDao;
 import br.com.ibict.acv.sicv.repositories.TechnicalReviewerDao;
+
 import com.google.gson.Gson;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.security.Principal;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-import java.util.zip.ZipEntry;
-import java.util.zip.ZipOutputStream;
-import javax.servlet.http.HttpSession;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
-import resources.Strings;
 
 /**
  *
@@ -165,10 +162,9 @@ public class TecnicalReviewController {
             
             if( !file.isEmpty() ){
                 Path path = Paths.get(Strings.UPLOADED_FOLDER + status.getArchive().getPathFile());
-            	status.getArchive().setComplementName( file.getOriginalFilename() );
             	File complementFile = new File(path.resolve("./" + "reviewAttachment"+".zip").toString() );
             	ZipOutputStream out = new ZipOutputStream(new FileOutputStream(complementFile));
-            	ZipEntry e = new ZipEntry(status.getArchive().getComplementName());
+            	ZipEntry e = new ZipEntry( file.getOriginalFilename() );
             	out.putNextEntry(e);
 
             	byte[] data = file.getBytes();

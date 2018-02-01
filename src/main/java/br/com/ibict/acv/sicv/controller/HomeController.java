@@ -14,7 +14,6 @@ import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
-import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -43,9 +42,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
+import resources.Strings;
 import br.com.ibict.acv.sicv.CustomAuthProvider;
 import br.com.ibict.acv.sicv.model.Archive;
 import br.com.ibict.acv.sicv.model.Homologacao;
@@ -61,7 +58,9 @@ import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.ExclStrat;
 import br.com.ibict.acv.sicv.util.Mail;
 import br.com.ibict.acv.sicv.util.Password;
-import resources.Strings;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @Controller
 public class HomeController {
@@ -173,7 +172,7 @@ public class HomeController {
     @RequestMapping("/authorIlcd/{index}")
     public String getAuthorIlcd(Map<String, Object> model, @PathVariable("index") Integer index) {
     	Ilcd ilcd = ilcds.get(index);
-    	Status initialStatus = null, lastStatusManager = null, lastStatusQuality = null, lastStatusUser = null;
+    	Status initialStatus = null, lastStatusUser = null;
     	Ilcd currentIlcd = ilcdDao.findById(ilcd.getId());
     	List<Status> allStatus = currentIlcd.getStatus();
     	User user = (User) session().getAttribute("user");
@@ -198,33 +197,9 @@ public class HomeController {
     			}else{
     				initialStatus = status;
     			}
-    			if(lastStatusManager != null){
-    				if(lastStatusManager.getId() < status.getId()){
-    					lastStatusManager = status;
-    				}
-    			}else{
-    				lastStatusManager = status;
-    			}
-    		}
-    		//retrieve the last quality review status
-    		if(status.getType() == 1){
-    			if(lastStatusQuality != null){
-    				if(lastStatusQuality.getId() < status.getId()){
-    					lastStatusQuality = status;
-    				}
-    			}else{
-    				lastStatusQuality = status;
-    			}
     		}
 		}
     	
-    	model.put("lastStatusManager", null);
-    	if(lastStatusManager != null && lastStatusUser != null){
-	    	//if the last status manager id is after than last status user id fill last q+ status 
-	    	if(lastStatusUser.getId() < lastStatusManager.getId()){
-	    		model.put("lastStatusManager", lastStatusManager);
-	    	}
-    	}
     	Collections.reverse(statusHistory);
 
     	model.put("user", user);
@@ -320,10 +295,9 @@ public class HomeController {
             zipToIlcd(pathResolve, ilcd);
             status.getArchive().setPathFile( MD5(bytesfile) );
             if( !review.isEmpty() && ilcd.getHasReview() ){
-            	status.getArchive().setReviewName( review.getOriginalFilename() );
-            	File reviewFile = new File(path.resolve("./" + "review" + ".zip").toString() );
+            	File reviewFile = new File(path.resolve("./" + review.getOriginalFilename()).toString() );
             	ZipOutputStream out = new ZipOutputStream(new FileOutputStream(reviewFile));
-            	ZipEntry e = new ZipEntry(status.getArchive().getReviewName());
+            	ZipEntry e = new ZipEntry(review.getOriginalFilename() + ".zip");
             	out.putNextEntry(e);
 
             	byte[] data = review.getBytes();
@@ -332,10 +306,9 @@ public class HomeController {
             	out.close();
             }
             if( !fileComplement.isEmpty() ){
-            	status.getArchive().setComplementName( fileComplement.getOriginalFilename() );
-            	File complementFile = new File(path.resolve("./" + "complement"+".zip").toString() );
+            	File complementFile = new File(path.resolve("./" + fileComplement.getOriginalFilename()).toString() );
             	ZipOutputStream out = new ZipOutputStream(new FileOutputStream(complementFile));
-            	ZipEntry e = new ZipEntry(status.getArchive().getComplementName());
+            	ZipEntry e = new ZipEntry(fileComplement.getOriginalFilename() + ".zip");
             	out.putNextEntry(e);
 
             	byte[] data = fileComplement.getBytes();
@@ -437,10 +410,9 @@ public class HomeController {
 	            
 	            status.getArchive().setPathFile( MD5(bytesfile) );
 	            if( !fileComplement.isEmpty() ){
-	            	status.getArchive().setComplementName( fileComplement.getOriginalFilename() );
 	            	File complementFile = new File(path.resolve("./" + "complement"+".zip").toString() );
 	            	ZipOutputStream out = new ZipOutputStream(new FileOutputStream(complementFile));
-	            	ZipEntry e = new ZipEntry(status.getArchive().getComplementName());
+	            	ZipEntry e = new ZipEntry( fileComplement.getOriginalFilename() );
 	            	out.putNextEntry(e);
 	
 	            	byte[] data = fileComplement.getBytes();
