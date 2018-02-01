@@ -30,7 +30,7 @@
         <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/steps.css">
-        <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/css/fonts.css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/font/font-awesome/css/font-awesome.min.css">
 
@@ -145,18 +145,18 @@
             </div>
             <div class="row">
                 <div class="col s4">
-                    <input type="text" placeholder="Usuário" />
+                    <input type="text" placeholder="Usuário" id="user" class="searchs" onclick="disableMailArea()"/>
                 </div>
                 <div class="col s4">
-                    <input type="text" placeholder="E-mail" />
+                    <input type="text" placeholder="E-mail" id="mail" class="searchs" onclick="disableUserArea()"/>
                 </div>
                 <div class="col s4">
-                    <input type="text" placeholder="Área" />
+                    <input type="text" placeholder="Área" id="area" class="searchs" onclick="disableUserMail()"/>
                 </div>
             </div>
             <div class="row">
                 <div class="col offset-s10 s2">
-                    <a class="btn" title="Convidar Revisor" style="color: #4DBCC4; background-color: #fff; border: 1px solid #4DBCC4; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;" href="#">Aplicar Filtro</a>
+                    <div class="btn" title="Convidar Revisor" id="searchTerm" onclick="filterApply();" style="color: #4DBCC4; background-color: #fff; border: 1px solid #4DBCC4; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Aplicar Filtro</div>
                 </div>
             </div>
             <form action="<%=Strings.BASE%>/gestor/invite" method="post">
@@ -173,7 +173,7 @@
                     </div>
 
                     <c:forEach items="${users}" var="user" varStatus="loop">
-                        <div style="margin:0px;" class="row">
+                        <div style="margin:0px;" class="row" id="tabUsers">
                             <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">
                                 ${user.firstName} ${user.lastName}
                             </div>
@@ -215,6 +215,33 @@
                     $("#type").val(1);
                 }
             });
+			function filterApply(){
+			    var value = ($('#user').val()+$('#mail').val()+$('#area').val()).toLowerCase();
+			    $("#tabUsers ").filter(function() {
+			      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+		    	});
+			}
+			function disableMailArea(){
+				$('#user').prop('readonly',false);
+				$('#mail').prop('readonly',true);
+				$('#area').prop('readonly',true);
+				$('#mail').val("");
+				$('#area').val("");
+			}
+			function disableUserMail(){
+			 	$('#area').prop('readonly',false);
+				$('#user').prop('readonly',true);
+				$('#mail').prop('readonly',true);
+				$('#user').val("");
+				$('#mail').val("");
+			}
+			function disableUserArea(){
+				$('#mail').prop('readonly',false);
+				$('#user').prop('readonly',true);
+				$('#area').prop('readonly',true);
+				$('#user').val("");
+				$('#area').val("");
+			}
         </script>
     </body>
 

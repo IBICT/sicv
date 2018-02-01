@@ -217,11 +217,13 @@ public class HomeController {
     			}
     		}
 		}
-    	//if the last status manager id is after than last status user id fill last q+ status 
-    	if(lastStatusUser.getId() < lastStatusManager.getId()){
-    		model.put("lastStatusManager", lastStatusManager);
-    	}else{
-    		model.put("lastStatusManager", null);
+    	
+    	model.put("lastStatusManager", null);
+    	if(lastStatusManager != null && lastStatusUser != null){
+	    	//if the last status manager id is after than last status user id fill last q+ status 
+	    	if(lastStatusUser.getId() < lastStatusManager.getId()){
+	    		model.put("lastStatusManager", lastStatusManager);
+	    	}
     	}
     	Collections.reverse(statusHistory);
 

@@ -10,7 +10,7 @@
     <title>Home</title>
     <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
     <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
-    <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+    <link rel="stylesheet" href="<%=Strings.BASE%>/assets/css/fonts.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <link rel="stylesheet" href="<%=Strings.BASE%>/assets/font/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="<%=Strings.BASE%>/assets/steps.css">
@@ -109,8 +109,6 @@
         }
 		/* Tabs */
 		.headerStatus {
-		    font-family: Titillium Web;
-		    font-style: normal;
 		    font-weight: 300;
 		    line-height: normal;
 		    font-size: 20px;
@@ -184,7 +182,9 @@
             
             <div class="col s5">
                     <div class="headerStatus">
-                        Acompanhamento de revisões 
+	                    <div>
+	                        <h5>Acompanhamento de revisões</h5> 
+	                    </div>
                     </div>
                     <ul class="nav nav-tabs" style="padding: 1px;border-bottom:5px solid #4DBCC4;">
                         <li class="active">
@@ -327,112 +327,3 @@
 </body>
 
 </html>
-
-<%--             <div class="col s6">
-            	<div class="row">
-	                <h5>Histórico</h5>
-            	</div>
-                <div class="row">
-                    <div class="col s3 bold">Data</div>
-                    <div class="col s3 yellow-title bold">Devolução técnica</div>
-                    <div class="col s6 bold page-title">Minha resposta para esta revisão</div>
-                </div>
-                
-	                <div class="row">
-	                    <div class="col s3">30/08/2017</div>
-	                    <div class="col s3 yellow-title"><i class="material-icons">insert_drive_file</i></div>
-                       	
-	                    <div class="col s6">
-	                        <div class="row">
-	                            <div class="file-field input-field">
-	                                <div class="btn btn-anexar">
-	                                    <span>Anexar ILCD</span>
-	                                </div>
-	                                <input type="file" class="btn" name="anexar" id="file" disabled="disabled">
-		                            <div class="file-path-wrapper">
-		                                <input placeholder="Escolha arquivo em formato ILCD" class="file-path validate" type="text" disabled="disabled">
-		                            </div>
-	                            </div>
-	                        </div>
-	                        <div class="row">
-	                            <div class="file-field input-field">
-	                                <div class="btn btn-anexar">
-	                                    <span>Comentário</span>
-	                                </div>
-									<input type="file" class="btn" name="anexar" id="file" disabled="disabled">
-		                            <div class="file-path-wrapper">
-		                                <input placeholder="Escolha arquivo em formato ILCD" class="file-path validate" type="text" disabled="disabled">
-		                            </div>
-	                            </div>
-	                        </div>
-	                        <div class="row">
-	                            <button class="btn col s6 offset-s6 btn-anexar" disabled="disabled">Enviar</button>
-	                        </div>
-	                    </div>
-	                </div>
-                <hr />
-                <c:forEach items="${ilcd.status}" var="status" varStatus="loop">
-                	<c:if test="${status.type eq 3 and status.status ne 4}">
-		                <div class="row">
-		                    <div class="col s3">${status.endDate}</div>
-		                    <div class="col s3 "><i class="material-icons yellow-title">insert_drive_file</i>
-	                    	<a href="#">
-	                       		PDF
-	                       	</a>
-		                    </div>
-		                    <div class="col s3">
-								<c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
-		                        <i class="material-icons page-title">insert_drive_file</i>
-			                    <a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
-		                       		ILCD.zip
-		                       	</a>
-		                    </div>
-		                    <div class="col s3">
-			                    <c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
-		                        <i class="material-icons page-title">insert_drive_file</i>
-	       		                    <a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=${status.archive.commentName}">
-		                       		${status.archive.commentName}
-		                       	</a>
-		                    </div>
-		                </div>
-	                	<hr />
-	                </c:if>
-                </c:forEach>
-				<c:forEach items="${ilcd.status}" var="status" varStatus="loop">
-                   	<c:if test="${status.type eq 2}">
-   	                   	<c:if test="${status.status eq 4}">
-			                <div class="row">
-			                    <div class="col s3">${status.endDate}</div>
-			                    <div class="col s9"><i>Qualidata aprovado | ILCD encaminhado para revisão Técnica |</i></div>
-			                </div>
-			                <hr />
-			                <div class="row">
-			                    <div class="col s4 bold offset-s2 liteblue-title" style="text-align: center;">Devolução Qualidata</div>
-			                    <div class="col s4 bold page-title" >Minha resposta para esta revisão</div>
-			                </div>
-		                </c:if>
-		                <div class="row">
-		                    <div class="col s3">${status.endDate}</div>
-		                    <div class="col s3"><i class="material-icons liteblue-title">insert_drive_file</i>
-	   		                    <a href="#">
-		                       		PDF
-		                       	</a>
-		                    </div>
-		                    <div class="col s3">
-			                    <c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
-		                        <i class="material-icons page-title">insert_drive_file</i>
-		                        	<a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
-		                        		ILCD.zip
-		                        	</a>
-		                    </div>
-		                    <div class="col s3">
-			                    <c:set var="pathFile" value="${ilcd.status[0].archive.pathFile}" />
-		                        <i class="material-icons page-title">insert_drive_file</i>
-								<a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=${status.archive.commentName}">
-		                       		${status.archive.commentName}
-		                       	</a>
-		                    </div>
-		                </div>
-	                </c:if>
-	                <hr />
-                </c:forEach> --%>

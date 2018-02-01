@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.css">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/font/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/steps.css">
-        <link href="https://fonts.googleapis.com/css?family=Titillium+Web" rel="stylesheet">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/css/fonts.css">
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <style>
             html {
@@ -161,7 +161,7 @@
         <div class="row">
             <div style="margin-right: 5%; float: right;">
                 <div class="search">
-                <input type="text" class="searchTerm" placeholder="busque autor, gestor, título">
+                <input type="text" class="searchTerm" id="searchTerm" placeholder="busque autor, gestor, título">
                 <button type="submit" class="searchButton">
                     <i class="fa fa-search"></i>
                 </button>
@@ -181,7 +181,7 @@
                 <div class="col s3" style="position: relative; left: 20px; color: #4dbcc4;">Status</div>
             </div>
             <c:forEach var="ilcd" items="${ilcds}"> 
-                <div style="margin:0px;" class="row" onclick="window.location = '<%=Strings.BASE%>/gestor/${ilcd.id}';">
+                <div style="margin:0px;" class="row" onclick="window.location = '<%=Strings.BASE%>/gestor/${ilcd.id}';" id="tabIlcdManager">
 
                     <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">${ilcd.uuid}</div>
                     <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">${ilcd.title}</div>
@@ -331,11 +331,17 @@
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
         <script>
-                    $(document).ready(function () {
-                        // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
-                        $('.modal').modal();
-
-                    });
+			$(document).ready(function () {
+			    // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+			    $('.modal').modal();
+			    
+				$("#searchTerm").on("keyup", function() {
+				    var value = $(this).val().toLowerCase();
+				    $("#tabIlcdManager ").filter(function() {
+				      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+				    });
+				});
+			});
         </script>
     </body>
 

@@ -36,10 +36,11 @@
         <meta name="theme-color" content="#ffffff" />
         
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/css/fonts.css">
         <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/font/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
-
+		
         <style>
             html {
                 font-family: 'Titillium Web', "Roboto", sans-serif;
@@ -165,15 +166,14 @@
 	        	<h4 class="page-title">
 	        		<c:out value="Administrador"></c:out>
 					<input class="btn btn-lg btn-primary btn-import" type="submit" value="Cadastrar novo usuário" onclick="location.href='<%=Strings.BASE%>/admin/insertProfile'"/>
-					<input type="Search" placeholder="busque um usuário" />
+					
+					<input type="Search" id="search" value="" placeholder="busque um usuário" />
 					<i class="fa fa-search" style="color: #00697C;font-size:16px;margin-left: -35px"></i>
 					
 	        	</h4>
 				
         	</div>
    			<br><br>
-   	
-<%--             		<input name="role" value="${user.roles['role']}"/> --%>
    	
             <div style="margin:0px;" class="row" >
 	            <div class="col s2 sicv-table-th" style="float: left;font-size: 18px;"><b style="float: left;">Lista de Usuários</b></div>
@@ -198,7 +198,7 @@
 					</c:if>
 				</c:forEach>
 
-	        	<div style="margin:0px;" class="row">
+	        	<div style="margin:0px;" class="row" id="tabUsers">
 				    <div class="col s1 sicv-table-td">
 				    	<a href="<%=Strings.BASE%>/admin/profile/${loop.index}" style="margin-left: 5px; float: left;"> Editar </a>
 				    </div>
@@ -230,9 +230,18 @@
 		    <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
 			<script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
 			<script type="application/javascript" src="<%=Strings.BASE%>/assets/adminProfiles.js"></script>
+			<script type="text/javascript">
+				$(document).ready(function(){
+					 $("#search").on("keyup", function() {
+					    var value = $(this).val().toLowerCase();
+					    $("#tabUsers ").filter(function() {
+					      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+					    });
+					 });
+				});
+			</script>
 
 	    </body>
-		
 </html>
 
 <!--                    
