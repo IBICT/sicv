@@ -1,6 +1,7 @@
 package br.com.ibict.acv.sicv.model;
 
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import javax.persistence.CascadeType;
@@ -28,7 +29,8 @@ public class Status implements Serializable {
      *
      */
     private static final long serialVersionUID = -1747311392295606955L;
-
+    private static final SimpleDateFormat DATEFORMAT = new SimpleDateFormat("dd/MM/yyyy");
+    
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
@@ -86,6 +88,9 @@ public class Status implements Serializable {
     @OneToOne(cascade = CascadeType.REFRESH)
     private QualiData qualiData;
     
+    @OneToOne(cascade = CascadeType.REFRESH)
+    private TechnicalReviewer technicalReviewer;
+    
     @Expose
     private Boolean accept;
     
@@ -113,6 +118,10 @@ public class Status implements Serializable {
 
     public void setRequestDate(Date requestDate) {
         this.requestDate = requestDate;
+    }
+    
+    public String getRequestDateString(){
+    	return DATEFORMAT.format(requestDate);
     }
 
     public Date getExpectedDate() {
@@ -224,6 +233,14 @@ public class Status implements Serializable {
 
     public void setClosed(Boolean closed) {
         this.closed = closed;
+    }
+
+    public TechnicalReviewer getTechnicalReviewer() {
+        return technicalReviewer;
+    }
+
+    public void setTechnicalReviewer(TechnicalReviewer technicalReviewer) {
+        this.technicalReviewer = technicalReviewer;
     }
     
 }

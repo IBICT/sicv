@@ -98,17 +98,17 @@ public class QualityReviewController {
 
      // TODO: resolver url path
     @RequestMapping(value = {"/{id}/", "{id}/", "{id}", "/{id}"})
-    public String itemDeteil(Map<String, Object> model, @PathVariable("id") Long id) {
+    public String itemDetail(Map<String, Object> model, @PathVariable("id") Long id) {
         try {
             User user = (User) session().getAttribute("user");
             String name = user.getFirstName();
             model.put("username", name);
-            // TODO: Alterara status1 para statusSelecionado
+            // TODO: Alterara status1 para selectedStatus
             Status status1 = statusDao.findOne(id);
             model.put("status1", status1);
             Ilcd ilcd = status1.getIlcd();
             model.put("ilcd", ilcd);
-            // TODO: Alterara status1 para statusHistorico
+            // TODO: Alterara status1 para statusHistory
             List<Status> status2 = statusDao.findByIlcdAndType(ilcd, 1);
             model.put("status2", status2);
             return "qualityreview/item";
@@ -142,12 +142,6 @@ public class QualityReviewController {
     @RequestMapping(value = {"/{id}/review", "/{id}/review/"}, method = RequestMethod.POST)
     public String reviewAction(Map<String, Object> model, @PathVariable("id") Long id, @RequestParam Map<String,String> allRequestParams) {
         try {
-//            for (Map.Entry<String, String> param : allRequestParams.entrySet()) {
-//                String key = param.getKey();
-//                String value = param.getValue();
-//                System.out.println(key+" = "+value);
-//            }
-            
             Status status = statusDao.findOne(id);
             Gson gson = new Gson();
             QualiData qualiData = gson.fromJson(allRequestParams.get("json"), QualiData.class);
