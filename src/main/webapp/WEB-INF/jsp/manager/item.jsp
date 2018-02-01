@@ -345,7 +345,91 @@
                                                 <hr />
                                             </c:when>
                                             <c:when test="${not empty statu.accept and statu.accept}">
-                                                Em revisão
+                                                <c:choose>
+                                                    <c:when test="${statu.closed}">
+                                                        <c:choose>
+                                                            <c:when test="${statu.result == 1}">
+                                                                <div class="row">
+                                                                    <div class="col s6" style="color: #ACCC5F;">
+                                                                        Aprovado
+                                                                    </div>
+                                                                    <div class="col s6">
+                                                                        <a href="#" style="color: #ACCC5F;"><i class="fa fa-file-text-o" aria-hidden="true"></i> Ver revisão<span style="color: #6B6B6A;"> - 11/10/2017</span></a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col s12">
+                                                                        <a href="#" class="btn">Ir para Publicação</a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col s12">
+                                                                        Caso não concorde com a Revisão “<span style="color: #ACCC5F;">aprovado</span>”
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin: 0;">
+                                                                    <div class="col s12">
+                                                                        <p style="margin: 0;">
+                                                                            <input class="with-gap" name="t1" value="1" type="radio" id="t1" />
+                                                                            <label for="t1">Convidar outro qualidata</label>
+                                                                        </p>  
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin: 0;">
+                                                                    <div class="col s12">
+                                                                        <p style="margin: 0;">
+                                                                            <input class="with-gap" name="t1" value="2" type="radio" id="t2" />
+                                                                            <label for="t2">Arquivar</label>
+                                                                        </p>  
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row" style="margin: 0;">
+                                                                    <div class="col s12">
+                                                                        <p style="margin: 0;">
+                                                                            <input class="with-gap" name="t1" value="3" type="radio" id="t3" />
+                                                                            <label for="t3">Solicitar nova revisão</label>
+                                                                        </p>  
+                                                                    </div>
+                                                                </div>
+                                                            </c:when>
+                                                            <c:when test="${statu.result == 2}">
+                                                                <div class="row">
+                                                                    <div class="col s6" style="color: #00697C;">
+                                                                        Aprovado com correções
+                                                                    </div>
+                                                                    <div class="col s6">
+                                                                        <a href="#" style="color: #00697C;"><i class="fa fa-file-text-o" aria-hidden="true"></i> Ver revisão<span style="color: #6B6B6A;"> - 11/10/2017</span></a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col s12">
+                                                                        Caso não concorde com a Revisão “<span style="color: #00697C;">Aprovado com correções</span>”
+                                                                    </div>
+                                                                </div>
+                                                            </c:when>
+                                                            <c:when test="${statu.result == 3}">
+                                                                <div class="row">
+                                                                    <div class="col s6" style="color: #C3697C;">
+                                                                        Reprovado
+                                                                    </div>
+                                                                    <div class="col s6">
+                                                                        <a href="#" style="color: #C3697C;"><i class="fa fa-file-text-o" aria-hidden="true"></i> Ver revisão<span style="color: #6B6B6A;"> - 11/10/2017</span></a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col s12">
+                                                                        Caso não concorde com a Revisão “<span style="color: #C3697C;">reprovado</span>”
+                                                                    </div>
+                                                                </div>
+                                                            </c:when>
+                                                        </c:choose>
+                                                    </c:when>
+                                                    <c:when test="${not statu.closed}">
+                                                        <div class="row" style="color: #00697C; margin: 10px 0;">
+                                                            Em revisão com <a href="#" style="color: #00697C; font-weight: bold; margin: 0 10px;">${statu.revisor.firstName}</a>
+                                                        </div>
+                                                    </c:when>
+                                                </c:choose>
                                             </c:when>
                                         </c:choose>
                                     </div>
@@ -398,7 +482,8 @@
             });
             function activaTab(tab) {
                 $('.nav-tabs a[href="#' + tab + '"]').tab('show');
-            };
+            }
+            ;
         </script>
     </body>
 

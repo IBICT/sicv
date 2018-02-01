@@ -21,29 +21,14 @@ public class TechnicalReviewer {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     
-    @Expose
-    @Column(columnDefinition = "TEXT")
-    private String comment;
+    private String comment1;
+    
+    private String comment2;
+    
+    private String comment3;
     
     @Expose
-    @NotNull
-    private String ilcd;
-    
-    @Expose
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "user")
-    private User user;
-
-    public TechnicalReviewer() {
-    }
-
-    public TechnicalReviewer(Long id, String comment, String ilcd, User user) {
-        this.id = id;
-        this.comment = comment;
-        this.ilcd = ilcd;
-        this.user = user;
-    }
+    private Boolean attachment;
 
     public Long getId() {
         return id;
@@ -53,28 +38,36 @@ public class TechnicalReviewer {
         this.id = id;
     }
 
-    public String getComment() {
-        return comment;
+    public String getComment1() {
+        return comment1;
     }
 
-    public void setComment(String comment) {
-        this.comment = comment;
+    public void setComment1(String comment1) {
+        this.comment1 = comment1;
     }
 
-    public String getIlcd() {
-        return ilcd;
+    public String getComment2() {
+        return comment2;
     }
 
-    public void setIlcd(String ilcd) {
-        this.ilcd = ilcd;
+    public void setComment2(String comment2) {
+        this.comment2 = comment2;
     }
 
-    public User getUser() {
-        return user;
+    public String getComment3() {
+        return comment3;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setComment3(String comment3) {
+        this.comment3 = comment3;
+    }
+
+    public Boolean getAttachment() {
+        return attachment;
+    }
+
+    public void setAttachment(Boolean attachment) {
+        this.attachment = attachment;
     }
     
 }
