@@ -125,26 +125,28 @@ public class ManagerController {
         User user = userDao.findOne(userID);
         Ilcd ilcd = ilcdDao.findById(ilcdID);
         Homologacao homologacao = ilcd.getHomologation();
-        homologacao.setUser(user);
+        homologacao.setUser(((User) session().getAttribute("user")));
         homologacao.setStatus(2);
         homologacaoDao.save(homologacao);
 
         Status status = new Status();
         status.setIlcd(ilcd);
-        status.setArchive(homologacao.getLastArchive());
+        
+        Archive archive = new Archive();
+        archive.setPathFile(homologacao.getLastArchive().getPathFile());
+        archiveDao.save(archive);
+        
+        status.setArchive(archive);
         status.setRevisor(user);
         status.setType(tipo);
         status.setEndDate(new Date());
         status.setExpectedDate(new Date());
         status.setRequestDate(new Date());
-        status.setPrevious(ilcd.getStatus().get(0));
-        //Status status = homologacao.getLastArchive().getStatus();
-        //status.setStatus(2);
-        //status.setType(1);
         statusDao.save(status);
-        Archive archive = homologacao.getLastArchive();
+        
         archive.setStatus(status);
         archiveDao.save(archive);
+        
         ilcd.addStatus(status);
         ilcdDao.save(ilcd);
 

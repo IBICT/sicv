@@ -240,6 +240,3 @@
     </body>
 
 </html>
-
-<!--                         <td><a class="waves-effect waves-light btn">Revisão Qualidata</a></td>
-                        <td><a class="btn-import waves-effect waves-light btn">Revisão Técnica</a></td> -->

@@ -1,3 +1,5 @@
+<%@page import="java.util.Calendar"%>
+<%@page import="br.com.ibict.acv.sicv.model.Ilcd"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 <%@page import="resources.Strings"%>
@@ -19,87 +21,34 @@
                 font-family: 'Titillium Web', "Roboto", sans-serif;
             }
 
-            nav {
-                background-color: #4dbcc4;
-            }
-
-            nav .brand-logo {
-                margin-left: 50px;
-            }
-
-            nav .brand-logo img {
-                margin-right: 20px;
-                vertical-align: middle;
-            }
-
-            .container {
-                /*margin: 10px 50px;*/
-            }
-
             .page-title {
-                color: #00697c;
+                color: #4dbcc4;
             }
-
+            .page-subtitle {
+                color: #666;
+            }
             .btn-import {
                 background-color: #accc5f;
             }
-
-            .user-menu {
-                border-bottom: 2px solid silver;
-                margin: 60px 80px 20px 80px;
-                height: 30px;
+            .table {
+                width: 100% !important;
+                max-width: 100%;
             }
-
-            .item-menu {
-                border-right: 2px solid silver;
-                height: 30px;
+            .head {
+                color: #999;
             }
-
-            .item-menu2 {
-                text-align: center;
-                border-left: 2px solid silver;
-                height: 30px;
-            }
-
-            .item-menu3 {
-                text-align: right;
-                height: 30px;
-            }
-
-            .link-menu {
-                color: #00697c;
-                font-weight: bold;
-                font-size: 16px;
-            }
-
-            .link-menu2 {
-                color: #c3697c;
-                font-weight: bold;
-                font-size: 16px;
-            }
-
-            .link-menu3 {
-                color: #00697c;
-                font-size: 16px;
-            }
-
-            .notif-num {
-                position: relative;
-                top: -5px;
-            }
-
-            .sicv-container {
-                margin: 0px 80px 0px 80px;
-            }
-
             .sicv-table-th {
                 color: #4dbcc4;
                 border-bottom: 1px solid silver;
-                border-top: 1px solid black;
+                /*border-top: 1px solid silver;*/
+                padding: 0 !important;
+                height: 30px;
             }
 
             .sicv-table-td {
                 border-bottom: 1px solid silver;
+                color: #999;
+                padding: 0 !important;
             }
 
             .search {
@@ -147,46 +96,91 @@
     </head>
 
     <body>
-        <jsp:include page="/WEB-INF/jsp/partials/nav.jsp" />
+        <jsp:include page="/WEB-INF/jsp/partials/nav.jsp"/>
         <div class="headerDiv">
             <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
         </div>
 
-
-
-        <div class="row sicv-container">
-            <h4 class="page-title">Gestão</h4>
-        </div>
-
-        <div class="row">
-            <div style="margin-right: 5%; float: right;">
-                <div class="search">
-                <input type="text" class="searchTerm" id="searchTerm" placeholder="busque autor, gestor, título">
-                <button type="submit" class="searchButton">
-                    <i class="fa fa-search"></i>
-                </button>
+        <div class="principalDiv">
+            <div class="row sicv-container">
+                <h4 class="page-title">Gestão</h4>
             </div>
-            </div>
-        </div>
 
-        <div class="sicv-container sicv-inventori-table">
             <div class="row">
-                <h6 style="color:#4dbcc4;">Invéntarios em andamento</h6>
+                <div style="margin-right: 5%; float: right;">
+                    <div class="search">
+                        <input type="text" class="searchTerm" id="searchTerm" placeholder="busque autor, gestor, título">
+                        <button type="submit" class="searchButton">
+                            <i class="fa fa-search"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
+
             <div style="margin:0px;" class="row">
-                <div class="col s3 sicv-table-th">Id</div>
-                <div class="col s3 sicv-table-th">Nome</div>
+                <div class="col sicv-table-th" style="width: 10%">Autor</div>
+                <div class="col sicv-table-th" style="width: 30%">Nome</div>
+                <div class="col sicv-table-th" style="width: 10%">Gestor</div>
                 <div class="col s1 sicv-table-th" style="text-align: center;">Pendências</div>
                 <div class="col s2 sicv-table-th" style="text-align: center;">Prazo para entregar</div>
                 <div class="col s3" style="position: relative; left: 20px; color: #4dbcc4;">Status</div>
             </div>
-            <c:forEach var="ilcd" items="${ilcds}"> 
-                <div style="margin:0px;" class="row" onclick="window.location = '<%=Strings.BASE%>/gestor/${ilcd.id}';" id="tabIlcdManager">
 
-                    <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">${ilcd.uuid}</div>
-                    <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">${ilcd.title}</div>
-                    <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #c3697c;" class="material-icons">report_problem</i></div>
-                    <div style="height: 40px;  text-align: center; position: relative; top: 10px; color: #c3697c;" class="col s2 sicv-table-td">Atrasado</div>
+            <c:forEach items="${ilcds}" var="ilcd" varStatus="loop">
+                <div style="margin:0px;" class="row" class="row" onclick="window.location = '<%=Strings.BASE%>/gestor/${ilcd.id}';" id="tabIlcdManager">
+                    <div style="height: 40px; width:10%; position: relative; top: 10px;" class="col s3 sicv-table-td">
+                        ${ilcd.user.firstName}
+                    </div>
+                    <div style="height: 40px; width:30%; position: relative; top: 10px;" class="col s3 sicv-table-td">
+                        ${ilcd.name}
+                    </div>
+                    <div style="height: 40px;width:10%; position: relative; top: 10px;" class="col s3 sicv-table-td">
+                        ${ilcd.homologation.user.firstName == null ? "aguardando":ilcd.homologation.user.firstName}
+                    </div>
+                    <c:choose>
+                       	<c:when test="${ilcd.homologation.pending}">
+                            <!-- <td style="text-align: center;"><i style="color: #c3697c;" class="material-icons">report_problem</i></td>
+                                <td style="text-align: center;"><i style="color: #accc5f;" class="material-icons">check</i></td>
+                            -->
+                            <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td" onclick="location.href = '#'">
+                                <i style="color: #c3697c;" class="fa fa-exclamation-triangle"></i>
+                            </div>
+                            <%
+
+                                Ilcd ilcd = (Ilcd) pageContext.getAttribute("ilcd");
+                                Calendar cal = Calendar.getInstance();
+                                cal.setTime(ilcd.getHomologation().getSubmission());
+                                int dtInit = cal.get(Calendar.DAY_OF_YEAR);
+                                cal.setTime(ilcd.getHomologation().getPrazo());
+                                int dtLimit = cal.get(Calendar.DAY_OF_YEAR);
+                                String resporta;
+                                Boolean style;
+                                if ((dtLimit - dtInit) < 0) {
+                                    resporta = "atrasado";
+                                    style = true;
+                                } else {
+                                    resporta = (dtLimit - dtInit) + " dias";
+                                    style = false;
+                                }
+                                pageContext.setAttribute("prazoStyle", style);
+                                pageContext.setAttribute("prazo", resporta);
+                            %>
+                            <div style="height: 40px;  text-align: center; position: relative; top: 10px; ${prazoStyle ? "color: #c3697c;":""}" class="col s2 sicv-table-td">
+                                ${prazo}
+                            </div>
+                       	</c:when>
+                       	<c:when test="${not ilcd.homologation.pending}">
+                            <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td" onclick="location.href = '#'">
+                                <i style="color: #accc5f;" class="fa fa-check"></i>
+                            </div> 
+                            <div style="height: 40px;  text-align: center; position: relative; top: 10px; color: #accc5f;" class="col s2 sicv-table-td">
+                                Entregue
+                            </div>
+                       	</c:when>
+                       	<c:otherwise>
+                       	</c:otherwise>
+                    </c:choose>
+
                     <div style="height: 40px;" class="col s3">
                         <!-- Progress Tracker v2 -->
                         <ol style="position: relative;" class="progress-steps"
@@ -245,103 +239,23 @@
                     </div>
                 </div>
             </c:forEach>
-            <!--            
-                        <div style="margin:0px;" class="row">
-                            <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">266c5da8-55bc-4d58-a4af-cbf7724f7939</div>
-                            <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">Phenol from cumene production mix, at producer</div>
-                            <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #c3697c;" class="material-icons">report_problem</i></div>
-                            <div style="height: 40px;  text-align: center; position: relative; top: 10px;" class="col s2 sicv-table-td">5 dias</div>
-                            <div style="height: 40px;" class="col s3">
-                                <ol style="position: relative; top: -10px;" class="progress-steps" data-steps="5">
-                                    <li class="active">
-                                        <span class="step"><span>1</span></span>
-                                    </li>
-                                    <li>
-                                        <span class="step"><span>2</span></span>
-                                    </li>
-                                    <li>
-                                        <span class="step"><span>3</span></span>
-                                    </li>
-                                    <li>
-                                        <span class="step"><span>4</span></span>
-                                    </li>
-                                    <li>
-                                        <span class="step"><span>5</span></span>
-                                    </li>
-                                </ol>
-                            </div>
-                        </div>
-                        <div style="margin:0px;" class="row">
-                            <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">266c5da8-55bc-4d58-a4af-cbf7724f7939</div>
-                            <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">Phenol from cumene production mix, at producer</div>
-                            <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #c3697c;" class="material-icons">report_problem</i></div>
-                            <div style="height: 40px;  text-align: center; position: relative; top: 10px; color: #c3697c;" class="col s2 sicv-table-td">Atrasado</div>
-                            <div style="height: 40px;" class="col s3">
-                                 Progress Tracker v2 
-                                <ol style="position: relative; top: -10px;" class="progress-steps" data-steps="5">
-                                    <li class="done">
-                                        <span class="step"><span>1</span></span>
-                                    </li>
-                                    <li class="done">
-                                        <span class="step"><span>2</span></span>
-                                    </li>
-                                    <li class="done">
-                                        <span class="step"><span>3</span></span>
-                                    </li>
-                                    <li class="done">
-                                        <span class="step"><span>4</span></span>
-                                    </li>
-                                    <li class="active">
-                                        <span class="step"><span>5</span></span>
-                                    </li>
-                                </ol>
-                                 Progress Tracker v2 
-                            </div>
-                        </div>
-                        <div style="margin:0px;" class="row">
-                            <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">266c5da8-55bc-4d58-a4af-cbf7724f7939</div>
-                            <div style="height: 40px; position: relative; top: 10px;" class="col s3 sicv-table-td">Phenol from cumene production mix, at producer</div>
-                            <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td"><i style="color: #accc5f;" class="material-icons">check</i></div>
-                            <div style="height: 40px;  text-align: center; position: relative; top: 10px;" class="col s2 sicv-table-td">Entregue</div>
-                            <div style="height: 40px;" class="col s3">
-                                 Progress Tracker v2 
-                                <ol style="position: relative; top: -10px;" class="progress-steps" data-steps="5">
-                                    <li class="done">
-                                        <span class="step"><span>1</span></span>
-                                    </li>
-                                    <li class="active">
-                                        <span class="step"><span>2</span></span>
-                                    </li>
-                                    <li>
-                                        <span class="step"><span>3</span></span>
-                                    </li>
-                                    <li>
-                                        <span class="step"><span>4</span></span>
-                                    </li>
-                                    <li>
-                                        <span class="step"><span>5</span></span>
-                                    </li>
-                                </ol>
-                                 Progress Tracker v2 
-                            </div>
-                        </div>
-            -->
+
         </div>
 
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
         <script>
-			$(document).ready(function () {
-			    // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
-			    $('.modal').modal();
-			    
-				$("#searchTerm").on("keyup", function() {
-				    var value = $(this).val().toLowerCase();
-				    $("#tabIlcdManager ").filter(function() {
-				      $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-				    });
-				});
-			});
+                                    $(document).ready(function () {
+                                        // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+                                        $('.modal').modal();
+
+                                        $("#searchTerm").on("keyup", function () {
+                                            var value = $(this).val().toLowerCase();
+                                            $("#tabIlcdManager ").filter(function () {
+                                                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                                            });
+                                        });
+                                    });
         </script>
     </body>
 
