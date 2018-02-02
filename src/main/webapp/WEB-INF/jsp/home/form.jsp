@@ -241,7 +241,7 @@
 				</div>
                 <div class="row" style="margin-top: 15px;">
 				    <div class="col s12">
-						<h6 style="font-size: 15px;"><b>Upload de arquivo complementar </b><b style="color: red;">*</b></h6>
+						<h6 style="font-size: 15px;"><b>Upload de arquivo complementar </b></h6>
 				    </div>
 				</div>
 				<div class="row">
@@ -284,7 +284,7 @@
 		    		$('#fileInput').show(500);
 		    		$("#review").attr('required', '');
 		      	}else
-		    		$("#review").removeAttribute("required");
+		    		$("#review").removeAttr("required");
 		    	
         		var i = 1;
 	        	$('#btnAuthor').click(function(){
@@ -304,7 +304,7 @@
 			}
 			function hiddeFileInput(){
 				$('#fileInput').hide(500);
-				$("review").removeAttribute("required");
+				$("review").removeAttr("required");
 			}
 			
         </script>

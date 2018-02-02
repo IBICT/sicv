@@ -288,7 +288,7 @@
 	                                        <div class="row">
 	                                            <div>
 	                                            	<i class="fa fa-angle-right" aria-hidden="true" style="color: #00697C;"></i>
-	                                                <a href="<%=Strings.BASE%>/ilcd/${statu.archive.pathFile}/?name=ILCD.zip"><i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i> ILCD.zip</a>
+	                                                <a href="<%=Strings.BASE%>/ilcd/${statu.previous.archive.pathFile}?name=ILCD.zip"><i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i> ILCD.zip</a>
 	                                            </div>
 	
 	                                            <div class="col offset-s1 s6">

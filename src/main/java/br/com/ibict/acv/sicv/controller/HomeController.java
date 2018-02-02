@@ -295,9 +295,9 @@ public class HomeController {
             zipToIlcd(pathResolve, ilcd);
             status.getArchive().setPathFile( MD5(bytesfile) );
             if( !review.isEmpty() && ilcd.getHasReview() ){
-            	File reviewFile = new File(path.resolve("./" + review.getOriginalFilename()).toString() );
+            	File reviewFile = new File(path.resolve("./" + Archive.REVIEW + ".zip").toString() );
             	ZipOutputStream out = new ZipOutputStream(new FileOutputStream(reviewFile));
-            	ZipEntry e = new ZipEntry(review.getOriginalFilename() + ".zip");
+            	ZipEntry e = new ZipEntry(review.getOriginalFilename());
             	out.putNextEntry(e);
 
             	byte[] data = review.getBytes();
@@ -306,11 +306,11 @@ public class HomeController {
             	out.close();
             }
             if( !fileComplement.isEmpty() ){
-            	File complementFile = new File(path.resolve("./" + fileComplement.getOriginalFilename()).toString() );
+            	File complementFile = new File(path.resolve("./" + Archive.COMPLEMENT + ".zip").toString() );
             	ZipOutputStream out = new ZipOutputStream(new FileOutputStream(complementFile));
-            	ZipEntry e = new ZipEntry(fileComplement.getOriginalFilename() + ".zip");
+            	ZipEntry e = new ZipEntry(fileComplement.getOriginalFilename());
             	out.putNextEntry(e);
-
+            	
             	byte[] data = fileComplement.getBytes();
             	out.write(data, 0, data.length);
             	out.closeEntry();
@@ -403,7 +403,7 @@ public class HomeController {
 	            
 	            archive.setPathFile( MD5(bytesfile) );
 	            if( !fileComplement.isEmpty() ){
-	            	File complementFile = new File(path.resolve("./" + "complement"+".zip").toString() );
+	            	File complementFile = new File(path.resolve("./" + Archive.COMPLEMENT +".zip").toString() );
 	            	ZipOutputStream out = new ZipOutputStream(new FileOutputStream(complementFile));
 	            	ZipEntry e = new ZipEntry( fileComplement.getOriginalFilename() );
 	            	out.putNextEntry(e);
