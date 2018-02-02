@@ -33,11 +33,6 @@ public class Archive implements Serializable{
     @Expose
     private Long id;
     
-    //pode ser string ou inteiro?
-    @NotNull
-    @Expose
-    private Integer version;
-    
 /*    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "status_id")
     @Expose
@@ -60,14 +55,6 @@ public class Archive implements Serializable{
     
     public void setId(Long id) {
     	this.id = id;
-    }
-    
-    public Integer getVersion() {
-    	return version;
-    }
-    
-    public void setVersion(Integer version) {
-    	this.version = version;
     }
     
     public Status getStatus() {

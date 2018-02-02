@@ -376,17 +376,16 @@ public class HomeController {
     
     @PostMapping("/ilcd/newAdjust/{id}") // //new annotation since 4.3
     public String singleFileUpload(@RequestParam("file") MultipartFile file,
-    		@RequestParam("fileComplement") MultipartFile fileComplement, @PathVariable("id") Long idIlcd,
+    		@RequestParam("fileComplement") MultipartFile fileComplement, @PathVariable("id") Long idStatus,
     		RedirectAttributes redirectAttributes) throws Exception {
     	if(!file.isEmpty()){
 
 	        try {
-	
-	        	Ilcd ilcd = ilcdDao.findById(idIlcd);
+	        	Status userStatus = statusDao.findOne(idStatus);
+	        	Ilcd ilcd = userStatus.getIlcd();
 	            // Get the file and save it somewhere. 1 is inicial version
 	            byte[] bytesfile = file.getBytes();
 	            Path path = Paths.get(Strings.UPLOADED_FOLDER + MD5(bytesfile));
-	            String pathResolve = path.resolve("ILCD.zip").toString();
 	
 	            if (path.toFile().exists()) {
 	                redirectAttributes.addFlashAttribute("message", "File exist, not replace.");
@@ -395,20 +394,14 @@ public class HomeController {
 	            Files.createDirectory(path);
 	            Files.write(path.resolve("./ILCD.zip"), bytesfile);
 	            User ilcdUser = (User) session().getAttribute("user");
-	            Status status = new Status();
-	            status.setType(0);
-	            status.setIlcd(ilcd);
-	            //move to zipToIlcd method after refactoring;
-	            ilcd.setName(file.getOriginalFilename());
 	            
 	            Archive archive = new Archive();
-	            archive.setStatus( status );
+	            archive.setStatus( userStatus );
 	
-	            archive.setVersion( (ilcd.getHomologation().getLastArchive().getVersion() + 1) );
-	            status.setArchive(archive);
-	            ilcd.addStatus(status);
+	            userStatus.setArchive(archive);
+	            ilcd.addStatus(userStatus);
 	            
-	            status.getArchive().setPathFile( MD5(bytesfile) );
+	            archive.setPathFile( MD5(bytesfile) );
 	            if( !fileComplement.isEmpty() ){
 	            	File complementFile = new File(path.resolve("./" + "complement"+".zip").toString() );
 	            	ZipOutputStream out = new ZipOutputStream(new FileOutputStream(complementFile));
@@ -425,13 +418,11 @@ public class HomeController {
 	            Homologacao homolog = ilcd.getHomologation();
 	            notification.setUser( ilcd.getUser().getId() );
 	            notification.fillMsgWAIT_REV( ilcd.getUuid() , ilcd.getTitle() );
-	            notification.setStatus(status);
+	            notification.setStatus(userStatus);
 	            notification.setIlcd(ilcd);
 	            notification.setNotifyDate( Calendar.getInstance().getTime() );
 	            redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "' ilcd:" + ilcd.getTitle());
-	
 	            ilcd.addNotification(notification);
-	            homolog.setStatus(1);
 	            
 	            //Pendecia inicial verdadeira
 	            homolog.setPending(true);
@@ -448,19 +439,17 @@ public class HomeController {
 	
 	            //salva o último arquivo para a homologacao
 	            homolog.setLastArchive( ilcd.getStatus().get(0).getArchive() );
-	            //ilcd.setHomologation(homolog);
-	            statusDao.save(status);
 	            //salvando homologação outros objetos são salvos e atualizados em cascata
 	            homologationDao.save(homolog);
+	            statusDao.save(userStatus);
 	            //ilcdUser.addHomologacao(homolog);
-	            //ilcdUser.setQntdNotificacoes( ilcdUser.getQntdNotificacoes()+ 1 );
+	            ilcdUser.setQntdNotificacoes( ilcdUser.getQntdNotificacoes()+ 1 );
 	            userDao.save(ilcdUser);
 	
 	        } catch (Exception e) {
 	            // TODO: handle exception like RegisterException
 	            throw new Exception("Ocorreu um erro ao submeter o inventário", e);
 	        }
-	        
 	        return "redirect:" + Strings.BASE;
     	}
         	redirectAttributes.addFlashAttribute("message", "Nenhum arquivo ILCD adicionado");
@@ -527,7 +516,6 @@ public class HomeController {
         Archive archive = new Archive();
         archive.setStatus( ilcd.getStatus().get(0) );
         //TODO: make a comparator to order list by version
-        archive.setVersion(1);
         ilcd.getStatus().get(0).setArchive(archive);
         ilcd.setUuid("");
         //ilcd.setName("");

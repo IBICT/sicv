@@ -70,6 +70,10 @@ public class Status implements Serializable {
     @Expose
     @OneToOne(mappedBy = "status", cascade = CascadeType.PERSIST)
     private Archive archive;
+    
+    @Expose
+    @OneToOne
+    private Status previous;
 
     //status relacionado o arquivo .ILCD
     //informa o andamento do arquivo: AG_REV, AG_AC ...
@@ -164,20 +168,13 @@ public class Status implements Serializable {
         this.archive = archive;
     }
 
-    /*public List<Archive> getArchive() {
-		return archive;
-	}
-	
-	public void setArchive(List<Archive> archive) {
-		this.archive = archive;
+    public Status getPrevious() {
+		return previous;
 	}
     
-    public boolean addArchive(Archive archive){
-    	if(this.archive == null ){
-    		this.archive = new ArrayList<Archive>();
-    	}
-		return this.archive.add(archive);
-    }*/
+    public void setPrevious(Status previous) {
+		this.previous = previous;
+	}
 
     public Integer getResult() {
         return result;

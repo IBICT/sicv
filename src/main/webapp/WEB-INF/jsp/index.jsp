@@ -196,16 +196,15 @@
                     </ul> 
 
                     <div class="tab-content " >
-                        <c:forEach var="statu" items="${statusHistory}"> 
-                            <div class="tab-pane active" id="1">
-                            	<c:choose>
-                            		<c:when test="${lastStatusUser.result != 2}">
-                            			<c:if test="${lastStatusUser.result == 1}">
+                           <div class="tab-pane active" id="1">
+								<c:choose>
+                            		<c:when test="${lastStatusUser.previous.result != 2}">
+                            			<c:if test="${lastStatusUser.previous.result == 1}">
 	                            			<div class="col yellow-title bold" style="padding: 0;">Aprovado</div>
 											<div class="row">
 											</div>
 											<div class="row">
-									 			<c:set var="pathFile" value="${lastStatusUser.archive.pathFile}" />
+									 			<c:set var="pathFile" value="${lastStatusUser.previous.archive.pathFile}" />
 									 			<i class="fa fa-angle-right"></i>
 												 <a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
 												 	<i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i>
@@ -213,12 +212,12 @@
 												 </a>
 											</div>
 										</c:if>
-										<c:if test="${lastStatusUser.result == 3}">
+										<c:if test="${lastStatusUser.previous.result == 3}">
 	                            			<div class="col red-title bold" style="padding: 0;">Reprovado</div>
 											<div class="row">
 											</div>
 											<div class="row">
-									 			<c:set var="pathFile" value="${lastStatusUser.archive.pathFile}" />
+									 			<c:set var="pathFile" value="${lastStatusUser.previous.archive.pathFile}" />
 									 			<i class="fa fa-angle-right"></i>
 												 <a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
 												 	<i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i>
@@ -234,7 +233,7 @@
 		                                    </div>
 		                                    <div class="row">
 												<i class="fa fa-angle-right" aria-hidden="true" style="color: #00697C;"></i>
-												<a href="<%=Strings.BASE%>/ilcd/${lastStatusUser.archive.pathFile}/?name=ILCD.zip"><i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i> ILCD.zip</a>
+												<a href="<%=Strings.BASE%>/ilcd/${lastStatusUser.previous.archive.pathFile}/?name=ILCD.zip"><i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i> ILCD.zip</a>
 		                                    </div>
 		                                    <hr />
 		                            	</c:if>
@@ -245,11 +244,11 @@
 		                                   		</div>
 		                                   	</div>
 		                                    <div class="row">
-			                                    <form action="<%=Strings.BASE%>/ilcd/newAdjust/${ilcd.id}" enctype="multipart/form-data" method="post">
+			                                    <form action="<%=Strings.BASE%>/ilcd/newAdjust/${lastStatusUser.id}" enctype="multipart/form-data" method="post">
 			                                        <div class="file-field input-field" style="bottom: 25px;margin-left: -10px;">
-														<span class="btn">Anexar ILCD *</span> <input type="file" class="btn" name="file" id="file">
+														<span class="btn">Anexar ILCD *</span> <input type="file" class="btn" name="file" id="file" required="required">
 														<div class="file-path-wrapper" style="padding-left: 0px;">
-															<input placeholder="Escolha arquivo em formato ILCD" class="file-path validate" type="text" required="required" disabled="disabled" style="padding-left: 15px;">
+															<input placeholder="Escolha arquivo em formato ILCD" class="file-path validate" type="text" disabled="disabled" style="padding-left: 15px;">
 														</div>
 													</div>
 													<div class="file-field input-field" style="bottom: 25px; margin-left: -10px; margin-top: -5px;">
@@ -265,40 +264,45 @@
 		                               	</c:if>
                             		</c:otherwise>
                             	</c:choose>
-                                <c:choose>
-                                    <c:when test="${statu.type == 3}">
-                                        <div class="row" style="margin: 10px 0;">
-                                        	<div class="col s6">
-	                                            <b style="color: #00697C;font-size: 14px;">
-    	                                        	Aprovado com correções
-        	                                    </b>
-                                        	</div>
-                                           	<div class="col s6">
-	                                            <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/qualityreview/${statu.id}/view">
-	                                            	<i style="color: #00697C; margin-right: 5px;" class="fa fa-file-text-o" aria-hidden="true"></i>
-	                                            	<b style="color: #00697C;font-size: 14px;">	Ver revisão	</b>
-	                                            </a>
-	                                            	- ${statu.requestDateString}
-    	                                    </div>
-                                        </div>
-                                        </div>
-                                        <div class="row">
-                                            <div>
-                                            	<i class="fa fa-angle-right" aria-hidden="true" style="color: #00697C;"></i>
-                                                <a href="<%=Strings.BASE%>/ilcd/${statu.archive.pathFile}/?name=ILCD.zip"><i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i> ILCD.zip</a>
-                                            </div>
+								
+		                        <c:forEach var="statu" items="${statusHistory}"> 
+	
+<%-- 	                                    
+	                                <c:choose>
+											<c:when test="${statu.previous.type == 2}"> --%>
+	                                        <div class="row" style="margin: 10px 0;">
+	                                        	<div class="col s6">
+		                                            <b style="color: #00697C;font-size: 14px;">
+	    	                                        	Aprovado com correções
+	        	                                    </b>
+	                                        	</div>
+	                                           	<div class="col s6">
+		                                            <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/qualityreview/${statu.previous.id}/view">
+		                                            	<i style="color: #00697C; margin-right: 5px;" class="fa fa-file-text-o" aria-hidden="true"></i>
+		                                            	<b style="color: #00697C;font-size: 14px;">	Ver revisão	</b>
+		                                            </a>
+		                                            	- ${statu.previous.requestDateString}
+	    	                                    </div>
+	                                        </div>
+	                               
+	                                        <div class="row">
+	                                            <div>
+	                                            	<i class="fa fa-angle-right" aria-hidden="true" style="color: #00697C;"></i>
+	                                                <a href="<%=Strings.BASE%>/ilcd/${statu.archive.pathFile}/?name=ILCD.zip"><i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i> ILCD.zip</a>
+	                                            </div>
+	
+	                                            <div class="col offset-s1 s6">
+	                                                
+	                                            </div>
+	                                        </div>
+	                                        <hr>
+<%-- 	                                    </c:when>
+	                               </c:choose> --%>
+		                        </c:forEach>
 
-                                            <div class="col offset-s1 s6">
-                                                
-                                            </div>
-                                        </div>
-                                        <hr>
-                                    </c:when>
-                                </c:choose>
-                            </div>
-                            <div class="tab-pane" id="2">
-                            </div>
-                        </c:forEach>
+	                           <div class="tab-pane" id="2">
+	                           </div>
+                           </div>
 	                    <div class="row">
 						</div>
 						<div class="row">

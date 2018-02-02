@@ -137,6 +137,7 @@ public class ManagerController {
         status.setEndDate(new Date());
         status.setExpectedDate(new Date());
         status.setRequestDate(new Date());
+        status.setPrevious(ilcd.getStatus().get(0));
         //Status status = homologacao.getLastArchive().getStatus();
         //status.setStatus(2);
         //status.setType(1);
@@ -144,6 +145,8 @@ public class ManagerController {
         Archive archive = homologacao.getLastArchive();
         archive.setStatus(status);
         archiveDao.save(archive);
+        ilcd.addStatus(status);
+        ilcdDao.save(ilcd);
 
         return "redirect:/gestor/";
     }

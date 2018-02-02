@@ -130,10 +130,10 @@
 				<div class="row" id="authorsClone">
 					<div id="divAuthorEmail" class="row">
 	                   <div class="input-field col s4">
-	                  		<input placeholder="Author" id="author" type="text" class="validate aut" name="authors[0].name" />
+	                  		<input placeholder="Author" id="author" type="text" class="validate aut" name="authors[0].name" required="required" />
 	                   </div>
 	                   <div class="input-field col s8">
-	                  		<input placeholder="E-mail" id="email" type="text" class="validate mail" name="authors[0].email" />
+	                  		<input placeholder="E-mail" id="email" type="text" class="validate mail" name="authors[0].email" required="required"/>
 	                   </div>
 	              	</div>
 				</div>
@@ -145,7 +145,7 @@
 						<h6 style="font-size: 15px;"><b>Título do inventário </b><b style="color: red;">*</b>
 							<p style="color:#3D3D3D; font-size: 14px;font-style: italic;margin-top: 8px;">(Seguir padrão ”Nome do produto_tecnologia_ outra especificação” conforme Qualidata p. 25)
 						</h6>
-				        <input placeholder="Nome do produto_tecnologia_ outra especificação" id="title" type="text" class="validate" name="title">
+				        <input placeholder="Nome do produto_tecnologia_ outra especificação" id="title" type="text" class="validate" name="title" required="required">
 				    </div>
 				    <div class="input-field col s6">
 					    <h6 style="font-size: 15px;"><b>Categoria </b><b style="color: red;">*</b>
@@ -164,7 +164,7 @@
 				<div class="row ">
 				    <div class="col s12">
 			    		<h6 style="font-size: 15px;font-style: italic;"><b style="font-style: normal !important;">Descrição </b><b style="color: red;">*</b> (Seguir orientações do Guia Qualidata p. 27)</h6>
-				        <textarea id="textarea1" class="validate" data-length="800" maxlength="800" rows="5" name="description" ></textarea>
+				        <textarea id="textarea1" class="validate" data-length="800" maxlength="800" rows="5" name="description" required="required"></textarea>
 				    </div>
 				</div>
 				<div class="row">
@@ -228,7 +228,7 @@
 				</div>
 				<div class="row">
 					<div class="file-field input-field col s6" style="bottom: 25px; margin-left: -10px">
-						<span class="btn">Escolher Arquivo</span> <input type="file" class="btn" name="file" id="file">
+						<span class="btn">Escolher Arquivo</span> <input type="file" class="btn" name="file" id="file" required="required">
 						<div class="file-path-wrapper" style="padding-left: 0px;">
 							<input placeholder="Escolha arquivo em formato ILCD" class="file-path validate" type="text" disabled="disabled" style="padding-left: 15px;">
 						</div>
@@ -280,6 +280,12 @@
 	        	$('select').material_select();
 		    	$("select[required]").css({position: "absolute", display: "inline", height: 0, padding: 0, width: 0});
 		    	
+		    	if ($("#yesReview").is(":checked")) {
+		    		$('#fileInput').show(500);
+		    		$("#review").attr('required', '');
+		      	}else
+		    		$("#review").removeAttribute("required");
+		    	
         		var i = 1;
 	        	$('#btnAuthor').click(function(){
 	        		var clone2 = $('#divAuthorEmail').clone();
@@ -294,9 +300,11 @@
 	        });
 			function showFileInput(){
 				$('#fileInput').show(500);
+	    		$("#review").attr('required', '');
 			}
 			function hiddeFileInput(){
 				$('#fileInput').hide(500);
+				$("review").removeAttribute("required");
 			}
 			
         </script>
