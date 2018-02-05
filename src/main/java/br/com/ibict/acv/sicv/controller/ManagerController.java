@@ -152,5 +152,22 @@ public class ManagerController {
 
         return "redirect:/gestor/";
     }
+    
+    @RequestMapping(value = {"/{ilcd}/sendauthor/{status}", "{ilcd}/sendauthor/{status}", "/{ilcd}/sendauthor/{status}/", "{ilcd}/sendauthor/{status}/"}, method = RequestMethod.GET)
+    public String sendAuthor(@PathVariable("ilcd") Long ilcdID,@PathVariable("status") Long statusID) {
+        
+        Ilcd ilcd = ilcdDao.findById(ilcdID);
+        
+        Status oldStatus = statusDao.findOne(statusID);
+        
+        Status status = new Status();
+        status.setIlcd(ilcd);
+        status.setType(3);
+        status.setRequestDate(new Date());
+        status.setPrevious(oldStatus);
+        statusDao.save(status);
+        
+        return "redirect:/gestor/"+ilcdID;
+    }
 
 }

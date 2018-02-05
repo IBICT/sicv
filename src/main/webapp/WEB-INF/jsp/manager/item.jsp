@@ -200,7 +200,11 @@
                     <p>${ilcd.category}</p>
                     <br>
                     <h6 class="bold">Descrição</h6>
-                    <p>${ilcd.description}</p>
+                    <div class="row">
+                        <div class="col s9" style="overflow-x: scroll;overflow-y: scroll;height: 200px;">
+                            ${ilcd.description}
+                        </div>
+                    </div>
 
                 </div>
                 <div class="col s4">
@@ -295,9 +299,45 @@
                                                                 </div>
                                                                 <div class="row">
                                                                     <div class="col s12">
+                                                                        <a class="btn" href="<%=Strings.BASE%>/gestor/${ilcd.id}/sendauthor/${statu.id}">Enviar para Revisor</a>
+                                                                    </div>
+                                                                </div>
+                                                                <div class="row">
+                                                                    <div class="col s12">
                                                                         Caso não concorde com a Revisão “<span style="color: #00697C;">Aprovado com correções</span>”
                                                                     </div>
                                                                 </div>
+                                                                <form action="" method="post">
+                                                                    <div class="row" style="margin: 0;">
+                                                                        <div class="col s12">
+                                                                            <p style="margin: 0;">
+                                                                                <input class="with-gap" name="t1" value="1" type="radio" id="t1" />
+                                                                                <label for="t1">Convidar outro qualidata</label>
+                                                                            </p>  
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row" style="margin: 0;">
+                                                                        <div class="col s12">
+                                                                            <p style="margin: 0;">
+                                                                                <input class="with-gap" name="t1" value="2" type="radio" id="t2" />
+                                                                                <label for="t2">Arquivar</label>
+                                                                            </p>  
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row" style="margin: 0;">
+                                                                        <div class="col s12">
+                                                                            <p style="margin: 0;">
+                                                                                <input class="with-gap" name="t1" value="3" type="radio" id="t3" />
+                                                                                <label for="t3">Solicitar nova revisão</label>
+                                                                            </p>  
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="row" style="margin: 0;">
+                                                                        <div class="col s12">
+                                                                            <input class="btn" value="ENVIAR" type="submit" />  
+                                                                        </div>
+                                                                    </div>
+                                                                </form>
                                                             </c:when>
                                                             <c:when test="${statu.result == 3}">
                                                                 <div class="row">
@@ -324,7 +364,7 @@
                                                 </c:choose>
                                             </c:when>
                                         </c:choose>
-                                        <hr />
+                                        <hr style="color: #6B6B6B;" />
                                     </div>
                                 </c:when>
 
