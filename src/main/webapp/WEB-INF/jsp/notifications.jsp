@@ -12,7 +12,11 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+	<style type="text/css">
+		.divs{
+			display: none;
+		}
+	</style>
 </head>
 <body style="color: #00697c !important;">
 	<jsp:include page="/WEB-INF/jsp/partials/nav.jsp"/>
@@ -32,21 +36,21 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${notifications}" var="notification">
+				<c:forEach items="${notifications}" var="notify">
 					<tr>
-						<td class="tdCenter">${notification.notifyDate}</td>
+						<td class="tdCenter" style="cursor: pointer;" onclick="subtract(${notify.id}, ${notify.isVisualized});">${notify.notifyDate}</td>
 						<th>
-							<p>${notification.subject}</p>
-					        <div class="divs" style="padding-top: 1%">${notification.messages[0]}</div><p>
-					        <div class="divs">${notification.messages[1]}</div>
+							<p style="cursor: pointer;" >${notify.subject}</p>
+					        <div class="divs" style="padding-top: 1%">${notify.messages[0]}</div><p>
+					        <div class="divs">${notify.messages[1]}</div>
 						</th>
 						
 					</tr>
 				</c:forEach>
 				<tr>
-					<td class="tdCenter">23/10/2017</td>
+					<td class="tdCenter" style="cursor: pointer;">23/10/2017</td>
 					<th>
-						<p>Aprovado pelo revisor de Qualidade: 266c5da8-55bc-4d58-a4af-cbf7724f7939: </p>
+						<p style="cursor: pointer;">Aprovado pelo revisor de Qualidade: 266c5da8-55bc-4d58-a4af-cbf7724f7939: </p>
 				        <div class="divs" style="padding-top: 1%"> Brick technology mix production mix, at plant 1800 kg/m3 foi aprovado pelo revisor de Qualidade.</div><p>
 				        <div class="divs"> Acesse à revisão em: Meus inventários Download Disponíveis</div>
 					</th>
@@ -61,20 +65,29 @@
 		<jsp:include page="/WEB-INF/jsp/partials/scriptsLibs.jsp" />	
 	</div>
 	<script>
-		
 		$(function () {
 		    $('#list tr').click(function (ev) {
 			    var shown = $(this).children("th").children("div");
 		        if (shown.css("display")=="none") {
 		        	$(this).children("th").children("div").slideDown(1000);
-		    	        
+		        	$(this).children("th").children("div").show();
 		        }else{
 		        	$(this).children("th").children("div").slideUp(1000);
+		        	$(this).children("th").children("div").css('display','none');
 		        	
 		        }
 		        shown = !shown;
 		    });
 		})
+		function subtract(id, visualized){
+			if(visualized != true){
+				var bell = +($('#bell').text()) -1;
+				alert(bell);
+				$('#bell').text(bell);
+				alert($('#bell').text());
+<%-- 				location.href='<%=Strings.BASE%>/notifications/id'"; --%>
+			}
+		}
 	</script>
 
 </body>
