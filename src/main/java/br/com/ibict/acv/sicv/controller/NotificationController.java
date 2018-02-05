@@ -6,9 +6,13 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import com.google.gson.GsonBuilder;
 
@@ -48,14 +52,27 @@ public class NotificationController {
             return "login/login";
         } else {
             User user = (User) session().getAttribute("user");
-            if( user.getQntdNotificacoes() > 0L )
-            	user.setQntdNotificacoes( 0L );
-            userDao.saveAndFlush(user);
             model.put("user", user);
             List<Notification> notifications = notificationDao.findByUser(user.getId());
             model.put("notifications", notifications);
 //            model.put("notifications", new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(notifications));
             return "notifications";
+        }
+    }
+    
+    @RequestMapping(value = "/notifications/{id}", method = {RequestMethod.POST, RequestMethod.GET})
+    @ResponseStatus(value = HttpStatus.OK)
+    @ResponseBody
+    public void notifications(Map<String, Object> model, @PathVariable("id") Long idNotify ) {
+        if (session().getAttribute("user") == null) {
+        } else {
+            User user = (User) session().getAttribute("user");
+            if(user.getQntdNotificacoes() > 0)
+            	user.setQntdNotificacoes(user.getQntdNotificacoes()-1);
+            model.put("user", user);
+            Notification notification = notificationDao.findOne(idNotify);
+            notification.setIsVisualized(true);
+            notificationDao.save(notification);
         }
     }
     
