@@ -139,8 +139,6 @@ public class ManagerController {
         status.setArchive(archive);
         status.setRevisor(user);
         status.setType(tipo);
-        status.setEndDate(new Date());
-        status.setExpectedDate(new Date());
         status.setRequestDate(new Date());
         statusDao.save(status);
         
@@ -163,9 +161,40 @@ public class ManagerController {
         Status status = new Status();
         status.setIlcd(ilcd);
         status.setType(3);
+        status.setRevisor(ilcd.getUser());
         status.setRequestDate(new Date());
         status.setPrevious(oldStatus);
         statusDao.save(status);
+        
+        ilcd.addStatus(status);
+        ilcdDao.save(ilcd);
+        
+        return "redirect:/gestor/"+ilcdID;
+    }
+    
+    @RequestMapping(value = {"/{ilcd}/nextstep/", "{ilcd}/nextstep/", "/{ilcd}/nextstep", "{ilcd}/nextstep"}, method = RequestMethod.POST)
+    public String nextStep(@PathVariable("ilcd") Long ilcdID,@RequestParam("status") Long statusID) {
+        
+        Ilcd ilcd = ilcdDao.findById(ilcdID);
+        Status oldStatus = statusDao.findOne(statusID);
+        
+        Archive archive = new Archive();
+        archive.setPathFile(oldStatus.getArchive().getPathFile());
+        
+        Status status = new Status();
+        status.setIlcd(ilcd);
+        status.setType(2);
+        status.setArchive(archive);
+        statusDao.save(status);
+        
+        archive.setStatus(status);
+        archiveDao.save(archive);
+        
+        session().setAttribute("nextStep", true);
+        
+        Homologacao homologacao = ilcd.getHomologation();
+        homologacao.setStatus(3);
+        homologacaoDao.save(homologacao);
         
         return "redirect:/gestor/"+ilcdID;
     }
