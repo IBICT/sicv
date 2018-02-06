@@ -242,9 +242,9 @@
                                                         <a href="#"><i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i> ILCD.zip</a>
                                                     </div>
                                                     <div class="col offset-s1 s6">
-                                                        <a id="invite" href="<%=Strings.BASE%>/gestor/${ilcd.id}/invite?type=2" class="btn" title="Convidar Revisor" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Convidar Revisor</a>
+                                                        <a ${statu.closed?"disabled":""} id="invite" href="<%=Strings.BASE%>/gestor/${ilcd.id}/invite?type=1" class="btn" title="Convidar Revisor" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Convidar Revisor</a>
                                                     </div>
-                                                </div
+                                                </div>
                                             </c:when>
                                             <c:when test="${not empty statu.revisor}">
                                                 <div class="tab-pane active" id="1">
@@ -253,7 +253,7 @@
                                                             <c:choose>
                                                                 <c:when test="${empty statu.accept}">
                                                                     <div class="row" style="color: #00697C; margin: 10px 0;">
-                                                                        Enviado para  <a href="#" style="color: #00697C; font-weight: bold; margin: 0 10px;">${statu.revisor.firstName}</a> <a href="#" style="color:#6B6B6A;text-decoration: underline;">Cancelar Convite</a>
+                                                                        Enviado para  <a href="#" style="color: #00697C; font-weight: bold; margin: 0 10px;">${statu.revisor.firstName}</a> <a href="<%=Strings.BASE%>/gestor/${ilcd.id}/invitecancel" style="color:#6B6B6A;text-decoration: underline;">Cancelar Convite</a>
                                                                     </div>
                                                                 </c:when>
                                                                 <c:when test="${not empty statu.accept and not statu.accept}">

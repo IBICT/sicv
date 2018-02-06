@@ -286,7 +286,7 @@ public class HomeController {
             Files.write(path.resolve("./ILCD.zip"), bytesfile);
             User ilcdUser = (User) session().getAttribute("user");
             Status status = new Status();
-            status.setType(0);
+            status.setType(1);
             status.setIlcd(ilcd);
             ilcd.addStatus(status);
             //move to zipToIlcd method after refactoring;
