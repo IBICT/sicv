@@ -148,52 +148,51 @@
                         </div>
                     </div>
                     <c:forEach var="status4" items="${status2}">
-                        <c:choose>
-                            <c:when test="${empty status4.closed or not status4.closed}">
-                                <div class="row">
-                                    <div class="col s6">
-                                        Autor
+                        <c:if test="${not empty status4.revisor}">
+                            <c:choose>
+                                <c:when test="${empty status4.closed or not status4.closed}">
+                                    <div class="row">
+                                        <div class="col s6">
+                                            Autor
+                                        </div>
+                                        <div class="col s6">
+                                            Revisão Qualidata
+                                        </div>
                                     </div>
-                                    <div class="col s6">
-                                        Revisão Qualidata
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col s6">
-                                        <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${status4.archive.pathFile}?name=ILCD.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> ILCD.ZIP</a>
-                                    </div>
-                                    <div class="col s6">
-                                        <c:choose>
-                                            <c:when test="${status4.accept}">
-                                                <a href="<%=Strings.BASE%>/tecnicalreview/${status4.id}/review" class="btn">Aplicar Qualidata</a>
-                                            </c:when>
-                                            <c:when test="${not status4.accept}">
-                                                <a href="" class="btn disabled">Aplicar Qualidata</a>
-                                            </c:when>
-                                        </c:choose>
-                                    </div>
-                                </div>
-                            </c:when>
-                            <c:when test="${not empty status4.closed and status4.closed}">
-                                <div class="row">
                                     <div class="row">
                                         <div class="col s6">
                                             <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${status4.archive.pathFile}?name=ILCD.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> ILCD.ZIP</a>
-                                        </div>
-                                        <div class="col s6">
-                                            <a href="<%=Strings.BASE%>/tecnicalreview/${status4.id}/view" class="">Ver revisão - <fmt:formatDate value="${status4.endDate}" pattern="dd/MM/yyyy"/></a>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col s6">
+                                            <br />
                                             <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${status4.archive.pathFile}?name=complement.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> complement.zip</a>
                                         </div>
+                                        <div class="col s6">
+                                            <c:choose>
+                                                <c:when test="${status4.accept}">
+                                                    <a href="<%=Strings.BASE%>/tecnicalreview/${status4.id}/review" class="btn">Aplicar Qualidata</a>
+                                                </c:when>
+                                                <c:when test="${not status4.accept}">
+                                                    <a href="" class="btn disabled">Aplicar Qualidata</a>
+                                                </c:when>
+                                            </c:choose>
+                                        </div>
                                     </div>
-                                </div>
-                            </c:when>
-                        </c:choose>
-
-
+                                </c:when>
+                                <c:when test="${not empty status4.closed and status4.closed}">
+                                    <div class="row">
+                                        <div class="row">
+                                            <div class="col s6">
+                                                <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${status4.archive.pathFile}?name=ILCD.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> ILCD.ZIP</a>
+                                                <br />
+                                                <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${status4.archive.pathFile}?name=complement.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> complement.zip</a>
+                                            </div>
+                                            <div class="col s6">
+                                                <a href="<%=Strings.BASE%>/tecnicalreview/${status4.id}/view" class="">Ver revisão - <fmt:formatDate value="${status4.endDate}" pattern="dd/MM/yyyy"/></a>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </c:when>
+                            </c:choose>
+                        </c:if>
                     </c:forEach>
                 </div>
             </div>
