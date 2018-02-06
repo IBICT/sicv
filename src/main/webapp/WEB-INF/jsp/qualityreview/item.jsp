@@ -162,6 +162,8 @@
                                     <div class="row">
                                         <div class="col s6">
                                             <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${status4.archive.pathFile}?name=ILCD.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> ILCD.ZIP</a>
+                                            <br />
+                                            <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${status4.archive.pathFile}?name=complement.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> complement.zip</a>
                                         </div>
                                         <div class="col s6">
                                             <c:choose>
@@ -174,23 +176,22 @@
                                             </c:choose>
                                         </div>
                                     </div>
+                                    <hr style="border-top: 1px solid #6B6B6B;" />
                                 </c:when>
                                 <c:when test="${not empty status4.closed and status4.closed}">
                                     <div class="row">
                                         <div class="row">
                                             <div class="col s6">
                                                 <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${status4.archive.pathFile}?name=ILCD.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> ILCD.ZIP</a>
+                                                <br />
+                                                <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${status4.archive.pathFile}?name=complement.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> complement.zip</a>
                                             </div>
                                             <div class="col s6">
                                                 <a href="<%=Strings.BASE%>/qualityreview/${status4.id}/view" class="">Ver revisão - <fmt:formatDate value="${status4.endDate}" pattern="dd/MM/yyyy"/></a>
                                             </div>
                                         </div>
-                                        <div class="row">
-                                            <div class="col s6">
-                                                <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${status4.archive.pathFile}?name=complement.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> complement.zip</a>
-                                            </div>
-                                        </div>
                                     </div>
+                                    <hr style="border-top: 1px solid #6B6B6B;" />
                                 </c:when>
                             </c:choose>
                         </c:if>

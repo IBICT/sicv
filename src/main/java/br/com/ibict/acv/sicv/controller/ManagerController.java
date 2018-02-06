@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import br.com.ibict.acv.sicv.model.Archive;
 import br.com.ibict.acv.sicv.model.Homologacao;
 import br.com.ibict.acv.sicv.model.Ilcd;
+import br.com.ibict.acv.sicv.model.QualiData;
 import br.com.ibict.acv.sicv.model.Status;
 import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.ArchiveDao;
@@ -157,6 +158,8 @@ public class ManagerController {
         Ilcd ilcd = ilcdDao.findById(ilcdID);
         
         Status oldStatus = statusDao.findOne(statusID);
+        oldStatus.setClosed2(Boolean.TRUE);
+        statusDao.save(oldStatus);
         
         Status status = new Status();
         status.setIlcd(ilcd);
@@ -177,6 +180,8 @@ public class ManagerController {
         
         Ilcd ilcd = ilcdDao.findById(ilcdID);
         Status oldStatus = statusDao.findOne(statusID);
+        oldStatus.setClosed2(Boolean.TRUE);
+        statusDao.save(oldStatus);
         
         Archive archive = new Archive();
         archive.setPathFile(oldStatus.getArchive().getPathFile());
@@ -199,4 +204,17 @@ public class ManagerController {
         return "redirect:/gestor/"+ilcdID;
     }
 
+    @RequestMapping(value = {"/{ilcd}/review/{status}/", "{ilcd}/review/{status}/", "/{ilcd}/review/{status}", "{ilcd}/review/{status}"}, method = RequestMethod.GET)
+    public String reviewView(Map<String, Object> model, @PathVariable("ilcd") Long ilcdId, @PathVariable("status") Long statusId) {
+        try {
+            User user = (User) session().getAttribute("user");
+            Status status = statusDao.findOne(statusId);
+            QualiData qualiData = status.getQualiData();
+            model.put("qualiData", qualiData);
+            return "manager/review";
+        } catch (Exception e) {
+            return "error";
+        }
+    }
+    
 }

@@ -235,13 +235,13 @@
                                                     Envio do autor
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col s1">
-                                                        <i class="fa fa-angle-right" aria-hidden="true" style="color: #00697C;"></i>
+                                                    <div class="col s6">
+                                                        <i class="fa fa-angle-right" aria-hidden="true" style="transform: rotate(90deg);-ms-transform: rotate(90deg);-webkit-transform: rotate(90deg);color: #00697C; margin-right: 5px;"></i>
+                                                        <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${statu.archive.pathFile}?name=ILCD.zip"><i class="fa fa-file-archive-o" style="margin-right: 5px; color: #00697C;" aria-hidden="true"></i> ILCD.zip</a>
+                                                        <br />
+                                                        <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${statu.archive.pathFile}?name=complement.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> complement.zip</a>
                                                     </div>
-                                                    <div class="col s4">
-                                                        <a href="#"><i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i> ILCD.zip</a>
-                                                    </div>
-                                                    <div class="col offset-s1 s6">
+                                                    <div class="col s6">
                                                         <a ${statu.closed?"disabled":""} id="invite" href="<%=Strings.BASE%>/gestor/${ilcd.id}/invite?type=1" class="btn" title="Convidar Revisor" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Convidar Revisor</a>
                                                     </div>
                                                 </div>
@@ -271,10 +271,10 @@
                                                                                             Aprovado
                                                                                         </div>
                                                                                         <div class="col s6">
-                                                                                            <a href="#" style="color: #ACCC5F;"><i class="fa fa-file-text-o" aria-hidden="true"></i> Ver revisão<span style="color: #6B6B6A;"> - 11/10/2017</span></a>
+                                                                                            <a href="<%=Strings.BASE%>/gestor/${ilcd.id}/review/${statu.id}" style="color: #ACCC5F;"><i class="fa fa-file-text-o" aria-hidden="true"></i> Ver revisão<span style="color: #6B6B6A;"> - <fmt:formatDate value="${statu.endDate}" pattern="dd/MM/yyyy"/></span></a>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <c:if test="${ilcd.homologation.status < 3}">
+                                                                                    <c:if test="${not statu.closed2}">
                                                                                         <div class="row">
                                                                                             <div class="col s12">
                                                                                                 <form action="<%=Strings.BASE%>/gestor/${ilcd.id}/nextstep" method="post">
@@ -288,30 +288,37 @@
                                                                                                 Caso não concorde com a Revisão “<span style="color: #ACCC5F;">aprovado</span>”
                                                                                             </div>
                                                                                         </div>
-                                                                                        <div class="row" style="margin: 0;">
-                                                                                            <div class="col s12">
-                                                                                                <p style="margin: 0;">
-                                                                                                    <input class="with-gap" name="t1" value="1" type="radio" id="t1" />
-                                                                                                    <label for="t1">Convidar outro qualidata</label>
-                                                                                                </p>  
+                                                                                        <form action="" method="post">
+                                                                                            <div class="row" style="margin: 0;">
+                                                                                                <div class="col s12">
+                                                                                                    <p style="margin: 0;">
+                                                                                                        <input class="with-gap" name="t1" value="1" type="radio" id="t1" />
+                                                                                                        <label for="t1">Convidar outro revisor de qualidade.</label>
+                                                                                                    </p>  
+                                                                                                </div>
                                                                                             </div>
-                                                                                        </div>
-                                                                                        <div class="row" style="margin: 0;">
-                                                                                            <div class="col s12">
-                                                                                                <p style="margin: 0;">
-                                                                                                    <input class="with-gap" name="t1" value="2" type="radio" id="t2" />
-                                                                                                    <label for="t2">Arquivar</label>
-                                                                                                </p>  
+                                                                                            <div class="row" style="margin: 0;">
+                                                                                                <div class="col s12">
+                                                                                                    <p style="margin: 0;">
+                                                                                                        <input class="with-gap" name="t1" value="2" type="radio" id="t2" />
+                                                                                                        <label for="t2">Solicitar nova revisão.</label>
+                                                                                                    </p>  
+                                                                                                </div>
                                                                                             </div>
-                                                                                        </div>
-                                                                                        <div class="row" style="margin: 0;">
-                                                                                            <div class="col s12">
-                                                                                                <p style="margin: 0;">
-                                                                                                    <input class="with-gap" name="t1" value="3" type="radio" id="t3" />
-                                                                                                    <label for="t3">Solicitar nova revisão</label>
-                                                                                                </p>  
+                                                                                            <div class="row" style="margin: 0;">
+                                                                                                <div class="col s12">
+                                                                                                    <p style="margin: 0;">
+                                                                                                        <input class="with-gap" name="t1" value="3" type="radio" id="t3" />
+                                                                                                        <label for="t3">Arquivar.</label>
+                                                                                                    </p>  
+                                                                                                </div>
                                                                                             </div>
-                                                                                        </div>
+                                                                                            <div class="row" style="margin: 0;">
+                                                                                                <div class="col s12">
+                                                                                                    <input class="btn" value="ENVIAR" type="submit" />  
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </form>
                                                                                     </c:if>
                                                                                 </c:when>
                                                                                 <c:when test="${statu.result == 2}">
@@ -320,50 +327,52 @@
                                                                                             Aprovado com correções
                                                                                         </div>
                                                                                         <div class="col s6">
-                                                                                            <a href="#" style="color: #00697C;"><i class="fa fa-file-text-o" aria-hidden="true"></i> Ver revisão<span style="color: #6B6B6A;"> - 11/10/2017</span></a>
+                                                                                            <a href="<%=Strings.BASE%>/gestor/${ilcd.id}/review/${statu.id}" style="color: #00697C;"><i class="fa fa-file-text-o" aria-hidden="true"></i> Ver revisão<span style="color: #6B6B6A;"> - <fmt:formatDate value="${statu.endDate}" pattern="dd/MM/yyyy"/></span></a>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="row">
-                                                                                        <div class="col s12">
-                                                                                            <a class="btn" href="<%=Strings.BASE%>/gestor/${ilcd.id}/sendauthor/${statu.id}">Enviar para Revisor</a>
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <div class="row">
-                                                                                        <div class="col s12">
-                                                                                            Caso não concorde com a Revisão “<span style="color: #00697C;">Aprovado com correções</span>”
-                                                                                        </div>
-                                                                                    </div>
-                                                                                    <form action="" method="post">
-                                                                                        <div class="row" style="margin: 0;">
+                                                                                    <c:if test="${not statu.closed2}">
+                                                                                        <div class="row">
                                                                                             <div class="col s12">
-                                                                                                <p style="margin: 0;">
-                                                                                                    <input class="with-gap" name="t1" value="1" type="radio" id="t1" />
-                                                                                                    <label for="t1">Convidar outro qualidata</label>
-                                                                                                </p>  
+                                                                                                <a class="btn" href="<%=Strings.BASE%>/gestor/${ilcd.id}/sendauthor/${statu.id}">Enviar para autor</a>
                                                                                             </div>
                                                                                         </div>
-                                                                                        <div class="row" style="margin: 0;">
+                                                                                        <div class="row">
                                                                                             <div class="col s12">
-                                                                                                <p style="margin: 0;">
-                                                                                                    <input class="with-gap" name="t1" value="2" type="radio" id="t2" />
-                                                                                                    <label for="t2">Arquivar</label>
-                                                                                                </p>  
+                                                                                                Caso não concorde com a Revisão “<span style="color: #00697C;">Aprovado com correções</span>”
                                                                                             </div>
                                                                                         </div>
-                                                                                        <div class="row" style="margin: 0;">
-                                                                                            <div class="col s12">
-                                                                                                <p style="margin: 0;">
-                                                                                                    <input class="with-gap" name="t1" value="3" type="radio" id="t3" />
-                                                                                                    <label for="t3">Solicitar nova revisão</label>
-                                                                                                </p>  
+                                                                                        <form action="" method="post">
+                                                                                            <div class="row" style="margin: 0;">
+                                                                                                <div class="col s12">
+                                                                                                    <p style="margin: 0;">
+                                                                                                        <input class="with-gap" name="t1" value="1" type="radio" id="t1" />
+                                                                                                        <label for="t1">Convidar outro revisor de qualidade.</label>
+                                                                                                    </p>  
+                                                                                                </div>
                                                                                             </div>
-                                                                                        </div>
-                                                                                        <div class="row" style="margin: 0;">
-                                                                                            <div class="col s12">
-                                                                                                <input class="btn" value="ENVIAR" type="submit" />  
+                                                                                            <div class="row" style="margin: 0;">
+                                                                                                <div class="col s12">
+                                                                                                    <p style="margin: 0;">
+                                                                                                        <input class="with-gap" name="t1" value="2" type="radio" id="t2" />
+                                                                                                        <label for="t2">Solicitar nova revisão.</label>
+                                                                                                    </p>  
+                                                                                                </div>
                                                                                             </div>
-                                                                                        </div>
-                                                                                    </form>
+                                                                                            <div class="row" style="margin: 0;">
+                                                                                                <div class="col s12">
+                                                                                                    <p style="margin: 0;">
+                                                                                                        <input class="with-gap" name="t1" value="3" type="radio" id="t3" />
+                                                                                                        <label for="t3">Arquivar.</label>
+                                                                                                    </p>  
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="row" style="margin: 0;">
+                                                                                                <div class="col s12">
+                                                                                                    <input class="btn" value="ENVIAR" type="submit" />  
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                    </c:if>
                                                                                 </c:when>
                                                                                 <c:when test="${statu.result == 3}">
                                                                                     <div class="row">
@@ -371,14 +380,47 @@
                                                                                             Reprovado
                                                                                         </div>
                                                                                         <div class="col s6">
-                                                                                            <a href="#" style="color: #C3697C;"><i class="fa fa-file-text-o" aria-hidden="true"></i> Ver revisão<span style="color: #6B6B6A;"> - 11/10/2017</span></a>
+                                                                                            <a href="<%=Strings.BASE%>/gestor/${ilcd.id}/review/${statu.id}" style="color: #C3697C;"><i class="fa fa-file-text-o" aria-hidden="true"></i> Ver revisão<span style="color: #6B6B6A;"> - <fmt:formatDate value="${statu.endDate}" pattern="dd/MM/yyyy"/></span></a>
                                                                                         </div>
                                                                                     </div>
-                                                                                    <div class="row">
-                                                                                        <div class="col s12">
-                                                                                            Caso não concorde com a Revisão “<span style="color: #C3697C;">reprovado</span>”
+                                                                                    <c:if test="${not statu.closed2}">
+                                                                                        <div class="row">
+                                                                                            <div class="col s12">
+                                                                                                Caso não concorde com a Revisão “<span style="color: #C3697C;">reprovado</span>”
+                                                                                            </div>
                                                                                         </div>
-                                                                                    </div>
+                                                                                        <form action="" method="post">
+                                                                                            <div class="row" style="margin: 0;">
+                                                                                                <div class="col s12">
+                                                                                                    <p style="margin: 0;">
+                                                                                                        <input class="with-gap" name="t1" value="1" type="radio" id="t1" />
+                                                                                                        <label for="t1">Convidar outro revisor de qualidade.</label>
+                                                                                                    </p>  
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="row" style="margin: 0;">
+                                                                                                <div class="col s12">
+                                                                                                    <p style="margin: 0;">
+                                                                                                        <input class="with-gap" name="t1" value="2" type="radio" id="t2" />
+                                                                                                        <label for="t2">Solicitar nova revisão.</label>
+                                                                                                    </p>  
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="row" style="margin: 0;">
+                                                                                                <div class="col s12">
+                                                                                                    <p style="margin: 0;">
+                                                                                                        <input class="with-gap" name="t1" value="3" type="radio" id="t3" />
+                                                                                                        <label for="t3">Publicar.</label>
+                                                                                                    </p>  
+                                                                                                </div>
+                                                                                            </div>
+                                                                                            <div class="row" style="margin: 0;">
+                                                                                                <div class="col s12">
+                                                                                                    <input class="btn" value="ENVIAR" type="submit" />  
+                                                                                                </div>
+                                                                                            </div>
+                                                                                        </form>
+                                                                                    </c:if>
                                                                                 </c:when>
                                                                             </c:choose>
                                                                         </c:when>
@@ -403,21 +445,21 @@
                                                                         Envio do autor
                                                                     </div>
                                                                     <div class="row">
-                                                                        <div class="col s1">
-                                                                            <i class="fa fa-angle-right" aria-hidden="true" style="color: #00697C;"></i>
+                                                                        <div class="col s6">
+                                                                            <i class="fa fa-angle-right" aria-hidden="true" style="transform: rotate(90deg);-ms-transform: rotate(90deg);-webkit-transform: rotate(90deg);color: #00697C; margin-right: 5px;"></i>
+                                                                            <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${statu.archive.pathFile}?name=ILCD.zip"><i class="fa fa-file-archive-o" style="margin-right: 5px; color: #00697C;" aria-hidden="true"></i> ILCD.zip</a>
+                                                                            <br />
+                                                                            <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${statu.archive.pathFile}?name=complement.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> complement.zip</a>
                                                                         </div>
-                                                                        <div class="col s4">
-                                                                            <a href="#"><i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i> ILCD.zip</a>
-                                                                        </div>
-                                                                        <div class="col offset-s1 s6">
-                                                                            <a id="invite" href="<%=Strings.BASE%>/gestor/${ilcd.id}/invite?type=1" class="btn" title="Convidar Revisor" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Convidar Revisor</a>
+                                                                        <div class="col s6">
+                                                                            <a ${statu.closed?"disabled":""} id="invite" href="<%=Strings.BASE%>/gestor/${ilcd.id}/invite?type=1" class="btn" title="Convidar Revisor" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Convidar Revisor</a>
                                                                         </div>
                                                                     </div>
                                                                 </c:when>
                                                             </c:choose>
                                                         </c:when>
                                                     </c:choose>
-                                                    <hr style="color: #6B6B6B;" />
+                                                    <hr style="border-top: 1px solid #6B6B6B;" />
                                                 </div>
                                             </c:when>
                                         </c:choose>
@@ -435,13 +477,13 @@
                                                     Envio do autor
                                                 </div>
                                                 <div class="row">
-                                                    <div class="col s1">
-                                                        <i class="fa fa-angle-right" aria-hidden="true" style="color: #00697C;"></i>
+                                                    <div class="col s6">
+                                                        <i class="fa fa-angle-right" aria-hidden="true" style="transform: rotate(90deg);-ms-transform: rotate(90deg);-webkit-transform: rotate(90deg);color: #00697C; margin-right: 5px;"></i>
+                                                        <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${statu.archive.pathFile}?name=ILCD.zip"><i class="fa fa-file-archive-o" style="margin-right: 5px; color: #00697C;" aria-hidden="true"></i> ILCD.zip</a>
+                                                        <br />
+                                                        <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${statu.archive.pathFile}?name=complement.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> complement.zip</a>
                                                     </div>
-                                                    <div class="col s4">
-                                                        <a href="#"><i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i> ILCD.zip</a>
-                                                    </div>
-                                                    <div class="col offset-s1 s6">
+                                                    <div class="col s6">
                                                         <a id="invite" href="<%=Strings.BASE%>/gestor/${ilcd.id}/invite?type=2" class="btn" title="Convidar Revisor" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Convidar Revisor</a>
                                                     </div>
                                                 </div>
@@ -470,7 +512,7 @@
                                                                                 Aprovado
                                                                             </div>
                                                                             <div class="col s6">
-                                                                                <a href="#" style="color: #ACCC5F;"><i class="fa fa-file-text-o" aria-hidden="true"></i> Ver revisão<span style="color: #6B6B6A;"> - 11/10/2017</span></a>
+                                                                                <a href="#" style="color: #ACCC5F;"><i class="fa fa-file-text-o" aria-hidden="true"></i> Ver revisão<span style="color: #6B6B6A;"> - <fmt:formatDate value="${statu.endDate}" pattern="dd/MM/yyyy"/></span></a>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -514,7 +556,7 @@
                                                                                 Aprovado com correções
                                                                             </div>
                                                                             <div class="col s6">
-                                                                                <a href="#" style="color: #00697C;"><i class="fa fa-file-text-o" aria-hidden="true"></i> Ver revisão<span style="color: #6B6B6A;"> - 11/10/2017</span></a>
+                                                                                <a href="#" style="color: #00697C;"><i class="fa fa-file-text-o" aria-hidden="true"></i> Ver revisão<span style="color: #6B6B6A;"> - <fmt:formatDate value="${statu.endDate}" pattern="dd/MM/yyyy"/></span></a>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">
@@ -529,7 +571,7 @@
                                                                                 Reprovado
                                                                             </div>
                                                                             <div class="col s6">
-                                                                                <a href="#" style="color: #C3697C;"><i class="fa fa-file-text-o" aria-hidden="true"></i> Ver revisão<span style="color: #6B6B6A;"> - 11/10/2017</span></a>
+                                                                                <a href="#" style="color: #C3697C;"><i class="fa fa-file-text-o" aria-hidden="true"></i> Ver revisão<span style="color: #6B6B6A;"> - <fmt:formatDate value="${statu.endDate}" pattern="dd/MM/yyyy"/></span></a>
                                                                             </div>
                                                                         </div>
                                                                         <div class="row">

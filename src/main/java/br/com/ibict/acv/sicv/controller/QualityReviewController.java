@@ -26,6 +26,7 @@ import br.com.ibict.acv.sicv.repositories.QualiDataDao;
 import br.com.ibict.acv.sicv.repositories.StatusDao;
 
 import com.google.gson.Gson;
+import java.util.Collections;
 
 /**
  *
@@ -109,6 +110,7 @@ public class QualityReviewController {
             model.put("ilcd", ilcd);
             // TODO: Alterara status1 para statusHistory
             List<Status> status2 = statusDao.findByIlcdAndType(ilcd, 1);
+            Collections.reverse(status2);
             model.put("status2", status2);
             return "qualityreview/item";
         } catch (Exception e) {

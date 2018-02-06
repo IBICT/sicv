@@ -100,6 +100,9 @@ public class Status implements Serializable {
     
     @Expose
     private Boolean closed;
+    
+    @Expose
+    private Boolean closed2;
 
     @Expose
     @OneToOne(mappedBy = "status", cascade = CascadeType.PERSIST)
@@ -238,6 +241,14 @@ public class Status implements Serializable {
 
     public void setTechnicalReviewer(TechnicalReviewer technicalReviewer) {
         this.technicalReviewer = technicalReviewer;
+    }
+
+    public Boolean getClosed2() {
+        return closed2;
+    }
+
+    public void setClosed2(Boolean closed2) {
+        this.closed2 = closed2;
     }
     
 }

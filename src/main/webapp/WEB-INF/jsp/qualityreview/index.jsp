@@ -97,7 +97,7 @@
             <div class="row sicv-container">
                 <h4 class="page-title">Revisão Qualidata</h4>
             </div>
-
+            
             <c:if test="${not empty invite}">
                 <c:forEach var="status1" items="${invite}"> 
 
@@ -109,12 +109,16 @@
                     </div>
                 </c:forEach>
             </c:if>
+            
+            <br />
 
             <!--Lista de revisões-->
             <c:if test="${not empty work}">
 
                 <div class="row">
-                    <h6 style="color:#4dbcc4;font-weight: bold;">Histórico de Revisões Qualidata</h6>	
+                    <div class="col s12">
+                        <h6 style="color:#4dbcc4;font-weight: bold;">Histórico de Revisões Qualidata</h6>
+                    </div>	
                 </div>
                 <div class="row">
                     <div style="margin:0px;" class="row">
