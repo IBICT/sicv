@@ -73,6 +73,7 @@ public class NotificationController {
             Notification notification = notificationDao.findOne(idNotify);
             notification.setIsVisualized(true);
             notificationDao.save(notification);
+            userDao.save(user);
         }
     }
     

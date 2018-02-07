@@ -57,6 +57,7 @@ public class Notification implements Serializable{
     
     @NotNull
     @Expose
+    @Column(columnDefinition = "bigint")
     private Boolean isVisualized = false;
 
     @ManyToOne

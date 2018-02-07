@@ -79,14 +79,24 @@
 		        shown = !shown;
 		    });
 		})
+		
 		function subtract(id, visualized){
 			if(visualized != true){
 				var bell = +($('#bell').text()) -1;
 				alert(bell);
 				$('#bell').text(bell);
 				alert($('#bell').text());
-<%-- 				location.href='<%=Strings.BASE%>/notifications/id'"; --%>
+				var link = "<%=Strings.BASE%>/notifications/";
+				link = link + id;
+				alert(link);
+				$.ajax({
+		            url: link,
+		            success : function(resposta){
+		                // pegar a lista e montar os elementos
+		            }
+		        });
 			}
+<%-- 				location.href='<%=Strings.BASE%>/notifications/id'"; --%>
 		}
 	</script>
 

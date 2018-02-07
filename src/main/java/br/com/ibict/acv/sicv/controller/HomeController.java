@@ -188,16 +188,14 @@ public class HomeController {
     				lastStatusUser = status;
     			}
     		}
-    		//retrieve the initial status 
-    		if(status.getType() == 0){
-    			if(initialStatus != null){
-    				if(initialStatus.getId() > status.getId()){
-    					initialStatus = status;
-    				}
-    			}else{
-    				initialStatus = status;
-    			}
-    		}
+    		//retrieve the initial status Q+
+			if(initialStatus != null){
+				if(initialStatus.getId() > status.getId()){
+					initialStatus = status;
+				}
+			}else{
+				initialStatus = status;
+			}
 		}
     	
     	Collections.reverse(statusHistory);
@@ -286,7 +284,7 @@ public class HomeController {
             Files.write(path.resolve("./ILCD.zip"), bytesfile);
             User ilcdUser = (User) session().getAttribute("user");
             Status status = new Status();
-            status.setType(0);
+            status.setType(1);
             status.setIlcd(ilcd);
             ilcd.addStatus(status);
             //move to zipToIlcd method after refactoring;
