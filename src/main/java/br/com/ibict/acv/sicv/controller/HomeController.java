@@ -42,7 +42,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import resources.Strings;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import br.com.ibict.acv.sicv.CustomAuthProvider;
 import br.com.ibict.acv.sicv.model.Archive;
 import br.com.ibict.acv.sicv.model.Homologacao;
@@ -58,9 +60,7 @@ import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.ExclStrat;
 import br.com.ibict.acv.sicv.util.Mail;
 import br.com.ibict.acv.sicv.util.Password;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import resources.Strings;
 
 @Controller
 public class HomeController {

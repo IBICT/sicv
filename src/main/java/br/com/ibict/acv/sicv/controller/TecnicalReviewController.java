@@ -35,6 +35,7 @@ import br.com.ibict.acv.sicv.repositories.StatusDao;
 import br.com.ibict.acv.sicv.repositories.TechnicalReviewerDao;
 
 import com.google.gson.Gson;
+import java.util.Collections;
 
 /**
  *
@@ -120,6 +121,7 @@ public class TecnicalReviewController {
             model.put("ilcd", ilcd);
             // TODO: Alterara status1 para statusHistorico
             List<Status> status2 = statusDao.findByIlcdAndType(ilcd, 2);
+            Collections.reverse(status2);
             model.put("status2", status2);
             return "tecnicalreview/item";
         } catch (Exception e) {
