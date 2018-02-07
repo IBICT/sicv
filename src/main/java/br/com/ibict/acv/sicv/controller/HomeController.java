@@ -433,6 +433,7 @@ public class HomeController {
 	            dt = c.getTime();
 	            homolog.setPrazo(dt);
 	            
+	            userStatus.setEndDate(dt);
 	            homolog.setSubmission( Calendar.getInstance().getTime() );
 	
 	            //salva o último arquivo para a homologacao

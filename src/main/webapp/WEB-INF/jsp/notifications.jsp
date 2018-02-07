@@ -65,6 +65,9 @@
 		<jsp:include page="/WEB-INF/jsp/partials/scriptsLibs.jsp" />	
 	</div>
 	<script>
+		var ar=[];
+		
+        alert(JSON.stringify(ar));
 		$(function () {
 		    $('#list tr').click(function (ev) {
 			    var shown = $(this).children("th").children("div");
@@ -81,9 +84,9 @@
 		})
 		
 		function subtract(id, visualized){
-			if(visualized != true){
+			alert(ar);
+			if(visualized != true && $.inArray( id , ar) == -1){
 				var bell = +($('#bell').text()) -1;
-				alert(bell);
 				$('#bell').text(bell);
 				alert($('#bell').text());
 				var link = "<%=Strings.BASE%>/notifications/";
@@ -92,13 +95,16 @@
 				$.ajax({
 		            url: link,
 		            success : function(resposta){
-		                // pegar a lista e montar os elementos
+		            	//check if an item is in the array
+		            	alert('teste');
+						if( $.inArray( id , ar) == -1 ){
+			            	alert('teste2');
+		                	ar.push(id);
+						}
 		            }
-		        });
+				});
 			}
-<%-- 				location.href='<%=Strings.BASE%>/notifications/id'"; --%>
 		}
 	</script>
-
 </body>
 </html>
