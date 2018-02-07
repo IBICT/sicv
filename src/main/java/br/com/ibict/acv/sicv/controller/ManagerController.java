@@ -21,6 +21,7 @@ import br.com.ibict.acv.sicv.model.Homologacao;
 import br.com.ibict.acv.sicv.model.Ilcd;
 import br.com.ibict.acv.sicv.model.QualiData;
 import br.com.ibict.acv.sicv.model.Status;
+import br.com.ibict.acv.sicv.model.TechnicalReviewer;
 import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.ArchiveDao;
 import br.com.ibict.acv.sicv.repositories.HomologacaoDao;
@@ -203,14 +204,28 @@ public class ManagerController {
         return "redirect:/gestor/"+ilcdID;
     }
 
-    @RequestMapping(value = {"/{ilcd}/review/{status}/", "{ilcd}/review/{status}/", "/{ilcd}/review/{status}", "{ilcd}/review/{status}"}, method = RequestMethod.GET)
-    public String reviewView(Map<String, Object> model, @PathVariable("ilcd") Long ilcdId, @PathVariable("status") Long statusId) {
+    @RequestMapping(value = {"/{ilcd}/review/quality/{status}/", "{ilcd}/review/quality/{status}/", "/{ilcd}/review/quality/{status}", "{ilcd}/review/quality/{status}"}, method = RequestMethod.GET)
+    public String qualityReviewView(Map<String, Object> model, @PathVariable("ilcd") Long ilcdId, @PathVariable("status") Long statusId) {
         try {
             User user = (User) session().getAttribute("user");
             Status status = statusDao.findOne(statusId);
             QualiData qualiData = status.getQualiData();
             model.put("qualiData", qualiData);
-            return "manager/review";
+            return "manager/qualityreview";
+        } catch (Exception e) {
+            return "error";
+        }
+    }
+    
+    @RequestMapping(value = {"/{ilcd}/review/technical/{status}/", "{ilcd}/review/technical/{status}/", "/{ilcd}/review/technical/{status}", "{ilcd}/review/technical/{status}"}, method = RequestMethod.GET)
+    public String technicReviewView(Map<String, Object> model, @PathVariable("ilcd") Long ilcdId, @PathVariable("status") Long statusId) {
+        try {
+            User user = (User) session().getAttribute("user");
+            Status status = statusDao.findOne(statusId);
+            TechnicalReviewer technicalReviewer = status.getTechnicalReviewer();
+            model.put("status", status);
+            model.put("technicalReviewer", technicalReviewer);
+            return "manager/technicalreview";
         } catch (Exception e) {
             return "error";
         }
