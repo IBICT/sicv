@@ -242,7 +242,7 @@
                                                         <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${statu.archive.pathFile}?name=complement.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> complement.zip</a>
                                                     </div>
                                                     <div class="col s6">
-                                                        <a ${statu.closed?"disabled":""} id="invite1" href="<%=Strings.BASE%>/gestor/${ilcd.id}/invite?type=1" class="btn" title="Convidar Revisor" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Convidar Revisor</a>
+                                                        <a ${statu.closed?"disabled":""} id="invite1" href="<%=Strings.BASE%>/gestor/${ilcd.id}/invite/${statu.id}/?type=1" class="btn" title="Convidar Revisor" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Convidar Revisor</a>
                                                     </div>
                                                 </div>
                                             </c:when>
@@ -452,7 +452,7 @@
                                                                             <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${statu.archive.pathFile}?name=complement.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> complement.zip</a>
                                                                         </div>
                                                                         <div class="col s6">
-                                                                            <a ${statu.closed?"disabled":""} id="invite3" href="<%=Strings.BASE%>/gestor/${ilcd.id}/invite?type=1" class="btn" title="Convidar Revisor" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Convidar Revisor</a>
+                                                                            <a ${statu.closed?"disabled":""} id="invite3" href="<%=Strings.BASE%>/gestor/${ilcd.id}/invite/${statu.id}?type=1" class="btn" title="Convidar Revisor" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Convidar Revisor</a>
                                                                         </div>
                                                                     </div>
                                                                 </c:when>
@@ -483,7 +483,7 @@
                                                         <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${statu.archive.pathFile}?name=complement.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> complement.zip</a>
                                                     </div>
                                                     <div class="col s6">
-                                                        <a ${statu.closed?"disabled":""} id="invite2" href="<%=Strings.BASE%>/gestor/${ilcd.id}/invite?type=2" class="btn" title="Convidar Revisor" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Convidar Revisor</a>
+                                                        <a ${statu.closed?"disabled":""} id="invite2" href="<%=Strings.BASE%>/gestor/${ilcd.id}/invite/${statu.id}?type=2" class="btn" title="Convidar Revisor" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Convidar Revisor</a>
                                                     </div>
                                                 </div>
                                             </c:when>
@@ -692,7 +692,7 @@
                                                                         <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${statu.archive.pathFile}?name=complement.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> complement.zip</a>
                                                                     </div>
                                                                     <div class="col s6">
-                                                                        <a ${statu.closed?"disabled":""} id="invite4" href="<%=Strings.BASE%>/gestor/${ilcd.id}/invite?type=2" class="btn" title="Convidar Revisor" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Convidar Revisor</a>
+                                                                        <a ${statu.closed?"disabled":""} id="invite4" href="<%=Strings.BASE%>/gestor/${ilcd.id}/invite/${statu.id}?type=2" class="btn" title="Convidar Revisor" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Convidar Revisor</a>
                                                                     </div>
                                                                 </div>
                                                             </c:when>

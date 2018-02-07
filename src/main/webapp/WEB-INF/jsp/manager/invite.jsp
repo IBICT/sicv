@@ -159,8 +159,7 @@
                     <div class="btn" title="Convidar Revisor" id="searchTerm" onclick="filterApply();" style="color: #4DBCC4; background-color: #fff; border: 1px solid #4DBCC4; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Aplicar Filtro</div>
                 </div>
             </div>
-            <form action="<%=Strings.BASE%>/gestor/invite" method="post">
-                <input name="ilcd" type="hidden" value="${ilcd.id}" />
+            <form action="<%=Strings.BASE%>/gestor/${ilcd.id}/invite/${status.id}" method="post">
                 <input id="type" name="tipo" type="hidden" value="1" />
 
                 <div class="row">

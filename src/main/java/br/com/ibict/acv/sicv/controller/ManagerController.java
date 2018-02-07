@@ -105,8 +105,8 @@ public class ManagerController {
         }
     }
 
-    @RequestMapping(value = {"/{id}/invite", "{id}/invite", "/{id}/invite/", "{id}/invite/"}, method = RequestMethod.GET)
-    public String invite(Map<String, Object> model, @PathVariable("id") Long id) {
+    @RequestMapping(value = {"/{id}/invite/{status}", "{id}/invite/{status}", "/{id}/invite/{status}/", "{id}/invite/{status}/"}, method = RequestMethod.GET)
+    public String invite(Map<String, Object> model, @PathVariable("id") Long id, @PathVariable("status") Long statusId) {
         User user = (User) session().getAttribute("user");
         String name = user.getFirstName();
         model.put("localN", 3);
@@ -115,26 +115,27 @@ public class ManagerController {
         Ilcd ilcd = ilcdDao.findOne(id);
         model.put("local", "Gestor > <u>" + ilcd.getTitle() + "</u>");
         model.put("ilcd", ilcd);
+        Status status = statusDao.findOne(statusId);
+        model.put("status", status);
         List<User> users = userDao.findAll();
         model.put("users", users);
         return "manager/invite";
     }
 
-    @RequestMapping(value = "/invite", method = RequestMethod.POST)
-    public String invite(@RequestParam("user") Long userID, @RequestParam("ilcd") Long ilcdID, @RequestParam("tipo") Integer tipo) {
+    @RequestMapping(value = "/{ilcd}/invite/{status}", method = RequestMethod.POST)
+    public String invite(@RequestParam("user") Long userID, @PathVariable("ilcd") Long ilcdId, @PathVariable("status") Long statusId, @RequestParam("tipo") Integer tipo) {
 
         User user = userDao.findOne(userID);
-        Ilcd ilcd = ilcdDao.findById(ilcdID);
-        Homologacao homologacao = ilcd.getHomologation();
-        homologacao.setUser(((User) session().getAttribute("user")));
-        homologacao.setStatus(2);
-        homologacaoDao.save(homologacao);
+        Ilcd ilcd = ilcdDao.findById(ilcdId);
+        
+        Status statusOld = statusDao.findOne(statusId);
+        statusOld.setClosed(Boolean.TRUE);
 
         Status status = new Status();
         status.setIlcd(ilcd);
         
         Archive archive = new Archive();
-        archive.setPathFile(homologacao.getLastArchive().getPathFile());
+        archive.setPathFile(statusOld.getArchive().getPathFile());
         archiveDao.save(archive);
         
         status.setArchive(archive);
@@ -148,6 +149,13 @@ public class ManagerController {
         
         ilcd.addStatus(status);
         ilcdDao.save(ilcd);
+        
+        Homologacao homologacao = ilcd.getHomologation();
+        homologacao.setUser(((User) session().getAttribute("user")));
+        homologacao.setStatus(tipo > 2 ? 3 : 2);
+        homologacaoDao.save(homologacao);
+        
+        statusDao.save(statusOld);
 
         return "redirect:/gestor/";
     }
@@ -198,6 +206,7 @@ public class ManagerController {
         session().setAttribute("nextStep", true);
         
         Homologacao homologacao = ilcd.getHomologation();
+        homologacao.setUser(((User) session().getAttribute("user")));
         homologacao.setStatus(3);
         homologacaoDao.save(homologacao);
         
