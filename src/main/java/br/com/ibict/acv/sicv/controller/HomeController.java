@@ -172,40 +172,85 @@ public class HomeController {
     @RequestMapping("/authorIlcd/{index}")
     public String getAuthorIlcd(Map<String, Object> model, @PathVariable("index") Integer index) {
     	Ilcd ilcd = ilcds.get(index);
-    	Status initialStatus = null, lastStatusUser = null;
+    	Status initialStatus = null, initialStatusT = null, lastStatusUserT = null, lastStatusUser = null, lastStatusQ = null, lastStatusT = null;
     	Ilcd currentIlcd = ilcdDao.findById(ilcd.getId());
     	List<Status> allStatus = currentIlcd.getStatus();
     	User user = (User) session().getAttribute("user");
     	List<Status> statusHistory = new ArrayList<Status>();
+    	List<Status> statusHistoryT = new ArrayList<Status>();
     	for (Status status : allStatus) {
-    		if(status.getType() == 3){
+    		//fill list Q+
+    		if(status.getType() == 3 && status.getPrevious().getType() == 1){
     			statusHistory.add(status);
     			if(lastStatusUser != null){
-    				if(lastStatusUser.getId() < status.getId()){
+    				if(lastStatusUser.getId() < status.getId() ){
     					lastStatusUser = status;
     				}
     			}else{
     				lastStatusUser = status;
     			}
     		}
-    		//retrieve the initial status Q+
+    		//fill list T+
+    		if(status.getType() == 3 && status.getPrevious().getType() == 2){
+				statusHistoryT.add(status);
+				if(lastStatusUserT != null){
+					//retrieve the last status T+
+					if(lastStatusUser.getId() < status.getId() ){
+						lastStatusUserT = status;
+					}
+				}else{
+					lastStatusUserT = status;
+				}
+			}
+    		
+    		//retrieve the initial status T+
+			if(initialStatusT != null && status.getType() == 2){
+				if(initialStatusT.getId() > status.getId() ){
+					initialStatusT = status;
+				}
+			}else{
+				if(status.getType() == 2)
+					initialStatusT = status;
+			}
+    		
+    		//retrieve the initial status
 			if(initialStatus != null){
-				if(initialStatus.getId() > status.getId()){
+				if(initialStatus.getId() > status.getId() ){
 					initialStatus = status;
 				}
 			}else{
 				initialStatus = status;
 			}
+			
+			//retrieve the last status Q+
+			if(status.getType() == 1){
+    			if(lastStatusQ != null){
+    				if(lastStatusQ.getId() < status.getId() && status.getType() == 1){
+    					lastStatusQ = status;
+    				}
+    				if(lastStatusQ.getId() < status.getId() && status.getType() == 2){
+    					lastStatusT = status;
+    				}
+    			}else{
+    				lastStatusQ = status;
+    			}
+    		}
 		}
     	
     	Collections.reverse(statusHistory);
+    	Collections.reverse(statusHistoryT);
 
     	model.put("user", user);
     	model.put("ilcd", ilcd);
         model.put("username", user.getFirstName());
         model.put("lastStatusUser", lastStatusUser);
+        model.put("lastStatusUserT", lastStatusUserT);
+        model.put("lastStatusQ", lastStatusQ);
+        model.put("lastStatusT", lastStatusT);
         model.put("statusHistory", statusHistory);
+        model.put("statusHistoryT", statusHistoryT);
     	model.put("initialStatus", initialStatus);
+    	model.put("initialStatusT", initialStatusT);
         return "index";
     }
     

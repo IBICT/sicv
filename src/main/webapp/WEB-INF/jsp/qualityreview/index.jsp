@@ -81,6 +81,16 @@
                 color: #999;
                 padding: 0 !important;
             }
+            .h5-text{
+            	color:#4dbcc4;
+            	margin: 15px 20px 0 20px;
+            }
+            .h6-text{
+            	color:#61615F;
+            	margin-left: 20px;
+            	margin-bottom: 20px;
+
+            }
 
         </style>
     </head>
@@ -99,15 +109,16 @@
             </div>
             
             <c:if test="${not empty invite}">
-                <c:forEach var="status1" items="${invite}"> 
-
-                    <div class="row sicv-container" style="padding-top:10px;background-color: #d7eef0; width: 75%; float: left;">
-                        <h5 style="color:#4dbcc4; margin:20px;">Aguardando confirmação ou cancelamento</h5>
+                <div class="row sicv-container" style="padding-top:10px;background-color: #d7eef0; width: 75%; float: left;">
+                    <h5 class="h5-text">Aguardando confirmação ou cancelamento</h5>
+                    <h6 class="h6-text">Confirme sua participação como revisor e acompanhe os inventários que lhe foram atribuidos para realizar a revisão de Qualidade</h6>
+	                <c:forEach var="status1" items="${invite}" varStatus="loop"> 
                         <div class="row">
-                            <a class="col s12" style="margin:0 20px;color:#00728a;" href="<%=Strings.BASE%>/qualityreview/${status1.id}">${status1.ilcd.title}<i style="color: #c3697c; margin-left: 10px;" class="fa fa-eye"></i></a>
+                            <a class="" style="margin:0 20px;color:#00728a;" href="<%=Strings.BASE%>/qualityreview/${status1.id}">${status1.ilcd.title}<i style="color: #c3697c; margin-left: 10px;" class="fa fa-eye"></i></a>
                         </div>
-                    </div>
-                </c:forEach>
+                        <hr ${loop.last ? 'hidden' : ''} style="border:solid 0.5px #FFFFFF; width:875px;">
+	                </c:forEach>
+                </div>
             </c:if>
             
             <br />
