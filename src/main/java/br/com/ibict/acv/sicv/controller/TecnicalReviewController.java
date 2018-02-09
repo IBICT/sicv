@@ -87,7 +87,7 @@ public class TecnicalReviewController {
             statusDao.save(status);
 
             Homologacao homo = status.getIlcd().getHomologation();
-            homo.setStatus(2);
+            homo.setStatus(3);
             homologacaoDao.save(homo);
             return "redirect:/tecnicalreview/" + status.getId();
         } catch (Exception e) {
