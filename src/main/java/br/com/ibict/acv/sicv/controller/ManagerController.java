@@ -201,6 +201,14 @@ public class ManagerController {
         status.setIlcd(ilcd);
         status.setArchive(archive);
         status.setPrevious(oldStatus);
+        
+        if (f.exists()) {
+            status.setType(4);
+        } else {
+
+            status.setType(2);
+        }
+        
         statusDao.save(status);
 
         archive.setStatus(status);
