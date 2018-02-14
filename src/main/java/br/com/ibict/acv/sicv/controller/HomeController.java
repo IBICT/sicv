@@ -360,16 +360,26 @@ public class HomeController {
             	out.close();
             }
             
-            Notification notification = new Notification();
+            Notification notificationManager, notificationUser = new Notification();
             Homologacao homolog = new Homologacao();
-            notification.setUser( ilcd.getUser().getId() );
-            notification.fillMsgWAIT_REV( ilcd.getUuid() , ilcd.getTitle() );
-            notification.setStatus(status);
-            notification.setIlcd(ilcd);
-            notification.setNotifyDate( Calendar.getInstance().getTime() );
+            notificationUser.setUser( ilcd.getUser().getId() );
+            notificationUser.setStatus(status);
+            notificationUser.setIlcd(ilcd);
+            notificationUser.setNotifyDate( Calendar.getInstance().getTime() );
+            
+            notificationManager = notificationUser;
+
+            //TODO: IMPORTANT: verify if has only one notification by user and for all manager
+            notificationUser.fillMsgUSER_SUBMISSION( ilcd.getId() , ilcd.getTitle() );
+            List<User> managers = userDao.findAll();
+            for (User manager : managers) {
+				notificationManager.setUser(manager.getId());
+			}
+            notificationManager.fillMsgMANAGER_WAIT_Q_REV( ilcd.getId() , ilcd.getTitle() );
+            
             redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "' ilcd:" + ilcd.getTitle());
             ilcd.setJson1(json);
-            ilcd.addNotification(notification);
+            ilcd.addNotification(notificationUser);
             homolog.setStatus(1);
             
             //Pendecia inicial verdadeira
@@ -460,7 +470,7 @@ public class HomeController {
 	            Notification notification = new Notification();
 	            Homologacao homolog = ilcd.getHomologation();
 	            notification.setUser( ilcd.getUser().getId() );
-	            notification.fillMsgWAIT_REV( ilcd.getUuid() , ilcd.getTitle() );
+	            //notification.fillMsgWAIT_REV( ilcd.getId() , ilcd.getTitle() );
 	            notification.setStatus(userStatus);
 	            notification.setIlcd(ilcd);
 	            notification.setNotifyDate( Calendar.getInstance().getTime() );

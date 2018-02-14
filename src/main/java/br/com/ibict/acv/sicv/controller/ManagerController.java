@@ -31,6 +31,8 @@ import br.com.ibict.acv.sicv.repositories.QualiDataDao;
 import br.com.ibict.acv.sicv.repositories.StatusDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.Mail;
+import java.io.File;
+import resources.Strings;
 
 @Controller
 @RequestMapping("/gestor")
@@ -83,7 +85,7 @@ public class ManagerController {
     }
 
     @RequestMapping(value = {"/{id}/", "{id}/", "{id}", "/{id}"})
-    public String itemDeteil(Map<String, Object> model, @PathVariable("id") Long id) {
+    public String itemDetail(Map<String, Object> model, @PathVariable("id") Long id) {
         try {
             User user = (User) session().getAttribute("user");
             String name = user.getFirstName();
@@ -127,48 +129,49 @@ public class ManagerController {
 
         User user = userDao.findOne(userID);
         Ilcd ilcd = ilcdDao.findById(ilcdId);
-        
+
         Status statusOld = statusDao.findOne(statusId);
         statusOld.setClosed(Boolean.TRUE);
 
         Status status = new Status();
         status.setIlcd(ilcd);
-        
+
         Archive archive = new Archive();
         archive.setPathFile(statusOld.getArchive().getPathFile());
         archiveDao.save(archive);
-        
+
         status.setArchive(archive);
         status.setRevisor(user);
         status.setType(tipo);
         status.setRequestDate(new Date());
+        status.setPrevious(statusOld);
         statusDao.save(status);
-        
+
         archive.setStatus(status);
         archiveDao.save(archive);
-        
+
         ilcd.addStatus(status);
         ilcdDao.save(ilcd);
-        
+
         Homologacao homologacao = ilcd.getHomologation();
         homologacao.setUser(((User) session().getAttribute("user")));
         homologacao.setStatus(tipo > 2 ? 3 : 2);
         homologacaoDao.save(homologacao);
-        
+
         statusDao.save(statusOld);
 
         return "redirect:/gestor/";
     }
-    
+
     @RequestMapping(value = {"/{ilcd}/sendauthor/{status}", "{ilcd}/sendauthor/{status}", "/{ilcd}/sendauthor/{status}/", "{ilcd}/sendauthor/{status}/"}, method = RequestMethod.GET)
-    public String sendAuthor(@PathVariable("ilcd") Long ilcdID,@PathVariable("status") Long statusID) {
-        
+    public String sendAuthor(@PathVariable("ilcd") Long ilcdID, @PathVariable("status") Long statusID) {
+
         Ilcd ilcd = ilcdDao.findById(ilcdID);
-        
+
         Status oldStatus = statusDao.findOne(statusID);
         oldStatus.setClosed2(Boolean.TRUE);
         statusDao.save(oldStatus);
-        
+
         Status status = new Status();
         status.setIlcd(ilcd);
         status.setType(3);
@@ -176,41 +179,41 @@ public class ManagerController {
         status.setRequestDate(new Date());
         status.setPrevious(oldStatus);
         statusDao.save(status);
-        
+
         ilcd.addStatus(status);
         ilcdDao.save(ilcd);
-        
-        return "redirect:/gestor/"+ilcdID;
+
+        return "redirect:/gestor/" + ilcdID;
     }
-    
+
     @RequestMapping(value = {"/{ilcd}/nextstep/", "{ilcd}/nextstep/", "/{ilcd}/nextstep", "{ilcd}/nextstep"}, method = RequestMethod.POST)
-    public String nextStep(@PathVariable("ilcd") Long ilcdID,@RequestParam("status") Long statusID) {
-        
+    public String nextStep(@PathVariable("ilcd") Long ilcdID, @RequestParam("status") Long statusID) {
+
         Ilcd ilcd = ilcdDao.findById(ilcdID);
         Status oldStatus = statusDao.findOne(statusID);
+        File f = new File(Strings.UPLOADED_FOLDER + "/" + oldStatus.getArchive().getPathFile() + "/review.zip");
+
         oldStatus.setClosed2(Boolean.TRUE);
         statusDao.save(oldStatus);
-        
         Archive archive = new Archive();
         archive.setPathFile(oldStatus.getArchive().getPathFile());
-        
         Status status = new Status();
         status.setIlcd(ilcd);
-        status.setType(2);
         status.setArchive(archive);
+        status.setPrevious(oldStatus);
         statusDao.save(status);
-        
+
         archive.setStatus(status);
         archiveDao.save(archive);
-        
-        session().setAttribute("nextStep", true);
-        
+
         Homologacao homologacao = ilcd.getHomologation();
         homologacao.setUser(((User) session().getAttribute("user")));
         homologacao.setStatus(3);
         homologacaoDao.save(homologacao);
-        
-        return "redirect:/gestor/"+ilcdID;
+
+        session().setAttribute("nextStep", true);
+
+        return "redirect:/gestor/" + ilcdID;
     }
 
     @RequestMapping(value = {"/{ilcd}/review/quality/{status}/", "{ilcd}/review/quality/{status}/", "/{ilcd}/review/quality/{status}", "{ilcd}/review/quality/{status}"}, method = RequestMethod.GET)
@@ -225,7 +228,7 @@ public class ManagerController {
             return "error";
         }
     }
-    
+
     @RequestMapping(value = {"/{ilcd}/review/technical/{status}/", "{ilcd}/review/technical/{status}/", "/{ilcd}/review/technical/{status}", "{ilcd}/review/technical/{status}"}, method = RequestMethod.GET)
     public String technicReviewView(Map<String, Object> model, @PathVariable("ilcd") Long ilcdId, @PathVariable("status") Long statusId) {
         try {
@@ -239,5 +242,5 @@ public class ManagerController {
             return "error";
         }
     }
-    
+
 }

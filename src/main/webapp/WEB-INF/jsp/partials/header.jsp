@@ -24,7 +24,7 @@
                 <button class="button" style="${localN == 1 ? "color:#00697C;font-weight: bold;":""}" onclick="location.href='<%=Strings.BASE%>/qualityreview'">Revisão Qualidata</button>
             </td>
             <td class="tdCenterHeader">
-                <button class="button" style="${localN == 2 ? "color:#00697C;font-weight: bold;":""}" onclick="location.href='<%=Strings.BASE%>/tecnicalreview'">Revisão Técnica</button>
+                <button class="button" style="${localN == 2 ? "color:#00697C;font-weight: bold;":""}" onclick="location.href='<%=Strings.BASE%>/technicalreview'">Revisão Técnica</button>
             </td>
             <c:if test="${isManager or isAdmin}">
                 <td class="tdCenterHeader" >

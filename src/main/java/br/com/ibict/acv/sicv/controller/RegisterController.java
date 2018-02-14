@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import br.com.ibict.acv.sicv.exception.RegisterException;
+import br.com.ibict.acv.sicv.model.Notification;
 import br.com.ibict.acv.sicv.model.Role;
 import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.UserDao;
@@ -97,6 +98,8 @@ public class RegisterController {
         
         try {
         	userDao.save(user);
+        	Notification notify = new Notification();
+        	notify.fillMsgADMIN_NEW_REG(user.getId(), user.getFirstName() + " " +user.getLastName());
 			mail.sendEmail(email, "acv@ibict.br", "Cadastro de Usuário", model, "emailRegister.ftl");
 			
 			model.put("urlTrack", Strings.BASE +"/admin/users/");

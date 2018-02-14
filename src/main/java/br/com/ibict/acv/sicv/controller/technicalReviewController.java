@@ -42,8 +42,8 @@ import java.util.Collections;
  * @author deivdywilliamsilva
  */
 @Controller
-@RequestMapping("/tecnicalreview")
-public class TecnicalReviewController {
+@RequestMapping("/technicalreview")
+public class technicalReviewController {
 
     @Autowired
     private IlcdDao ilcdDao;
@@ -71,7 +71,7 @@ public class TecnicalReviewController {
 
         List<Status> works = statusDao.findByRevisorAndAcceptAndType(user, true, 2);
         model.put("work", works);
-        return "tecnicalreview/index";
+        return "technicalreview/index";
     }
 
     @RequestMapping(value = {"accept/{id}/", "/accept/{id}/", "accept/{id}", "/accept/{id}"})
@@ -89,7 +89,7 @@ public class TecnicalReviewController {
             Homologacao homo = status.getIlcd().getHomologation();
             homo.setStatus(2);
             homologacaoDao.save(homo);
-            return "redirect:/tecnicalreview/" + status.getId();
+            return "redirect:/technicalreview/" + status.getId();
         } catch (Exception e) {
             return "error";
         }
@@ -101,7 +101,7 @@ public class TecnicalReviewController {
             Status status = statusDao.findOne(id);
             status.setAccept(false);
             statusDao.save(status);
-            return "redirect:/tecnicalreview/" + status.getId();
+            return "redirect:/technicalreview/" + status.getId();
         } catch (Exception e) {
             return "error";
         }
@@ -123,7 +123,7 @@ public class TecnicalReviewController {
             List<Status> status2 = statusDao.findByIlcdAndType(ilcd, 2);
             Collections.reverse(status2);
             model.put("status2", status2);
-            return "tecnicalreview/item";
+            return "technicalreview/item";
         } catch (Exception e) {
             return "error";
         }
@@ -144,7 +144,7 @@ public class TecnicalReviewController {
             model.put("technicalReviewer2", technicalReviewer2);
             model.put("username", name);
             model.put("status", status1);
-            return "tecnicalreview/review";
+            return "technicalreview/review";
         } catch (Exception e) {
             return "error";
         }
@@ -184,11 +184,11 @@ public class TecnicalReviewController {
             if(allRequestParams.get("tipo").equals("2")){
                status.setClosed(true);
                statusDao.save(status);
-               return "redirect:/tecnicalreview/"+status.getId();
+               return "redirect:/technicalreview/"+status.getId();
             } else {
                 status.setClosed(false);
                 statusDao.save(status);
-                return "redirect:/tecnicalreview/"+status.getId();
+                return "redirect:/technicalreview/"+status.getId();
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -207,7 +207,7 @@ public class TecnicalReviewController {
             model.put("technicalReviewer1", technicalReviewer1);
             model.put("username", name);
             model.put("status", status1);
-            return "tecnicalreview/view";
+            return "technicalreview/view";
         } catch (Exception e) {
             return "error";
         }

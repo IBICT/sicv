@@ -109,10 +109,10 @@
                     </div>
                     <c:if test="${empty status1.accept}">
                         <div class="col s2">
-                            <a href="<%=Strings.BASE%>/tecnicalreview/refuse/${status1.id}/" style="color: #C3697C; font-size: 14px; position: relative; top: 4px;"><i class="fa fa-ban" aria-hidden="true"></i> Não, obrigado</a>
+                            <a href="<%=Strings.BASE%>/technicalreview/refuse/${status1.id}/" style="color: #C3697C; font-size: 14px; position: relative; top: 4px;"><i class="fa fa-ban" aria-hidden="true"></i> Não, obrigado</a>
                         </div>
                         <div class="col s2">
-                            <a href="<%=Strings.BASE%>/tecnicalreview/accept/${status1.id}/" style="color: #ACCC5F; font-size: 14px; position: relative; top: 4px;"><i class="fa fa-check" aria-hidden="true"></i> Aceito</a>
+                            <a href="<%=Strings.BASE%>/technicalreview/accept/${status1.id}/" style="color: #ACCC5F; font-size: 14px; position: relative; top: 4px;"><i class="fa fa-check" aria-hidden="true"></i> Aceito</a>
                         </div>
                     </c:if>
                 </div>
@@ -168,7 +168,7 @@
                                         <div class="col s6">
                                             <c:choose>
                                                 <c:when test="${status4.accept}">
-                                                    <a href="<%=Strings.BASE%>/tecnicalreview/${status4.id}/review" class="btn">Aplicar Qualidata</a>
+                                                    <a href="<%=Strings.BASE%>/technicalreview/${status4.id}/review" class="btn">Aplicar Qualidata</a>
                                                 </c:when>
                                                 <c:when test="${not status4.accept}">
                                                     <a href="" class="btn disabled">Aplicar Qualidata</a>
@@ -186,7 +186,7 @@
                                                 <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${status4.archive.pathFile}?name=complement.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> complement.zip</a>
                                             </div>
                                             <div class="col s6">
-                                                <a href="<%=Strings.BASE%>/tecnicalreview/${status4.id}/view" class="">Ver revisão - <fmt:formatDate value="${status4.endDate}" pattern="dd/MM/yyyy"/></a>
+                                                <a href="<%=Strings.BASE%>/technicalreview/${status4.id}/view" class="">Ver revisão - <fmt:formatDate value="${status4.endDate}" pattern="dd/MM/yyyy"/></a>
                                             </div>
                                         </div>
                                     </div>

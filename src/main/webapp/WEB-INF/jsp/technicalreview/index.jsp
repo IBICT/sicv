@@ -104,7 +104,7 @@
                     <div class="row sicv-container" style="padding-top:10px;background-color: #d7eef0; width: 75%; float: left;">
                         <h5 style="color:#4dbcc4; margin:20px;">Aguardando confirmação ou cancelamento</h5>
                         <div class="row">
-                            <a class="col s12" style="margin:0 20px;color:#00728a;" href="<%=Strings.BASE%>/tecnicalreview/${status1.id}">${status1.ilcd.title}<i style="color: #c3697c; margin-left: 10px;" class="fa fa-eye"></i></a>
+                            <a class="col s12" style="margin:0 20px;color:#00728a;" href="<%=Strings.BASE%>/technicalreview/${status1.id}">${status1.ilcd.title}<i style="color: #c3697c; margin-left: 10px;" class="fa fa-eye"></i></a>
                         </div>
                     </div>
                 </c:forEach>
@@ -125,7 +125,7 @@
                         <div class="col s2 sicv-table-th">Prazo para entregar</div>
                     </div>
                     <c:forEach var="status2" items="${work}">
-                        <div style="cursor:pointer; margin:0px;" class="row" onclick="window.location = '<%=Strings.BASE%>/tecnicalreview/${status2.id}';">
+                        <div style="cursor:pointer; margin:0px;" class="row" onclick="window.location = '<%=Strings.BASE%>/technicalreview/${status2.id}';">
                             <div style="height: 40px; position: relative; top: 10px;" class="col s2 sicv-table-td">
                                 ${status2.ilcd.user.firstName}
                             </div>

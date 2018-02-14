@@ -84,21 +84,20 @@
 		})
 		
 		function subtract(id, visualized){
-			alert(ar);
+			//alert(ar);
 			if(visualized != true && $.inArray( id , ar) == -1){
 				var bell = +($('#bell').text()) -1;
 				$('#bell').text(bell);
-				alert($('#bell').text());
+				//alert($('#bell').text());
 				var link = "<%=Strings.BASE%>/notifications/";
 				link = link + id;
-				alert(link);
+				//alert(link);
 				$.ajax({
 		            url: link,
 		            success : function(resposta){
+		            	//alert('teste');
 		            	//check if an item is in the array
-		            	alert('teste');
 						if( $.inArray( id , ar) == -1 ){
-			            	alert('teste2');
 		                	ar.push(id);
 						}
 		            }
