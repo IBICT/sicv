@@ -53,7 +53,7 @@ public class NotificationController {
         } else {
             User user = (User) session().getAttribute("user");
             model.put("user", user);
-            List<Notification> notifications = notificationDao.findByUser(user.getId());
+            List<Notification> notifications = notificationDao.findByIdUser(user.getId());
             model.put("notifications", notifications);
 //            model.put("notifications", new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(notifications));
             return "notifications";

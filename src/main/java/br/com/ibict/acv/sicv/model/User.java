@@ -13,10 +13,10 @@ import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-import javax.persistence.JoinColumn;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
@@ -134,6 +134,9 @@ public class User implements Serializable{
     @OneToMany(mappedBy = "revisor", targetEntity = Status.class,fetch = FetchType.EAGER)
     private Set<Status> status;
     
+    @OneToMany(mappedBy = "user", targetEntity = Notification.class, cascade = CascadeType.PERSIST)
+    @Expose
+    private Set<Notification> notifications;
     
     // ------------------------
     // PUBLIC METHODS
@@ -369,5 +372,20 @@ public class User implements Serializable{
     		this.roles = new HashSet<Role>();
     	}
 		return this.roles.add(role);
+    }
+    
+    public Set<Notification> getNotifications() {
+		return notifications;
+	}
+    
+    public void setNotifications(Set<Notification> notifications) {
+		this.notifications = notifications;
+	}
+    
+    public boolean addNotification(Notification notify){
+    	if(notifications == null ){
+    		this.notifications = new HashSet<Notification>();
+    	}
+		return this.notifications.add(notify);
     }
 }

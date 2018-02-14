@@ -47,15 +47,6 @@
 						
 					</tr>
 				</c:forEach>
-				<tr>
-					<td class="tdCenter" style="cursor: pointer;">23/10/2017</td>
-					<th>
-						<p style="cursor: pointer;">Aprovado pelo revisor de Qualidade: 266c5da8-55bc-4d58-a4af-cbf7724f7939: </p>
-				        <div class="divs" style="padding-top: 1%"> Brick technology mix production mix, at plant 1800 kg/m3 foi aprovado pelo revisor de Qualidade.</div><p>
-				        <div class="divs"> Acesse à revisão em: Meus inventários Download Disponíveis</div>
-					</th>
-					
-				</tr>
 			</tbody>
 			<tfoot>
 				<tr></tr>
@@ -67,7 +58,6 @@
 	<script>
 		var ar=[];
 		
-        alert(JSON.stringify(ar));
 		$(function () {
 		    $('#list tr').click(function (ev) {
 			    var shown = $(this).children("th").children("div");

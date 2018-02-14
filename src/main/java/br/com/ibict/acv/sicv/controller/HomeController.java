@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.hibernate.internal.util.Cloneable;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -362,24 +363,14 @@ public class HomeController {
             
             Notification notificationManager, notificationUser = new Notification();
             Homologacao homolog = new Homologacao();
-            notificationUser.setUser( ilcd.getUser().getId() );
+            //notificationUser.setUser( ilcd.getUser().getId() );
             notificationUser.setStatus(status);
-            notificationUser.setIlcd(ilcd);
             notificationUser.setNotifyDate( Calendar.getInstance().getTime() );
             
-            notificationManager = notificationUser;
+            notificationManager = (Notification) notificationUser.clone();
 
-            //TODO: IMPORTANT: verify if has only one notification by user and for all manager
-            notificationUser.fillMsgUSER_SUBMISSION( ilcd.getId() , ilcd.getTitle() );
-            List<User> managers = userDao.findAll();
-            for (User manager : managers) {
-				notificationManager.setUser(manager.getId());
-			}
-            notificationManager.fillMsgMANAGER_WAIT_Q_REV( ilcd.getId() , ilcd.getTitle() );
-            
             redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "' ilcd:" + ilcd.getTitle());
             ilcd.setJson1(json);
-            ilcd.addNotification(notificationUser);
             homolog.setStatus(1);
             
             //Pendecia inicial verdadeira
@@ -401,9 +392,19 @@ public class HomeController {
             ilcd.setHomologation(homolog);
             //salvando homologação outros objetos são salvos e atualizados em cascata
             homologationDao.saveAndFlush(homolog);
-//            ilcdUser.addHomologacao(homolog);
+            //TODO: IMPORTANT: verify if has only one notification by user and for all manager
+            notificationUser.fillMsgUSER_SUBMISSION( ilcd.getId() , ilcd.getTitle() );
             ilcdUser.setQntdNotificacoes( ilcdUser.getQntdNotificacoes()+ 1 );
+            List<User> managers = userDao.findAll();
             userDao.saveAndFlush(ilcdUser);
+            notificationManager.fillMsgMANAGER_WAIT_Q_REV( ilcd.getId() , ilcd.getTitle() );
+            notificationDao.save(notificationManager);
+            
+            for (User manager : managers) {
+				manager.addNotification(notificationManager);
+				manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
+				userDao.saveAndFlush(manager);
+			}
 
             Map<String, Object> model = new HashMap<String, Object>();
             model.put("ilcdTitle", ilcd.getTitle());
@@ -467,15 +468,27 @@ public class HomeController {
 	            	out.close();
 	            }
 	            
-	            Notification notification = new Notification();
+	            Notification notificationManager, notificationUser = new Notification();
 	            Homologacao homolog = ilcd.getHomologation();
-	            notification.setUser( ilcd.getUser().getId() );
-	            //notification.fillMsgWAIT_REV( ilcd.getId() , ilcd.getTitle() );
-	            notification.setStatus(userStatus);
-	            notification.setIlcd(ilcd);
-	            notification.setNotifyDate( Calendar.getInstance().getTime() );
+	            //notification.setUser( ilcd.getUser().getId() );
+	            notificationUser.setStatus(userStatus);
+	            notificationUser.setNotifyDate( Calendar.getInstance().getTime() );
 	            redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "' ilcd:" + ilcd.getTitle());
-	            ilcd.addNotification(notification);
+	            notificationManager = notificationUser;
+	            
+	            notificationUser.fillMsgUSER_SUBMISSION( ilcd.getId() , ilcd.getTitle() );
+	            List<User> managers = userDao.findAll();
+	            if(userStatus.getPrevious().getType().equals(1) )
+	            	notificationManager.fillMsgMANAGER_WAIT_Q_REV( ilcd.getId() , ilcd.getTitle() );
+	            else
+	            	notificationManager.fillMsgMANAGER_WAIT_T_REV( ilcd.getId() , ilcd.getTitle() );
+	            
+	            notificationDao.save(notificationManager);
+	            for (User manager : managers) {
+	            	manager.addNotification(notificationManager);
+					manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
+					userDao.saveAndFlush(manager);
+				}
 	            
 	            //Pendecia inicial verdadeira
 	            homolog.setPending(true);

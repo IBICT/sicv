@@ -90,10 +90,6 @@ public class Ilcd implements Serializable {
     @Column(columnDefinition = "TEXT")
     private String name;
     
-    @OneToMany(mappedBy = "ilcd", targetEntity = Notification.class, cascade = CascadeType.PERSIST)
-    @Expose
-    private Set<Notification> notifications;
-    
     @LazyCollection(LazyCollectionOption.FALSE)
     @OneToMany(mappedBy = "ilcd", targetEntity = Status.class, cascade = CascadeType.PERSIST)
     private List<Status> status;
@@ -247,21 +243,6 @@ public class Ilcd implements Serializable {
     public List<Status> getStatus() {
 		return status;
 	}
-    
-    public Set<Notification> getNotifications() {
-		return notifications;
-	}
-	
-	public void setNotifications(Set<Notification> notifications) {
-		this.notifications = notifications;
-	}
-    
-    public boolean addNotification(Notification notification){
-    	if(this.notifications == null ){
-    		this.notifications = new HashSet<Notification>();
-    	}
-		return this.notifications.add(notification);
-    }
     
     public void setStatus(List<Status> status) {
 		this.status = status;
