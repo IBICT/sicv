@@ -297,7 +297,7 @@
 		                        </c:forEach>
 								
 								<div class="row">
-									<div class="col page-title bold" style="padding: 0;">Arquivo inicial </div>- ${initialStatus.notify.notifyDate}
+									<div class="col page-title bold" style="padding: 0;">Arquivo inicial </div>- ${initialStatus.ilcd.homologation.submission}
 									<div class="row">
 									</div>
 									<div class="row">

@@ -136,12 +136,7 @@ public class User implements Serializable{
     @OneToMany(mappedBy = "revisor", targetEntity = Status.class,fetch = FetchType.EAGER)
     private Set<Status> status;
     
-    @ManyToMany(cascade = { CascadeType.ALL })
-    @JoinTable(
-        name = "user_notification", 
-        joinColumns = { @JoinColumn(name = "user_id") }, 
-        inverseJoinColumns = { @JoinColumn(name = "notification_id") }
-    )
+    @OneToMany(mappedBy = "user", targetEntity = Notification.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
     @Expose
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Notification> notifications = new ArrayList<Notification>();
@@ -395,5 +390,9 @@ public class User implements Serializable{
     		this.notifications = new ArrayList<Notification>();
     	}
 		return this.notifications.add(notify);
+    }
+    
+    public String getFullName(){
+    	return this.firstName + " " + this.lastName;
     }
 }

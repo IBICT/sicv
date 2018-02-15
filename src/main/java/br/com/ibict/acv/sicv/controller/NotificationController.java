@@ -71,9 +71,9 @@ public class NotificationController {
             	user.setQntdNotificacoes(user.getQntdNotificacoes()-1);
             model.put("user", user);
             Notification notification = notificationDao.findOne(idNotify);
-            notification.setIsVisualized(true);
-            notificationDao.save(notification);
             userDao.save(user);
+            notification.setVisualized(true);
+            notificationDao.save(notification);
         }
     }
     

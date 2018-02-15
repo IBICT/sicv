@@ -2,6 +2,7 @@ package br.com.ibict.acv.sicv.controller;
 
 import static br.com.ibict.acv.sicv.controller.HomeController.session;
 
+import java.io.File;
 import java.util.Collections;
 import java.util.Date;
 import java.util.List;
@@ -16,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import resources.Strings;
 import br.com.ibict.acv.sicv.model.Archive;
 import br.com.ibict.acv.sicv.model.Homologacao;
 import br.com.ibict.acv.sicv.model.Ilcd;
+import br.com.ibict.acv.sicv.model.Notification;
 import br.com.ibict.acv.sicv.model.QualiData;
 import br.com.ibict.acv.sicv.model.Status;
 import br.com.ibict.acv.sicv.model.TechnicalReviewer;
@@ -31,8 +34,6 @@ import br.com.ibict.acv.sicv.repositories.QualiDataDao;
 import br.com.ibict.acv.sicv.repositories.StatusDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.Mail;
-import java.io.File;
-import resources.Strings;
 
 @Controller
 @RequestMapping("/gestor")
@@ -129,6 +130,7 @@ public class ManagerController {
 
         User user = userDao.findOne(userID);
         Ilcd ilcd = ilcdDao.findById(ilcdId);
+        Notification notifyQ = new Notification();
 
         Status statusOld = statusDao.findOne(statusId);
         statusOld.setClosed(Boolean.TRUE);
@@ -159,6 +161,13 @@ public class ManagerController {
         homologacaoDao.save(homologacao);
 
         statusDao.save(statusOld);
+        
+        notifyQ.setUser(user);
+        notifyQ.fillMsgQUALITY_WAIT_AC(ilcdId, ilcd.getTitle());
+        user.setQntdNotificacoes(user.getQntdNotificacoes()+1);
+        user.addNotification(notifyQ);
+        //notificationDao.save(notifyQ);
+        userDao.save(user);
 
         return "redirect:/gestor/";
     }

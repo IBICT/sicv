@@ -22,6 +22,6 @@ public interface NotificationDao extends JpaRepository<Notification, Long> {
      void setIlcdInfoById(String id, String name, String type, String location, String clasification, Date yearToReference, Date yearToValidate, String pathFile, String whereId);
      */
 
-    @Query("SELECT n FROM Notification n Join n.users u WHERE u.id = :idUser")
+    @Query("SELECT n FROM Notification n WHERE n.user.id = :idUser")
     public List<Notification> findByIdUser(@Param("idUser") Long idUser);
 }

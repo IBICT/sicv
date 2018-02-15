@@ -172,9 +172,9 @@ public class HomeController {
         return "successAlterProfile";
     }
     
-    @RequestMapping("/authorIlcd/{index}")
-    public String getAuthorIlcd(Map<String, Object> model, @PathVariable("index") Integer index) {
-    	Ilcd ilcd = ilcds.get(index);
+    @RequestMapping("/authorIlcd/{ilcdId}")
+    public String getAuthorIlcd(Map<String, Object> model, @PathVariable("ilcdId") Long ilcdId) {
+    	Ilcd ilcd = ilcdDao.findById(ilcdId);
     	Status initialStatus = null, initialStatusT = null, lastStatusUserT = null, lastStatusUser = null, lastStatusQ = null, lastStatusT = null;
     	Ilcd currentIlcd = ilcdDao.findById(ilcd.getId());
     	List<Status> allStatus = currentIlcd.getStatus();
@@ -395,22 +395,26 @@ public class HomeController {
             homologationDao.saveAndFlush(homolog);
             //TODO: IMPORTANT: verify if has only one notification by user and for all manager
             notificationUser.fillMsgUSER_SUBMISSION( ilcd.getId() , ilcd.getTitle() );
-            notificationUser.addUser(ilcdUser);
+            notificationUser.setUser(ilcdUser);
             ilcdUser.addNotification(notificationUser);
             ilcdUser.setQntdNotificacoes( ilcdUser.getQntdNotificacoes()+ 1 );
             notificationDao.save(notificationUser);
-            userDao.saveAndFlush(ilcdUser);
-            List<User> managers = userDao.findAll();
+            userDao.save(ilcdUser);
             notificationManager.fillMsgMANAGER_WAIT_Q_REV( ilcd.getId() , ilcd.getTitle() );
-            notificationDao.save(notificationManager);
+            //notificationDao.save(notificationManager);
             
+            List<User> managers = userDao.findAll();
             for (User manager : managers) {
             	Iterator<Role> itr = manager.getRoles().iterator();
             	while(itr.hasNext()){
             		if(itr.next().getRole().equals("MANAGER")){
-            			manager.addNotification(notificationManager);
+            			Notification notifyManager = SerializationUtils.clone(notificationManager);
+            			notifyManager.setUser(manager);
+            			manager.addNotification(notifyManager);
             			manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
-            			userDao.saveAndFlush(manager);            		
+            			//notificationDao.save(notifyManager);
+            			userDao.saveAndFlush(manager);
+            			break;
             		}
             	}
 			}

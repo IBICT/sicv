@@ -122,10 +122,10 @@
             <c:forEach items="${ilcds}" var="ilcd" varStatus="loop">
                 <div style="margin:0px;" class="row">
                     <div style="height: 40px; width:40%; position: relative; top: 10px;" class="col s3 sicv-table-td">
-                        <button class="button" style="padding-left: 0%;" onclick="location.href = '${link}/${loop.index}'">${ilcd.name}</button>
+                        <button class="button" style="padding-left: 0%;" onclick="location.href = '${link}/${ilcd.id}'">${ilcd.name}</button>
                     </div>
                     <div style="height: 40px;width:10%; position: relative; top: 10px;" class="col s3 sicv-table-td">
-                        <button class="button" style="padding-left: 0%;" onclick="location.href = '${link}/${loop.index}'">${ilcd.homologation.user.firstName == null ? "aguardando":ilcd.homologation.user.firstName}</button>
+                        <button class="button" style="padding-left: 0%;" onclick="location.href = '${link}/${ilcd.id}'">${ilcd.homologation.user.firstName == null ? "aguardando":ilcd.homologation.user.firstName}</button>
                     </div>
                     <c:choose>
                        	<c:when test="${ilcd.homologation.pending}">

@@ -1,7 +1,9 @@
 package br.com.ibict.acv.sicv.controller;
 
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -17,16 +19,18 @@ import org.springframework.web.bind.annotation.RequestParam;
 import br.com.ibict.acv.sicv.CustomAuthProvider;
 import br.com.ibict.acv.sicv.model.Homologacao;
 import br.com.ibict.acv.sicv.model.Ilcd;
+import br.com.ibict.acv.sicv.model.Notification;
 import br.com.ibict.acv.sicv.model.QualiData;
+import br.com.ibict.acv.sicv.model.Role;
 import br.com.ibict.acv.sicv.model.Status;
 import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.HomologacaoDao;
 import br.com.ibict.acv.sicv.repositories.IlcdDao;
 import br.com.ibict.acv.sicv.repositories.QualiDataDao;
 import br.com.ibict.acv.sicv.repositories.StatusDao;
+import br.com.ibict.acv.sicv.repositories.UserDao;
 
 import com.google.gson.Gson;
-import java.util.Collections;
 
 /**
  *
@@ -38,6 +42,9 @@ public class QualityReviewController {
 
     @Autowired
     private IlcdDao ilcdDao;
+    
+    @Autowired
+    private UserDao userDao;
 
     @Autowired
     private StatusDao statusDao;
@@ -66,7 +73,6 @@ public class QualityReviewController {
     @RequestMapping(value = {"accept/{id}/", "/accept/{id}/", "accept/{id}", "/accept/{id}"})
     public String accept(Map<String, Object> model, @PathVariable("id") Long id) {
         try {
-            
             Status status = statusDao.findOne(id);
             status.setAccept(true);
             status.setRequestDate(new Date());
@@ -78,6 +84,23 @@ public class QualityReviewController {
             Homologacao homo = status.getIlcd().getHomologation();
             homo.setStatus(2);
             homologacaoDao.save(homo);
+            List<User> managers = userDao.findAll();
+            for (User manager : managers) {
+            	Iterator<Role> itr = manager.getRoles().iterator();
+            	while(itr.hasNext()){
+            		if(itr.next().getRole().equals("MANAGER")){
+            			Notification notifyManager = new Notification();
+            			notifyManager.setUser(manager);
+            			manager.addNotification(notifyManager);
+            			manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
+            			notifyManager.fillMsgMANAGER_INVITE_Q_ACC(status.getRevisor().getFullName(), status.getIlcd().getName(), status.getIlcd().getId());
+            			//notificationDao.save(notifyManager);
+            			userDao.saveAndFlush(manager);
+            			break;
+            		}
+            	}
+			}
+            
             return "redirect:/qualityreview/"+status.getId();
         } catch (Exception e) {
             return "error";
