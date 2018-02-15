@@ -104,10 +104,6 @@ public class Status implements Serializable {
     @Expose
     private Boolean closed2;
 
-    @Expose
-    @OneToOne(mappedBy = "status", cascade = CascadeType.PERSIST)
-    private Notification notify;
-
     public Status() {
     }
 
@@ -195,13 +191,6 @@ public class Status implements Serializable {
         this.ilcd = ilcd;
     }
 
-    public Notification getNotify() {
-        return notify;
-    }
-
-    public void setNotify(Notification notify) {
-        this.notify = notify;
-    }
 //
 //    public Reviewer getReviewer() {
 //        return reviewer;

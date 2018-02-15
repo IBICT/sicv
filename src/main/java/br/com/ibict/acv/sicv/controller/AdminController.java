@@ -29,11 +29,7 @@ import com.google.gson.GsonBuilder;
 import br.com.ibict.acv.sicv.CustomAuthProvider;
 import br.com.ibict.acv.sicv.exception.ProfileException;
 import br.com.ibict.acv.sicv.exception.RegisterException;
-import br.com.ibict.acv.sicv.model.Homologacao;
-import br.com.ibict.acv.sicv.model.Ilcd;
-import br.com.ibict.acv.sicv.model.Notification;
 import br.com.ibict.acv.sicv.model.Role;
-import br.com.ibict.acv.sicv.model.TechnicalReviewer;
 import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.HomologacaoDao;
 import br.com.ibict.acv.sicv.repositories.IlcdDao;
@@ -41,9 +37,7 @@ import br.com.ibict.acv.sicv.repositories.NotificationDao;
 import br.com.ibict.acv.sicv.repositories.RoleDao;
 import br.com.ibict.acv.sicv.repositories.TechnicalReviewerDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
-import br.com.ibict.acv.sicv.util.Mail;
 import br.com.ibict.acv.sicv.util.Password;
-import br.com.ibict.sicv.enums.EnumProfile;
 import resources.Strings;
 
 @Controller

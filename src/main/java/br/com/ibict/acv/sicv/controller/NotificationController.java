@@ -41,7 +41,7 @@ public class NotificationController {
             return "[]";
         } else {
             User user = (User) session().getAttribute("user");
-            List<Notification> list = notificationDao.findByUser(user.getId());
+            List<Notification> list = notificationDao.findByIdUser(user.getId());
             return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(list);
         }
     }

@@ -21,6 +21,8 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.google.gson.annotations.Expose;
@@ -134,9 +136,15 @@ public class User implements Serializable{
     @OneToMany(mappedBy = "revisor", targetEntity = Status.class,fetch = FetchType.EAGER)
     private Set<Status> status;
     
-    @OneToMany(mappedBy = "user", targetEntity = Notification.class, cascade = CascadeType.PERSIST)
+    @ManyToMany(cascade = { CascadeType.ALL })
+    @JoinTable(
+        name = "user_notification", 
+        joinColumns = { @JoinColumn(name = "user_id") }, 
+        inverseJoinColumns = { @JoinColumn(name = "notification_id") }
+    )
     @Expose
-    private Set<Notification> notifications;
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<Notification> notifications = new ArrayList<Notification>();
     
     // ------------------------
     // PUBLIC METHODS
@@ -374,17 +382,17 @@ public class User implements Serializable{
 		return this.roles.add(role);
     }
     
-    public Set<Notification> getNotifications() {
+    public List<Notification> getNotifications() {
 		return notifications;
 	}
     
-    public void setNotifications(Set<Notification> notifications) {
+    public void setNotifications(List<Notification> notifications) {
 		this.notifications = notifications;
 	}
     
     public boolean addNotification(Notification notify){
     	if(notifications == null ){
-    		this.notifications = new HashSet<Notification>();
+    		this.notifications = new ArrayList<Notification>();
     	}
 		return this.notifications.add(notify);
     }

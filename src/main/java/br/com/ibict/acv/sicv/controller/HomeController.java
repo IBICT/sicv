@@ -16,6 +16,7 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
@@ -25,8 +26,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.SerializationUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
-import org.hibernate.internal.util.Cloneable;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,7 @@ import br.com.ibict.acv.sicv.model.Archive;
 import br.com.ibict.acv.sicv.model.Homologacao;
 import br.com.ibict.acv.sicv.model.Ilcd;
 import br.com.ibict.acv.sicv.model.Notification;
+import br.com.ibict.acv.sicv.model.Role;
 import br.com.ibict.acv.sicv.model.Status;
 import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.HomologacaoDao;
@@ -364,10 +366,9 @@ public class HomeController {
             Notification notificationManager, notificationUser = new Notification();
             Homologacao homolog = new Homologacao();
             //notificationUser.setUser( ilcd.getUser().getId() );
-            notificationUser.setStatus(status);
             notificationUser.setNotifyDate( Calendar.getInstance().getTime() );
             
-            notificationManager = (Notification) notificationUser.clone();
+            notificationManager = SerializationUtils.clone(notificationUser);
 
             redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "' ilcd:" + ilcd.getTitle());
             ilcd.setJson1(json);
@@ -394,16 +395,24 @@ public class HomeController {
             homologationDao.saveAndFlush(homolog);
             //TODO: IMPORTANT: verify if has only one notification by user and for all manager
             notificationUser.fillMsgUSER_SUBMISSION( ilcd.getId() , ilcd.getTitle() );
+            notificationUser.addUser(ilcdUser);
+            ilcdUser.addNotification(notificationUser);
             ilcdUser.setQntdNotificacoes( ilcdUser.getQntdNotificacoes()+ 1 );
-            List<User> managers = userDao.findAll();
+            notificationDao.save(notificationUser);
             userDao.saveAndFlush(ilcdUser);
+            List<User> managers = userDao.findAll();
             notificationManager.fillMsgMANAGER_WAIT_Q_REV( ilcd.getId() , ilcd.getTitle() );
             notificationDao.save(notificationManager);
             
             for (User manager : managers) {
-				manager.addNotification(notificationManager);
-				manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
-				userDao.saveAndFlush(manager);
+            	Iterator<Role> itr = manager.getRoles().iterator();
+            	while(itr.hasNext()){
+            		if(itr.next().getRole().equals("MANAGER")){
+            			manager.addNotification(notificationManager);
+            			manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
+            			userDao.saveAndFlush(manager);            		
+            		}
+            	}
 			}
 
             Map<String, Object> model = new HashMap<String, Object>();
@@ -471,7 +480,6 @@ public class HomeController {
 	            Notification notificationManager, notificationUser = new Notification();
 	            Homologacao homolog = ilcd.getHomologation();
 	            //notification.setUser( ilcd.getUser().getId() );
-	            notificationUser.setStatus(userStatus);
 	            notificationUser.setNotifyDate( Calendar.getInstance().getTime() );
 	            redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "' ilcd:" + ilcd.getTitle());
 	            notificationManager = notificationUser;

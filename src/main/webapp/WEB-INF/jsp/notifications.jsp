@@ -52,7 +52,6 @@
 				<tr></tr>
 			</tfoot>
 		</table>
-
 		<jsp:include page="/WEB-INF/jsp/partials/scriptsLibs.jsp" />	
 	</div>
 	<script>

@@ -4,19 +4,20 @@ import java.io.Serializable;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import com.google.gson.annotations.Expose;
@@ -27,7 +28,7 @@ import com.google.gson.annotations.Expose;
  */
 @Entity
 @Table(name = "notification")
-public class Notification implements Serializable, Cloneable{
+public class Notification implements Serializable{
 
     /**
 	 * 
@@ -59,16 +60,11 @@ public class Notification implements Serializable, Cloneable{
     @Expose
     @Column(columnDefinition = "boolean default false")
     private Boolean isVisualized = Boolean.FALSE;
-
-    @Expose
-    @OneToOne
-    @JoinColumn(name = "status_id")
-    private Status status;
    
-    @ManyToOne
-    @JoinColumn(name = "user_id")
+    @ManyToMany(mappedBy = "notifications")
     //@Expose
-    User user;
+    @LazyCollection(LazyCollectionOption.FALSE)
+    private List<User> users = new ArrayList<User>();
     
 //  Verificar a necessidade dos atributos abaixo
     /*remover
@@ -132,21 +128,20 @@ public class Notification implements Serializable, Cloneable{
         this.isVisualized = isVisualized;
     }
     
-    public User getUser() {
-		return user;
+    public List<User> getUsers() {
+		return users;
 	}
     
-    public void setUser(User user) {
-		this.user = user;
+    public void setUsers(List<User> users) {
+		this.users = users;
 	}
     
-    public Status getStatus() {
-		return status;
-	}
-    
-    public void setStatus(Status status) {
-		this.status = status;
-	}
+    public boolean addUser(User user){
+    	if(users == null ){
+    		this.users = new ArrayList<User>();
+    	}
+		return this.users.add(user);
+    }
     
     public void fillMsgUSER_SUBMISSION(Long ilcdId, String userName){
     	setSubject("Submissão do Conjunto de Dados");
@@ -361,8 +356,4 @@ public class Notification implements Serializable, Cloneable{
     	setNotifyDate(new Date());
     }
     
-    @Override
-	public Object clone() throws CloneNotSupportedException {
-        return super.clone();
-    }
 }
