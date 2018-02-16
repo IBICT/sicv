@@ -70,7 +70,7 @@
         <div class="principalDiv">
 
             <div class="row">
-                <form method="post">
+                <form method="post" id="reviewForm">
                     <div class="row">
                         <div class="row">
                             <div class="col s6">
@@ -1587,6 +1587,7 @@
                             .attr("type", "hidden")
                             .attr("name", "tipo").val(tipo);
                     $('form').append($(input2));
+                    
                 });
             }
             $(document).ready(function () {

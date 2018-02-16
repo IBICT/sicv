@@ -401,22 +401,14 @@ public class HomeController {
             notificationDao.save(notificationUser);
             userDao.save(ilcdUser);
             notificationManager.fillMsgMANAGER_WAIT_Q_REV( ilcd.getId() , ilcd.getTitle() );
-            //notificationDao.save(notificationManager);
             
-            List<User> managers = userDao.findAll();
+            List<User> managers = userDao.findByPerfil("MANAGER");
             for (User manager : managers) {
-            	Iterator<Role> itr = manager.getRoles().iterator();
-            	while(itr.hasNext()){
-            		if(itr.next().getRole().equals("MANAGER")){
-            			Notification notifyManager = SerializationUtils.clone(notificationManager);
-            			notifyManager.setUser(manager);
-            			manager.addNotification(notifyManager);
-            			manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
-            			//notificationDao.save(notifyManager);
-            			userDao.saveAndFlush(manager);
-            			break;
-            		}
-            	}
+    			Notification notifyManager = SerializationUtils.clone(notificationManager);
+    			notifyManager.setUser(manager);
+    			manager.addNotification(notifyManager);
+    			manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
+    			userDao.saveAndFlush(manager);
 			}
 
             Map<String, Object> model = new HashMap<String, Object>();
@@ -480,16 +472,17 @@ public class HomeController {
 	            	out.closeEntry();
 	            	out.close();
 	            }
-	            
-	            Notification notificationManager, notificationUser = new Notification();
+	            User user = ilcd.getUser();
+	            Notification notificationManager = new Notification(), notificationUser = new Notification();
 	            Homologacao homolog = ilcd.getHomologation();
-	            //notification.setUser( ilcd.getUser().getId() );
-	            notificationUser.setNotifyDate( Calendar.getInstance().getTime() );
-	            redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "' ilcd:" + ilcd.getTitle());
-	            notificationManager = notificationUser;
-	            
+	            notificationUser.setUser( ilcd.getUser() );
 	            notificationUser.fillMsgUSER_SUBMISSION( ilcd.getId() , ilcd.getTitle() );
-	            List<User> managers = userDao.findAll();
+	            //TODO: refactoring. Every system has this code... Do a statis method to addNotficatioin, setQntdNodificacoes and save user
+	            user.addNotification(notificationUser);
+	            user.setQntdNotificacoes(user.getQntdNotificacoes()+1);
+	            userDao.save(user);
+
+	            List<User> managers = userDao.findByPerfil("MANAGER");
 	            if(userStatus.getPrevious().getType().equals(1) )
 	            	notificationManager.fillMsgMANAGER_WAIT_Q_REV( ilcd.getId() , ilcd.getTitle() );
 	            else
@@ -498,9 +491,11 @@ public class HomeController {
 	            notificationDao.save(notificationManager);
 	            for (User manager : managers) {
 	            	manager.addNotification(notificationManager);
+	            	notificationManager.setUser(manager);
 					manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
 					userDao.saveAndFlush(manager);
 				}
+	            redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "' ilcd:" + ilcd.getTitle());
 	            
 	            //Pendecia inicial verdadeira
 	            homolog.setPending(true);

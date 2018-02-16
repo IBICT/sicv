@@ -163,7 +163,10 @@ public class ManagerController {
         statusDao.save(statusOld);
         
         notifyQ.setUser(user);
-        notifyQ.fillMsgQUALITY_WAIT_AC(ilcdId, ilcd.getTitle());
+        if(tipo == 1){
+        	notifyQ.fillMsgQUALITY_WAIT_AC(status.getId(), ilcd.getTitle());
+        }else
+        	notifyQ.fillMsgTECHNICAL_WAIT_AC(status.getId(), ilcd.getTitle());
         user.setQntdNotificacoes(user.getQntdNotificacoes()+1);
         user.addNotification(notifyQ);
         //notificationDao.save(notifyQ);
@@ -191,10 +194,19 @@ public class ManagerController {
 
         ilcd.addStatus(status);
         ilcdDao.save(ilcd);
+        User user = ilcd.getUser();
+        Notification notifyUser = new Notification();
+        notifyUser.setUser(user);
+        notifyUser.fillMsgUSER_MANAGER_REV_Q_NEEDADJUST(ilcdID, status.getPrevious().getId());
+        user.addNotification(notifyUser);
+        user.setQntdNotificacoes(user.getQntdNotificacoes()+1);
+        userDao.save(user);
 
         return "redirect:/gestor/" + ilcdID;
     }
-
+    /**
+     * Method to final approved by manager 
+     * */
     @RequestMapping(value = {"/{ilcd}/nextstep/", "{ilcd}/nextstep/", "/{ilcd}/nextstep", "{ilcd}/nextstep"}, method = RequestMethod.POST)
     public String nextStep(@PathVariable("ilcd") Long ilcdID, @RequestParam("status") Long statusID) {
 

@@ -66,7 +66,6 @@ public class QualityReviewController {
 
         List<Status> works = statusDao.findByRevisorAndAcceptAndType(user, true, 1);
         model.put("work", works);
-
         return "qualityreview/index";
     }
 
@@ -84,21 +83,14 @@ public class QualityReviewController {
             Homologacao homo = status.getIlcd().getHomologation();
             homo.setStatus(2);
             homologacaoDao.save(homo);
-            List<User> managers = userDao.findAll();
+            List<User> managers = userDao.findByPerfil("MANAGER");
             for (User manager : managers) {
-            	Iterator<Role> itr = manager.getRoles().iterator();
-            	while(itr.hasNext()){
-            		if(itr.next().getRole().equals("MANAGER")){
-            			Notification notifyManager = new Notification();
-            			notifyManager.setUser(manager);
-            			manager.addNotification(notifyManager);
-            			manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
-            			notifyManager.fillMsgMANAGER_INVITE_Q_ACC(status.getRevisor().getFullName(), status.getIlcd().getName(), status.getIlcd().getId());
-            			//notificationDao.save(notifyManager);
-            			userDao.saveAndFlush(manager);
-            			break;
-            		}
-            	}
+    			Notification notifyManager = new Notification();
+    			notifyManager.setUser(manager);
+    			manager.addNotification(notifyManager);
+    			manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
+    			notifyManager.fillMsgMANAGER_INVITE_Q_ACC(status.getRevisor().getFullName(), status.getIlcd().getName(), status.getIlcd().getId());
+    			userDao.saveAndFlush(manager);
 			}
             
             return "redirect:/qualityreview/"+status.getId();
@@ -113,6 +105,16 @@ public class QualityReviewController {
             Status status = statusDao.findOne(id);
             status.setAccept(false);
             statusDao.save(status);
+            
+            List<User> managers = userDao.findByPerfil("MANAGER");
+            for (User manager : managers) {
+    			Notification notifyManager = new Notification();
+    			notifyManager.setUser(manager);
+    			manager.addNotification(notifyManager);
+    			manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
+    			notifyManager.fillMsgMANAGER_INVITE_Q_REJECT(status.getRevisor().getFullName(), status.getIlcd().getName(), status.getIlcd().getId());
+    			userDao.saveAndFlush(manager);
+			}
             return "redirect:/qualityreview/"+status.getId();
         } catch (Exception e) {
             return "error";
@@ -166,6 +168,7 @@ public class QualityReviewController {
     @RequestMapping(value = {"/{id}/review", "/{id}/review/"}, method = RequestMethod.POST)
     public String reviewAction(Map<String, Object> model, @PathVariable("id") Long id, @RequestParam Map<String,String> allRequestParams) {
         try {
+        	List<User> managers = userDao.findByPerfil("MANAGER");
             Status status = statusDao.findOne(id);
             Gson gson = new Gson();
             QualiData qualiData = gson.fromJson(allRequestParams.get("json"), QualiData.class);
@@ -174,14 +177,29 @@ public class QualityReviewController {
             status.setQualiData(qualiData);
             status.setResult(resultado);
             status.setEndDate(new Date());
-            if(allRequestParams.get("tipo").equals("2")){
+            String tipo = allRequestParams.get("tipo");
+            if( tipo.equals("2")){
                status.setClosed(true);
                statusDao.save(status);
-               return "redirect:/qualityreview/"+status.getId();
+			   for (User manager : managers) {
+					Notification notifyManager = new Notification();
+					notifyManager.setUser(manager);
+					manager.addNotification(notifyManager);
+					manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
+					if(resultado == 1)
+						notifyManager.fillMsgMANAGER_REV_Q_APPROVED(status.getIlcd().getTitle(), status.getId(), status.getIlcd().getId());
+					else if(resultado == 2)
+						notifyManager.fillMsgMANAGER_REV_Q_NEED_ADJUST(status.getIlcd().getTitle(), status.getId(), status.getIlcd().getId());
+					else
+						notifyManager.fillMsgMANAGER_REV_Q_REPROVED(status.getId(), status.getIlcd().getId());
+					userDao.saveAndFlush(manager);
+					userDao.saveAndFlush(manager);
+			   }
+			   return "redirect:/qualityreview/"+status.getId();
             } else {
                 status.setClosed(false);
                 statusDao.save(status);
-                return "redirect:/qualityreview/"+status.getId();
+				return "redirect:/qualityreview/"+status.getId();
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());

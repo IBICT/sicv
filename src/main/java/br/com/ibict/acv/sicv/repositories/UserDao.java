@@ -20,7 +20,7 @@ public interface UserDao extends JpaRepository<User, Long> {
    */
   public User findByEmail(String email);
   
-  @Query("SELECT DISTINCT u FROM User u JOIN u.roles ur WHERE ur LIKE CONCAT('%', :perfil, '%')")
+  @Query("SELECT DISTINCT u FROM User u JOIN u.roles ur WHERE ur.role =:perfil")
   public List<User> findByPerfil(@Param("perfil") String perfil);
 
 } // class UserDao

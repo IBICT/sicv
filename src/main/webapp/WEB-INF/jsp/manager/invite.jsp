@@ -160,7 +160,7 @@
                 </div>
             </div>
             <form action="<%=Strings.BASE%>/gestor/${ilcd.id}/invite/${status.id}" method="post">
-                <input id="type" name="tipo" type="hidden" value="1" />
+                <input id="type" name="tipo" type="hidden" value="${status.type}" />
 
                 <div class="row">
 
