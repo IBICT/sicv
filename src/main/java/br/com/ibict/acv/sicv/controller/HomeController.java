@@ -16,7 +16,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.zip.ZipEntry;
@@ -52,7 +51,6 @@ import br.com.ibict.acv.sicv.model.Archive;
 import br.com.ibict.acv.sicv.model.Homologacao;
 import br.com.ibict.acv.sicv.model.Ilcd;
 import br.com.ibict.acv.sicv.model.Notification;
-import br.com.ibict.acv.sicv.model.Role;
 import br.com.ibict.acv.sicv.model.Status;
 import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.HomologacaoDao;
@@ -472,21 +470,20 @@ public class HomeController {
 	            	out.closeEntry();
 	            	out.close();
 	            }
-	            User user = ilcd.getUser();
 	            Notification notificationManager = new Notification(), notificationUser = new Notification();
 	            Homologacao homolog = ilcd.getHomologation();
 	            notificationUser.setUser( ilcd.getUser() );
 	            notificationUser.fillMsgUSER_SUBMISSION( ilcd.getId() , ilcd.getTitle() );
 	            //TODO: refactoring. Every system has this code... Do a statis method to addNotficatioin, setQntdNodificacoes and save user
-	            user.addNotification(notificationUser);
-	            user.setQntdNotificacoes(user.getQntdNotificacoes()+1);
-	            userDao.save(user);
+	            ilcdUser.addNotification(notificationUser);
+	            ilcdUser.setQntdNotificacoes(ilcdUser.getQntdNotificacoes()+1);
+	            userDao.save(ilcdUser);
 
 	            List<User> managers = userDao.findByPerfil("MANAGER");
 	            if(userStatus.getPrevious().getType().equals(1) )
-	            	notificationManager.fillMsgMANAGER_WAIT_Q_REV( ilcd.getId() , ilcd.getTitle() );
+	            	notificationManager.fillMsgMANAGER_NEW_SUBMISSION_Q_REV(ilcdUser.getFullName(), ilcd.getTitle(),ilcd.getId() );
 	            else
-	            	notificationManager.fillMsgMANAGER_WAIT_T_REV( ilcd.getId() , ilcd.getTitle() );
+	            	notificationManager.fillMsgMANAGER_NEW_SUBMISSION_T_REV(ilcdUser.getFullName(), ilcd.getTitle(),ilcd.getId() );
 	            
 	            notificationDao.save(notificationManager);
 	            for (User manager : managers) {

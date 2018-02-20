@@ -144,14 +144,14 @@ public class Notification implements Serializable{
     	setNotifyDate(new Date());
     }
     
-    public void fillMsgUSER_MANAGER_REV_Q_REPPROVED(String ilcdName){
+    public void fillMsgUSER_MANAGER_REV_Q_DISAPPROVED(String ilcdName){
     	setSubject("A submissão " + ilcdName + " não foi aceita para integrar o SICV Basil.");
     	addMessage("O conjunto de dados enviado está em desacordo com os requisitos previstos no Qualidata. Tente submeter um novo conjunto de dados observando os requisitos citados no <Qualidata: link para pdf>");
     	addMessage("Para saber mais entre em contato com o Gestor do sistema.");
     	setNotifyDate(new Date());
     }
     
-    public void fillMsgUSER_MANAGER_REV_T_REPPROVED(String ilcdName){
+    public void fillMsgUSER_MANAGER_REV_T_DISAPPROVED(String ilcdName){
     	setSubject("A submissão " + ilcdName + " não foi aceita para integrar o SICV Basil.");
     	addMessage("O conjunto de dados submetido não foi aprovado na revisão crítica/ técnica.");
     	addMessage("Para saber mais entre em contato com o Gestor do sistema.");
@@ -173,14 +173,14 @@ public class Notification implements Serializable{
     	setNotifyDate(new Date());
     }
      
-    public void fillMsgUSER_MANAGER_REV_Q_APPROVED(Long ilcdId, Long idQualidataIlcd){
+    public void fillMsgUSER_MANAGER_REV_Q_APPROVED(Long ilcdId){
     	setSubject("Sua submissão foi aprovada na revisão Qualidata");
     	addMessage("O próximo passo será a revisão técnica, na qual avaliaremos a veracidade e conteúdo dos dados.");
     	addMessage("Acompanhe o andamento da revisão técnica na " + "<a href=" + Strings.BASE + "/authorIlcd/" + ilcdId.toString() +  ">" + " página do inventário" + "</a>");
     	setNotifyDate(new Date());
     }
     
-    public void fillMsgUSER_MANAGER_APPROVED(Long ilcdId, Long idQualidataIlcd){
+    public void fillMsgUSER_MANAGER_APPROVED(){
     	setSubject("Sua submissão foi aprovada");
     	addMessage("Parabéns, sua submissão passou pelas etapas de Revisão QUALIDATA e Revisão TÉCNICA e foi considerada apta para a publicação no SICV BRASIL.");
     	setNotifyDate(new Date());
@@ -282,29 +282,29 @@ public class Notification implements Serializable{
     public void fillMsgMANAGER_INVITE_Q_REJECT(String nameReviwerQ, String nameIlcd, Long ilcdId){
     	setSubject("Convite recusado");
     	addMessage("O revisor de qualidade " + nameReviwerQ + " não está disponível para efetuar a revisão do"
-    			+ "<a href=" + Strings.BASE + "/qualityreview/" + ilcdId.toString() +  ">" + " conjunto de dados." + "</a>"); 
+    			+ "<a href=" + Strings.BASE + "/gestor/" + ilcdId.toString() +  ">" + " conjunto de dados." + "</a>"); 
     	addMessage("Escolha um novo revisor para o conjunto de dados " + nameIlcd);
     	setNotifyDate(new Date());
     }
     
-    public void fillMsgMANAGER_INVITE_T_REJECT(String nameReviwerQ, String nameIlcd, Long ilcdId){
+    public void fillMsgMANAGER_INVITE_T_REJECT(String nameReviwerT, String nameIlcd, Long ilcdId){
     	setSubject("Convite recusado");
-    	addMessage("O revisor de ténico " + nameReviwerQ + " não está disponível para efetuar a revisão do "
-    			+ "<a href=" + Strings.BASE + "/technicalreview/" + ilcdId.toString() +  ">" + " conjunto de dados." + "</a>"); 
+    	addMessage("O revisor de ténico " + nameReviwerT + " não está disponível para efetuar a revisão do "
+    			+ "<a href=" + Strings.BASE + "/gestor/" + ilcdId.toString() +  ">" + " conjunto de dados." + "</a>"); 
     	addMessage("Escolha um novo revisor para o conjunto de dados " + nameIlcd);
     	setNotifyDate(new Date());
     }
     
-    public void fillMsgMANAGER_REV_Q_REPROVED(Long statusId, Long ilcdId){
+    public void fillMsgMANAGER_REV_Q_DISAPPROVED(Long statusId, Long ilcdId){
     	setSubject("Revisão Qualidata finalizada com parecer desfavorável - REPROVADO");
     	addMessage("<a href=" + Strings.BASE + "/gestor/" + ilcdId + "/review/quality/" + statusId + ">" + "Ver parecer do revisor" + "</a>"); 
     	addMessage("<a href=" + Strings.BASE + "/gestor/" + ilcdId +  ">" + "Acessar página da submissão" + "</a>");
     	setNotifyDate(new Date());
     }
     
-    public void fillMsgMANAGER_REV_T_REPROVED(Long statusId, Long ilcdId){
+    public void fillMsgMANAGER_REV_T_DISAPPROVED(Long statusId, Long ilcdId){
     	setSubject("Revisão Técnica finalizada com parecer desfavorável - REPROVADO");
-    	addMessage("<a href=" + Strings.BASE + "/gestor/" + ilcdId + "/review/quality/" + statusId + ">" + "Ver parecer do revisor" + "</a>"); 
+    	addMessage("<a href=" + Strings.BASE + "/gestor/" + ilcdId + "/review/technical/" + statusId + ">" + "Ver parecer do revisor" + "</a>"); 
     	addMessage("<a href=" + Strings.BASE + "/gestor/" + ilcdId +  ">" + "Acessar página da submissão" + "</a>");
     	setNotifyDate(new Date());
     }

@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import resources.Strings;
 import br.com.ibict.acv.sicv.model.Archive;
 import br.com.ibict.acv.sicv.model.Homologacao;
 import br.com.ibict.acv.sicv.model.Ilcd;
@@ -34,6 +33,7 @@ import br.com.ibict.acv.sicv.repositories.QualiDataDao;
 import br.com.ibict.acv.sicv.repositories.StatusDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.Mail;
+import resources.Strings;
 
 @Controller
 @RequestMapping("/gestor")
@@ -197,7 +197,10 @@ public class ManagerController {
         User user = ilcd.getUser();
         Notification notifyUser = new Notification();
         notifyUser.setUser(user);
-        notifyUser.fillMsgUSER_MANAGER_REV_Q_NEEDADJUST(ilcdID, status.getPrevious().getId());
+        if(oldStatus.getType() == 1)
+        	notifyUser.fillMsgUSER_MANAGER_REV_Q_NEEDADJUST(ilcdID, status.getPrevious().getId());
+        else
+        	notifyUser.fillMsgUSER_MANAGER_REV_T_NEEDADJUST(ilcdID);
         user.addNotification(notifyUser);
         user.setQntdNotificacoes(user.getQntdNotificacoes()+1);
         userDao.save(user);
@@ -210,7 +213,9 @@ public class ManagerController {
     @RequestMapping(value = {"/{ilcd}/nextstep/", "{ilcd}/nextstep/", "/{ilcd}/nextstep", "{ilcd}/nextstep"}, method = RequestMethod.POST)
     public String nextStep(@PathVariable("ilcd") Long ilcdID, @RequestParam("status") Long statusID) {
 
+    	Notification notify = new Notification();
         Ilcd ilcd = ilcdDao.findById(ilcdID);
+        User user = ilcd.getUser();
         Status oldStatus = statusDao.findOne(statusID);
         File f = new File(Strings.UPLOADED_FOLDER + "/" + oldStatus.getArchive().getPathFile() + "/review.zip");
 
@@ -222,14 +227,40 @@ public class ManagerController {
         status.setIlcd(ilcd);
         status.setArchive(archive);
         status.setPrevious(oldStatus);
+        notify.setUser(user);
+        
+        List<User> managers = userDao.findByPerfil("MANAGER");
         
         if (f.exists()) {
             status.setType(4);
+            notify.fillMsgUSER_MANAGER_APPROVED();
+            user.addNotification(notify);
+            user.setQntdNotificacoes(user.getQntdNotificacoes()+1);
+            for (User manager : managers) {
+    			Notification notifyManager = new Notification();
+    			notifyManager.setUser(manager);
+    			manager.addNotification(notifyManager);
+    			manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
+    			notifyManager.fillMsgMANAGER_APPROVED(status.getIlcd().getName(), ilcdID);
+    			userDao.saveAndFlush(manager);
+    		}
+            
         } else {
-
             status.setType(2);
+            notify.fillMsgUSER_MANAGER_REV_Q_APPROVED( ilcd.getId() );
+            user.addNotification(notify);
+            user.setQntdNotificacoes(user.getQntdNotificacoes()+1);
+            for (User manager : managers) {
+    			Notification notifyManager = new Notification();
+    			notifyManager.setUser(manager);
+    			manager.addNotification(notifyManager);
+    			manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
+    			notifyManager.fillMsgMANAGER_REV_Q_APPROVED(ilcd.getTitle(), status.getId(), ilcdID);
+    			userDao.saveAndFlush(manager);
+    		}
         }
         
+        userDao.save(user);
         statusDao.save(status);
 
         archive.setStatus(status);

@@ -3,7 +3,6 @@ package br.com.ibict.acv.sicv.controller;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -16,12 +15,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.google.gson.Gson;
+
 import br.com.ibict.acv.sicv.CustomAuthProvider;
 import br.com.ibict.acv.sicv.model.Homologacao;
 import br.com.ibict.acv.sicv.model.Ilcd;
 import br.com.ibict.acv.sicv.model.Notification;
 import br.com.ibict.acv.sicv.model.QualiData;
-import br.com.ibict.acv.sicv.model.Role;
 import br.com.ibict.acv.sicv.model.Status;
 import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.HomologacaoDao;
@@ -29,8 +29,6 @@ import br.com.ibict.acv.sicv.repositories.IlcdDao;
 import br.com.ibict.acv.sicv.repositories.QualiDataDao;
 import br.com.ibict.acv.sicv.repositories.StatusDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
-
-import com.google.gson.Gson;
 
 /**
  *
@@ -112,7 +110,7 @@ public class QualityReviewController {
     			notifyManager.setUser(manager);
     			manager.addNotification(notifyManager);
     			manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
-    			notifyManager.fillMsgMANAGER_INVITE_Q_REJECT(status.getRevisor().getFullName(), status.getIlcd().getName(), status.getIlcd().getId());
+    			notifyManager.fillMsgMANAGER_INVITE_T_REJECT(status.getRevisor().getFullName(), status.getIlcd().getName(), status.getIlcd().getId());
     			userDao.saveAndFlush(manager);
 			}
             return "redirect:/qualityreview/"+status.getId();
@@ -191,8 +189,7 @@ public class QualityReviewController {
 					else if(resultado == 2)
 						notifyManager.fillMsgMANAGER_REV_Q_NEED_ADJUST(status.getIlcd().getTitle(), status.getId(), status.getIlcd().getId());
 					else
-						notifyManager.fillMsgMANAGER_REV_Q_REPROVED(status.getId(), status.getIlcd().getId());
-					userDao.saveAndFlush(manager);
+						notifyManager.fillMsgMANAGER_REV_Q_DISAPPROVED(status.getId(), status.getIlcd().getId());
 					userDao.saveAndFlush(manager);
 			   }
 			   return "redirect:/qualityreview/"+status.getId();

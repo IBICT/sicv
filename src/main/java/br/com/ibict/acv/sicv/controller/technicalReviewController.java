@@ -27,6 +27,7 @@ import com.google.gson.Gson;
 import br.com.ibict.acv.sicv.CustomAuthProvider;
 import br.com.ibict.acv.sicv.model.Homologacao;
 import br.com.ibict.acv.sicv.model.Ilcd;
+import br.com.ibict.acv.sicv.model.Notification;
 import br.com.ibict.acv.sicv.model.Status;
 import br.com.ibict.acv.sicv.model.TechnicalReviewer;
 import br.com.ibict.acv.sicv.model.User;
@@ -35,6 +36,7 @@ import br.com.ibict.acv.sicv.repositories.IlcdDao;
 import br.com.ibict.acv.sicv.repositories.QualiDataDao;
 import br.com.ibict.acv.sicv.repositories.StatusDao;
 import br.com.ibict.acv.sicv.repositories.TechnicalReviewerDao;
+import br.com.ibict.acv.sicv.repositories.UserDao;
 import resources.Strings;
 
 /**
@@ -47,6 +49,9 @@ public class technicalReviewController {
 
     @Autowired
     private IlcdDao ilcdDao;
+    
+    @Autowired
+    private UserDao userDao;
 
     @Autowired
     private StatusDao statusDao;
@@ -89,6 +94,16 @@ public class technicalReviewController {
             Homologacao homo = status.getIlcd().getHomologation();
             homo.setStatus(2);
             homologacaoDao.save(homo);
+            List<User> managers = userDao.findByPerfil("MANAGER");
+            for (User manager : managers) {
+    			Notification notifyManager = new Notification();
+    			notifyManager.setUser(manager);
+    			manager.addNotification(notifyManager);
+    			manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
+    			notifyManager.fillMsgMANAGER_INVITE_T_ACC(status.getRevisor().getFullName(), status.getIlcd().getName(), status.getIlcd().getId());
+    			userDao.saveAndFlush(manager);
+			}
+            
             return "redirect:/technicalreview/" + status.getId();
         } catch (Exception e) {
             return "error";
@@ -101,6 +116,16 @@ public class technicalReviewController {
             Status status = statusDao.findOne(id);
             status.setAccept(false);
             statusDao.save(status);
+            
+            List<User> managers = userDao.findByPerfil("MANAGER");
+            for (User manager : managers) {
+    			Notification notifyManager = new Notification();
+    			notifyManager.setUser(manager);
+    			manager.addNotification(notifyManager);
+    			manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
+    			notifyManager.fillMsgMANAGER_INVITE_T_REJECT(status.getRevisor().getFullName(), status.getIlcd().getName(), status.getIlcd().getId());
+    			userDao.saveAndFlush(manager);
+			}
             return "redirect:/technicalreview/" + status.getId();
         } catch (Exception e) {
             return "error";
@@ -109,7 +134,7 @@ public class technicalReviewController {
 
     // TODO: resolver url path
     @RequestMapping(value = {"/{id}/", "{id}/", "{id}", "/{id}"})
-    public String itemDeteil(Map<String, Object> model, @PathVariable("id") Long id) {
+    public String itemDetail(Map<String, Object> model, @PathVariable("id") Long id) {
         try {
             User user = (User) session().getAttribute("user");
             String name = user.getFirstName();
@@ -154,9 +179,10 @@ public class technicalReviewController {
     public String reviewAction(Map<String, Object> model, @PathVariable("id") Long id, @RequestParam Map<String, String> allRequestParams, @RequestParam("file") MultipartFile file) {
         try {
 
-            
+        	List<User> managers = userDao.findByPerfil("MANAGER");
             Status status = statusDao.findOne(id);
             Gson gson = new Gson();
+            Integer resultado = gson.fromJson(allRequestParams.get("result"), Integer.class);
             
             TechnicalReviewer technicalReviewer = gson.fromJson(allRequestParams.get("json"), TechnicalReviewer.class);
             if (allRequestParams.containsKey("result"))
@@ -181,9 +207,23 @@ public class technicalReviewController {
             status.setTechnicalReviewer(technicalReviewer);
             
             status.setEndDate(new Date());
-            if(allRequestParams.get("tipo").equals("2")){
+            String tipo = allRequestParams.get("tipo");
+            if( tipo.equals("2")){
                status.setClosed(true);
                statusDao.save(status);
+               for (User manager : managers) {
+					Notification notifyManager = new Notification();
+					notifyManager.setUser(manager);
+					manager.addNotification(notifyManager);
+					manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
+					if(resultado == 1)
+						notifyManager.fillMsgMANAGER_REV_T_APPROVED(status.getIlcd().getTitle(), status.getId(), status.getIlcd().getId());
+					else if(resultado == 2)
+						notifyManager.fillMsgMANAGER_REV_T_NEED_ADJUST(status.getIlcd().getTitle(), status.getId(), status.getIlcd().getId());
+					else
+						notifyManager.fillMsgMANAGER_REV_T_DISAPPROVED(status.getId(), status.getIlcd().getId());
+					userDao.saveAndFlush(manager);
+			   }
                return "redirect:/technicalreview/"+status.getId();
             } else {
                 status.setClosed(false);
