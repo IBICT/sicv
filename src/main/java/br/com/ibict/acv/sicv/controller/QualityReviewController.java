@@ -104,6 +104,10 @@ public class QualityReviewController {
             status.setAccept(false);
             statusDao.save(status);
             
+            Status statusOld = status.getPrevious();
+            statusOld.setClosed(false);
+            statusDao.save(statusOld);
+            
             List<User> managers = userDao.findByPerfil("MANAGER");
             for (User manager : managers) {
     			Notification notifyManager = new Notification();

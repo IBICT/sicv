@@ -5,6 +5,7 @@ import java.io.FileOutputStream;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -21,10 +22,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
-import resources.Strings;
+import com.google.gson.Gson;
+
 import br.com.ibict.acv.sicv.CustomAuthProvider;
 import br.com.ibict.acv.sicv.model.Homologacao;
 import br.com.ibict.acv.sicv.model.Ilcd;
+import br.com.ibict.acv.sicv.model.Notification;
 import br.com.ibict.acv.sicv.model.Status;
 import br.com.ibict.acv.sicv.model.TechnicalReviewer;
 import br.com.ibict.acv.sicv.model.User;
@@ -33,20 +36,22 @@ import br.com.ibict.acv.sicv.repositories.IlcdDao;
 import br.com.ibict.acv.sicv.repositories.QualiDataDao;
 import br.com.ibict.acv.sicv.repositories.StatusDao;
 import br.com.ibict.acv.sicv.repositories.TechnicalReviewerDao;
-
-import com.google.gson.Gson;
-import java.util.Collections;
+import br.com.ibict.acv.sicv.repositories.UserDao;
+import resources.Strings;
 
 /**
  *
  * @author deivdywilliamsilva
  */
 @Controller
-@RequestMapping("/tecnicalreview")
-public class TecnicalReviewController {
+@RequestMapping("/technicalreview")
+public class TechnicalReviewController {
 
     @Autowired
     private IlcdDao ilcdDao;
+    
+    @Autowired
+    private UserDao userDao;
 
     @Autowired
     private StatusDao statusDao;
@@ -71,7 +76,7 @@ public class TecnicalReviewController {
 
         List<Status> works = statusDao.findByRevisorAndAcceptAndType(user, true, 2);
         model.put("work", works);
-        return "tecnicalreview/index";
+        return "technicalreview/index";
     }
 
     @RequestMapping(value = {"accept/{id}/", "/accept/{id}/", "accept/{id}", "/accept/{id}"})
@@ -87,9 +92,19 @@ public class TecnicalReviewController {
             statusDao.save(status);
 
             Homologacao homo = status.getIlcd().getHomologation();
-            homo.setStatus(3);
+            homo.setStatus(2);
             homologacaoDao.save(homo);
-            return "redirect:/tecnicalreview/" + status.getId();
+            List<User> managers = userDao.findByPerfil("MANAGER");
+            for (User manager : managers) {
+    			Notification notifyManager = new Notification();
+    			notifyManager.setUser(manager);
+    			manager.addNotification(notifyManager);
+    			manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
+    			notifyManager.fillMsgMANAGER_INVITE_T_ACC(status.getRevisor().getFullName(), status.getIlcd().getName(), status.getIlcd().getId());
+    			userDao.saveAndFlush(manager);
+			}
+            
+            return "redirect:/technicalreview/" + status.getId();
         } catch (Exception e) {
             return "error";
         }
@@ -101,7 +116,21 @@ public class TecnicalReviewController {
             Status status = statusDao.findOne(id);
             status.setAccept(false);
             statusDao.save(status);
-            return "redirect:/tecnicalreview/" + status.getId();
+            
+            Status statusOld = status.getPrevious();
+            statusOld.setClosed(false);
+            statusDao.save(statusOld);
+            
+            List<User> managers = userDao.findByPerfil("MANAGER");
+            for (User manager : managers) {
+    			Notification notifyManager = new Notification();
+    			notifyManager.setUser(manager);
+    			manager.addNotification(notifyManager);
+    			manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
+    			notifyManager.fillMsgMANAGER_INVITE_T_REJECT(status.getRevisor().getFullName(), status.getIlcd().getName(), status.getIlcd().getId());
+    			userDao.saveAndFlush(manager);
+			}
+            return "redirect:/technicalreview/" + status.getId();
         } catch (Exception e) {
             return "error";
         }
@@ -109,7 +138,7 @@ public class TecnicalReviewController {
 
     // TODO: resolver url path
     @RequestMapping(value = {"/{id}/", "{id}/", "{id}", "/{id}"})
-    public String itemDeteil(Map<String, Object> model, @PathVariable("id") Long id) {
+    public String itemDetail(Map<String, Object> model, @PathVariable("id") Long id) {
         try {
             User user = (User) session().getAttribute("user");
             String name = user.getFirstName();
@@ -123,7 +152,7 @@ public class TecnicalReviewController {
             List<Status> status2 = statusDao.findByIlcdAndType(ilcd, 2);
             Collections.reverse(status2);
             model.put("status2", status2);
-            return "tecnicalreview/item";
+            return "technicalreview/item";
         } catch (Exception e) {
             return "error";
         }
@@ -144,7 +173,7 @@ public class TecnicalReviewController {
             model.put("technicalReviewer2", technicalReviewer2);
             model.put("username", name);
             model.put("status", status1);
-            return "tecnicalreview/review";
+            return "technicalreview/review";
         } catch (Exception e) {
             return "error";
         }
@@ -154,9 +183,10 @@ public class TecnicalReviewController {
     public String reviewAction(Map<String, Object> model, @PathVariable("id") Long id, @RequestParam Map<String, String> allRequestParams, @RequestParam("file") MultipartFile file) {
         try {
 
-            
+        	List<User> managers = userDao.findByPerfil("MANAGER");
             Status status = statusDao.findOne(id);
             Gson gson = new Gson();
+            Integer resultado = gson.fromJson(allRequestParams.get("result"), Integer.class);
             
             TechnicalReviewer technicalReviewer = gson.fromJson(allRequestParams.get("json"), TechnicalReviewer.class);
             if (allRequestParams.containsKey("result"))
@@ -181,14 +211,28 @@ public class TecnicalReviewController {
             status.setTechnicalReviewer(technicalReviewer);
             
             status.setEndDate(new Date());
-            if(allRequestParams.get("tipo").equals("2")){
+            String tipo = allRequestParams.get("tipo");
+            if( tipo.equals("2")){
                status.setClosed(true);
                statusDao.save(status);
-               return "redirect:/tecnicalreview/"+status.getId();
+               for (User manager : managers) {
+					Notification notifyManager = new Notification();
+					notifyManager.setUser(manager);
+					manager.addNotification(notifyManager);
+					manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
+					if(resultado == 1)
+						notifyManager.fillMsgMANAGER_REV_T_APPROVED(status.getIlcd().getTitle(), status.getId(), status.getIlcd().getId());
+					else if(resultado == 2)
+						notifyManager.fillMsgMANAGER_REV_T_NEED_ADJUST(status.getIlcd().getTitle(), status.getId(), status.getIlcd().getId());
+					else
+						notifyManager.fillMsgMANAGER_REV_T_DISAPPROVED(status.getId(), status.getIlcd().getId());
+					userDao.saveAndFlush(manager);
+			   }
+               return "redirect:/technicalreview/"+status.getId();
             } else {
                 status.setClosed(false);
                 statusDao.save(status);
-                return "redirect:/tecnicalreview/"+status.getId();
+                return "redirect:/technicalreview/"+status.getId();
             }
         } catch (Exception e) {
             System.err.println(e.getMessage());
@@ -207,7 +251,7 @@ public class TecnicalReviewController {
             model.put("technicalReviewer1", technicalReviewer1);
             model.put("username", name);
             model.put("status", status1);
-            return "tecnicalreview/view";
+            return "technicalreview/view";
         } catch (Exception e) {
             return "error";
         }
