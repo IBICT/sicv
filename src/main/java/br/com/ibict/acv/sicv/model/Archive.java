@@ -13,58 +13,60 @@ import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
 
 import com.google.gson.annotations.Expose;
+import java.io.File;
+import resources.Strings;
 
 @Entity
 @Table(name = "archive")
-public class Archive implements Serializable{
+public class Archive implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -8565487720085084453L;
-	
-	public static final String COMMENT = "comment";
-	public static final String COMPLEMENT = "complement";
-	public static final String REVIEW = "review";
-	
-	@Id
+    /**
+     *
+     */
+    private static final long serialVersionUID = -8565487720085084453L;
+
+    public static final String COMMENT = "comment";
+    public static final String COMPLEMENT = "complement";
+    public static final String REVIEW = "review";
+
+    @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     @Column(name = "ID")
     @Expose
     private Long id;
-    
-/*    @ManyToOne(cascade = CascadeType.REFRESH)
+
+    /*    @ManyToOne(cascade = CascadeType.REFRESH)
     @JoinColumn(name = "status_id")
     @Expose
     private Status status;*/
     @Expose
     @OneToOne(cascade = CascadeType.REFRESH)
     private Status status;
-        
+
     @NotNull
     @Expose
     private String pathFile;
-    
+
     @Expose
-    @OneToOne(mappedBy="lastArchive", optional = true)
-    private Homologacao homologation ;
-    
+    @OneToOne(mappedBy = "lastArchive", optional = true)
+    private Homologacao homologation;
+
     public Long getId() {
-    	return id;
+        return id;
     }
-    
+
     public void setId(Long id) {
-    	this.id = id;
+        this.id = id;
     }
-    
+
     public Status getStatus() {
-		return status;
-	}
-    
+        return status;
+    }
+
     public void setStatus(Status status) {
-		this.status = status;
-	}
-    
+        this.status = status;
+    }
+
     public String getPathFile() {
         return pathFile;
     }
@@ -72,13 +74,21 @@ public class Archive implements Serializable{
     public void setPathFile(String pathFile) {
         this.pathFile = pathFile;
     }
-    
+
     public Homologacao getHomologation() {
-		return homologation;
-	}
-    
+        return homologation;
+    }
+
     public void setHomologation(Homologacao homologation) {
-		this.homologation = homologation;
-	}
+        this.homologation = homologation;
+    }
+
+    public boolean containsComplement() {
+        File f = new File(Strings.UPLOADED_FOLDER + "/" + pathFile + "/complement.zip");
+        if (f.exists() && !f.isDirectory()) 
+            return true;
+        else
+            return false;
+    }
 
 }

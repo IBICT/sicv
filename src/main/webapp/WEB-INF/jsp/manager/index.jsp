@@ -89,7 +89,10 @@
                 font-size: 20px;
             }
 
-
+            .list-ilcd-item:hover{
+                cursor: pointer;
+                background-color: #EBF4F5;
+            }
 
         </style>
 
@@ -127,7 +130,7 @@
             </div>
 
             <c:forEach items="${ilcds}" var="ilcd" varStatus="loop">
-                <div style="margin:0px;" class="row" class="row" onclick="window.location = '<%=Strings.BASE%>/gestor/${ilcd.id}';" id="tabIlcdManager">
+                <div style="margin:0px;" class="row tabIlcdManager list-ilcd-item" onclick="window.location = '<%=Strings.BASE%>/gestor/${ilcd.id}';">
                     <div style="height: 40px; width:10%; position: relative; top: 10px;" class="col s3 sicv-table-td">
                         ${ilcd.user.firstName}
                     </div>
@@ -251,7 +254,7 @@
 
                                         $("#searchTerm").on("keyup", function () {
                                             var value = $(this).val().toLowerCase();
-                                            $("#tabIlcdManager ").filter(function () {
+                                            $(".tabIlcdManager ").filter(function () {
                                                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                                             });
                                         });
