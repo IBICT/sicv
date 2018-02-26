@@ -71,10 +71,10 @@ public class TechnicalReviewController {
         String name = user.getFirstName();
         model.put("username", name);
 
-        List<Status> invites = statusDao.findByRevisorAndAcceptAndType(user, null, 2);
+        List<Status> invites = statusDao.findByRevisorAndAcceptAndTypeAndCancelInvite(user, null, 2, null);
         model.put("invite", invites);
 
-        List<Status> works = statusDao.findByRevisorAndAcceptAndType(user, true, 2);
+        List<Status> works = statusDao.findByRevisorAndAcceptAndTypeAndCancelInvite(user, true, 2, null);
         model.put("work", works);
         return "technicalreview/index";
     }
@@ -149,7 +149,7 @@ public class TechnicalReviewController {
             Ilcd ilcd = status1.getIlcd();
             model.put("ilcd", ilcd);
             // TODO: Alterara status1 para statusHistorico
-            List<Status> status2 = statusDao.findByIlcdAndType(ilcd, 2);
+            List<Status> status2 = statusDao.findByIlcdAndTypeAndCancelInvite(ilcd, 2, null);
             Collections.reverse(status2);
             model.put("status2", status2);
             return "technicalreview/item";

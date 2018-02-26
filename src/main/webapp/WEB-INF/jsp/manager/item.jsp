@@ -255,17 +255,22 @@
                                                 <c:choose>
                                                     <c:when test="${statu.type == 1}">
                                                         <c:choose>
-                                                            <c:when test="${empty statu.accept}">
+                                                            <c:when test="${empty statu.accept and empty statu.cancelInvite}">
                                                                 <div class="row" style="color: #00697C; margin: 10px 0;">
-                                                                    Enviado para  <a href="#" style="color: #00697C; font-weight: bold; margin: 0 10px;">${statu.revisor.firstName}</a> <a href="<%=Strings.BASE%>/gestor/${ilcd.id}/invitecancel" style="color:#6B6B6A;text-decoration: underline;">Cancelar Convite</a>
+                                                                    Enviado para  <a href="#" style="color: #00697C; font-weight: bold; margin: 0 10px;">${statu.revisor.firstName}</a> <a href="<%=Strings.BASE%>/gestor/${ilcd.id}/invitecancel/${statu.id}" style="color:#6B6B6A;text-decoration: underline;">Cancelar Convite</a>
                                                                 </div>
                                                             </c:when>
-                                                            <c:when test="${not empty statu.accept and not statu.accept}">
+                                                            <c:when test="${not empty statu.accept and not statu.accept and empty statu.cancelInvite}">
                                                                 <div class="row" style="color: #00697C; margin: 10px 0;">
                                                                     <a href="#" style="color: #00697C; font-weight: bold; margin: 0 10px;">${statu.revisor.firstName}</a> recusou o convite.
                                                                 </div>
                                                             </c:when>
-                                                            <c:when test="${not empty statu.accept and statu.accept}">
+                                                            <c:when test="${statu.cancelInvite}">
+                                                                <div class="row" style="color: #00697C; margin: 10px 0;">
+                                                                    Convite cancelado pelo gestor.
+                                                                </div>
+                                                            </c:when>
+                                                            <c:when test="${not empty statu.accept and statu.accept and empty statu.cancelInvite}">
                                                                 <c:choose>
                                                                     <c:when test="${statu.closed}">
                                                                         <c:choose>
@@ -499,17 +504,22 @@
                                                 <c:choose>
                                                     <c:when test="${statu.type == 2}">
                                                         <c:choose>
-                                                            <c:when test="${empty statu.accept}">
+                                                            <c:when test="${empty statu.accept and empty statu.cancelInvite}">
                                                                 <div class="row" style="color: #00697C; margin: 10px 0;">
-                                                                    Enviado para  <a href="#" style="color: #00697C; font-weight: bold; margin: 0 10px;">${statu.revisor.firstName}</a> <a href="#" style="color:#6B6B6A;text-decoration: underline;">Cancelar Convite</a>
+                                                                    Enviado para  <a href="#" style="color: #00697C; font-weight: bold; margin: 0 10px;">${statu.revisor.firstName}</a> <a href="<%=Strings.BASE%>/gestor/${ilcd.id}/invitecancel/${statu.id}" style="color:#6B6B6A;text-decoration: underline;">Cancelar Convite</a>
                                                                 </div>
                                                             </c:when>
-                                                            <c:when test="${not empty statu.accept and not statu.accept}">
+                                                            <c:when test="${not empty statu.accept and not statu.accept and empty statu.cancelInvite}">
                                                                 <div class="row" style="color: #00697C; margin: 10px 0;">
                                                                     <a href="#" style="color: #00697C; font-weight: bold; margin: 0 10px;">${statu.revisor.firstName}</a> recusou o convite.
                                                                 </div>
                                                             </c:when>
-                                                            <c:when test="${not empty statu.accept and statu.accept}">
+                                                            <c:when test="${statu.cancelInvite}">
+                                                                <div class="row" style="color: #00697C; margin: 10px 0;">
+                                                                    Convite cancelado pelo gestor.
+                                                                </div>
+                                                            </c:when>
+                                                            <c:when test="${not empty statu.accept and statu.accept and empty statu.cancelInvite}">
                                                                 <c:choose>
                                                                     <c:when test="${statu.closed}">
                                                                         <c:choose>
@@ -589,11 +599,17 @@
                                                                                             Caso não concorde com a Revisão “<span style="color: #00697C;">Aprovado com correções</span>”
                                                                                         </div>
                                                                                     </div>
-                                                                                    <form action="" method="post">
+                                                                                    <form action="<%=Strings.BASE%>/gestor/${ilcd.id}/disagree-return" method="post">
                                                                                         <div class="row" style="margin: 0;">
                                                                                             <div class="col s12">
                                                                                                 <p style="margin: 0;">
                                                                                                     <input class="with-gap" name="t1" value="1" type="radio" id="t1" />
+                                                                                                    <label for="t1">Publicar.</label>
+                                                                                                </p>  
+                                                                                            </div>
+                                                                                            <div class="col s12">
+                                                                                                <p style="margin: 0;">
+                                                                                                    <input class="with-gap" name="t1" value="2" type="radio" id="t1" />
                                                                                                     <label for="t1">Convidar outro revisor técnico.</label>
                                                                                                 </p>  
                                                                                             </div>
@@ -601,7 +617,7 @@
                                                                                         <div class="row" style="margin: 0;">
                                                                                             <div class="col s12">
                                                                                                 <p style="margin: 0;">
-                                                                                                    <input class="with-gap" name="t1" value="2" type="radio" id="t2" />
+                                                                                                    <input class="with-gap" name="t1" value="3" type="radio" id="t2" />
                                                                                                     <label for="t2">Solicitar nova revisão.</label>
                                                                                                 </p>  
                                                                                             </div>
@@ -609,7 +625,7 @@
                                                                                         <div class="row" style="margin: 0;">
                                                                                             <div class="col s12">
                                                                                                 <p style="margin: 0;">
-                                                                                                    <input class="with-gap" name="t1" value="3" type="radio" id="t3" />
+                                                                                                    <input class="with-gap" name="t1" value="4" type="radio" id="t3" />
                                                                                                     <label for="t3">Arquivar.</label>
                                                                                                 </p>  
                                                                                             </div>

@@ -161,16 +161,31 @@ public class ManagerController {
         homologacaoDao.save(homologacao);
 
         statusDao.save(statusOld);
-        
+
         notifyQ.setUser(user);
-        if(tipo == 1){
-        	notifyQ.fillMsgQUALITY_WAIT_AC(status.getId(), ilcd.getTitle());
-        }else
-        	notifyQ.fillMsgTECHNICAL_WAIT_AC(status.getId(), ilcd.getTitle());
-        user.setQntdNotificacoes(user.getQntdNotificacoes()+1);
+        if (tipo == 1) {
+            notifyQ.fillMsgQUALITY_WAIT_AC(status.getId(), ilcd.getTitle());
+        } else {
+            notifyQ.fillMsgTECHNICAL_WAIT_AC(status.getId(), ilcd.getTitle());
+        }
+        user.setQntdNotificacoes(user.getQntdNotificacoes() + 1);
         user.addNotification(notifyQ);
         //notificationDao.save(notifyQ);
         userDao.save(user);
+
+        return "redirect:/gestor/";
+    }
+
+    @RequestMapping(value = {"{ilcd}/invitecancel/{id}/", "/{ilcd}/invitecancel/{id}/", "{ilcd}/invitecancel/{id}", "/{ilcd}/invitecancel/{id}"}, method = RequestMethod.GET)
+    public String inviteCancel(Map<String, Object> model, @PathVariable("id") Long id) {
+
+        Status status = statusDao.findOne(id);
+        status.setCancelInvite(Boolean.TRUE);
+        statusDao.save(status);
+
+        Status statusOld = status.getPrevious();
+        statusOld.setClosed(false);
+        statusDao.save(statusOld);
 
         return "redirect:/gestor/";
     }
@@ -197,23 +212,26 @@ public class ManagerController {
         User user = ilcd.getUser();
         Notification notifyUser = new Notification();
         notifyUser.setUser(user);
-        if(oldStatus.getType() == 1)
-        	notifyUser.fillMsgUSER_MANAGER_REV_Q_NEEDADJUST(ilcdID, status.getPrevious().getId());
-        else
-        	notifyUser.fillMsgUSER_MANAGER_REV_T_NEEDADJUST(ilcdID);
+        if (oldStatus.getType() == 1) {
+            notifyUser.fillMsgUSER_MANAGER_REV_Q_NEEDADJUST(ilcdID, status.getPrevious().getId());
+        } else {
+            notifyUser.fillMsgUSER_MANAGER_REV_T_NEEDADJUST(ilcdID);
+        }
         user.addNotification(notifyUser);
-        user.setQntdNotificacoes(user.getQntdNotificacoes()+1);
+        user.setQntdNotificacoes(user.getQntdNotificacoes() + 1);
         userDao.save(user);
 
         return "redirect:/gestor/" + ilcdID;
     }
+
     /**
-     * Method to final approved by manager 
-     * */
+     * Method to final approved by manager
+     *
+     */
     @RequestMapping(value = {"/{ilcd}/nextstep/", "{ilcd}/nextstep/", "/{ilcd}/nextstep", "{ilcd}/nextstep"}, method = RequestMethod.POST)
     public String nextStep(@PathVariable("ilcd") Long ilcdID, @RequestParam("status") Long statusID) {
 
-    	Notification notify = new Notification();
+        Notification notify = new Notification();
         Ilcd ilcd = ilcdDao.findById(ilcdID);
         User user = ilcd.getUser();
         Status oldStatus = statusDao.findOne(statusID);
@@ -228,38 +246,39 @@ public class ManagerController {
         status.setArchive(archive);
         status.setPrevious(oldStatus);
         notify.setUser(user);
-        
+
         List<User> managers = userDao.findByPerfil("MANAGER");
-        
+
         if (f.exists()) {
             status.setType(4);
+            status.setRevisor(user);
             notify.fillMsgUSER_MANAGER_APPROVED();
             user.addNotification(notify);
-            user.setQntdNotificacoes(user.getQntdNotificacoes()+1);
+            user.setQntdNotificacoes(user.getQntdNotificacoes() + 1);
             for (User manager : managers) {
-    			Notification notifyManager = new Notification();
-    			notifyManager.setUser(manager);
-    			manager.addNotification(notifyManager);
-    			manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
-    			notifyManager.fillMsgMANAGER_APPROVED(status.getIlcd().getName(), ilcdID);
-    			userDao.saveAndFlush(manager);
-    		}
-            
+                Notification notifyManager = new Notification();
+                notifyManager.setUser(manager);
+                manager.addNotification(notifyManager);
+                manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
+                notifyManager.fillMsgMANAGER_APPROVED(status.getIlcd().getName(), ilcdID);
+                userDao.saveAndFlush(manager);
+            }
+
         } else {
             status.setType(2);
-            notify.fillMsgUSER_MANAGER_REV_Q_APPROVED( ilcd.getId() );
+            notify.fillMsgUSER_MANAGER_REV_Q_APPROVED(ilcd.getId());
             user.addNotification(notify);
-            user.setQntdNotificacoes(user.getQntdNotificacoes()+1);
+            user.setQntdNotificacoes(user.getQntdNotificacoes() + 1);
             for (User manager : managers) {
-    			Notification notifyManager = new Notification();
-    			notifyManager.setUser(manager);
-    			manager.addNotification(notifyManager);
-    			manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
-    			notifyManager.fillMsgMANAGER_REV_Q_APPROVED(ilcd.getTitle(), status.getId(), ilcdID);
-    			userDao.saveAndFlush(manager);
-    		}
+                Notification notifyManager = new Notification();
+                notifyManager.setUser(manager);
+                manager.addNotification(notifyManager);
+                manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
+                notifyManager.fillMsgMANAGER_REV_Q_APPROVED(ilcd.getTitle(), status.getId(), ilcdID);
+                userDao.saveAndFlush(manager);
+            }
         }
-        
+
         userDao.save(user);
         statusDao.save(status);
 
@@ -300,6 +319,24 @@ public class ManagerController {
             return "manager/technicalreview";
         } catch (Exception e) {
             return "error";
+        }
+    }
+
+    @RequestMapping(value = {"/{ilcd}/disagree-return"}, method = RequestMethod.POST)
+    public String complexForm(Map<String, Object> model, @PathVariable("ilcd") Long ilcdId, Long statusID, Integer action) {
+        switch (action) {
+            // Aprovar
+            case 1:
+                
+                return "Nova Revisão";
+            case 2:
+                return "Novo Revisor";
+            case 3:
+                return "";
+            case 4:
+                return "Reprovar";
+            default:
+                return "Operação invalida";
         }
     }
 

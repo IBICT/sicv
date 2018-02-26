@@ -59,10 +59,10 @@ public class QualityReviewController {
         String name = user.getFirstName();
         model.put("username", name);
 
-        List<Status> invites = statusDao.findByRevisorAndAcceptAndType(user, null, 1);
+        List<Status> invites = statusDao.findByRevisorAndAcceptAndTypeAndCancelInvite(user, null, 1, null);
         model.put("invite", invites);
 
-        List<Status> works = statusDao.findByRevisorAndAcceptAndType(user, true, 1);
+        List<Status> works = statusDao.findByRevisorAndAcceptAndTypeAndCancelInvite(user, true, 1, null);
         model.put("work", works);
         return "qualityreview/index";
     }
@@ -136,7 +136,7 @@ public class QualityReviewController {
             Ilcd ilcd = status1.getIlcd();
             model.put("ilcd", ilcd);
             // TODO: Alterara status1 para statusHistory
-            List<Status> status2 = statusDao.findByIlcdAndType(ilcd, 1);
+            List<Status> status2 = statusDao.findByIlcdAndTypeAndCancelInvite(ilcd, 1, null);
             Collections.reverse(status2);
             model.put("status2", status2);
             return "qualityreview/item";

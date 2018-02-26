@@ -103,6 +103,9 @@ public class Status implements Serializable {
     
     @Expose
     private Boolean closed2;
+    
+    @Expose
+    private Boolean cancelInvite;
 
     public Status() {
     }
@@ -238,6 +241,14 @@ public class Status implements Serializable {
 
     public void setClosed2(Boolean closed2) {
         this.closed2 = closed2;
+    }
+
+    public Boolean getCancelInvite() {
+        return cancelInvite;
+    }
+
+    public void setCancelInvite(Boolean cancelInvite) {
+        this.cancelInvite = cancelInvite;
     }
     
 }
