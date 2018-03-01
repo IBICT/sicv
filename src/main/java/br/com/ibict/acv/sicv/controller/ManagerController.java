@@ -324,20 +324,74 @@ public class ManagerController {
 
     @RequestMapping(value = {"/{ilcd}/disagree-return"}, method = RequestMethod.POST)
     public String complexForm(Map<String, Object> model, @PathVariable("ilcd") Long ilcdId, Long statusID, Integer action) {
+        String retorno = "";
+        User user = (User) session().getAttribute("user");
+        Status status = statusDao.findOne(statusID);
+        status.setClosed2(Boolean.TRUE);
+        Status newStatus;
+        Archive archive;
         switch (action) {
-            // Aprovar
             case 1:
+                // Aprovar
+                archive = new Archive();
+                archive.setHomologation(status.getArchive().getHomologation());
+                archive.setPathFile(status.getArchive().getPathFile());
                 
-                return "Nova Revisão";
+                newStatus = new Status();
+                newStatus.setAccept(Boolean.TRUE);
+                newStatus.setResult(1);
+                newStatus.setClosed(Boolean.TRUE);
+                newStatus.setClosed2(Boolean.TRUE);
+                newStatus.setRevisor(user);
+                newStatus.setArchive(archive);
+                
+                statusDao.save(newStatus);
+                archiveDao.save(archive);
+                break;
             case 2:
-                return "Novo Revisor";
+                //Nova Revisão
+                
+                archive = new Archive();
+                archive.setHomologation(status.getArchive().getHomologation());
+                archive.setPathFile(status.getArchive().getPathFile());
+                
+                newStatus = new Status();
+                newStatus.setRevisor(status.getRevisor());
+                newStatus.setType(status.getType());
+                newStatus.setArchive(null);
+                newStatus.setIlcd(status.getIlcd());
+                newStatus.setArchive(archive);
+                
+                statusDao.save(newStatus);
+                archiveDao.save(archive);
+                break;
             case 3:
-                return "";
+                //Novo Revisor
+                retorno = "redirect:/gestor/"+ilcdId+"/invite/"+statusID+"/?type="+status.getType();
+                break;
             case 4:
-                return "Reprovar";
+                //Reprovar
+                
+                archive = new Archive();
+                archive.setHomologation(status.getArchive().getHomologation());
+                archive.setPathFile(status.getArchive().getPathFile());
+                
+                newStatus = new Status();
+                newStatus.setAccept(Boolean.TRUE);
+                newStatus.setResult(3);
+                newStatus.setClosed(Boolean.TRUE);
+                newStatus.setClosed2(Boolean.TRUE);
+                newStatus.setRevisor(user);
+                newStatus.setArchive(archive);
+                
+                statusDao.save(newStatus);
+                archiveDao.save(archive);
+                break;
             default:
-                return "Operação invalida";
+                //Operação invalida
+                break;
         }
+        return retorno;
     }
 
 }
