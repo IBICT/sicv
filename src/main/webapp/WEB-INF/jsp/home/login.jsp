@@ -33,6 +33,11 @@
         <meta name="msapplication-TileImage" content="<%=Strings.BASE%>/assets/images/favicon/ms-icon-144x144.png" />
         <meta name="theme-color" content="#ffffff" />
 
+        <style>
+            
+            
+        </style>
+        
         <title>SICV - ACV | Banco Nacional de Inventários dos inventários brasileiros do Ciclo de Vida (ICVs)</title>
 
         <!-- Bootstrap core CSS -->
@@ -91,7 +96,7 @@
             <img alt="SICV" class="logoSICVLogin" src="<%=Strings.BASE%>/assets/images/logoSICVLogin.png">
             <h2 style="text-align: center;letter-spacing: 2px;">Importador de Inventários</h2>
             <form action="login" method="post" class="form-signin">
-                <input type="email" name="email" id="inputEmail" class="form-control inputEmail" placeholder="Email address" required autofocus>
+                <input type="email" name="email" id="inputEmail" class="form-control inputEmail" placeholder="Email address" required autofocus autocomplete="off">
 
                 <input type="password" name="senha" id="inputPassword" class="form-control inputEmail" placeholder="Password" required>
                 <div class="checkbox">
