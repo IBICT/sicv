@@ -112,88 +112,130 @@ public class QualiData implements Serializable {
     
     private Boolean q42;
     
+    @Column(columnDefinition = "TEXT")
     private String comment1;
     
+    @Column(columnDefinition = "TEXT")
     private String comment2;
     
+    @Column(columnDefinition = "TEXT")
     private String comment3;
     
+    @Column(columnDefinition = "TEXT")
     private String comment4;
     
+    @Column(columnDefinition = "TEXT")
     private String comment5;
     
+    @Column(columnDefinition = "TEXT")
     private String comment6;
     
+    @Column(columnDefinition = "TEXT")
     private String comment7;
     
+    @Column(columnDefinition = "TEXT")
     private String comment8;
     
+    @Column(columnDefinition = "TEXT")
     private String comment9;
     
+    @Column(columnDefinition = "TEXT")
     private String comment10;
     
+    @Column(columnDefinition = "TEXT")
     private String comment11;
     
+    @Column(columnDefinition = "TEXT")
     private String comment12;
     
+    @Column(columnDefinition = "TEXT")
     private String comment13;
     
+    @Column(columnDefinition = "TEXT")
     private String comment14;
     
+    @Column(columnDefinition = "TEXT")
     private String comment15;
     
+    @Column(columnDefinition = "TEXT")
     private String comment16;
     
+    @Column(columnDefinition = "TEXT")
     private String comment17;
     
+    @Column(columnDefinition = "TEXT")
     private String comment18;
     
+    @Column(columnDefinition = "TEXT")
     private String comment19;
     
+    @Column(columnDefinition = "TEXT")
     private String comment20;
     
+    @Column(columnDefinition = "TEXT")
     private String comment21;
     
+    @Column(columnDefinition = "TEXT")
     private String comment22;
     
+    @Column(columnDefinition = "TEXT")
     private String comment23;
     
+    @Column(columnDefinition = "TEXT")
     private String comment24;
     
+    @Column(columnDefinition = "TEXT")
     private String comment25;
     
+    @Column(columnDefinition = "TEXT")
     private String comment26;
     
+    @Column(columnDefinition = "TEXT")
     private String comment27;
     
+    @Column(columnDefinition = "TEXT")
     private String comment28;
     
+    @Column(columnDefinition = "TEXT")
     private String comment29;
     
+    @Column(columnDefinition = "TEXT")
     private String comment30;
     
+    @Column(columnDefinition = "TEXT")
     private String comment31;
     
+    @Column(columnDefinition = "TEXT")
     private String comment32;
     
+    @Column(columnDefinition = "TEXT")
     private String comment33;
     
+    @Column(columnDefinition = "TEXT")
     private String comment34;
     
+    @Column(columnDefinition = "TEXT")
     private String comment35;
     
+    @Column(columnDefinition = "TEXT")
     private String comment36;
     
+    @Column(columnDefinition = "TEXT")
     private String comment37;
     
+    @Column(columnDefinition = "TEXT")
     private String comment38;
     
+    @Column(columnDefinition = "TEXT")
     private String comment39;
     
+    @Column(columnDefinition = "TEXT")
     private String comment40;
     
+    @Column(columnDefinition = "TEXT")
     private String comment41;
     
+    @Column(columnDefinition = "TEXT")
     private String comment42;
 
     public Long getId() {
