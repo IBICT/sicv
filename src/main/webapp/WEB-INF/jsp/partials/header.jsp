@@ -12,42 +12,75 @@
 %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
-<link href="<%=Strings.BASE%>/assets/css/defaultNotifications.css" rel="stylesheet">
+<link href="<%=Strings.BASE%>/assets/css/partials/navBarStyle.css" rel="stylesheet">
 
-<table class="table">
-    <thead>
-        <tr >
-            <td class="tdCenterHeader" onclick="">
-                <button class="button" style="${localN == 0 ? "color:#00697C;font-weight: bold;":""}" onclick="location.href='<%=Strings.BASE%>'">Meus Inventários</button>
-            </td>
-            <td class="tdCenterHeader">
-                <button class="button" style="${localN == 1 ? "color:#00697C;font-weight: bold;":""}" onclick="location.href='<%=Strings.BASE%>/qualityreview'">Revisão Qualidata</button>
-            </td>
-            <td class="tdCenterHeader">
-                <button class="button" style="${localN == 2 ? "color:#00697C;font-weight: bold;":""}" onclick="location.href='<%=Strings.BASE%>/technicalreview'">Revisão Técnica</button>
-            </td>
-            <c:if test="${isManager or isAdmin}">
-                <td class="tdCenterHeader" >
-                    <button class="button" style="${localN == 3 ? "color:#00697C;font-weight: bold;":""}" onclick="location.href='<%=Strings.BASE%>/gestor'">Gestão</button>
-                </td>
-            </c:if>
-            <c:if test="${isAdmin}">
-                <td class="tdCenterHeader" >
-                    <button class="button" style="${localN == 4 ? "color:#00697C;font-weight: bold;":""}" onclick="location.href = '<%=Strings.BASE%>/admin'">Administrador</button>
-                </td>
-            </c:if>
-            <td class="tdAlertHeader"><a style="color: #c3697c;" href="<%=Strings.BASE%>/notifications"><span class="glyphicon glyphicon-bell" id="bell"><%=notifications%></span></a></td>
-            <td class="sortable-column tdCenterHeader" >Perfil: <a href="<%=Strings.BASE%>/profile">${name}</a></td> 
-            <td class="sortable-column" style="text-align: center; width:1%; white-space:nowrap;" >
-                <button class="button" onclick="location.href='<%=Strings.BASE%>/logout'">SAIR</button>
-            </td>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td colspan="8" style="background-color: #EBF4F5;font-weight: bold;">
-                Você está em: ${local}
-            </td>
-        </tr>
-    </tbody>
-</table>
+
+<header>
+    <nav class="nav-extended z-depth-0">
+        <div class="nav-wrapper">
+            <a href="<%=Strings.BASE%>" class="brand-logo"><img src="<%=Strings.BASE%>/assets/img/logo.png" alt="SICV BRASIL" /><span class="hide-on-med-and-down">Importarod de Inventarios</span></a>
+            <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
+
+            <ul class="side-nav" id="mobile-demo">
+                <li class="${localN == 0 ? "active":""}" style="">
+                        <a href="<%=Strings.BASE%>">Meus Inventários</a>
+                    </li>
+                    <li class="${localN == 1 ? "active":""}">
+                        <a href="<%=Strings.BASE%>/qualityreview">Revisão Qualidata</a>
+                    </li>
+                    <li class="${localN == 2 ? "active":""}">
+                        <a href="<%=Strings.BASE%>/technicalreview">Revisão Técnica</a>
+                    </li>
+                    <c:if test="${isManager or isAdmin}">
+                    <li class="${localN == 3 ? "active":""}">
+                        <a href="<%=Strings.BASE%>/gestor">Gestão</a>
+                    </li>
+                    </c:if>
+                    <c:if test="${isAdmin}">
+                    <li class="${localN == 4 ? "active":""}">
+                        <a href="<%=Strings.BASE%>/admin">Administrador</a>
+                    </li>
+                    </c:if>
+            </ul>
+        </div>
+
+        <div class="nav-content">
+            <div class="nav-wrapper hide-on-med-and-down">
+                <ul>
+                    <li class="${localN == 0 ? "active":""}" style="">
+                        <a href="<%=Strings.BASE%>">Meus Inventários</a>
+                    </li>
+                    <li class="${localN == 1 ? "active":""}">
+                        <a href="<%=Strings.BASE%>/qualityreview">Revisão Qualidata</a>
+                    </li>
+                    <li class="${localN == 2 ? "active":""}">
+                        <a href="<%=Strings.BASE%>/technicalreview">Revisão Técnica</a>
+                    </li>
+                    <c:if test="${isManager or isAdmin}">
+                    <li class="${localN == 3 ? "active":""}">
+                        <a href="<%=Strings.BASE%>/gestor">Gestão</a>
+                    </li>
+                    </c:if>
+                    <c:if test="${isAdmin}">
+                    <li class="${localN == 4 ? "active":""}">
+                        <a href="<%=Strings.BASE%>/admin">Administrador</a>
+                    </li>
+                    </c:if>
+                    <li class="right sair">
+                        <a href="<%=Strings.BASE%>/logout">SAIR</a>
+                    </li>
+                    <li class="right perfil">
+                        <a style="" href="<%=Strings.BASE%>/profile">Perfil: <span>${name}</span></a>
+                    </li>
+                    <li class="right notification">
+                        <a href="<%=Strings.BASE%>/notifications">
+                            <span style=""><%=notifications%></span>
+                            <i class="material-icons">notifications</i>
+                        </a>
+                    </li>
+                </ul>
+                <div class="location">Você está em: ${local}</div>
+            </div>
+        </div>
+    </nav>
+</header>

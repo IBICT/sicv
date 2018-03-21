@@ -99,10 +99,8 @@
     </head>
 
     <body>
-        <jsp:include page="/WEB-INF/jsp/partials/nav.jsp"/>
-        <div class="headerDiv">
-            <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
-        </div>
+        <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
+
 
         <div class="principalDiv">
             <div class="row sicv-container">
@@ -248,17 +246,17 @@
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
         <script>
-                                    $(document).ready(function () {
-                                        // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
-                                        $('.modal').modal();
+                                $(document).ready(function () {
+                                    // the "href" attribute of the modal trigger must specify the modal ID that wants to be triggered
+                                    $('.modal').modal();
 
-                                        $("#searchTerm").on("keyup", function () {
-                                            var value = $(this).val().toLowerCase();
-                                            $(".tabIlcdManager ").filter(function () {
-                                                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
-                                            });
+                                    $("#searchTerm").on("keyup", function () {
+                                        var value = $(this).val().toLowerCase();
+                                        $(".tabIlcdManager ").filter(function () {
+                                            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
                                         });
                                     });
+                                });
         </script>
     </body>
 

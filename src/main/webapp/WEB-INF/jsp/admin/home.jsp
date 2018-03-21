@@ -157,10 +157,8 @@
     </head>
 
     <body>
-		<jsp:include page="/WEB-INF/jsp/partials/nav.jsp" />
-		<div class="headerDiv">
-	        <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
-		</div>
+		        <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
+
         <div class="principalDiv">
         	<div>
 	        	<h4 class="page-title">

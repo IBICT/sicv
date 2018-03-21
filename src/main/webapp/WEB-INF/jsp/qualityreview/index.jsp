@@ -82,13 +82,13 @@
                 padding: 0 !important;
             }
             .h5-text{
-            	color:#4dbcc4;
-            	margin: 15px 20px 0 20px;
+                color:#4dbcc4;
+                margin: 15px 20px 0 20px;
             }
             .h6-text{
-            	color:#61615F;
-            	margin-left: 20px;
-            	margin-bottom: 20px;
+                color:#61615F;
+                margin-left: 20px;
+                margin-bottom: 20px;
 
             }
 
@@ -97,30 +97,28 @@
 
     <body>
 
-        <jsp:include page="/WEB-INF/jsp/partials/nav.jsp"/>
-        <div class="headerDiv">
-            <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
-        </div>
+        <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
+
 
         <div class="principalDiv">
 
             <div class="row sicv-container">
                 <h4 class="page-title">Revisão Qualidata</h4>
             </div>
-            
+
             <c:if test="${not empty invite}">
                 <div class="row sicv-container" style="padding-top:10px;background-color: #d7eef0; width: 75%; float: left;">
                     <h5 class="h5-text">Aguardando confirmação ou cancelamento</h5>
                     <h6 class="h6-text">Confirme sua participação como revisor e acompanhe os inventários que lhe foram atribuidos para realizar a revisão de Qualidade</h6>
-	                <c:forEach var="status1" items="${invite}" varStatus="loop"> 
+                    <c:forEach var="status1" items="${invite}" varStatus="loop"> 
                         <div class="row">
                             <a class="" style="margin:0 20px;color:#00728a;" href="<%=Strings.BASE%>/qualityreview/${status1.id}">${status1.ilcd.title}<i style="color: #c3697c; margin-left: 10px;" class="fa fa-eye"></i></a>
                         </div>
                         <hr ${loop.last ? 'hidden' : ''} style="border:solid 0.5px #FFFFFF; width:875px;">
-	                </c:forEach>
+                    </c:forEach>
                 </div>
             </c:if>
-            
+
             <br />
 
             <!--Lista de revisões-->
