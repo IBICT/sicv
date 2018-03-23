@@ -387,7 +387,7 @@ public class HomeController {
             homolog.setSubmission( Calendar.getInstance().getTime() );
             homolog.setIlcd(ilcd);
             //salva o último arquivo para a homologacao
-            homolog.setLastArchive( ilcd.getStatus().get(0).getArchive() );
+            //homolog.setLastArchive( ilcd.getStatus().get(0).getArchive() );
             ilcd.setHomologation(homolog);
             //salvando homologação outros objetos são salvos e atualizados em cascata
             homologationDao.saveAndFlush(homolog);
@@ -509,7 +509,7 @@ public class HomeController {
 	            homolog.setSubmission( Calendar.getInstance().getTime() );
 	
 	            //salva o último arquivo para a homologacao
-	            homolog.setLastArchive( ilcd.getStatus().get(0).getArchive() );
+	            //homolog.setLastArchive( ilcd.getStatus().get(0).getArchive() );
 	            //salvando homologação outros objetos são salvos e atualizados em cascata
 	            homologationDao.save(homolog);
 	            statusDao.save(userStatus);

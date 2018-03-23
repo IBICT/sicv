@@ -118,10 +118,8 @@
     </head>
     <body>
 
-        <jsp:include page="/WEB-INF/jsp/partials/nav.jsp" />
-        <div class="headerDiv">
-            <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
-        </div>
+        <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
+
         <div class="principalForm">
 
             <form class="col s12 formILCD" method="POST" action="<%=Strings.BASE%>/ilcd/new" enctype="multipart/form-data" id="teste">

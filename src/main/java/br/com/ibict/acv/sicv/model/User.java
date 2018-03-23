@@ -141,6 +141,10 @@ public class User implements Serializable{
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Notification> notifications = new ArrayList<Notification>();
     
+    @OneToMany(mappedBy = "user", targetEntity = PasswordReset.class,fetch = FetchType.EAGER)
+    private Set<PasswordReset> passwordResets;
+    
+    
     // ------------------------
     // PUBLIC METHODS
     // ------------------------
@@ -394,5 +398,9 @@ public class User implements Serializable{
     
     public String getFullName(){
     	return this.firstName + " " + this.lastName;
+    }
+    
+    public Set<PasswordReset> getPasswordResets() {
+        return passwordResets;
     }
 }

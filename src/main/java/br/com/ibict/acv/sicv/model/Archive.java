@@ -47,9 +47,9 @@ public class Archive implements Serializable {
     @Expose
     private String pathFile;
 
-    @Expose
-    @OneToOne(mappedBy = "lastArchive", optional = true)
-    private Homologacao homologation;
+//    @Expose
+//    @OneToOne(mappedBy = "lastArchive", optional = true)
+//    private Homologacao homologation;
 
     public Long getId() {
         return id;
@@ -75,13 +75,13 @@ public class Archive implements Serializable {
         this.pathFile = pathFile;
     }
 
-    public Homologacao getHomologation() {
-        return homologation;
-    }
-
-    public void setHomologation(Homologacao homologation) {
-        this.homologation = homologation;
-    }
+//    public Homologacao getHomologation() {
+//        return homologation;
+//    }
+//
+//    public void setHomologation(Homologacao homologation) {
+//        this.homologation = homologation;
+//    }
 
     public boolean containsComplement() {
         File f = new File(Strings.UPLOADED_FOLDER + "/" + pathFile + "/complement.zip");

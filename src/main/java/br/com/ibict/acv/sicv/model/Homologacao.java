@@ -60,9 +60,9 @@ public class Homologacao implements Serializable {
     private TechnicalReviewer technicalReviewer;
 
 //  @NotNull
-    @Expose
-    @OneToOne
-    private Archive lastArchive;
+//    @Expose
+//    @OneToOne
+//    private Archive lastArchive;
 
     @Expose
     private boolean pending;
@@ -121,13 +121,13 @@ public class Homologacao implements Serializable {
         this.submission = submission;
     }
 
-    public Archive getLastArchive() {
-        return lastArchive;
-    }
+    //public Archive getLastArchive() {
+    //    return lastArchive;
+    //}
 
-    public void setLastArchive(Archive lastArchive) {
-        this.lastArchive = lastArchive;
-    }
+    //public void setLastArchive(Archive lastArchive) {
+    //    this.lastArchive = lastArchive;
+    //}
 
     public boolean isPending() {
         return pending;

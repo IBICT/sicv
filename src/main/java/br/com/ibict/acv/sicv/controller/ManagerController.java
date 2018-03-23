@@ -334,7 +334,6 @@ public class ManagerController {
             case 1:
                 // Aprovar
                 archive = new Archive();
-                archive.setHomologation(status.getArchive().getHomologation());
                 archive.setPathFile(status.getArchive().getPathFile());
                 
                 newStatus = new Status();
@@ -352,7 +351,6 @@ public class ManagerController {
                 //Nova Revisão
                 
                 archive = new Archive();
-                archive.setHomologation(status.getArchive().getHomologation());
                 archive.setPathFile(status.getArchive().getPathFile());
                 
                 newStatus = new Status();
@@ -373,7 +371,6 @@ public class ManagerController {
                 //Reprovar
                 
                 archive = new Archive();
-                archive.setHomologation(status.getArchive().getHomologation());
                 archive.setPathFile(status.getArchive().getPathFile());
                 
                 newStatus = new Status();

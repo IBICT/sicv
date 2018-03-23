@@ -75,7 +75,7 @@
                     <li class="right notification">
                         <a href="<%=Strings.BASE%>/notifications">
                             <span style=""><%=notifications%></span>
-                            <i class="material-icons">notifications</i>
+                            <i class="fa fa-bell" aria-hidden="true"></i>
                         </a>
                     </li>
                 </ul>
