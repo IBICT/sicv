@@ -335,7 +335,7 @@ public class ManagerController {
                 // Aprovar
                 archive = new Archive();
                 archive.setPathFile(status.getArchive().getPathFile());
-                
+
                 newStatus = new Status();
                 newStatus.setAccept(Boolean.TRUE);
                 newStatus.setResult(1);
@@ -343,36 +343,36 @@ public class ManagerController {
                 newStatus.setClosed2(Boolean.TRUE);
                 newStatus.setRevisor(user);
                 newStatus.setArchive(archive);
-                
+
                 statusDao.save(newStatus);
                 archiveDao.save(archive);
                 break;
             case 2:
                 //Nova Revisão
-                
+
                 archive = new Archive();
                 archive.setPathFile(status.getArchive().getPathFile());
-                
+
                 newStatus = new Status();
                 newStatus.setRevisor(status.getRevisor());
                 newStatus.setType(status.getType());
                 newStatus.setArchive(null);
                 newStatus.setIlcd(status.getIlcd());
                 newStatus.setArchive(archive);
-                
+
                 statusDao.save(newStatus);
                 archiveDao.save(archive);
                 break;
             case 3:
                 //Novo Revisor
-                retorno = "redirect:/gestor/"+ilcdId+"/invite/"+statusID+"/?type="+status.getType();
+                retorno = "redirect:/gestor/" + ilcdId + "/invite/" + statusID + "/?type=" + status.getType();
                 break;
             case 4:
                 //Reprovar
-                
+
                 archive = new Archive();
                 archive.setPathFile(status.getArchive().getPathFile());
-                
+
                 newStatus = new Status();
                 newStatus.setAccept(Boolean.TRUE);
                 newStatus.setResult(3);
@@ -380,7 +380,7 @@ public class ManagerController {
                 newStatus.setClosed2(Boolean.TRUE);
                 newStatus.setRevisor(user);
                 newStatus.setArchive(archive);
-                
+
                 statusDao.save(newStatus);
                 archiveDao.save(archive);
                 break;
@@ -391,4 +391,45 @@ public class ManagerController {
         return retorno;
     }
 
+    @RequestMapping(value = {"/{ilcd}/sendtoreview/{status}/{tipo}", "{ilcd}/sendtoreview/{status}/{tipo}", "/{ilcd}/sendtoreview/{status}/{tipo}/", "{ilcd}/sendtoreview/{status}/{tipo}/"}, method = RequestMethod.GET)
+    public String sendToReview(Map<String, Object> model, @PathVariable("ilcd") Long ilcdId, @PathVariable("status") Long statusId, @PathVariable("tipo") Integer tipo) {
+        try {
+            User user = (User) session().getAttribute("user");
+
+            Ilcd ilcd = ilcdDao.findOne(ilcdId);
+            Status statusOld = statusDao.findOne(statusId);
+            statusOld.setClosed(Boolean.TRUE);
+            
+            Status status = new Status();
+            status.setIlcd(ilcd);
+
+            Archive archive = new Archive();
+            archive.setPathFile(statusOld.getArchive().getPathFile());
+            archiveDao.save(archive);
+
+            status.setArchive(archive);
+            status.setRevisor(statusOld.getPrevious().getRevisor());
+            status.setType(tipo);
+            status.setRequestDate(new Date());
+            status.setExpectedDate(new Date());
+            status.setPrevious(statusOld);
+            status.setAccept(Boolean.TRUE);
+            statusDao.save(status);
+
+            archive.setStatus(status);
+            archiveDao.save(archive);
+
+            ilcd.addStatus(status);
+            ilcdDao.save(ilcd);
+
+            Homologacao homologacao = ilcd.getHomologation();
+            homologacao.setUser(((User) session().getAttribute("user")));
+            homologacao.setStatus(tipo > 2 ? 3 : 2);
+            homologacaoDao.save(homologacao);
+            statusDao.save(statusOld);
+            return "redirect:/gestor/";
+        } catch (Exception e) {
+            return "error";
+        }
+    }
 }

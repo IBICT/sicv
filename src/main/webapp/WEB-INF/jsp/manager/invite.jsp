@@ -127,11 +127,7 @@
     </head>
 
     <body>
-        <jsp:include page="/WEB-INF/jsp/partials/nav.jsp" />
-        <div class="headerDiv">
-            <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
-        </div>
-
+        <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
 
         <div style="width: 90%;margin-left:5%;">
             <div class="row" style="margin: 0;">

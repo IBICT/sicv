@@ -1,7 +1,7 @@
 <%@page import="resources.Strings"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html lang="pt-BR">
+<html>
     <head>
         <meta charset="utf-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -28,76 +28,197 @@
         <meta name="msapplication-TileImage" content="<%=Strings.BASE%>/assets/images/favicon/ms-icon-144x144.png" />
         <meta name="theme-color" content="#ffffff" />
 
-        <title>SICV - ACV | Banco Nacional de Inventários dos inventários brasileiros do Ciclo de Vida (ICVs)</title>
+        <link rel="stylesheet" type="text/css" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
+        <style type="text/css">
 
-        <!-- Bootstrap core CSS -->
-        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
+            @font-face {
+                font-family: 'TitilliumWeb-ExtraLight';
+                src: url('<%=Strings.BASE%>/assets/fonts/TitilliumWeb-ExtraLight.ttf') format('truetype');
+            }
 
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
+            @font-face {
+                font-family: 'TitilliumWeb-Regular';
+                src: url('<%=Strings.BASE%>/assets/fonts/TitilliumWeb-Regular.ttf') format('truetype');
+            }
 
-        <!-- Custom styles for this template -->        
-        <link href="<%=Strings.BASE%>/assets/css/login/index.css" rel="stylesheet">
+            body {
+                background-color: #4DBCC4;
+            }
 
-        <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-        <!--[if lt IE 9]><script src="../../assets/bootstrap-3.3.7/js/ie8-responsive-file-warning.js"></script><![endif]-->
-        <script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/ie-emulation-modes-warning.js"></script>
+            .logoSICVLogin {
+                margin-top: 114.36px;
+                width: 150px;
+                margin-left: 37%;
+            }
 
-        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-          <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-        <script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/jquery.min.js"></script>
-        <script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/jquery.cookie.js"></script>
+            /*input*/
 
+            input:not([type]), input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea {
+                border-bottom: 1px solid #fff;
+                color: #fff;
+                font-size: 30px;
+            }
+
+            label {
+                width: 100%;
+                font-size: 30px;
+            }
+
+            .input-field label {
+                color: #fff;
+                font-size: 20px;
+            }
+            
+            input[type=password].invalid:not(.browser-default)+label,
+            input[type=password].invalid:not(.browser-default):focus+label,
+            input[type=password].invalid:not(.browser-default):focus:not([readonly])+label {
+                color: #F44336;
+            }
+
+            input[type=password]:not(.browser-default):focus:not([readonly])+label {
+                color: #fff;
+            }
+
+            input[type=password]:not(.browser-default):focus:not([readonly]) {
+                border-bottom: 1px solid #fff;
+            }
+
+            input.valid:not([type]), input.valid:not([type]):focus, input[type=text].valid:not(.browser-default), input[type=text].valid:not(.browser-default):focus, input[type=password].valid:not(.browser-default), input[type=password].valid:not(.browser-default):focus, input[type=email].valid:not(.browser-default), input[type=email].valid:not(.browser-default):focus, input[type=url].valid:not(.browser-default), input[type=url].valid:not(.browser-default):focus, input[type=time].valid:not(.browser-default), input[type=time].valid:not(.browser-default):focus, input[type=date].valid:not(.browser-default), input[type=date].valid:not(.browser-default):focus, input[type=datetime].valid:not(.browser-default), input[type=datetime].valid:not(.browser-default):focus, input[type=datetime-local].valid:not(.browser-default), input[type=datetime-local].valid:not(.browser-default):focus, input[type=tel].valid:not(.browser-default), input[type=tel].valid:not(.browser-default):focus, input[type=number].valid:not(.browser-default), input[type=number].valid:not(.browser-default):focus, input[type=search].valid:not(.browser-default), input[type=search].valid:not(.browser-default):focus, textarea.materialize-textarea.valid, textarea.materialize-textarea.valid:focus, .select-wrapper.valid>input.select-dropdown {
+                border-bottom: 1px solid #fff;
+                -webkit-box-shadow: 0 1px 0 0 #fff;
+                box-shadow: 0 1px 0 0 #fff;
+            }
+
+            input[type=password].invalid:not(.browser-default), input[type=password].invalid:not(.browser-default):focus {
+                border-bottom: 1px solid #F44336;
+                color: #F44336;
+            }
+            
+            /*input*/
+
+            h5 {
+                font-family: Titillium Web;
+                font-style: normal;
+                font-weight: normal;
+                line-height: normal;
+                font-size: 33px;
+                text-align: center;
+
+                color: #FFFFFF;
+
+            }
+        </style>
+        <title></title>
     </head>
-    	<style>
-			/* label color */
-		   .input-field input{
-				font-size: 18px !important;
-				color: #DDD;
-				border-bottom: .2px solid #DDD !important;
-				box-shadow: 0 .2px 0 0 #DDD !important;
-		   }
-		   
-		   /* label focus color */
-		   .input-field input:focus{
-				color: white;
-				border-bottom: 1px solid white !important;
-				box-shadow: 0 1px 0 0 white !important;
-		   }
-
-		</style>
-	
-    <body class="login-form">
-
+    <body>
         <div class="container">
-            <img alt="SICV" class="logoSICVLogin" src="<%=Strings.BASE%>/assets/images/logoSICVLogin.png">
-            <h2 style="text-align: center;letter-spacing: 2px;">Importador de Inventários</h2>
-            <form action="<%=Strings.BASE%>/register/resetPassword" method="post" class="form-signin">
-				<div class="input-field col s3">
-	                <input type="password" name="plainPassword" id="plainPassword" placeholder="Digite uma nova senha" required autofocus>
-				</div>
-				<div class="input-field col s3">
-					<input type="password" name="newPassword" id="newPassword" placeholder="Confirmar senha" required>
-				</div>
-
-				<div class="row col s2" ${resetSuccess ? 'hidden' : ''}>
-	                <button class="btn btnReset bgBtnEntrar" type="submit">Redefinir senha</button>
-				</div>
-				<div class="row col s2" ${resetSuccess ? '' : 'hidden'}>
-	            	<h6 style="font-size: 14px;margin-right: 80px;color: #00697C;" ><b>Sua senha foi redefinida com sucesso!</b></h6>
-	                <button class="btn btnReset bgBtnEntrar" type="button" onclick="location.href='<%=Strings.BASE%>/register/login'">Fazer login</button>
-				</div>
-
-				</c:choose
-				<h6 style="font-size: 16px;float: left;color: #00697C;">${recoveryMsg}</h6>
+            <div class="row">
+                <div class="s12">
+                    <img alt="SICV" class="logoSICVLogin" src="<%=Strings.BASE%>/assets/images/logoSICVLogin.png">
+                </div>
+            </div>
+            <div class="row">
+                <div class="s12">
+                    <h5 style="font-family: TitilliumWeb-Regular;">Importador de Inventários</h5>
+                </div>
+            </div>
+            <form id="form" class="col s12" novalidate="novalidate">
+                <div class="row" style="margin-bottom: 0px;">
+                    <div style="margin-left: 25%;" class="input-field col s6">
+                        <input id="field1" name="field1" type="password" required="" aria-required="true" />
+                        <label for="field1">Digite uma nova senha</label>
+                    </div>
+                </div>
+                <div class="row" style="margin-bottom: 0px;">
+                    <div style="margin-left: 25%;" class="input-field col s6">
+                        <input id="field2" name="field2" type="password" required="" aria-required="true" />
+                        <label for="field2">Confirmar senha</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="input-field col s12">
+                        <button style="margin-left: 36%; background-color: #00697C;" id="enviar" class="btn waves-effect waves-light" type="submit" name="action">Redefinir senha</button>
+                    </div>
+                </div>
             </form>
-        </div> <!-- /container -->
+        </div>
+        <script type="text/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
+        <script type="text/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
+        <script type="text/javascript" src="<%=Strings.BASE%>/assets/jquery.validate.js"></script>
+        <script type="text/javascript">//<![CDATA[
 
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/ie10-viewport-bug-workaround.js"></script>
+            $.extend(jQuery.validator.messages, {
+                required: "Você não pode deixar este campo em branco.",
+                remote: "Please fix this field.",
+                email: "Digite seu endereço de e-mail completo, incluindo o \"@\".",
+                url: "Digite uma URL valida.",
+                date: "Digite uma data valida.",
+                dateISO: "Please enter a valid date (ISO).",
+                number: "Please enter a valid number.",
+                digits: "Please enter only digits.",
+                creditcard: "Please enter a valid credit card number.",
+                equalTo: "Please enter the same value again.",
+                accept: "Please enter a value with a valid extension.",
+                maxlength: jQuery.validator.format("Please enter no more than {0} characters."),
+                minlength: jQuery.validator.format("Senhas curtas são fáceis de adivinhar. Tente uma senha com pelo menos  {0} caracteres."),
+                rangelength: jQuery.validator.format("Please enter a value between {0} and {1} characters long."),
+                range: jQuery.validator.format("Please enter a value between {0} and {1}."),
+                max: jQuery.validator.format("Please enter a value less than or equal to {0}."),
+                min: jQuery.validator.format("Please enter a value greater than or equal to {0}.")
+            });
 
+            $(document).ready(function () {
+                // Extension materialize.css
+                $.validator.setDefaults({
+                    errorClass: 'invalid',
+                    validClass: "valid",
+                    errorPlacement: function (error, element) {
+                        $(element)
+                                .closest("form")
+                                .find("label[for='" + element.attr("id") + "']")
+                                .attr('data-error', error.text());
+                    },
+                    submitHandler: function (form) {
+                        console.log('form ok');
+                    }, messages: {
+                        field2: {
+                            equalTo: "Essas senhas não coincidem. Tentar novamente?"
+                        }
+                    }
+                });
+
+                $('#field1, #field2').on('keyup', function () {
+                    $("#form").validate({
+                        rules: {
+                            field1: {
+                                minlength: 8
+                            },
+                            field2: {
+                                minlength: 8,
+                                equalTo: "#field1"
+                            }
+                        }
+                    });
+                });
+
+                $("#enviar").on('click', function () {
+                    $("#form").validate({
+                        rules: {
+                            field1: {
+                                required: true,
+                                minlength: 8
+                            },
+                            field2: {
+                                required: true,
+                                minlength: 8,
+                                equalTo: "#field1"
+                            }
+                        }
+                    });
+                });
+
+            });//]]> 
+        </script>
     </body>
 </html>
+

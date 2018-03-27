@@ -27,6 +27,7 @@ import br.com.ibict.acv.sicv.util.Mail;
 import br.com.ibict.acv.sicv.util.Password;
 import java.util.Date;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.ResponseBody;
 import resources.Strings;
 
 @Controller
@@ -161,8 +162,8 @@ public class RegisterController {
         return "register/forgotPassword";
     }
 
-    @RequestMapping("/register/resetPassword?a={hash}")
-    public String getResetPassword(Map<String, Object> model, @PathVariable("hash") String hash) {
+    @RequestMapping("/register/resetPassword")
+    public String getResetPassword(Map<String, Object> model, @RequestParam("a") String hash) {
 
         PasswordReset passwordReset = passwordResetDao.findByHash(hash);
         if (passwordReset != null) {
@@ -170,10 +171,10 @@ public class RegisterController {
                 model.put("resetSuccess", false);
                 return "register/resetPassword";
             } else {
-                return "expiredReset";
+                return "register/expiredReset";
             }
         } else {
-            return "404";
+            return "/404";
         }
     }
 

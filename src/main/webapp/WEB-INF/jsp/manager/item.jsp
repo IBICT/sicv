@@ -173,10 +173,8 @@
     </head>
 
     <body>
-        <jsp:include page="/WEB-INF/jsp/partials/nav.jsp" />
-        <div class="headerDiv">
-            <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
-        </div>
+        
+        <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
 
 
         <div style="width: 90%;margin-left:5%;">
@@ -463,7 +461,7 @@
                                                                         </c:if>
                                                                     </div>
                                                                     <div class="col s6">
-                                                                        <a ${statu.closed?"disabled":""} id="invite3" href="<%=Strings.BASE%>/gestor/${ilcd.id}/invite/${statu.id}?type=1" class="btn" title="Convidar Revisor" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Convidar Revisor</a>
+                                                                        <a ${statu.closed?"disabled":""} id="invite3" href="<%=Strings.BASE%>/gestor/${ilcd.id}/sendtoreview/${statu.id}/1" class="btn" title="Convidar Revisor" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Enviar para Revisor</a>
                                                                     </div>
                                                                 </div>
                                                             </c:when>
