@@ -94,6 +94,10 @@
                 background-color: #EBF4F5;
             }
 
+            .container {
+                width: 97%;
+            }
+            
         </style>
 
     </head>
@@ -102,10 +106,8 @@
         <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
 
 
-        <div class="principalDiv">
-            <div class="row sicv-container">
-                <h4 class="page-title">Gestão</h4>
-            </div>
+        <div class="container">
+            <h4 class="page-title">Gestão</h4>
 
             <div class="row">
                 <div style="margin-right: 5%; float: right;">

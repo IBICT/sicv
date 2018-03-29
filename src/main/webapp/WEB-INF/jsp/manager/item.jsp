@@ -42,23 +42,6 @@
                 font-family: 'Titillium Web', "Roboto", sans-serif;
             }
 
-            nav {
-                background-color: #4dbcc4;
-            }
-
-            nav .brand-logo {
-                margin-left: 50px;
-            }
-
-            nav .brand-logo img {
-                margin-right: 20px;
-                vertical-align: middle;
-            }
-
-            .container {
-                /*margin: 10px 50px;*/
-            }
-
             .page-title {
                 color: #00697c;
             }
@@ -168,6 +151,11 @@
                 font-size: 20px;
                 color: #3D3D3D;
             }
+            
+            .container {
+                width: 97%;
+                padding-top: 20px;
+            }
         </style>
 
     </head>
@@ -177,7 +165,7 @@
         <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
 
 
-        <div style="width: 90%;margin-left:5%;">
+        <div class="container">
             <div class="row" style="margin: 0;">
                 <h4 class="page-title" style="margin: 0;">${ilcd.title}</h4>
             </div>
@@ -202,7 +190,7 @@
                     <br>
                     <h6 class="bold">Descrição</h6>
                     <div class="row">
-                        <div class="col s9" style="overflow-x: scroll;overflow-y: scroll;height: 200px;">
+                        <div class="col s12" style="overflow-wrap: break-word;">
                             ${ilcd.description}
                         </div>
                     </div>

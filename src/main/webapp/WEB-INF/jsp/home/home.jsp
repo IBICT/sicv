@@ -80,7 +80,9 @@
                 color: #999;
                 padding: 0 !important;
             }
-
+            .container {
+                width: 97%;
+            }
         </style>
     </head>
 
@@ -88,7 +90,7 @@
 
         <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
 
-        <div class="principalDiv">
+        <div class="container">
             <c:choose>
                 <c:when test="${isUserLabel}">
                     <h4 class="page-title">Meus inventários</h4>
@@ -119,10 +121,10 @@
             <c:forEach items="${ilcds}" var="ilcd" varStatus="loop">
                 <div style="margin:0px;" class="row">
                     <div style="height: 40px; width:40%; position: relative; top: 10px;" class="col s3 sicv-table-td">
-                        <button class="button" style="padding-left: 0%;" onclick="location.href = '${link}/${ilcd.id}'">${ilcd.name}</button>
+                        <a href="${link}/${ilcd.id}">${ilcd.title}</a>
                     </div>
                     <div style="height: 40px;width:10%; position: relative; top: 10px;" class="col s3 sicv-table-td">
-                        <button class="button" style="padding-left: 0%;" onclick="location.href = '${link}/${ilcd.id}'">${ilcd.homologation.user.firstName == null ? "aguardando":ilcd.homologation.user.firstName}</button>
+                        <a href="${link}/${ilcd.id}">${ilcd.homologation.user.firstName == null ? "aguardando":ilcd.homologation.user.firstName}</a>
                     </div>
                     <c:choose>
                        	<c:when test="${ilcd.homologation.pending}">
@@ -130,9 +132,7 @@
                                 <td style="text-align: center;"><i style="color: #accc5f;" class="material-icons">check</i></td>
                             -->
                             <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td" onclick="location.href = '#'">
-                                <button class="button">
-                                    <i style="color: #c3697c;" class="fa fa-exclamation-triangle"></i>
-                                </button>
+                                <i style="color: #c3697c;" class="fa fa-exclamation-triangle"></i>
                             </div>
                             <%
 
@@ -155,17 +155,15 @@
                                     pageContext.setAttribute("prazo", resporta);
                                 %>
                             <div style="height: 40px;  text-align: center; position: relative; top: 10px; ${prazoStyle ? "color: #c3697c;":""}" class="col s2 sicv-table-td">
-                                <button class="button" onclick="location.href = '#'">${prazo}</button>
+                                ${prazo}
                             </div>
                        	</c:when>
                        	<c:when test="${not ilcd.homologation.pending}">
                             <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td" onclick="location.href = '#'">
-                                <button class="button">
-                                    <i style="color: #accc5f;" class="fa fa-check"></i>
-                                </button>
+                                <i style="color: #accc5f;" class="fa fa-check"></i>
                             </div> 
                             <div style="height: 40px;  text-align: center; position: relative; top: 10px; color: #accc5f;" class="col s2 sicv-table-td">
-                                <button class="button" onclick="location.href = '#'">Entregue</button>
+                                Entregue
                             </div>
                        	</c:when>
                        	<c:otherwise>

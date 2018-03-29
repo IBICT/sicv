@@ -91,6 +91,10 @@
                 margin-bottom: 20px;
 
             }
+            
+            .container {
+                width: 95%;
+            }
 
         </style>
     </head>
@@ -100,11 +104,9 @@
         <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
 
 
-        <div class="principalDiv">
+        <div class="container">
 
-            <div class="row sicv-container">
-                <h4 class="page-title">Revisão Qualidata</h4>
-            </div>
+            <h4 class="page-title">Revisão Qualidata</h4>
 
             <c:if test="${not empty invite}">
                 <div class="row sicv-container" style="padding-top:10px;background-color: #d7eef0; width: 75%; float: left;">

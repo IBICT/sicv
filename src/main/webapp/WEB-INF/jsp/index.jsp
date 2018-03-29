@@ -137,16 +137,19 @@
                 line-height: 0px;
             }
 
+            .container {
+                width: 92%;
+            }
         </style>
 
     </head>
 
     <body>
         <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
-        <div class="row" style="width: 90%;">
+        <div class="container">
             <div class="row">
                 <div class="row">
-                    <h5 class="page-title">${ilcd.name}</h5>
+                    <h5 class="page-title">${ilcd.title}</h5>
                     <hr />
                 </div>
                 <div class="col s7">

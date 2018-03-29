@@ -80,7 +80,6 @@
             .page-title {
                 color: #00697C;
                 font-size: 27px;
-                margin-left: 11px;
             }
 
             .input-field input{
@@ -114,19 +113,23 @@
                 line-height: 10px;
             }
 
+            .container {
+                width: 97%;
+            }
+            
         </style>
     </head>
     <body>
 
         <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
 
-        <div class="principalForm">
+        <div class="container">
 
             <form class="col s12 formILCD" method="POST" action="<%=Strings.BASE%>/ilcd/new" enctype="multipart/form-data" id="teste">
                 <h4 class="page-title">Submissão Inventário</h4>
-                <h6 style="font-size: 15px;margin-left: 11px;font-weight: bold;">Autores <b style="color: red;">*</b></h6>
+                <h6 style="font-weight: bold;">Autores <b style="color: red;">*</b></h6>
                 <div class="row" id="authorsClone">
-                    <div id="divAuthorEmail" class="row">
+                    <div id="divAuthorEmail">
                         <div class="input-field col s4">
                             <input placeholder="Author" id="author" type="text" class="validate aut" name="authors[0].name" required="required" />
                         </div>
@@ -135,7 +138,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" style="margin-top: -33px;margin-left: 10px;cursor: pointer;">
+                <div class="row" style="margin-top: -33px;margin-left: 2px;cursor: pointer;">
                     <div class="btn-addAuthor" id="btnAuthor">Acrescentar autor +</div>
                 </div>
                 <div class="row">
