@@ -30,25 +30,10 @@
 
         <title>SICV - ACV | Banco Nacional de Inventários dos inventários brasileiros do Ciclo de Vida (ICVs)</title>
 
-        <!-- Bootstrap core CSS -->
    		<link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
    		<link rel="stylesheet" href="<%=Strings.BASE%>/assets/font/font-awesome/css/font-awesome.min.css">
-
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-
-        <!-- Custom styles for this template -->
-
-        <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-        <!--[if lt IE 9]><script src="../../assets/js/ie8-responsive-file-warning.js"></script><![endif]-->
-        <script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/ie-emulation-modes-warning.js"></script>
-
-        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-          <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/css/fonts.css">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/css/passwordsCheck.css">
         
     </head>
     	<style>
@@ -76,6 +61,10 @@
 				border-bottom: 2px solid #4DBCC4 !important;
 				box-shadow: 1px solid #4DBCC4 !important;
 				font-weight: bold;
+			}
+			
+			input[type=email].invalid:not(.browser-default),input[type=text].invalid:not(.browser-default), input[type=password].invalid:not(.browser-default){
+				border-bottom: 1px solid #F44336 !important;
 			}
 			
 			input[type=text].valid:not(.browser-default){
@@ -211,8 +200,7 @@
 					<div class="input-field col s4">
 						<i class="fa fa-chevron-down"></i>
 						<select required="required" name="country">
-							<option disabled selected>Nacionalidade*
-							</option>
+							<option value="" disabled selected>Nacionalidade*</option>
 							<option value="Afghanistan">Afghanistan</option>
 						    <option value="Albania">Albania</option>
 						    <option value="Algeria">Algeria</option>
@@ -242,7 +230,7 @@
 						    <option value="Bosnia and Herzegowina">Bosnia and Herzegowina</option>
 						    <option value="Botswana">Botswana</option>
 						    <option value="Bouvet Island">Bouvet Island</option>
-						    <option value="Brazil">Brazil</option>
+						    <option value="Brazil">Brasil</option>
 						    <option value="British Indian Ocean Territory">British Indian Ocean Territory</option>
 						    <option value="Brunei Darussalam">Brunei Darussalam</option>
 						    <option value="Bulgaria">Bulgaria</option>
@@ -481,16 +469,17 @@
 					<div class="input-field col s3">
 						<i class="fa fa-chevron-down"></i>
 						<select required="required" name="title">
-							<option disabled selected>Grau*</option>
-							<option value="Bel">Bel.</option>
-						    <option value="Dr">Dr.</option>
-						    <option value="Graduando">Graduando</option>
-						    <option value="Ms">Ms.</option>
-						    <option value="Especialista">Especialista</option>
+							<option value="" disabled selected>Grau*</option>
+							<option value="Bacharel">Bacharel ( Bel. )</option>
+						    <option value="Doutor">Doutor ( Dr. )</option>
+						    <option value="Especialista">Especialista ( Esp. )</option>
+						    <option value="Graduando">Graduando ( Grad. )</option>
+						    <option value="Mestre">Mestre ( Ms. )</option>
+						    <option value="Tecnologo">Tecnólogo ( Tec. )</option>
 					    </select>
 				    </div>
 					<div class="input-field col s4">
-						<input placeholder="Área*(ex:Ciências Florestais)" id="area" name="jobPosition" type="text" required="required">
+						<input placeholder="Área*(ex:Ciências Florestais)" id="area" name="jobPosition" class="validate" type="text" required="required">
 					</div>
 					<div class="input-field col s3">
 						<input placeholder="Orcid" id="orcid" name="orcid" type="text"/><br />
@@ -500,7 +489,7 @@
 				<div class="row">
 					<div class="input-field col s7">
 		                <input placeholder="Currículo* (adicionar link do perfil no Currículo lattes, Linkedin ou ResearchGate)" 
-		                id="curriculum" name="curriculum" type="text" required="" /><br />
+		                id="curriculum" name="curriculum" type="text" required="" class="validate"/><br />
 					</div>
 				</div>
 				<div class="row">
@@ -525,9 +514,10 @@
 				<div class="row">
 					<div class="input-field col s5">
 						<input placeholder="Senha* " id="password" name="senha" type="password" class="validate" required="required">
+						<span id="result"></span>
 					</div>
 					<div class="input-field col s5">
-						<input placeholder="Confirmar Senha* " id="confirm" type="password" class="validate" required="required">
+						<input placeholder="Confirmar Senha* " id="confirm" type="password" class="validate" required="required" onkeyup="validPass()">
 	                <div style="float: right;">
 		                <input class="btn" type="submit" value="Submeter Cadastro" /><br />
 	                </div>
@@ -539,14 +529,27 @@
 		
 		<script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
 		<script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
+		<script type="application/javascript" src="<%=Strings.BASE%>/assets/passwordsCheck.js"></script>
 		<script type="text/javascript">
 			$(document).ready(function() {
 		    	$('select').material_select();
-		    	$("select[required]").css({position: "absolute", display: "inline", height: 0, padding: 0, width: 0});
+		    	$("select[required]").css({display: "inline", height: 0, padding: 0, width: 0, position: 'absolute'});
 			});
 			$(document).ready(function(){
 			    $('.modal').modal();
 			});
+			
+			function validPass() {
+				pass = document.getElementById('password').value;
+				confirmPass = document.getElementById('confirm').value;
+				if (pass != confirmPass) {
+					$('#confirm').addClass('invalid');
+				} else {
+					$('#confirm').removeClass('invalid');
+					$('#confirm').addClass('valid');
+				}
+			}
+			
 		</script>
     </body>
 
