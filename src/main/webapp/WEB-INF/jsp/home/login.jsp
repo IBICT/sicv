@@ -96,12 +96,12 @@
             <img alt="SICV" class="logoSICVLogin" src="<%=Strings.BASE%>/assets/images/logoSICVLogin.png">
             <h2 style="text-align: center;letter-spacing: 2px;">Importador de Inventários</h2>
             <form action="login" method="post" class="form-signin">
-                <input type="email" name="email" id="inputEmail" class="form-control inputEmail" placeholder="Email address" required autofocus autocomplete="off">
+                <input type="email" name="email" id="inputEmail" class="form-control inputEmail" placeholder="Email address" required autofocus autocomplete="on">
 
                 <input type="password" name="senha" id="inputPassword" class="form-control inputEmail" placeholder="Password" required>
                 <div class="checkbox">
                     <label class="remember">
-                        <input id="rememberChkBox" type="checkbox" value="remember-me"> Remember me
+                        <input id="rememberChkBox" type="checkbox" value="remember-me"> Lembrar acesso
                     </label>
                 </div>
                 <div >

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -14,8 +15,11 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import resources.Strings;
 import br.com.ibict.acv.sicv.exception.RegisterException;
 import br.com.ibict.acv.sicv.model.Notification;
 import br.com.ibict.acv.sicv.model.PasswordReset;
@@ -25,10 +29,6 @@ import br.com.ibict.acv.sicv.repositories.PasswordResetDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.Mail;
 import br.com.ibict.acv.sicv.util.Password;
-import java.util.Date;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.ResponseBody;
-import resources.Strings;
 
 @Controller
 public class RegisterController {
@@ -196,4 +196,17 @@ public class RegisterController {
     public static Mail getMailUtil() {
         return mailUtil;
     }
+    
+    @RequestMapping(value = "/register/getUser", method = RequestMethod.POST, produces = "application/json")
+    public @ResponseBody String getUser(@RequestParam("email") String mail) {
+        User user = userDao.findByEmail(mail);
+        System.out.println("EMAIL ######################### "+ mail);
+        if (user != null) {
+            return "true";
+        } else {
+            return "false";
+        }
+        
+    }
+    
 }
