@@ -26,6 +26,14 @@ import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.Mail;
 import br.com.ibict.acv.sicv.util.Password;
 import java.util.Date;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.ResponseBody;
 import resources.Strings;
@@ -35,6 +43,9 @@ public class RegisterController {
 
     //TODO make file.properties to get admin email and other informations
     public static String EMAIL_ADMIN = "acv@ibict.br";
+
+    @Autowired
+    AuthenticationManager authenticationManager;
 
     @Autowired
     private UserDao userDao;
@@ -104,11 +115,16 @@ public class RegisterController {
         model.put("urlLogin", Strings.BASE + "/login");
         model.put("url", Strings.BASE);
 
+        user.setActiveCode(user.getNewActiveCode());
+
+        model.put("link", Strings.BASE + "/register/accountConfirmation?token=" + user.getActiveCode());
+
         try {
             userDao.save(user);
             Notification notify = new Notification();
             notify.fillMsgADMIN_NEW_REG(user.getId(), user.getFirstName() + " " + user.getLastName());
-            mail.sendEmail(email, "acv@ibict.br", "Cadastro de Usuário", model, "emailRegister.ftl");
+            //mail.sendEmail(email, "acv@ibict.br", "Cadastro de Usuário", model, "emailRegister.ftl");
+            mail.sendEmail(email, "acv@ibict.br", "Confirmação de Conta no SICV", model, "accountConfirmation.ftl");
 
             model.put("urlTrack", Strings.BASE + "/admin/users/");
             model.put("date", getDateString());
@@ -121,6 +137,39 @@ public class RegisterController {
         }
 
         return "register/sendEmail";
+
+    }
+
+    @RequestMapping("/register/accountConfirmation")
+    public String accountConfirmation(HttpServletRequest req, Map<String, Object> model, @RequestParam("token") String token) {
+
+        User user = userDao.findByActiveCode(token);
+
+        if (user != null) {
+            if (user.getActive() == null || !user.getActive()) {
+                user.setActive(Boolean.TRUE);
+                try {
+                    userDao.save(user);
+                } catch (Exception e) {
+                    System.err.println(e.getMessage());
+                    e.printStackTrace();
+                    return "redirect:" + Strings.BASE + "/error?code=500";
+                }
+                try {
+                    model.put("user", user);
+                    model.put("url", Strings.BASE);
+                    mail.sendEmail(user.getEmail(), "acv@ibict.br", "Cadastro de Usuário", model, "emailRegister.ftl");
+                } catch (Exception e) {
+                    System.err.println(e.getMessage());
+                    e.printStackTrace();
+                }
+                return "redirect:" + Strings.BASE;
+            } else {
+                return "redirect:/login";
+            }
+        } else {
+            return "/404";
+        }
 
     }
 
@@ -140,7 +189,7 @@ public class RegisterController {
                 PasswordReset passwordReset = new PasswordReset();
                 passwordReset.setExpires(date);
                 passwordReset.setUser(user);
-                passwordReset.setHash("u"+user.getId()+"h"+date.getTime());
+                passwordReset.setHash("u" + user.getId() + "h" + date.getTime());
                 passwordResetDao.save(passwordReset);
 
                 model.put("user", user);
@@ -169,6 +218,7 @@ public class RegisterController {
         if (passwordReset != null) {
             if (passwordReset.getExpires().after(new Date())) {
                 model.put("resetSuccess", false);
+                model.put("passwordReset", passwordReset);
                 return "register/resetPassword";
             } else {
                 return "register/expiredReset";
@@ -178,10 +228,13 @@ public class RegisterController {
         }
     }
 
-    @PostMapping("/register/resetPassword?a={key}")
-    public String resetPassword(@RequestParam("plainPassword") String plainPassword, Map<String, Object> model) {
-        //TODO data of user to set new password... how to retrieve?
-        model.put("resetSuccess", true);
+    @PostMapping("/register/resetPassword")
+    public String resetPassword(@RequestParam("field1") String plainPassword, Map<String, Object> model) {
+        User user = (User) model.get("passwordReset");
+        //System.out.println(user.getEmail());
+//        user.setPasswordHashSalt(Password.generateSalt(20));
+//        user.setPasswordHash(Password.getEncryptedPassword(plainPassword, user.getPasswordHashSalt()));
+//        model.put("resetSuccess", true);
         return "register/resetPassword";
     }
 

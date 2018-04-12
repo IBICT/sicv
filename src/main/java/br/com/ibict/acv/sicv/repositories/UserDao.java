@@ -23,4 +23,6 @@ public interface UserDao extends JpaRepository<User, Long> {
   @Query("SELECT DISTINCT u FROM User u JOIN u.roles ur WHERE ur.role =:perfil")
   public List<User> findByPerfil(@Param("perfil") String perfil);
 
+  public User findByActiveCode(String token);
+
 } // class UserDao

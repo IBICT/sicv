@@ -57,7 +57,7 @@ public class CustomAuthProvider implements AuthenticationProvider {
 	            	// Data base password is encrypted
 	            	boolean passwordMatch = isPasswordMatching(usuarioBd.getPasswordHash(), password, hashSalt);
 	                
-	            	if( passwordMatch ){
+	            	if( passwordMatch && usuarioBd.getActive()){
 	            		/*
 		            	Set<GrantedAuthority> authorities = new HashSet<>();
 		            	authorities.add(new  SimpleGrantedAuthority( usuarioBd.getPerfil() ));

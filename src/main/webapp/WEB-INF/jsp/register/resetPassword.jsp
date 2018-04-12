@@ -68,7 +68,7 @@
                 color: #fff;
                 font-size: 20px;
             }
-            
+
             input[type=password].invalid:not(.browser-default)+label,
             input[type=password].invalid:not(.browser-default):focus+label,
             input[type=password].invalid:not(.browser-default):focus:not([readonly])+label {
@@ -93,7 +93,7 @@
                 border-bottom: 1px solid #F44336;
                 color: #F44336;
             }
-            
+
             /*input*/
 
             h5 {
@@ -122,7 +122,7 @@
                     <h5 style="font-family: TitilliumWeb-Regular;">Importador de Inventários</h5>
                 </div>
             </div>
-            <form id="form" class="col s12" novalidate="novalidate">
+            <form id="form" class="col s12" novalidate="novalidate" method="post" action="/register/resetPassword">
                 <div class="row" style="margin-bottom: 0px;">
                     <div style="margin-left: 25%;" class="input-field col s6">
                         <input id="field1" name="field1" type="password" required="" aria-required="true" />
@@ -179,7 +179,8 @@
                                 .attr('data-error', error.text());
                     },
                     submitHandler: function (form) {
-                        console.log('form ok');
+                        var $form = $(form);
+                        $form.submit();
                     }, messages: {
                         field2: {
                             equalTo: "Essas senhas não coincidem. Tentar novamente?"

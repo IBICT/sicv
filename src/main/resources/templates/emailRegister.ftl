@@ -2,29 +2,15 @@
 <head><title></title></head>
 <body>
 <p>
-Prezado (a) Sr./Sra. ${user.getFirstName()} ${user.getLastName()},<br/>
-Seja bem-vindo ao Banco Nacional de Inventários do Ciclo de Vida!
-</p>
-<p>
-Ao acessar os SICV Brasil você poderá consultar diversos inventários públicos, realizar pesquisas de processos, fluxos, fontes, grupos de 
-unidades e contatos. Você pode, ainda, submeter o seu inventário ao SICV Brasil para análise dos dados e futura publicação.
-</p>
-<p>
-Obrigado por se inscrever! Seus dados de acesso são:
-</p>
-<b>Endereço do banco:</b> ${urlLogin}<br/>
-<b>Usuário:</b> ${user.getEmail()}<br/>
-<b>Senha:</b> ${senha}
+Olá ${user.getFirstName()} ${user.getLastName()}<br/>
+Sua conta foi confirmada com sucesso<br/>
+Seja bem-vindo ao Banco Nacional de Inventários do Ciclo de Vida – SICV Brasil. <br/>
+Para acessar o conteúdo disponível somente a usuários cadastrados, acesse o sistema com seu login e senha.<br/>
+Você poderá consultar inventários públicos e submeter o seu inventário ao SICV. <br/>
 
-<p>
-Em Caso de dúvidas, entre em contato pelo e-mail: acv@ibict.br ou telefone (61) 3217.6286.
-</p>
-<p>
-Atenciosamente, <br/>
-Equipe <b>Avaliação do Ciclo de Vida</b><br/>
-<b>Banco Nacional de Inventários do Ciclo de Vida</b><br/>
-${url}
-
+Acesse o <a href="http://acv.ibict.br/documentos/publicacoes/2825-guia-qualidata-requisitos-de-qualidade-de-conjuntos-de-dados-para-o-banco-nacional-de-inventarios-do-ciclo-de-vida">Guia Qualidata</a> e verifique se o seu inventário está de acordo com os requisitos mínimos para publicação no SICV Brasil.<br/>
+<b>Banco Nacional de Inventários do Ciclo de Vida (SICV Brasil)</b>
+<a href="${url}">${url}</a>
 </p>
 </body>
 </html>
