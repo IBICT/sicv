@@ -190,7 +190,7 @@
 				
 				<div class="row">
 					<div class="input-field col s5">
-		                <input placeholder="E-mail*" id="email" name="email" type="email" class="validate" required="" /><br />
+		                <input placeholder="E-mail*" id="email" name="email" type="email" class="validate" required="" onkeyup="existEmail();"/><br />
 					</div>
 					<div class="input-field col s5">
 						<input placeholder="Afiliação*" id="organization" name="organization" type="text" class="validate" required="">
@@ -488,8 +488,8 @@
 				
 				<div class="row">
 					<div class="input-field col s7">
-		                <input placeholder="Currículo* (adicionar link do perfil no Currículo lattes, Linkedin ou ResearchGate)" 
-		                id="curriculum" name="curriculum" type="text" required="" class="validate"/><br />
+		                <input placeholder="Currículo (adicionar link do perfil no Currículo lattes, Linkedin ou ResearchGate)" 
+		                id="curriculum" name="curriculum" type="text" /><br />
 					</div>
 				</div>
 				<div class="row">
@@ -548,6 +548,30 @@
 					$('#confirm').removeClass('invalid');
 					$('#confirm').addClass('valid');
 				}
+			}
+			
+			function existEmail() {
+				var mail = $('#email').val();
+				var pattern = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+				//verify if is a valid pattern mail
+				if(pattern.test(mail)){
+					alert(mail);
+				    $.ajax({
+				        type: "post",
+				        url: 'register/getUser',
+				        data: { email: mail},
+				        success: function (result) {
+				        	alert(result);
+				        	if(result == true)
+				            	alert(true)
+				            if(result == false)
+				            	alert(false)
+				        },
+				        error: function (response) {
+				        }
+				    });
+				}
+
 			}
 			
 		</script>
