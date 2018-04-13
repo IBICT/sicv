@@ -103,6 +103,8 @@ public class RegisterController {
         model.put("senha", senha);
         model.put("urlLogin", Strings.BASE + "/login");
         model.put("url", Strings.BASE);
+        user.setActiveCode(user.getNewActiveCode());
+        model.put("link", Strings.BASE + "/register/accountConfirmation?token=" + user.getActiveCode());
 
         try {
             userDao.save(user);
@@ -112,7 +114,7 @@ public class RegisterController {
 
             model.put("urlTrack", Strings.BASE + "/admin/users/");
             model.put("date", getDateString());
-            mail.sendEmail(EMAIL_ADMIN, "acv@ibict.br", "Cadastro de Usuário", model, "emailRegisterToAdmin.ftl");
+            mail.sendEmail(email, "acv@ibict.br", "Confirmação de Conta no SICV", model, "accountConfirmation.ftl");
             // TODO criar paginas ou mensagens para popular a view em caso de erro
         } catch (IOException | SQLException e) {
             throw new Exception("Erro no processo de registro de usuario.", e);
@@ -137,10 +139,15 @@ public class RegisterController {
         if (user != null) {
             try {
                 Date date = new Date();
+                Calendar c = Calendar.getInstance();
+                c.setTime(date);
+                c.add(Calendar.HOUR, 1);
+                date = c.getTime();
+
                 PasswordReset passwordReset = new PasswordReset();
                 passwordReset.setExpires(date);
                 passwordReset.setUser(user);
-                passwordReset.setHash("u"+user.getId()+"h"+date.getTime());
+                passwordReset.setHash("u" + user.getId() + "h" + date.getTime());
                 passwordResetDao.save(passwordReset);
 
                 model.put("user", user);
@@ -162,6 +169,39 @@ public class RegisterController {
         return "register/forgotPassword";
     }
 
+    @RequestMapping("/register/accountConfirmation")
+    public String accountConfirmation(Map<String, Object> model, @RequestParam("token") String token) {
+
+        User user = userDao.findByActiveCode(token);
+
+        if (user != null) {
+            if (user.getActive() == null || !user.getActive()) {
+                user.setActive(Boolean.TRUE);
+                try {
+                    userDao.save(user);
+                } catch (Exception e) {
+                    System.err.println(e.getMessage());
+                    e.printStackTrace();
+                    return "redirect:" + Strings.BASE + "/error?code=500";
+                }
+                try {
+                    model.put("user", user);
+                    model.put("url", Strings.BASE);
+                    mail.sendEmail(user.getEmail(), "acv@ibict.br", "Cadastro de Usuário", model, "emailRegister.ftl");
+                } catch (Exception e) {
+                    System.err.println(e.getMessage());
+                    e.printStackTrace();
+                }
+                return "redirect:" + Strings.BASE;
+            } else {
+                return "redirect:/login";
+            }
+        } else {
+            return "/404";
+        }
+
+    }
+
     @RequestMapping("/register/resetPassword")
     public String getResetPassword(Map<String, Object> model, @RequestParam("a") String hash) {
 
@@ -169,6 +209,7 @@ public class RegisterController {
         if (passwordReset != null) {
             if (passwordReset.getExpires().after(new Date())) {
                 model.put("resetSuccess", false);
+                model.put("passwordReset", passwordReset);
                 return "register/resetPassword";
             } else {
                 return "register/expiredReset";
@@ -178,9 +219,12 @@ public class RegisterController {
         }
     }
 
-    @PostMapping("/register/resetPassword?a={key}")
-    public String resetPassword(@RequestParam("plainPassword") String plainPassword, Map<String, Object> model) {
-        //TODO data of user to set new password... how to retrieve?
+    @PostMapping("/register/resetPassword")
+    public String resetPassword(@RequestParam("field1") String plainPassword, Map<String, Object> model) {
+        User user = (User) model.get("passwordReset");
+        user.setPasswordHashSalt(Password.generateSalt(20));
+        user.setPasswordHash(Password.getEncryptedPassword(plainPassword, user.getPasswordHashSalt()));
+        userDao.save(user);
         model.put("resetSuccess", true);
         return "register/resetPassword";
     }
@@ -196,17 +240,18 @@ public class RegisterController {
     public static Mail getMailUtil() {
         return mailUtil;
     }
-    
+
     @RequestMapping(value = "/register/getUser", method = RequestMethod.POST, produces = "application/json")
-    public @ResponseBody String getUser(@RequestParam("email") String mail) {
+    public @ResponseBody
+    String getUser(@RequestParam("email") String mail) {
         User user = userDao.findByEmail(mail);
-        System.out.println("EMAIL ######################### "+ mail);
+        System.out.println("EMAIL ######################### " + mail);
         if (user != null) {
             return "true";
         } else {
             return "false";
         }
-        
+
     }
-    
+
 }
