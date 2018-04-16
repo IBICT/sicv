@@ -220,8 +220,8 @@ public class RegisterController {
     }
 
     @PostMapping("/register/resetPassword")
-    public String resetPassword(@RequestParam("field1") String plainPassword, Map<String, Object> model) {
-        User user = (User) model.get("passwordReset");
+    public String resetPassword(@RequestParam("field1") String plainPassword, Map<String, Object> model, @RequestParam("a") String hash) {
+        User user = passwordResetDao.findByHash(hash).getUser();
         user.setPasswordHashSalt(Password.generateSalt(20));
         user.setPasswordHash(Password.getEncryptedPassword(plainPassword, user.getPasswordHashSalt()));
         userDao.save(user);

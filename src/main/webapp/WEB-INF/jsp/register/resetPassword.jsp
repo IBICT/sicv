@@ -122,7 +122,7 @@
                     <h5 style="font-family: TitilliumWeb-Regular;">Importador de Inventários</h5>
                 </div>
             </div>
-            <form id="form" class="col s12" novalidate="novalidate" method="post" action="/register/resetPassword">
+            <form id="form" class="col s12" novalidate="novalidate" method="post" >
                 <div class="row" style="margin-bottom: 0px;">
                     <div style="margin-left: 25%;" class="input-field col s6">
                         <input id="field1" name="field1" type="password" required="" aria-required="true" />
