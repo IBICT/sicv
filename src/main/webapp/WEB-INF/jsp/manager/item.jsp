@@ -151,7 +151,7 @@
                 font-size: 20px;
                 color: #3D3D3D;
             }
-            
+
             .container {
                 width: 97%;
                 padding-top: 20px;
@@ -161,7 +161,7 @@
     </head>
 
     <body>
-        
+
         <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
 
 
@@ -207,7 +207,7 @@
                         <li id="abas2" >
                             <a href="#2" data-toggle="tab" title="Revisão Técnica">Revisão Técnica</a>
                         </li>
-                        <li class="disable">
+                        <li class="">
                             <a href="#3" disabled data-toggle="tab" title="Publicar">Publicar</a>
                         </li>
                     </ul> 
@@ -521,10 +521,7 @@
                                                                                 <c:if test="${not statu.closed2}">
                                                                                     <div class="row">
                                                                                         <div class="col s12">
-                                                                                            <form action="<%=Strings.BASE%>/gestor/${ilcd.id}/nextstep" method="post">
-                                                                                                <input type="hidden" name="status" value="${statu.id}" />
-                                                                                                <input class="btn" type="submit" value="Ir para Publicação" />
-                                                                                            </form>
+                                                                                            <a href="<%=Strings.BASE%>/gestor/${ilcd.id}/publish/${statu.id}" class="btn">Ir para Publicação</a>
                                                                                         </div>
                                                                                     </div>
                                                                                     <div class="row">
@@ -769,11 +766,22 @@
                                 <c:choose>
                                     <c:when test="${statu.type == 5}">
                                         <div class="row">
-                                            <div class="col s6">
-                                                <i class="fa fa-angle-right" aria-hidden="true" style="transform: rotate(90deg);-ms-transform: rotate(90deg);-webkit-transform: rotate(90deg);color: #00697C; margin-right: 5px;"></i>
-                                                <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${statu.archive.pathFile}?name=ILCD.zip"><i class="fa fa-file-archive-o" style="margin-right: 5px; color: #00697C;" aria-hidden="true"></i> ILCD.zip</a>
+                                            <div class="col s12">
+                                                <h5>SICV</h5>
                                             </div>
-                                            <div class="col s6">
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <a id="invite1" href="<%=Strings.BASE%>/gestor/${ilcd.id}/#" class="btn" title="Publicar" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Publicar</a>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <h5>GLAD</h5>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12">
                                                 <a id="invite1" href="<%=Strings.BASE%>/gestor/${ilcd.id}/#" class="btn" title="Publicar" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Publicar</a>
                                             </div>
                                         </div>

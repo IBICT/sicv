@@ -399,7 +399,7 @@ public class ManagerController {
             Ilcd ilcd = ilcdDao.findOne(ilcdId);
             Status statusOld = statusDao.findOne(statusId);
             statusOld.setClosed(Boolean.TRUE);
-            
+
             Status status = new Status();
             status.setIlcd(ilcd);
 
@@ -432,4 +432,62 @@ public class ManagerController {
             return "error";
         }
     }
+
+    @RequestMapping(value = {"/{ilcd}/publish/{status}/", "{ilcd}/publish/{status}/", "/{ilcd}/publish/{status}", "{ilcd}/publish/{status}"}, method = RequestMethod.GET)
+    public String sendToPublish(@PathVariable("ilcd") Long ilcdID, @PathVariable("status") Long statusID) {
+
+        Notification notify = new Notification();
+        Ilcd ilcd = ilcdDao.findById(ilcdID);
+        User user = ilcd.getUser();
+        Status oldStatus = statusDao.findOne(statusID);
+
+        oldStatus.setClosed2(Boolean.TRUE);
+        statusDao.save(oldStatus);
+        Archive archive = new Archive();
+        archive.setPathFile(oldStatus.getArchive().getPathFile());
+        Status status = new Status();
+        status.setIlcd(ilcd);
+        status.setArchive(archive);
+        status.setPrevious(oldStatus);
+        notify.setUser(user);
+
+        List<User> managers = userDao.findByPerfil("MANAGER");
+
+        status.setType(5);
+        status.setRevisor(user);
+        notify.fillMsgUSER_MANAGER_APPROVED();
+        user.addNotification(notify);
+        user.setQntdNotificacoes(user.getQntdNotificacoes() + 1);
+        for (User manager : managers) {
+            Notification notifyManager = new Notification();
+            notifyManager.setUser(manager);
+            manager.addNotification(notifyManager);
+            manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
+            notifyManager.fillMsgMANAGER_APPROVED(status.getIlcd().getName(), ilcdID);
+            userDao.saveAndFlush(manager);
+        }
+
+        userDao.save(user);
+        statusDao.save(status);
+
+        archive.setStatus(status);
+        archiveDao.save(archive);
+
+        Homologacao homologacao = ilcd.getHomologation();
+        homologacao.setUser(((User) session().getAttribute("user")));
+        homologacao.setStatus(4);
+        homologacaoDao.save(homologacao);
+
+        return "redirect:/gestor/" + ilcdID;
+    }
+    
+    
+    @RequestMapping(value = {"/{ilcd}/gladpublish/{status}/", "{ilcd}/publish/{status}/", "/{ilcd}/publish/{status}", "{ilcd}/publish/{status}"}, method = RequestMethod.GET)
+    public String gladPublish(@PathVariable("ilcd") Long ilcdID, @PathVariable("status") Long statusID) {
+        
+        
+        
+        return "redirect:/gestor/" + ilcdID;
+    }
+
 }
