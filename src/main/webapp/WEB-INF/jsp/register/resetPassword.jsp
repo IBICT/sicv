@@ -137,7 +137,8 @@
                 </div>
                 <div class="row">
                     <div class="input-field col s12">
-                        <button style="margin-left: 36%; background-color: #00697C;" id="enviar" class="btn waves-effect waves-light" type="submit" name="action">Redefinir senha</button>
+                        <button style="margin-left: 30%; background-color: #00697C;" id="enviar" class="btn waves-effect waves-light" type="submit" name="action">Redefinir senha</button>
+                    	<a class="btn waves-effect waves-light" href="<%=Strings.BASE%>/login">Efetuar Login</a>
                     </div>
                 </div>
             </form>

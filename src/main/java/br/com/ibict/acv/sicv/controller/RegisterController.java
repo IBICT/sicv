@@ -245,7 +245,6 @@ public class RegisterController {
     public @ResponseBody
     String getUser(@RequestParam("email") String mail) {
         User user = userDao.findByEmail(mail);
-        System.out.println("EMAIL ######################### " + mail);
         if (user != null) {
             return "true";
         } else {

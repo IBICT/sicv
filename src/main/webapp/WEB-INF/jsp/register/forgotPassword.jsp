@@ -50,6 +50,7 @@
         <![endif]-->
         <script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/jquery.min.js"></script>
         <script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/jquery.cookie.js"></script>
+        <script src="<%=Strings.BASE%>/assets/js/validation.js"></script>
 
     </head>
 
@@ -60,9 +61,11 @@
             <h2 style="text-align: center;letter-spacing: 2px;">Importador de Inventários</h2>
             <form action="<%=Strings.BASE%>/register/forgotPassword" method="post" class="form-signin">
             	<h6 style="font-size: 16px;float: left;">Digite seu e-mail para redefinir a senha</h6>
-                <input type="email" name="email" id="inputEmail" class="form-control inputEmail" placeholder="e-mail" required autofocus>
-				<h6 style="font-size: 14px;float: left;color: #00697C;margin-top: 0px !important; font-weight: bold;">${recoveryMsg}</h6>
-                <button class="btn btn-lg btn-block bgBtnEntrar" type="submit">Enviar</button>
+                <input type="email" name="email" id="inputEmail" class="form-control inputEmail" placeholder="e-mail" required autofocus onkeyup="forgotEmailValidate(this.id);"/><br />
+				<span id="resultEmailForgot" style="font-size: 14px;float: left;color: #00697C;margin-bottom: 10px;margin-top: -20px !important; font-weight: bold;">${recoveryMsg}</span>
+                <button class="btn btn-lg btn-block bgBtnEntrar" type="submit" disabled="disabled" id="btnSendForgot">Enviar</button>
+	            <a class="btn btn-outlined btnCadastrar linkLogin" href="<%=Strings.BASE%>/login">Efetuar Login</a>
+	            <a class="btn btn-outlined btnCadastrar linkLogin" href="<%=Strings.BASE%>/register">Efetuar Cadastro</a>
             </form>
         </div> <!-- /container -->
 

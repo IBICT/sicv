@@ -518,6 +518,7 @@
 					</div>
 					<div class="input-field col s5">
 						<input placeholder="Confirmar Senha* " id="confirm" type="password" class="validate" required="required" onkeyup="validPass()">
+						<span id="resultConfirm"></span>
 	                <div style="float: right;">
 		                <input class="btn" type="submit" value="Submeter Cadastro" /><br />
 	                </div>
@@ -555,17 +556,15 @@
 				var pattern = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
 				//verify if is a valid pattern mail
 				if(pattern.test(mail)){
-					alert(mail);
 				    $.ajax({
 				        type: "post",
 				        url: 'register/getUser',
 				        data: { email: mail},
 				        success: function (result) {
-				        	alert(result);
 				        	if(result == true)
 				            	alert(true)
 				            if(result == false)
-				            	alert(false)
+				            	alert("Email válido")
 				        },
 				        error: function (response) {
 				        }
