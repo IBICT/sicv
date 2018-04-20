@@ -772,9 +772,10 @@
                                         </div>
                                         <div class="row">
                                             <div class="col s12">
-                                                <a id="invite1" href="<%=Strings.BASE%>/gestor/${ilcd.id}/#" class="btn" title="Publicar" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Publicar</a>
+                                                <a href="<%=Strings.BASE%>/gestor/${ilcd.id}/#" class="btn" title="Publicar" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Publicar</a>
                                             </div>
                                         </div>
+                                        <hr />
                                         <div class="row">
                                             <div class="col s12">
                                                 <h5>GLAD</h5>
@@ -782,7 +783,7 @@
                                         </div>
                                         <div class="row">
                                             <div class="col s12">
-                                                <a id="invite1" href="<%=Strings.BASE%>/gestor/${ilcd.id}/#" class="btn" title="Publicar" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Publicar</a>
+                                                <button onclick="publish(${statu.id});" class="waves-effect waves-light btn modal-trigger" title="Publicar" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Publicar</button>
                                             </div>
                                         </div>
                                     </c:when>
@@ -795,10 +796,18 @@
             </div>
         </div>
 
+
+
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/bootstrap.min.js"></script>
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
         <script>
+            function publish(status){
+                var url = prompt("Para publicar no GLAD insira a URL do inventário", "URL");
+                $.post( "<%=Strings.BASE%>/gestor/${ilcd.id}/gladpublish/"+status, { url: url } , function( data ) {
+                    console.log(data);
+                });
+            }
             $(document).ready(function () {
                 //activaTab(2);
                 $("#abas1").on("click", function () {
@@ -816,6 +825,7 @@
                 $('.nav-tabs a[href="#' + tab + '"]').tab('show');
             }
             ;
+            
         </script>
     </body>
 

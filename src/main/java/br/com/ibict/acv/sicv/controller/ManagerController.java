@@ -33,6 +33,22 @@ import br.com.ibict.acv.sicv.repositories.QualiDataDao;
 import br.com.ibict.acv.sicv.repositories.StatusDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.Mail;
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipFile;
+import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpPost;
+import org.apache.http.entity.StringEntity;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
+import org.springframework.web.bind.annotation.ResponseBody;
 import resources.Strings;
 
 @Controller
@@ -480,14 +496,146 @@ public class ManagerController {
 
         return "redirect:/gestor/" + ilcdID;
     }
-    
-    
-    @RequestMapping(value = {"/{ilcd}/gladpublish/{status}/", "{ilcd}/publish/{status}/", "/{ilcd}/publish/{status}", "{ilcd}/publish/{status}"}, method = RequestMethod.GET)
-    public String gladPublish(@PathVariable("ilcd") Long ilcdID, @PathVariable("status") Long statusID) {
+
+    @RequestMapping(value = {"/{ilcd}/gladpublish/{status}/", "{ilcd}/gladpublish/{status}/", "/{ilcd}/gladpublish/{status}", "{ilcd}/gladpublish/{status}"}, method = RequestMethod.POST)
+    @ResponseBody
+    public String gladPublish(@PathVariable("ilcd") Long ilcdID, @PathVariable("status") Long statusID, @RequestParam("url") String url) {
+
+        //System.out.println("Ilcd:" + ilcdID + " \nStatus:" + statusID + " \nUrl:" + url);
+        Status status = statusDao.findOne(statusID);
+
+        String retorno = "";
+        //try {
+        //    CloseableHttpClient client = HttpClients.createDefault();
+        //    HttpPost httpPost = new HttpPost("http://unep-glad.71.ecedi.fr/api/v1/search/index");
+
+        //System.out.println(Strings.UPLOADED_FOLDER+status.getArchive().getPathFile());
+        //System.out.println(url);
+        String json = readFile(Strings.UPLOADED_FOLDER + status.getArchive().getPathFile() + "/ILCD.zip", url);
+        //    System.out.println(json);
+        //    StringEntity entity = new StringEntity(json);
+        //    httpPost.setEntity(entity);
+        //    httpPost.setHeader("authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6Ijk2M2VlZTFlYzIyMTBhMWE5MjYzMmM1NzI0MzNjMmNiZTdhYWI3MWViYTgyZmJhMjI0NTg1NTNiMmE5YWFjY2MzOGMxODUxODNjZWIzOWU4In0.eyJhdWQiOiIxIiwianRpIjoiOTYzZWVlMWVjMjIxMGExYTkyNjMyYzU3MjQzM2MyY2JlN2FhYjcxZWJhODJmYmEyMjQ1ODU1M2IyYTlhYWNjYzM4YzE4NTE4M2NlYjM5ZTgiLCJpYXQiOjE1MDg5NDkxMjMsIm5iZiI6MTUwODk0OTEyMywiZXhwIjoxNTQwNDg1MTIzLCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.Ecfaj4yclg1juC5aOej1oRigxBKHSExhGmqT9EwEu3CUgNUXdQu7BMr6MguOP10yUMq4ujavbF6WdsK7GGFVTEH--8dxWPkKETpRYZUvnm0gGcrpIVoNcV_JD8OJxAlYNIwbz5IjIdnD5EK6aTnhUC_wjmwqF3jiCeFwKPSQVPfITZ0nDYN05DNFwHYzp0vuqfOpxH3ltkrvcUewSOpu3G0oCo3f02HPRTbPQ6e_h1O6LEJqh8UEe0kzA16okE3Gt1SpnZv2B_UQ1jLmssPiiGq-jfBzaXdk2z1Sq8R7VsnUNIGZSCLVk7NnxjSMRGZ8EZM8cFH5dnei70gxc4P6MJT2hKy4_qG_QtwfBWkI0bW1HORMHorL3KAjlPedJdghtgXNsbbjiXbi0_ZLFQWTA3lNfxlNsj4Rz3Ko2cd0x1A8smndbeywDB6KOIjmUj2R0IbvyhwOMpXCoinWWCpORVRDZJSs-uNE6609DDyjCZzERHe4uBDGSEvuLX0cJ9Ko51CApSprIznkc85TWBufNvxugkcVttV9L_SHv73f1ke71Pf0NFJxnKX2uHrhp9S_wfmUfMaFw-ofDqLAHrSKiE-w0eP8Ky097jQ7BTXsKS_0yk14vd0w_vccYcR1dVMU45RHiF4ejEUXs0pJUCRQ3aFS3AT9--y7MNwYVGUMt7Y");
+        //    httpPost.setHeader("Content-type", "application/json");
+
+        //    CloseableHttpResponse response = client.execute(httpPost);
+        //    retorno = ""+response.getStatusLine().getStatusCode();
+        //    client.close();
+        //} catch (Exception e) {
+        //    e.printStackTrace();
+        //    retorno = "500";
+        //}
+        return "teste";
+    }
+
+    private String readFile(String path, String url) {
+
+        String id = null;
+        String name = null;
+        String description = null;
+        String technology = null;
+        String format = "ILCD";
+        String location = null;
+        String dataprovider = "SICV BR";
+        ArrayList<String> categories = new ArrayList<>();
+        String referenceYear = null;
+        String dataSetValidUntil = null;
+        ZipFile zipFile = null;
+        try {
+            zipFile = new ZipFile(path);
+        } catch (IOException ex) {
+            //return null;
+        }
+
+        boolean inDescription = false;
+
+        Enumeration<? extends ZipEntry> entries = zipFile.entries();
+        String content = null;
+        while (entries.hasMoreElements()) {
+            ZipEntry entry = entries.nextElement();
+//            System.out.println(entry.getName());
+            if (entry.getName().startsWith("ILCD/processes/") && entry.getName().endsWith(".xml")) {
+                InputStream stream = null;
+                try {
+                    stream = zipFile.getInputStream(entry);
+                } catch (IOException ex) {
+                    //return null;
+                }
+                ByteArrayOutputStream result = new ByteArrayOutputStream();
+                byte[] buffer = new byte[1024];
+                int length;
+                try {
+                    while ((length = stream.read(buffer)) != -1) {
+                        result.write(buffer, 0, length);
+                    }
+                } catch (IOException ex) {
+                    //return null;
+                }
+                try {
+                    content = result.toString("UTF-8");
+                } catch (UnsupportedEncodingException ex) {
+                    //return null;
+                }
+            }
+        }
+
+        content = content.replaceAll("&#xD;", "");
         
+        Pattern p = Pattern.compile("<UUID>(.+)<");
+        Matcher m = p.matcher(content);
+        if (m.find()) {
+            id = m.group(1);
+        }
         
+        p = Pattern.compile("<ns2:baseName.+?>(.+)<");
+        m = p.matcher(content);
+        if (m.find()) {
+            name = m.group(1);
+        }
+
+        p = Pattern.compile("<generalComment.+?>(.+)</generalComment>", Pattern.DOTALL);
+        m = p.matcher(content);
+        if (m.find()) {
+            description = m.group(1);
+        }
         
-        return "redirect:/gestor/" + ilcdID;
+        p = Pattern.compile("<ns2:technologyDescriptionAndIncludedProcesses.+?>(.+)</ns2:technologyDescriptionAndIncludedProcesses>", Pattern.DOTALL);
+        m = p.matcher(content);
+        if (m.find()) {
+            technology = m.group(1);
+        }
+        
+        p = Pattern.compile("<.+?location=\"(\\w+)\"");
+        m = p.matcher(content);
+        if (m.find()) {
+            location = m.group(1);
+        }
+        
+        String classification = null;
+        p = Pattern.compile("<classification>(.+)</classification>", Pattern.DOTALL);
+        m = p.matcher(content);
+        if (m.find()) {
+            classification = m.group(1);
+        }
+        String[] categoriesT = classification.split("<\\/\\w+>");
+        for (String category : categoriesT) {
+            categories.add(category.replaceAll("<.+>", "").trim());
+        }
+
+        
+        p = Pattern.compile("<referenceYear>(\\d+)</referenceYear>");
+        m = p.matcher(content);
+        if (m.find()) {
+            referenceYear = m.group(1);
+        }
+        
+        p = Pattern.compile("<dataSetValidUntil>(\\d+)</dataSetValidUntil>");
+        m = p.matcher(content);
+        if (m.find()) {
+            dataSetValidUntil = m.group(1);
+        }
+
+        return "{\"refId\":\""+id+"\",\"name\":\""+name+"\",\"dataSetUrl\":\""+url+"\",\"description\":\""+description+"\",\"technology\":\""+technology+"\",\"format\":\""+format+"\",\"location\":\""+location+"\",\"dataprovider\":\""+dataprovider+"\",\"categories\":[\""+categories.get(0)+"\"],\"validFromYear\":"+referenceYear+",\"validUntilYear\":"+dataSetValidUntil+"}";
     }
 
 }
