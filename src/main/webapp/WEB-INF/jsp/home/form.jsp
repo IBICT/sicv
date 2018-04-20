@@ -60,6 +60,19 @@
                 width: 182px;
                 letter-spacing: .2px;
             }
+            
+            .btn-RemoveAuthor {
+                background-color: red !important;
+                border-radius: 5px !important;
+                font-size: 16px !important;
+                font-weight: bold;
+                text-align: center;
+                color: white;
+                padding-top: 10px;
+                height: 49px;
+                width: 182px;
+                letter-spacing: .2px;
+            }
 
             .btn-salvar {
                 background-color: transparent !important;
@@ -128,10 +141,14 @@
             <form class="col s12 formILCD" method="POST" action="<%=Strings.BASE%>/ilcd/new" enctype="multipart/form-data" id="teste">
                 <h4 class="page-title">Submissão Inventário</h4>
                 <h6 style="font-weight: bold;">Autores <b style="color: red;">*</b></h6>
+				<div style="margin-bottom: -2%;text-decoration: underline;"><i >1º Autor</i></div>
                 <div class="row" id="authorsClone">
-                    <div id="divAuthorEmail">
+                    <div id="divAuthorEmail" style="margin-bottom: 3%;">
                         <div class="input-field col s4">
-                            <input placeholder="Author" id="author" type="text" class="validate aut" name="authors[0].name" required="required" />
+                            <input placeholder="Autor" id="author" type="text" class="validate aut" name="authors[0].name" required="required" />
+	                        <div style="margin-top: -28px;margin-left: 50%;cursor: pointer;margin-bottom:-115%;" hidden="hidden" id="divRemoveAuthor">
+		                    	<div class="btn-RemoveAuthor input-field" id=btnRemoveAuthor onclick="removeAuthor(this.id);">Remover autor -</div>
+	                        </div>
                         </div>
                         <div class="input-field col s8">
                             <input placeholder="E-mail" id="email" type="text" class="validate mail" name="authors[0].email" required="required"/>
@@ -286,18 +303,35 @@
                                 } else
                                     $("#review").removeAttr("required");
 
-                                var i = 1;
+                            	var i = 10;
                                 $('#btnAuthor').click(function () {
                                     var clone2 = $('#divAuthorEmail').clone();
+                                    var insertIndex = i;
+                                    insertIndex = insertIndex-1;
+                                    alert(insertIndex);
                                     $(clone2).find(".aut").val("");
                                     $(clone2).find(".mail").val("");
-                                    $(clone2).appendTo("#authorsClone");
+                                    if( i = 1){
+	                                    $(clone2).insertAfter("#divAuthorEmail");
+                                    }else
+                                    	$(clone2).insertAfter("#divAuthorEmail"+insertIndex-1);
                                     $(clone2).attr("id", "divAuthorEmail" + i);
+                                    $(clone2).find("#divRemoveAuthor").removeAttr("hidden");
+                                    $(clone2).find("#divRemoveAuthor").attr("id", "divRemoveAuthor" + i);
+                                    $(clone2).find("#btnRemoveAuthor").attr("id", "btnRemoveAuthor" + i);
                                     $(clone2).find(".aut").attr("name", "authors[" + i + "].author");
                                     $(clone2).find(".mail").attr("name", "authors[" + i + "].email");
                                     i++;
+                                    alert(i);
                                 });
+                                
                             });
+                            function removeAuthor(id){
+                               	var nameDiv = id.slice(-1);
+                               	alert("Remover"+ nameDiv);
+								$("#divAuthorEmail" + nameDiv).remove();
+                            }
+                            
                             function showFileInput() {
                                 $('#fileInput').show(500);
                                 $("#review").attr('required', '');
