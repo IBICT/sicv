@@ -106,6 +106,9 @@ public class Status implements Serializable {
     
     @Expose
     private Boolean cancelInvite;
+    
+    @Expose
+    private Boolean gladPublish;
 
     public Status() {
     }
@@ -249,6 +252,14 @@ public class Status implements Serializable {
 
     public void setCancelInvite(Boolean cancelInvite) {
         this.cancelInvite = cancelInvite;
+    }
+
+    public Boolean getGladPublish() {
+        return gladPublish;
+    }
+
+    public void setGladPublish(Boolean gladPublish) {
+        this.gladPublish = gladPublish;
     }
     
 }

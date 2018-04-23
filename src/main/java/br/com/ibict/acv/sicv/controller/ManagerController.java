@@ -44,6 +44,7 @@ import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
 import org.apache.http.client.methods.CloseableHttpResponse;
+import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -504,28 +505,66 @@ public class ManagerController {
         //System.out.println("Ilcd:" + ilcdID + " \nStatus:" + statusID + " \nUrl:" + url);
         Status status = statusDao.findOne(statusID);
 
-        String retorno = "";
-        //try {
-        //    CloseableHttpClient client = HttpClients.createDefault();
-        //    HttpPost httpPost = new HttpPost("http://unep-glad.71.ecedi.fr/api/v1/search/index");
+        String retorno = "0";
+        try {
+            CloseableHttpClient client = HttpClients.createDefault();
+            HttpPost httpPost = new HttpPost("http://unep-glad.71.ecedi.fr/api/v1/search/index");
 
-        //System.out.println(Strings.UPLOADED_FOLDER+status.getArchive().getPathFile());
-        //System.out.println(url);
-        String json = readFile(Strings.UPLOADED_FOLDER + status.getArchive().getPathFile() + "/ILCD.zip", url);
-        //    System.out.println(json);
-        //    StringEntity entity = new StringEntity(json);
-        //    httpPost.setEntity(entity);
-        //    httpPost.setHeader("authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6Ijk2M2VlZTFlYzIyMTBhMWE5MjYzMmM1NzI0MzNjMmNiZTdhYWI3MWViYTgyZmJhMjI0NTg1NTNiMmE5YWFjY2MzOGMxODUxODNjZWIzOWU4In0.eyJhdWQiOiIxIiwianRpIjoiOTYzZWVlMWVjMjIxMGExYTkyNjMyYzU3MjQzM2MyY2JlN2FhYjcxZWJhODJmYmEyMjQ1ODU1M2IyYTlhYWNjYzM4YzE4NTE4M2NlYjM5ZTgiLCJpYXQiOjE1MDg5NDkxMjMsIm5iZiI6MTUwODk0OTEyMywiZXhwIjoxNTQwNDg1MTIzLCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.Ecfaj4yclg1juC5aOej1oRigxBKHSExhGmqT9EwEu3CUgNUXdQu7BMr6MguOP10yUMq4ujavbF6WdsK7GGFVTEH--8dxWPkKETpRYZUvnm0gGcrpIVoNcV_JD8OJxAlYNIwbz5IjIdnD5EK6aTnhUC_wjmwqF3jiCeFwKPSQVPfITZ0nDYN05DNFwHYzp0vuqfOpxH3ltkrvcUewSOpu3G0oCo3f02HPRTbPQ6e_h1O6LEJqh8UEe0kzA16okE3Gt1SpnZv2B_UQ1jLmssPiiGq-jfBzaXdk2z1Sq8R7VsnUNIGZSCLVk7NnxjSMRGZ8EZM8cFH5dnei70gxc4P6MJT2hKy4_qG_QtwfBWkI0bW1HORMHorL3KAjlPedJdghtgXNsbbjiXbi0_ZLFQWTA3lNfxlNsj4Rz3Ko2cd0x1A8smndbeywDB6KOIjmUj2R0IbvyhwOMpXCoinWWCpORVRDZJSs-uNE6609DDyjCZzERHe4uBDGSEvuLX0cJ9Ko51CApSprIznkc85TWBufNvxugkcVttV9L_SHv73f1ke71Pf0NFJxnKX2uHrhp9S_wfmUfMaFw-ofDqLAHrSKiE-w0eP8Ky097jQ7BTXsKS_0yk14vd0w_vccYcR1dVMU45RHiF4ejEUXs0pJUCRQ3aFS3AT9--y7MNwYVGUMt7Y");
-        //    httpPost.setHeader("Content-type", "application/json");
+            //System.out.println(Strings.UPLOADED_FOLDER+status.getArchive().getPathFile());
+            //System.out.println(url);
+            String json = readFile(Strings.UPLOADED_FOLDER + status.getArchive().getPathFile() + "/ILCD.zip", url);
+            //System.out.println(json);
+            StringEntity entity = new StringEntity(json);
+            httpPost.setEntity(entity);
+            httpPost.setHeader("authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6Ijk2M2VlZTFlYzIyMTBhMWE5MjYzMmM1NzI0MzNjMmNiZTdhYWI3MWViYTgyZmJhMjI0NTg1NTNiMmE5YWFjY2MzOGMxODUxODNjZWIzOWU4In0.eyJhdWQiOiIxIiwianRpIjoiOTYzZWVlMWVjMjIxMGExYTkyNjMyYzU3MjQzM2MyY2JlN2FhYjcxZWJhODJmYmEyMjQ1ODU1M2IyYTlhYWNjYzM4YzE4NTE4M2NlYjM5ZTgiLCJpYXQiOjE1MDg5NDkxMjMsIm5iZiI6MTUwODk0OTEyMywiZXhwIjoxNTQwNDg1MTIzLCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.Ecfaj4yclg1juC5aOej1oRigxBKHSExhGmqT9EwEu3CUgNUXdQu7BMr6MguOP10yUMq4ujavbF6WdsK7GGFVTEH--8dxWPkKETpRYZUvnm0gGcrpIVoNcV_JD8OJxAlYNIwbz5IjIdnD5EK6aTnhUC_wjmwqF3jiCeFwKPSQVPfITZ0nDYN05DNFwHYzp0vuqfOpxH3ltkrvcUewSOpu3G0oCo3f02HPRTbPQ6e_h1O6LEJqh8UEe0kzA16okE3Gt1SpnZv2B_UQ1jLmssPiiGq-jfBzaXdk2z1Sq8R7VsnUNIGZSCLVk7NnxjSMRGZ8EZM8cFH5dnei70gxc4P6MJT2hKy4_qG_QtwfBWkI0bW1HORMHorL3KAjlPedJdghtgXNsbbjiXbi0_ZLFQWTA3lNfxlNsj4Rz3Ko2cd0x1A8smndbeywDB6KOIjmUj2R0IbvyhwOMpXCoinWWCpORVRDZJSs-uNE6609DDyjCZzERHe4uBDGSEvuLX0cJ9Ko51CApSprIznkc85TWBufNvxugkcVttV9L_SHv73f1ke71Pf0NFJxnKX2uHrhp9S_wfmUfMaFw-ofDqLAHrSKiE-w0eP8Ky097jQ7BTXsKS_0yk14vd0w_vccYcR1dVMU45RHiF4ejEUXs0pJUCRQ3aFS3AT9--y7MNwYVGUMt7Y");
+            httpPost.setHeader("Content-type", "application/json");
 
-        //    CloseableHttpResponse response = client.execute(httpPost);
-        //    retorno = ""+response.getStatusLine().getStatusCode();
-        //    client.close();
-        //} catch (Exception e) {
-        //    e.printStackTrace();
-        //    retorno = "500";
-        //}
-        return "teste";
+            CloseableHttpResponse response = client.execute(httpPost);
+            if (response.getStatusLine().getStatusCode() == 201) {
+                status.setGladPublish(true);
+                statusDao.save(status);
+                retorno = "1";
+            }
+            client.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+            retorno = "500";
+        }
+        return retorno;
+    }
+
+    @RequestMapping(value = {"/{ilcd}/gladremove/{status}/", "{ilcd}/gladremove/{status}/", "/{ilcd}/gladremove/{status}", "{ilcd}/gladremove/{status}"}, method = RequestMethod.POST)
+    @ResponseBody
+    public String gladRemove(@PathVariable("ilcd") Long ilcdID, @PathVariable("status") Long statusID) {
+
+        //System.out.println("Ilcd:" + ilcdID + " \nStatus:" + statusID + " \nUrl:" + url);
+        Status status = statusDao.findOne(statusID);
+
+        String retorno = "0";
+        try {
+            CloseableHttpClient client = HttpClients.createDefault();
+
+            String id = readFile2(Strings.UPLOADED_FOLDER + status.getArchive().getPathFile() + "/ILCD.zip");
+            if (!id.isEmpty()) {
+                HttpDelete httpDelete = new HttpDelete("http://unep-glad.71.ecedi.fr/api/v1/search/index/" + id);
+
+                httpDelete.setHeader("authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6Ijk2M2VlZTFlYzIyMTBhMWE5MjYzMmM1NzI0MzNjMmNiZTdhYWI3MWViYTgyZmJhMjI0NTg1NTNiMmE5YWFjY2MzOGMxODUxODNjZWIzOWU4In0.eyJhdWQiOiIxIiwianRpIjoiOTYzZWVlMWVjMjIxMGExYTkyNjMyYzU3MjQzM2MyY2JlN2FhYjcxZWJhODJmYmEyMjQ1ODU1M2IyYTlhYWNjYzM4YzE4NTE4M2NlYjM5ZTgiLCJpYXQiOjE1MDg5NDkxMjMsIm5iZiI6MTUwODk0OTEyMywiZXhwIjoxNTQwNDg1MTIzLCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.Ecfaj4yclg1juC5aOej1oRigxBKHSExhGmqT9EwEu3CUgNUXdQu7BMr6MguOP10yUMq4ujavbF6WdsK7GGFVTEH--8dxWPkKETpRYZUvnm0gGcrpIVoNcV_JD8OJxAlYNIwbz5IjIdnD5EK6aTnhUC_wjmwqF3jiCeFwKPSQVPfITZ0nDYN05DNFwHYzp0vuqfOpxH3ltkrvcUewSOpu3G0oCo3f02HPRTbPQ6e_h1O6LEJqh8UEe0kzA16okE3Gt1SpnZv2B_UQ1jLmssPiiGq-jfBzaXdk2z1Sq8R7VsnUNIGZSCLVk7NnxjSMRGZ8EZM8cFH5dnei70gxc4P6MJT2hKy4_qG_QtwfBWkI0bW1HORMHorL3KAjlPedJdghtgXNsbbjiXbi0_ZLFQWTA3lNfxlNsj4Rz3Ko2cd0x1A8smndbeywDB6KOIjmUj2R0IbvyhwOMpXCoinWWCpORVRDZJSs-uNE6609DDyjCZzERHe4uBDGSEvuLX0cJ9Ko51CApSprIznkc85TWBufNvxugkcVttV9L_SHv73f1ke71Pf0NFJxnKX2uHrhp9S_wfmUfMaFw-ofDqLAHrSKiE-w0eP8Ky097jQ7BTXsKS_0yk14vd0w_vccYcR1dVMU45RHiF4ejEUXs0pJUCRQ3aFS3AT9--y7MNwYVGUMt7Y");
+                httpDelete.setHeader("Content-type", "application/json");
+
+                CloseableHttpResponse response = client.execute(httpDelete);
+                System.out.println(response.getStatusLine().getStatusCode());
+                if (response.getStatusLine().getStatusCode() == 200) {
+                    status.setGladPublish(false);
+                    statusDao.save(status);
+                    retorno = "1";
+                }
+                client.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            retorno = "500";
+        }
+        return retorno;
     }
 
     private String readFile(String path, String url) {
@@ -580,13 +619,13 @@ public class ManagerController {
         }
 
         content = content.replaceAll("&#xD;", "");
-        
+
         Pattern p = Pattern.compile("<UUID>(.+)<");
         Matcher m = p.matcher(content);
         if (m.find()) {
             id = m.group(1);
         }
-        
+
         p = Pattern.compile("<ns2:baseName.+?>(.+)<");
         m = p.matcher(content);
         if (m.find()) {
@@ -597,20 +636,22 @@ public class ManagerController {
         m = p.matcher(content);
         if (m.find()) {
             description = m.group(1);
+            description = description.replace("\n", "").replace("\r", "");
         }
-        
+
         p = Pattern.compile("<ns2:technologyDescriptionAndIncludedProcesses.+?>(.+)</ns2:technologyDescriptionAndIncludedProcesses>", Pattern.DOTALL);
         m = p.matcher(content);
         if (m.find()) {
             technology = m.group(1);
+            technology = technology.replace("\n", "").replace("\r", "");
         }
-        
+
         p = Pattern.compile("<.+?location=\"(\\w+)\"");
         m = p.matcher(content);
         if (m.find()) {
             location = m.group(1);
         }
-        
+
         String classification = null;
         p = Pattern.compile("<classification>(.+)</classification>", Pattern.DOTALL);
         m = p.matcher(content);
@@ -622,20 +663,71 @@ public class ManagerController {
             categories.add(category.replaceAll("<.+>", "").trim());
         }
 
-        
         p = Pattern.compile("<referenceYear>(\\d+)</referenceYear>");
         m = p.matcher(content);
         if (m.find()) {
             referenceYear = m.group(1);
         }
-        
+
         p = Pattern.compile("<dataSetValidUntil>(\\d+)</dataSetValidUntil>");
         m = p.matcher(content);
         if (m.find()) {
             dataSetValidUntil = m.group(1);
         }
 
-        return "{\"refId\":\""+id+"\",\"name\":\""+name+"\",\"dataSetUrl\":\""+url+"\",\"description\":\""+description+"\",\"technology\":\""+technology+"\",\"format\":\""+format+"\",\"location\":\""+location+"\",\"dataprovider\":\""+dataprovider+"\",\"categories\":[\""+categories.get(0)+"\"],\"validFromYear\":"+referenceYear+",\"validUntilYear\":"+dataSetValidUntil+"}";
+        return "{\"refId\":\"" + id + "\",\"name\":\"" + name + "\",\"dataSetUrl\":\"" + url + "\",\"description\":\"" + description + "\",\"technology\":\"" + technology + "\",\"format\":\"" + format + "\",\"location\":\"" + location + "\",\"dataprovider\":\"" + dataprovider + "\",\"categories\":[\"" + categories.get(0) + "\"],\"validFromYear\":" + referenceYear + ",\"validUntilYear\":" + dataSetValidUntil + "}";
+    }
+
+    private String readFile2(String path) {
+
+        String id = "";
+
+        ZipFile zipFile = null;
+        try {
+            zipFile = new ZipFile(path);
+        } catch (IOException ex) {
+            //return null;
+        }
+
+        Enumeration<? extends ZipEntry> entries = zipFile.entries();
+        String content = null;
+        while (entries.hasMoreElements()) {
+            ZipEntry entry = entries.nextElement();
+//            System.out.println(entry.getName());
+            if (entry.getName().startsWith("ILCD/processes/") && entry.getName().endsWith(".xml")) {
+                InputStream stream = null;
+                try {
+                    stream = zipFile.getInputStream(entry);
+                } catch (IOException ex) {
+                    //return null;
+                }
+                ByteArrayOutputStream result = new ByteArrayOutputStream();
+                byte[] buffer = new byte[1024];
+                int length;
+                try {
+                    while ((length = stream.read(buffer)) != -1) {
+                        result.write(buffer, 0, length);
+                    }
+                } catch (IOException ex) {
+                    //return null;
+                }
+                try {
+                    content = result.toString("UTF-8");
+                } catch (UnsupportedEncodingException ex) {
+                    //return null;
+                }
+            }
+        }
+
+        content = content.replaceAll("&#xD;", "");
+
+        Pattern p = Pattern.compile("<UUID>(.+)<");
+        Matcher m = p.matcher(content);
+        if (m.find()) {
+            id = m.group(1);
+        }
+        System.out.println(id);
+        return id;
     }
 
 }
