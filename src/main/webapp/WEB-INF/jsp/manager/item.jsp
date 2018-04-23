@@ -783,7 +783,41 @@
                                         </div>
                                         <div class="row">
                                             <div class="col s12">
-                                                <button onclick="publish(${statu.id});" class="waves-effect waves-light btn modal-trigger" title="Publicar" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">Publicar</button>
+
+                                                <c:choose>
+                                                    <c:when test="${empty statu.gladPublish or not statu.gladPublish}">
+                                                        <button id="publishBtn" onclick="publish(${statu.id});" class="waves-effect waves-light btn modal-trigger" title="Publicar" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">
+                                                            <div id="publishText">Publicar</div>
+                                                            <div id="publishLoad" style="display: none;" class="preloader-wrapper small active">
+                                                                <div class="spinner-layer spinner-blue-only">
+                                                                  <div class="circle-clipper left">
+                                                                    <div class="circle"></div>
+                                                                  </div><div class="gap-patch">
+                                                                    <div class="circle"></div>
+                                                                  </div><div class="circle-clipper right">
+                                                                    <div class="circle"></div>
+                                                                  </div>
+                                                                </div>
+                                                            </div>
+                                                        </button>
+                                                    </c:when>
+                                                    <c:when test="${not empty statu.gladPublish and statu.gladPublish}">
+                                                        <button id="removeBtn" onclick="remove(${statu.id});" class="waves-effect waves-light btn modal-trigger" title="Publicar" style="color: #fff; background-color: #00697C; border-radius: 5px; padding: 0 10px; text-transform: none; font-weight: bold; text-overflow: ellipsis; white-space: nowrap; overflow: hidden; width: 100%; min-width: 50px;">
+                                                            <div id="removeText">Remover</div>
+                                                            <div id="removeLoad" style="display: none;" class="preloader-wrapper small active">
+                                                                <div class="spinner-layer spinner-blue-only">
+                                                                  <div class="circle-clipper left">
+                                                                    <div class="circle"></div>
+                                                                  </div><div class="gap-patch">
+                                                                    <div class="circle"></div>
+                                                                  </div><div class="circle-clipper right">
+                                                                    <div class="circle"></div>
+                                                                  </div>
+                                                                </div>
+                                                            </div>
+                                                        </button>
+                                                    </c:when>
+                                                </c:choose>
                                             </div>
                                         </div>
                                     </c:when>
@@ -802,10 +836,29 @@
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/bootstrap.min.js"></script>
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
         <script>
-            function publish(status){
+            function publish(status) {
+                $("#publishBtn").prop('disabled', true);
+                $("#publishText").hide();
+                $("#publishLoad").show();
                 var url = prompt("Para publicar no GLAD insira a URL do inventário", "URL");
-                $.post( "<%=Strings.BASE%>/gestor/${ilcd.id}/gladpublish/"+status, { url: url } , function( data ) {
-                    console.log(data);
+                $.post("<%=Strings.BASE%>/gestor/${ilcd.id}/gladpublish/" + status, {url: url}, function (data) {
+                    if(data === "1"){
+                        location.reload();
+                    } else {
+                        alert("Conexão indisponível");
+                    }
+                });
+            }
+            function remove(status) {
+                $("#removeBtn").prop('disabled', true);
+                $("#removeText").hide();
+                $("#removeLoad").show();
+                $.post("<%=Strings.BASE%>/gestor/${ilcd.id}/gladremove/" + status, function (data) {
+                    if(data === "1"){
+                        location.reload();
+                    } else {
+                        alert("Conexão indisponível");
+                    }
                 });
             }
             $(document).ready(function () {
@@ -825,7 +878,6 @@
                 $('.nav-tabs a[href="#' + tab + '"]').tab('show');
             }
             ;
-            
         </script>
     </body>
 
