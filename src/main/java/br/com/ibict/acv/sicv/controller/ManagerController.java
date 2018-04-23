@@ -43,6 +43,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipFile;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
@@ -458,6 +459,7 @@ public class ManagerController {
         User user = ilcd.getUser();
         Status oldStatus = statusDao.findOne(statusID);
 
+        oldStatus.setClosed(Boolean.TRUE);
         oldStatus.setClosed2(Boolean.TRUE);
         statusDao.save(oldStatus);
         Archive archive = new Archive();
@@ -471,7 +473,6 @@ public class ManagerController {
         List<User> managers = userDao.findByPerfil("MANAGER");
 
         status.setType(5);
-        status.setRevisor(user);
         notify.fillMsgUSER_MANAGER_APPROVED();
         user.addNotification(notify);
         user.setQntdNotificacoes(user.getQntdNotificacoes() + 1);
@@ -513,7 +514,7 @@ public class ManagerController {
             //System.out.println(Strings.UPLOADED_FOLDER+status.getArchive().getPathFile());
             //System.out.println(url);
             String json = readFile(Strings.UPLOADED_FOLDER + status.getArchive().getPathFile() + "/ILCD.zip", url);
-            //System.out.println(json);
+            System.out.println(json);
             StringEntity entity = new StringEntity(json);
             httpPost.setEntity(entity);
             httpPost.setHeader("authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6Ijk2M2VlZTFlYzIyMTBhMWE5MjYzMmM1NzI0MzNjMmNiZTdhYWI3MWViYTgyZmJhMjI0NTg1NTNiMmE5YWFjY2MzOGMxODUxODNjZWIzOWU4In0.eyJhdWQiOiIxIiwianRpIjoiOTYzZWVlMWVjMjIxMGExYTkyNjMyYzU3MjQzM2MyY2JlN2FhYjcxZWJhODJmYmEyMjQ1ODU1M2IyYTlhYWNjYzM4YzE4NTE4M2NlYjM5ZTgiLCJpYXQiOjE1MDg5NDkxMjMsIm5iZiI6MTUwODk0OTEyMywiZXhwIjoxNTQwNDg1MTIzLCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.Ecfaj4yclg1juC5aOej1oRigxBKHSExhGmqT9EwEu3CUgNUXdQu7BMr6MguOP10yUMq4ujavbF6WdsK7GGFVTEH--8dxWPkKETpRYZUvnm0gGcrpIVoNcV_JD8OJxAlYNIwbz5IjIdnD5EK6aTnhUC_wjmwqF3jiCeFwKPSQVPfITZ0nDYN05DNFwHYzp0vuqfOpxH3ltkrvcUewSOpu3G0oCo3f02HPRTbPQ6e_h1O6LEJqh8UEe0kzA16okE3Gt1SpnZv2B_UQ1jLmssPiiGq-jfBzaXdk2z1Sq8R7VsnUNIGZSCLVk7NnxjSMRGZ8EZM8cFH5dnei70gxc4P6MJT2hKy4_qG_QtwfBWkI0bW1HORMHorL3KAjlPedJdghtgXNsbbjiXbi0_ZLFQWTA3lNfxlNsj4Rz3Ko2cd0x1A8smndbeywDB6KOIjmUj2R0IbvyhwOMpXCoinWWCpORVRDZJSs-uNE6609DDyjCZzERHe4uBDGSEvuLX0cJ9Ko51CApSprIznkc85TWBufNvxugkcVttV9L_SHv73f1ke71Pf0NFJxnKX2uHrhp9S_wfmUfMaFw-ofDqLAHrSKiE-w0eP8Ky097jQ7BTXsKS_0yk14vd0w_vccYcR1dVMU45RHiF4ejEUXs0pJUCRQ3aFS3AT9--y7MNwYVGUMt7Y");
@@ -581,12 +582,10 @@ public class ManagerController {
         String dataSetValidUntil = null;
         ZipFile zipFile = null;
         try {
-            zipFile = new ZipFile(path);
+            zipFile = new ZipFile("/home/deivdy/Desktop/temp/files/d32e04badf3502624799952c15409073/ILCD.zip");
         } catch (IOException ex) {
             //return null;
         }
-
-        boolean inDescription = false;
 
         Enumeration<? extends ZipEntry> entries = zipFile.entries();
         String content = null;
@@ -637,6 +636,10 @@ public class ManagerController {
         if (m.find()) {
             description = m.group(1);
             description = description.replace("\n", "").replace("\r", "");
+            //description =  description.substring(700);
+            description = description.trim();
+            description = StringEscapeUtils.escapeHtml(description);
+            
         }
 
         p = Pattern.compile("<ns2:technologyDescriptionAndIncludedProcesses.+?>(.+)</ns2:technologyDescriptionAndIncludedProcesses>", Pattern.DOTALL);
@@ -644,9 +647,10 @@ public class ManagerController {
         if (m.find()) {
             technology = m.group(1);
             technology = technology.replace("\n", "").replace("\r", "");
+            technology = StringEscapeUtils.escapeHtml(technology);
         }
 
-        p = Pattern.compile("<.+?location=\"(\\w+)\"");
+        p = Pattern.compile("<.+?location=\"(\\w+.?\\w+?)\"");
         m = p.matcher(content);
         if (m.find()) {
             location = m.group(1);
@@ -657,10 +661,12 @@ public class ManagerController {
         m = p.matcher(content);
         if (m.find()) {
             classification = m.group(1);
-        }
-        String[] categoriesT = classification.split("<\\/\\w+>");
-        for (String category : categoriesT) {
-            categories.add(category.replaceAll("<.+>", "").trim());
+            String[] categoriesT = classification.split("<\\/\\w+>");
+            for (String category : categoriesT) {
+                categories.add(category.replaceAll("<.+>", "").trim());
+            }
+        } else {
+            categories.add("N/A");
         }
 
         p = Pattern.compile("<referenceYear>(\\d+)</referenceYear>");

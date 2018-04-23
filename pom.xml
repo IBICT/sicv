@@ -24,6 +24,13 @@
 
     <dependencies>
         
+        <!-- HTML Encode -->
+        <dependency>
+            <groupId>commons-lang</groupId>
+            <artifactId>commons-lang</artifactId>
+            <version>2.6</version>
+        </dependency>
+        
         <!-- HttpClient -->
         <dependency>
             <groupId>org.apache.httpcomponents</groupId>

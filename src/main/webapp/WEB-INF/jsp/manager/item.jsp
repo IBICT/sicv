@@ -790,13 +790,13 @@
                                                             <div id="publishText">Publicar</div>
                                                             <div id="publishLoad" style="display: none;" class="preloader-wrapper small active">
                                                                 <div class="spinner-layer spinner-blue-only">
-                                                                  <div class="circle-clipper left">
-                                                                    <div class="circle"></div>
-                                                                  </div><div class="gap-patch">
-                                                                    <div class="circle"></div>
-                                                                  </div><div class="circle-clipper right">
-                                                                    <div class="circle"></div>
-                                                                  </div>
+                                                                    <div class="circle-clipper left">
+                                                                        <div class="circle"></div>
+                                                                    </div><div class="gap-patch">
+                                                                        <div class="circle"></div>
+                                                                    </div><div class="circle-clipper right">
+                                                                        <div class="circle"></div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </button>
@@ -806,13 +806,13 @@
                                                             <div id="removeText">Remover</div>
                                                             <div id="removeLoad" style="display: none;" class="preloader-wrapper small active">
                                                                 <div class="spinner-layer spinner-blue-only">
-                                                                  <div class="circle-clipper left">
-                                                                    <div class="circle"></div>
-                                                                  </div><div class="gap-patch">
-                                                                    <div class="circle"></div>
-                                                                  </div><div class="circle-clipper right">
-                                                                    <div class="circle"></div>
-                                                                  </div>
+                                                                    <div class="circle-clipper left">
+                                                                        <div class="circle"></div>
+                                                                    </div><div class="gap-patch">
+                                                                        <div class="circle"></div>
+                                                                    </div><div class="circle-clipper right">
+                                                                        <div class="circle"></div>
+                                                                    </div>
                                                                 </div>
                                                             </div>
                                                         </button>
@@ -842,7 +842,8 @@
                 $("#publishLoad").show();
                 var url = prompt("Para publicar no GLAD insira a URL do inventário", "URL");
                 $.post("<%=Strings.BASE%>/gestor/${ilcd.id}/gladpublish/" + status, {url: url}, function (data) {
-                    if(data === "1"){
+                    console.log(data);
+                    if (data === "1") {
                         location.reload();
                     } else {
                         alert("Conexão indisponível");
@@ -854,7 +855,7 @@
                 $("#removeText").hide();
                 $("#removeLoad").show();
                 $.post("<%=Strings.BASE%>/gestor/${ilcd.id}/gladremove/" + status, function (data) {
-                    if(data === "1"){
+                    if (data === "1") {
                         location.reload();
                     } else {
                         alert("Conexão indisponível");

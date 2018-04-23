@@ -42,10 +42,10 @@ WHERE NOT EXISTS (
 
 --FOR DEVELOPMENT TESTS
 
--- insert into sicv2.user (id, country, curriculum, dspurpose, email, firstname, jobposition, language, lastname, orcid, organization, otherlanguage, password_hash, password_hash_salt, phone, qntd_notificacoes, registrationkey, super_admin_permission, title) 
--- values
--- (2, NULL, NULL, NULL, 'carlagama@ibict.br', 'carla', NULL, NULL, 'gama', NULL, '', NULL, '66a2e4c1f11d83884a21c206ec09dd7b3d7eeaa537b428ba3aa95f38fba9f591bdd3f2d988c3147a0f97ad58140d55f2a7508465e88b293ce959cc24dc471e9f', 'uDbWYuDOm5OH7zbQ6ciK', NULL, '0', 'anHnza5B', NULL, NULL)
--- ,(3, NULL, NULL, NULL, 'wellingtonsousa@ibict.br', 'Wellington', NULL, NULL, 'stanley', NULL, '', NULL, '66a2e4c1f11d83884a21c206ec09dd7b3d7eeaa537b428ba3aa95f38fba9f591bdd3f2d988c3147a0f97ad58140d55f2a7508465e88b293ce959cc24dc471e9f', 'uDbWYuDOm5OH7zbQ6ciK', NULL, '1', '5!8NA4Lg', NULL, NULL)
--- ,(4, NULL, NULL, NULL, 'deivdysilva@ibict.br', 'deivdy', NULL, NULL, 'willliam', NULL, '', NULL, '66a2e4c1f11d83884a21c206ec09dd7b3d7eeaa537b428ba3aa95f38fba9f591bdd3f2d988c3147a0f97ad58140d55f2a7508465e88b293ce959cc24dc471e9f', 'uDbWYuDOm5OH7zbQ6ciK', NULL, '0', 'xrFA3qsJ', NULL, NULL);
+--  insert into sicv2.user (id, country, curriculum, dspurpose, email, firstname, jobposition, language, lastname, orcid, organization, otherlanguage, password_hash, password_hash_salt, phone, qntd_notificacoes, registrationkey, super_admin_permission, title, active) 
+--  values
+--  (2, NULL, NULL, NULL, 'tiagobraga@ibict.br; ', 'Tiago', NULL, NULL, 'Braga', NULL, '', NULL, '66a2e4c1f11d83884a21c206ec09dd7b3d7eeaa537b428ba3aa95f38fba9f591bdd3f2d988c3147a0f97ad58140d55f2a7508465e88b293ce959cc24dc471e9f', 'uDbWYuDOm5OH7zbQ6ciK', NULL, '0', 'anHnza5B', NULL, NULL, 1)
+--  ,(3, NULL, NULL, NULL, 'wellingtonsousa@ibict.br', 'Wellington', NULL, NULL, 'stanley', NULL, '', NULL, '66a2e4c1f11d83884a21c206ec09dd7b3d7eeaa537b428ba3aa95f38fba9f591bdd3f2d988c3147a0f97ad58140d55f2a7508465e88b293ce959cc24dc471e9f', 'uDbWYuDOm5OH7zbQ6ciK', NULL, '1', '5!8NA4Lg', NULL, NULL, 1)
+--  ,(4, NULL, NULL, NULL, 'deivdysilva@ibict.br', 'deivdy', NULL, NULL, 'willliam', NULL, '', NULL, '66a2e4c1f11d83884a21c206ec09dd7b3d7eeaa537b428ba3aa95f38fba9f591bdd3f2d988c3147a0f97ad58140d55f2a7508465e88b293ce959cc24dc471e9f', 'uDbWYuDOm5OH7zbQ6ciK', NULL, '0', 'xrFA3qsJ', NULL, NULL, 1);
 -- 
--- INSERT INTO `sicv2`.`user_roles` (`user_id`, `role_id`) VALUES ('2', '1') , ('2','2'), ('3', '1'), ('4', '1');
+--  INSERT INTO `sicv2`.`user_roles` (`user_id`, `role_id`) VALUES ('2', '1') , ('2','2'), ('3', '1'), ('4', '1');
