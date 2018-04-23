@@ -143,14 +143,14 @@
                 <h6 style="font-weight: bold;">Autores <b style="color: red;">*</b></h6>
 				<div style="margin-bottom: -2%;text-decoration: underline;"><i >1º Autor</i></div>
                 <div class="row" id="authorsClone">
-                    <div id="divAuthorEmail" style="margin-bottom: 3%;">
-                        <div class="input-field col s4">
+                    <div id="divAuthorEmail" class="authorEmail" style="margin-bottom: 3%;">
+                        <div class="input-field col s4" style="margin-top: 2%;">
                             <input placeholder="Autor" id="author" type="text" class="validate aut" name="authors[0].name" required="required" />
 	                        <div style="margin-top: -28px;margin-left: 50%;cursor: pointer;margin-bottom:-115%;" hidden="hidden" id="divRemoveAuthor">
 		                    	<div class="btn-RemoveAuthor input-field" id=btnRemoveAuthor onclick="removeAuthor(this.id);">Remover autor -</div>
 	                        </div>
                         </div>
-                        <div class="input-field col s8">
+                        <div class="input-field col s8" style="margin-top: 2%;">
                             <input placeholder="E-mail" id="email" type="text" class="validate mail" name="authors[0].email" required="required"/>
                         </div>
                     </div>
@@ -246,9 +246,12 @@
                 </div>
                 <div class="row">
                     <div class="file-field input-field col s6" style="bottom: 25px; margin-left: -10px">
-                        <span class="btn">Escolher Arquivo</span> <input type="file" class="btn" name="file" id="file" required="required">
+                        <div>
+	                        <span class="btn">Escolher Arquivo</span>
+	                        <input type="file" class="btn" name="file" id="btnFile" required="required" onchange="validFile(this.id);">
+                        </div>
                         <div class="file-path-wrapper" style="padding-left: 0px;">
-                            <input placeholder="Escolha arquivo em formato ILCD" class="file-path validate" type="text" disabled="disabled" style="padding-left: 15px;">
+                            <input placeholder="Escolha arquivo em formato ILCD" class="file-path " type="text" id="file" style="padding-left: 15px;">
                         </div>
                     </div>
                     <div class="col s6">
@@ -291,56 +294,5 @@
 
             }
         </style>
-
-        <script>
-                            $(document).ready(function () {
-                                $('select').material_select();
-                                $("select[required]").css({position: "absolute", display: "inline", height: 0, padding: 0, width: 0});
-
-                                if ($("#yesReview").is(":checked")) {
-                                    $('#fileInput').show(500);
-                                    $("#review").attr('required', '');
-                                } else
-                                    $("#review").removeAttr("required");
-
-                            	var i = 10;
-                                $('#btnAuthor').click(function () {
-                                    var clone2 = $('#divAuthorEmail').clone();
-                                    var insertIndex = i;
-                                    insertIndex = insertIndex-1;
-                                    alert(insertIndex);
-                                    $(clone2).find(".aut").val("");
-                                    $(clone2).find(".mail").val("");
-                                    if( i = 1){
-	                                    $(clone2).insertAfter("#divAuthorEmail");
-                                    }else
-                                    	$(clone2).insertAfter("#divAuthorEmail"+insertIndex-1);
-                                    $(clone2).attr("id", "divAuthorEmail" + i);
-                                    $(clone2).find("#divRemoveAuthor").removeAttr("hidden");
-                                    $(clone2).find("#divRemoveAuthor").attr("id", "divRemoveAuthor" + i);
-                                    $(clone2).find("#btnRemoveAuthor").attr("id", "btnRemoveAuthor" + i);
-                                    $(clone2).find(".aut").attr("name", "authors[" + i + "].author");
-                                    $(clone2).find(".mail").attr("name", "authors[" + i + "].email");
-                                    i++;
-                                    alert(i);
-                                });
-                                
-                            });
-                            function removeAuthor(id){
-                               	var nameDiv = id.slice(-1);
-                               	alert("Remover"+ nameDiv);
-								$("#divAuthorEmail" + nameDiv).remove();
-                            }
-                            
-                            function showFileInput() {
-                                $('#fileInput').show(500);
-                                $("#review").attr('required', '');
-                            }
-                            function hiddeFileInput() {
-                                $('#fileInput').hide(500);
-                                $("review").removeAttr("required");
-                            }
-
-        </script>
     </body>
 </html>
