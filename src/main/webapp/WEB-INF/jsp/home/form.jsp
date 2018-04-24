@@ -135,9 +135,33 @@
     <body>
 
         <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
-
+		<!-- Modal Trigger 
+		<a class="waves-effect waves-light btn modal-trigger" href="#modalILCDExist">Modal</a>
+		-->
+		
+		<!-- Modal Structure -->
+		<div id="modalILCDExist" class="modal">
+		  <div class="modal-content">
+		    <h4>Modal Header</h4>
+		    <p>A bunch of text</p>
+		  </div>
+		  <div class="modal-footer">
+		    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+		  </div>
+		</div>
+		
+		<!-- Modal Structure -->
+		<div id="modalConfirmSubmit" class="modal">
+		  <div class="modal-content">
+		    <h4>Modal Header2</h4>
+		    <p>A bunch of text</p>
+		  </div>
+		  <div class="modal-footer">
+		    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
+		  </div>
+		</div>
+		
         <div class="container">
-
             <form class="col s12 formILCD" method="POST" action="<%=Strings.BASE%>/ilcd/new" enctype="multipart/form-data" id="teste">
                 <h4 class="page-title">Submissão Inventário</h4>
                 <h6 style="font-weight: bold;">Autores <b style="color: red;">*</b></h6>
@@ -273,14 +297,14 @@
                         </div>
                     </div>
                     <div class="col" style="float: right;margin-top: 50px;">
-                        <input type="submit" value="ENVIAR" class="btn btn-enviar" id="btnSubmit">
+                        <input type="submit" value="ENVIAR" class="btn btn-enviar" id="btnSubmit" disabled="disabled">
                     </div>
                 </div>
 
 
             </form>
         </div>
-
+		
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/formILCD.js"></script>
