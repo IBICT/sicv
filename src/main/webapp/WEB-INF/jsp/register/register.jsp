@@ -190,7 +190,7 @@
 				
 				<div class="row">
 					<div class="input-field col s5">
-		                <input placeholder="E-mail*" id="email" name="email" type="email" class="validate" required="" onkeyup="existEmail();"/><br />
+		                <input placeholder="E-mail*" id="email" name="email" type="email" class="validate" required="" onblur="existEmail(event);"/><br />
 					</div>
 					<div class="input-field col s5">
 						<input placeholder="Afiliação*" id="organization" name="organization" type="text" class="validate" required="">
@@ -551,26 +551,45 @@
 				}
 			}
 			
-			function existEmail() {
+			function existEmail(e) {
 				var mail = $('#email').val();
 				var pattern = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+			    if ((e.keyCode >= 9 && e.keyCode <= 45) || (e.keyCode >= 91 && e.keyCode <= 93) || (e.keyCode >= 112 && e.keyCode <= 145)){
+			    	if(e.keyCode != 32)
+			        	e.preventDefault();
+			    }
 				//verify if is a valid pattern mail
-				if(pattern.test(mail)){
+				else if(pattern.test(mail)){
 				    $.ajax({
 				        type: "post",
 				        url: 'register/getUser',
 				        data: { email: mail},
 				        success: function (result) {
-				        	if(result == true)
-				            	alert(true)
-				            if(result == false)
-				            	alert("Email válido")
+				        	if(result == true){
+				            	if(!$('#email').hasClass('invalid')){
+					        		$('#email').removeClass('valid');
+					            	$('#email').addClass('invalid');
+				            	}
+				            	alert("Email já cadastrado");
+				        	}
+				            if(result == false){
+				            	if(!$('#email').hasClass('valid')){
+					            	$('#email').addClass('valid');
+					        		$('#email').removeClass('invalid');
+				            	}
+				            	alert("Email válido");
+				            }
 				        },
 				        error: function (response) {
 				        }
 				    });
 				}
-
+				else{
+		        	if(!$('#email').hasClass('invalid')){
+		        		$('#email').removeClass('valid');
+		            	$('#email').addClass('invalid');
+		        	}
+				}
 			}
 			
 		</script>

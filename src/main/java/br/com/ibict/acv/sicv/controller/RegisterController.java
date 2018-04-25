@@ -250,7 +250,6 @@ public class RegisterController {
         } else {
             return "false";
         }
-
     }
 
 }
