@@ -582,7 +582,7 @@ public class ManagerController {
         String dataSetValidUntil = null;
         ZipFile zipFile = null;
         try {
-            zipFile = new ZipFile("/home/deivdy/Desktop/temp/files/d32e04badf3502624799952c15409073/ILCD.zip");
+            zipFile = new ZipFile(path);
         } catch (IOException ex) {
             //return null;
         }
