@@ -41,10 +41,37 @@ function validFile(id){
 		$("#btnSubmit").attr("disabled","disabled");
 	}
 	else{
+		var formData = new FormData();
+		formData.append('file', document.getElementById("btnFile").files[0]);
+		$.ajax({
+	        type: "post",
+	        url: '../getILCD',
+	        data: formData,
+	        contentType: false,
+	        processData: false,
+	        success: function (result) {
+	        	if(result == true){
+	        		$('#modalILCDExist').modal('open');
+	        		$("#file").removeClass('valid');
+	        		$("#file").addClass('invalid');
+	        		$("#btnSubmit").attr("disabled","disabled");
+	        	}
+	            if(result == false){
+	            }
+	        },
+	        error: function (response) {
+	        }
+	    });
 		$("#file").removeClass('invalid');
 		$("#file").addClass('valid');
 		$("#btnSubmit").removeAttr("disabled");
 	}
+}
+
+function submitFormILCD(){
+	$('#modalConfirmSubmit').modal('close');
+	$("#btnSubmitForm").css("display", "");
+	$('#btnSubmitForm').click();
 }
 
 $(document).ready(
@@ -110,29 +137,5 @@ $(document).ready(
 		$(clone2).find(".mail").attr("name", "authors[" + qntdClone + "].email");
 	    qntdClone++;
 	});
-	
-/*	$.ajax({
-        type: "post",
-        url: 'register/getUser',
-        data: { email: mail},
-        success: function (result) {
-        	if(result == true){
-            	if(!$('#email').hasClass('invalid')){
-	        		$('#email').removeClass('valid');
-	            	$('#email').addClass('invalid');
-            	}
-            	alert("Email já cadastrado");
-        	}
-            if(result == false){
-            	if(!$('#email').hasClass('valid')){
-	            	$('#email').addClass('valid');
-	        		$('#email').removeClass('invalid');
-            	}
-            	alert("Email válido");
-            }
-        },
-        error: function (response) {
-        }
-    });*/
 	
 });

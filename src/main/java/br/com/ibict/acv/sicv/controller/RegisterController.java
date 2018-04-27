@@ -110,7 +110,6 @@ public class RegisterController {
             userDao.save(user);
             Notification notify = new Notification();
             notify.fillMsgADMIN_NEW_REG(user.getId(), user.getFirstName() + " " + user.getLastName());
-            mail.sendEmail(email, "acv@ibict.br", "Cadastro de Usuário", model, "emailRegister.ftl");
 
             model.put("urlTrack", Strings.BASE + "/admin/users/");
             model.put("date", getDateString());

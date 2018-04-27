@@ -3,6 +3,7 @@
     Created on : 11/05/2017, 09:48:46
     Author     : Deivdy William Silva
 --%>
+<%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags"%>
 <%@page import="resources.Strings"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -95,10 +96,17 @@
         <div class="container">
             <img alt="SICV" class="logoSICVLogin" src="<%=Strings.BASE%>/assets/images/logoSICVLogin.png">
             <h2 style="text-align: center;letter-spacing: 2px;">Importador de Inventários</h2>
+		        <div ${param.logout ? 'style="display:"' : 'style="display:none"'} >
+		        	<h4 style="color: #04450f;font-style: italic;font-weight: bold;">Logout efetuado com sucesso</h4>
+		        </div>
             <form action="login" method="post" class="form-signin">
                 <input type="email" name="email" id="inputEmail" class="form-control inputEmail" placeholder="Email address" required autofocus autocomplete="on">
 
                 <input type="password" name="senha" id="inputPassword" class="form-control inputEmail" placeholder="Password" required>
+                <div ${param.error == 1 ? 'style="display:"' : 'style="display:none"'} >
+                	<h4 style="color: #ff0000c2;font-style: italic;font-weight: bold;">Email ou usuário inválido</h4>
+                </div>
+                
                 <div class="checkbox">
                     <label class="remember">
                         <input id="rememberChkBox" type="checkbox" value="remember-me"> Lembrar acesso
@@ -107,7 +115,6 @@
                 <div >
 	                <button class="btn btn-lg btn-block bgBtnEntrar" type="submit">Entrar</button>
                 </div>
-
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             </form>
             <a class="btn btn-outlined btnCadastrar linkLogin" href="./register/forgotPassword">Esqueci minha senha</a>

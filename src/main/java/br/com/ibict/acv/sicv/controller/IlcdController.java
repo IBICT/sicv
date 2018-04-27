@@ -266,17 +266,5 @@ public class IlcdController {
         ServletRequestAttributes attr = (ServletRequestAttributes) RequestContextHolder.currentRequestAttributes();
         return attr.getRequest().getSession(true); // true == allow create
     }
-    
-//@TODO: Validate ilcd if exist     
-    @RequestMapping(value = "/register/getILCD", method = RequestMethod.POST, produces = "application/json")
-    public @ResponseBody
-    String getUser(@RequestParam("") String mail) {
-        User user = userDao.findByEmail(mail);
-        if (user != null) {
-            return "true";
-        } else {
-            return "false";
-        }
-    }
-    
+       
 }

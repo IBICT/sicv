@@ -575,7 +575,7 @@ public class HomeController {
             new SecurityContextLogoutHandler().logout(request, response, auth);
         }
         //You can redirect wherever you want, but generally it's a good practice to show login screen again.
-        return "redirect:/login?logout";
+        return "redirect:/login?logout=true";
     }
 
     public String MD5(byte[] md5) {
@@ -617,4 +617,24 @@ public class HomeController {
         return password.equals(passwordHashBd);
     }
 
+  //@TODO: Validate ilcd if exist     
+    @RequestMapping(value = "/getILCD", method = RequestMethod.POST, produces = "application/json")
+    public @ResponseBody
+    String getUser(@RequestParam("file") MultipartFile file) {
+    	
+    	try {
+    		byte[] bytesfile = file.getBytes();
+    		Path path = Paths.get(Strings.UPLOADED_FOLDER + MD5(bytesfile));
+    		
+    		if (path.toFile().exists()) {
+    			return "true";
+    		}
+    		else {
+    			return "false";
+    		}
+			
+		} catch (Exception e) {
+			return "false";
+		}
+    }
 }

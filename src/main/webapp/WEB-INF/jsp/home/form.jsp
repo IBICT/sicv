@@ -125,6 +125,8 @@
                 font-size: 10px;
                 line-height: 10px;
             }
+            
+            .modal { width: 50% !important ; height: 30% !important ; }
 
             .container {
                 width: 97%;
@@ -136,29 +138,34 @@
 
         <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
 		<!-- Modal Trigger 
-		<a class="waves-effect waves-light btn modal-trigger" href="#modalILCDExist">Modal</a>
+		<a class="waves-effect waves-light btn modal-trigger" href="#modalConfirmSubmit">Modal</a>
 		-->
 		
 		<!-- Modal Structure -->
 		<div id="modalILCDExist" class="modal">
-		  <div class="modal-content">
-		    <h4>Modal Header</h4>
-		    <p>A bunch of text</p>
-		  </div>
-		  <div class="modal-footer">
-		    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-		  </div>
+			<div class="">
+	 			<div style="text-align: center;font-size: 23px; color: #4F4F4F; margin-top: 5%">
+					<p>O arquivo ILCD já foi submetido.<p>
+					<p>Verifique e anexe um ILCD válido.</p>
+				</div>
+				<div style="text-align: center;">
+					<button style="background-color: #C3697C;" class="modal-action modal-close waves-effect btn-flat">Agree</button>
+				</div>
+			</div>
 		</div>
 		
 		<!-- Modal Structure -->
 		<div id="modalConfirmSubmit" class="modal">
-		  <div class="modal-content">
-		    <h4>Modal Header2</h4>
-		    <p>A bunch of text</p>
-		  </div>
-		  <div class="modal-footer">
-		    <a href="#!" class="modal-action modal-close waves-effect waves-green btn-flat">Agree</a>
-		  </div>
+			<div class="">
+	 			<div style="text-align: center;font-size: 23px; color: #4F4F4F; margin-top: 5%">
+					<p>Tem certeza que deseja submeter ?<p>
+					<p>Uma vez submetido não poderá cancelar.</p>
+				</div>
+				<div style="text-align: center;">
+					<button style="background-color: #C3697C;" class="modal-action modal-close waves-effect btn-flat">Cancelar</button>
+					<button onclick="submitFormILCD();" style="background-color: #ACCC5F;" class="waves-effect btn-flat">Enviar</button>
+				</div>
+			</div>		
 		</div>
 		
         <div class="container">
@@ -175,7 +182,7 @@
 	                        </div>
                         </div>
                         <div class="input-field col s8" style="margin-top: 2%;">
-                            <input placeholder="E-mail" id="email" type="text" class="validate mail" name="authors[0].email" required="required"/>
+                            <input placeholder="E-mail" id="email" type="email" class="validate mail" name="authors[0].email" required="required"/>
                         </div>
                     </div>
                 </div>
@@ -270,13 +277,13 @@
                 </div>
                 <div class="row">
                     <div class="file-field input-field col s6" style="bottom: 25px; margin-left: -10px">
-                        <div>
-	                        <span class="btn">Escolher Arquivo</span>
-	                        <input type="file" class="btn" name="file" id="btnFile" required="required" onchange="validFile(this.id);">
-                        </div>
-                        <div class="file-path-wrapper" style="padding-left: 0px;">
-                            <input placeholder="Escolha arquivo em formato ILCD" class="file-path " type="text" id="file" style="padding-left: 15px;">
-                        </div>
+                       	<div>
+                        	<span class="btn">Escolher Arquivo</span>
+                        	<input type="file" class="btn" id="btnFile" name="file" required="required" >
+                       	</div>
+                       	<div class="file-path-wrapper" style="padding-left: 0px;">
+                       	    <input placeholder="Escolha arquivo em formato ILCD" class="file-path" type="text" id="file" onchange="validFile(this.id);" style="padding-left: 15px;">
+                       	</div>
                     </div>
                     <div class="col s6">
                         <h6 style="color: #00697C;font-style: italic;margin-top: -12px;" class="col s12">Declaração: Declaro que respeitei os “Requisitos de qualidade 
@@ -297,7 +304,8 @@
                         </div>
                     </div>
                     <div class="col" style="float: right;margin-top: 50px;">
-                        <input type="submit" value="ENVIAR" class="btn btn-enviar" id="btnSubmit" disabled="disabled">
+                        <input type="button" value="ENVIAR" class="btn btn-enviar" onclick="$('#modalConfirmSubmit').modal('open');" id="btnSubmit" disabled="disabled">
+                        <input type="submit" value="ENVIARFORM" class="btn btn-enviar" id="btnSubmitForm" style="display: none;">
                     </div>
                 </div>
 

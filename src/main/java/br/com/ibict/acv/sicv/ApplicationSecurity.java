@@ -41,7 +41,7 @@ public class ApplicationSecurity extends WebSecurityConfigurerAdapter {
                 .and()
             .logout()
                 .logoutUrl("/login?logout")
-                .logoutSuccessUrl("/login?logout")
+                .logoutSuccessUrl("/login?logout=true")
                 .invalidateHttpSession(true)
                 .permitAll();
 	    	http.headers().frameOptions().sameOrigin();
