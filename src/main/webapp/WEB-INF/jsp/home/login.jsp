@@ -117,8 +117,8 @@
                 </div>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             </form>
-            <a class="btn btn-outlined btnCadastrar linkLogin" href="./register/forgotPassword">Esqueci minha senha</a>
-            <a class="btn btn-outlined btnCadastrar linkLogin" href="./register">Cadastrar</a>
+            <a class="btn btn-outlined btnCadastrar linkLogin" href="<%=Strings.BASE%>/register/forgotPassword">Esqueci minha senha</a>
+            <a class="btn btn-outlined btnCadastrar linkLogin" href="<%=Strings.BASE%>/register">Cadastrar</a>
         </div> <!-- /container -->
 
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
