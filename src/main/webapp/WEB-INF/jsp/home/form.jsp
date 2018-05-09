@@ -13,7 +13,6 @@
 
         <link href="<%=Strings.BASE%>/assets/css/defaultNotifications.css" rel="stylesheet">
         <!-- Bootstrap core CSS -->
-        <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/font/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/css/fonts.css">
@@ -50,7 +49,7 @@
 
             .btn-addAuthor {
                 background-color: #4DBCC4 !important;
-                border-radius: 5px !important;
+                border-radius: 1px !important;
                 font-size: 16px !important;
                 font-weight: bold;
                 text-align: center;
@@ -127,9 +126,9 @@
             }
             
             .modal { width: 50% !important ; height: 30% !important ; }
-
-            .container {
-                width: 97%;
+            
+            .formILCD{
+            	margin-left: -5px;
             }
             
         </style>
@@ -168,11 +167,13 @@
 			</div>		
 		</div>
 		
-        <div class="container">
+        <div class="principalDiv">
             <form class="col s12 formILCD" method="POST" action="<%=Strings.BASE%>/ilcd/new" enctype="multipart/form-data" id="teste">
-                <h4 class="page-title">Submissão Inventário</h4>
-                <h6 style="font-weight: bold;">Autores <b style="color: red;">*</b></h6>
-				<div style="margin-bottom: -2%;text-decoration: underline;"><i >1º Autor</i></div>
+		        <div style="margin-left: 10px;">
+		        	<h4 class="page-title">Submissão Inventário</h4>
+		    	    <h6 style="font-weight: bold;">Autores <b style="color: red;">*</b></h6>
+					<div style="margin-bottom: -2%;text-decoration: underline;"><i >1º Autor</i></div>
+		        </div>
                 <div class="row" id="authorsClone">
                     <div id="divAuthorEmail" class="authorEmail" style="margin-bottom: 3%;">
                         <div class="input-field col s4" style="margin-top: 2%;">
@@ -186,7 +187,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row" style="margin-top: -33px;margin-left: 2px;cursor: pointer;">
+                <div class="row" style="margin-top: -33px;margin-left: 10px;cursor: pointer;">
                     <div class="btn-addAuthor" id="btnAuthor">Acrescentar autor +</div>
                 </div>
                 <div class="row">

@@ -620,7 +620,7 @@ public class HomeController {
   //@TODO: Validate ilcd if exist     
     @RequestMapping(value = "/getILCD", method = RequestMethod.POST, produces = "application/json")
     public @ResponseBody
-    String getUser(@RequestParam("file") MultipartFile file) {
+    String getILCD(@RequestParam("file") MultipartFile file) {
     	
     	try {
     		byte[] bytesfile = file.getBytes();
@@ -636,5 +636,16 @@ public class HomeController {
 		} catch (Exception e) {
 			return "false";
 		}
+    }
+    
+    @RequestMapping(value = "/matchPasswordUser", method = RequestMethod.POST, produces = "application/json")
+    public @ResponseBody
+    String getUser(@RequestParam("plainPass") String plainPass) {
+    	User user = (User) session().getAttribute("user");
+        if (user.getPlainPassword().equals(plainPass)) {
+            return "true";
+        } else {
+            return "false";
+        }
     }
 }

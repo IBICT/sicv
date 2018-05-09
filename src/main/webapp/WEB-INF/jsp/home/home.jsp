@@ -90,7 +90,7 @@
 
         <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
 
-        <div class="container">
+        <div class="principalDiv">
             <c:choose>
                 <c:when test="${isUserLabel}">
                     <h4 class="page-title">Meus inventários</h4>

@@ -23,6 +23,7 @@
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/font/font-awesome/css/font-awesome.min.css">
 		<link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
 		<link rel="stylesheet" href="<%=Strings.BASE%>/assets/css/fonts.css">
+		<link rel="stylesheet" href="<%=Strings.BASE%>/assets/css/passwordsCheck.css">
         <style>
             html {
                 font-family: 'Titillium Web', "Roboto", sans-serif;
@@ -96,12 +97,9 @@
     </head>
 
     <body>
-		<jsp:include page="/WEB-INF/jsp/partials/nav.jsp" />
-		<div class="headerDiv">
-	        <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
-		</div>
+        <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
 
-		<div class="principalForm">
+		<div class="principalDiv">
             
 			<form class="userForm" action="${link}" method="POST">
                 <input id="id" name="id" type="text" class="validate" value="${user.id}" hidden="true">
@@ -461,18 +459,22 @@
 			
 				<div class="row" ${isAdmin ? 'hidden' : ''}>
 					<div class="input-field col s6">
-						<input placeholder="Senha " id="password" name="plainPassword" type="password" class="validate" value="${user.plainPassword}">
+						<input placeholder="Senha " id="plainPassword" name="plainPassword" type="password" class="validate" value="" onblur="verifyPlainPass(this.id)">
 					</div>
 				</div>
 				<div class="row">
 					<div class="input-field col s6">
-						<input placeholder="Nova senha " id="confirm" name="newPassword" type="password" class="validate" ${isAdmin ? 'hidden' : ''}>
+						<input placeholder="Nova senha " id="password" name="newPassword" type="password" class="validate" ${isAdmin ? 'hidden' : ''}>
+						<div>
+							<span id="result"></span>
+						</div>
+						
 						<div style="float: left;">
 		                	<input style="float: left;background: #00697C;" class="btn btn-lg btn-primary" type="submit" value="Salvar Alterações" /><br />
 	                	</div>
 	                </div>
                     <div class="input-field col s6" >
-                        <input placeholder="Confirmar nova senha" id="confirm" type="password" class="validate" ${isAdmin ? 'hidden' : ''}>
+                        <input placeholder="Confirmar nova senha" id="confirm" type="password" class="validate" ${isAdmin ? 'hidden' : ''} onkeyup="validPass()">
                     </div>
 				</div>
                  
@@ -480,9 +482,50 @@
 		</div>
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
-		
+		<script type="application/javascript" src="<%=Strings.BASE%>/assets/passwordsCheck.js"></script>
         <script>
         
+        	function validPass() {
+				pass = document.getElementById('password').value;
+				confirmPass = document.getElementById('confirm').value;
+				if (pass != confirmPass) {
+					$('#confirm').removeClass('valid');
+					$('#confirm').addClass('invalid');
+				} else {
+					$('#confirm').removeClass('invalid');
+					$('#confirm').addClass('valid');
+				}
+        	}
+        	
+        	function verifyPlainPass(idPlain){
+        		var plain = $('#'+idPlain).val();
+       			if( plain.length > 7){
+	       			$.ajax({
+				        type: "post",
+				        url: 'matchPasswordUser',
+				        data: { plainPass: plain},
+				        success: function (result) {
+				        	if(result == true){
+				            	if(!$('#plainPassword').hasClass('valid')){
+					        		$('#plainPassword').removeClass('invalid');
+					            	$('#plainPassword').addClass('valid');
+				            	}
+				            	alert("Senha confere");
+				        	}
+				            if(result == false){
+				            	if(!$('#plainPassword').hasClass('invalid')){
+					            	$('#plainPassword').addClass('invalid');
+					        		$('#plainPassword').removeClass('valid');
+				            	}
+				            	alert("Senha não confere");
+				            }
+				        },
+				        error: function (response) {
+				        }
+				    });
+	        	}
+        	}
+        	
 	        $(document).ready(function () {
 	        	$('select').material_select();
 		    	$("select[required]").css({position: "absolute", display: "inline", height: 0, padding: 0, width: 0});
@@ -499,6 +542,7 @@
 							"name", "profile").val(JSON.stringify(result));
 					$('form').append($(input));
        			});
+       			
 			});
             
 	        $("i").click(function () {

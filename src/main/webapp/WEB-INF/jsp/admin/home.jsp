@@ -37,7 +37,6 @@
         
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/css/fonts.css">
-        <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/font/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
 		
@@ -62,6 +61,19 @@
                 font-weight: bold;
                 height: 30px;
                 width: 195px;
+                letter-spacing: .2px;
+                padding: 0px;
+                line-height: 0px;
+            }
+       		.btnSaveProfile {
+                background-color: transparent; !important;
+                font-size: 16px !important;
+                border: none;
+                margin-top: -5px !important;
+                text-transform: none !important;
+                font-weight: bold;
+                height: 30px;
+                width: 105px;
                 letter-spacing: .2px;
                 padding: 0px;
                 line-height: 0px;
@@ -157,9 +169,9 @@
     </head>
 
     <body>
-		        <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
+		<jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
 
-        <div class="principalDiv">
+        <div class="principalDivAdmin">
         	<div>
 	        	<h4 class="page-title">
 	        		<c:out value="Administrador"></c:out>
@@ -167,61 +179,59 @@
 					
 					<input type="Search" id="search" value="" placeholder="busque um usuário" />
 					<i class="fa fa-search" style="color: #00697C;font-size:16px;margin-left: -35px"></i>
-					
 	        	</h4>
 				
-        	</div>
-   			<br><br>
-   	
-            <div style="margin:0px;" class="row" >
-	            <div class="col s2 sicv-table-th" style="float: left;font-size: 18px;"><b style="float: left;">Lista de Usuários</b></div>
-	            <div class="col s3 sicv-table-th"> </div>
-	            <div class="col s3 sicv-table-th"> </div>
-	            <div class="col s1 sicv-table-th">Usuário</div>
-	            <div class="col s1 sicv-table-th">Gestor</div>
-	            <div class="col s1 sicv-table-th">Administrador</div>
-	            <div class="col s1 sicv-table-th"> </div>
-			
-        	</div>
+	   			<br><br>
+	   	
+	            <div style="margin:0px;" class="row" >
+		            <div class="col s2 sicv-table-th" style="float: left;font-size: 18px;"><b style="float: left;">Lista de Usuários</b></div>
+		            <div class="col s3 sicv-table-th"> </div>
+		            <div class="col s3 sicv-table-th"> </div>
+		            <div class="col s1 sicv-table-th">Usuário</div>
+		            <div class="col s1 sicv-table-th">Gestor</div>
+		            <div class="col s1 sicv-table-th">Administrador</div>
+		            <div class="col s1 sicv-table-th"> </div>
+	        	</div>
+       		</div>
         	<form class="col s12" id="formAdminProfiles" method="POST" action="<%=Strings.BASE%>/admin/saveProfiles" >
-            <c:forEach items="${users}" var="user" varStatus="loop" >
-				<c:set var="containsMANAGER" value="false" />
-				<c:set var="containsADMIN" value="false" />
-				<c:forEach items="${user.roles}" var="rol">
-					<c:if test="${rol.role eq 'MANAGER'}">
-						<c:set var="containsMANAGER" value="true" />
-					</c:if>
-					<c:if test="${rol.role eq 'ADMIN'}">
-						<c:set var="containsADMIN" value="true" />
-					</c:if>
+	            <c:forEach items="${users}" var="user" varStatus="loop" >
+					<c:set var="containsMANAGER" value="false" />
+					<c:set var="containsADMIN" value="false" />
+					<c:forEach items="${user.roles}" var="rol">
+						<c:if test="${rol.role eq 'MANAGER'}">
+							<c:set var="containsMANAGER" value="true" />
+						</c:if>
+						<c:if test="${rol.role eq 'ADMIN'}">
+							<c:set var="containsADMIN" value="true" />
+						</c:if>
+					</c:forEach>
+	
+		        	<div style="margin:0px;" class="row" id="tabUsers">
+					    <div class="col s1 sicv-table-td">
+					    	<a href="<%=Strings.BASE%>/admin/profile/${loop.index}" style="margin-left: 5px; float: left;"> Editar </a>
+					    </div>
+			   			<div class="col s4 sicv-table-td fullName">${user.firstName} ${user.lastName}</div>   
+			   			<div class="col s3 sicv-table-td mail"><label for="name">${user.email}</label></div>
+			            <div class="col s1 sicv-table-td">
+							<input class="filled-in" type="checkbox" checked="checked" readonly="readonly" disabled="disabled" name="user.roles[]" id="${loop.index}box1" value="USER" checked="checked"/>
+							<label for="${loop.index}box1"></label>
+			            </div>
+			   			<div class="col s1 sicv-table-td">
+							<input class="perfis filled-in" type="checkbox" id="${loop.index}box2" name="user.roles[]" value="MANAGER" ${containsMANAGER ? 'checked="checked"' : '' }
+							onclick="enableSubmit('btnSubmit${loop.index}');"/>
+							<label for="${loop.index}box2"></label>
+			   			</div>
+			            <div class="col s1 sicv-table-td">
+							<input class="perfis filled-in" type="checkbox" id="${loop.index}box3" name="user.roles[]" value="ADMIN" ${containsADMIN ? 'checked="checked"' : '' }
+							onclick="enableSubmit('btnSubmit${loop.index}');"/>
+							<label for="${loop.index}box3"></label>
+			            </div>
+	
+			   			<div style="font-size: 16px;" class="col s1 sicv-table-td">
+			   				<input value="Confirmar" type="button" class=" btnSaveProfile" id="btnSubmit${loop.index}" disabled="disabled" onclick="submitForm('${loop.index}');" />
+			   			</div>
+		   			</div>
 				</c:forEach>
-
-	        	<div style="margin:0px;" class="row" id="tabUsers">
-				    <div class="col s1 sicv-table-td">
-				    	<a href="<%=Strings.BASE%>/admin/profile/${loop.index}" style="margin-left: 5px; float: left;"> Editar </a>
-				    </div>
-		   			<div class="col s4 sicv-table-td fullName">${user.firstName} ${user.lastName}</div>   
-		   			<div class="col s3 sicv-table-td mail"><label for="name">${user.email}</label></div>
-		            <div class="col s1 sicv-table-td">
-						<input class="filled-in" type="checkbox" checked="checked" readonly="readonly" disabled="disabled" name="user.roles[]" id="${loop.index}box1" value="USER" checked="checked"/>
-						<label for="${loop.index}box1"></label>
-		            </div>
-		   			<div class="col s1 sicv-table-td">
-						<input class="perfis filled-in" type="checkbox" id="${loop.index}box2" name="user.roles[]" value="MANAGER" ${containsMANAGER ? 'checked="checked"' : '' }
-						onclick="enableSubmit('btnSubmit${loop.index}');"/>
-						<label for="${loop.index}box2"></label>
-		   			</div>
-		            <div class="col s1 sicv-table-td">
-						<input class="perfis filled-in" type="checkbox" id="${loop.index}box3" name="user.roles[]" value="ADMIN" ${containsADMIN ? 'checked="checked"' : '' }
-						onclick="enableSubmit('btnSubmit${loop.index}');"/>
-						<label for="${loop.index}box3"></label>
-		            </div>
-
-		   			<div style="font-size: 16px;" class="col s1 sicv-table-td">
-		   				<input value="Confirmar" type="button" class="button btnSaveProfile" id="btnSubmit${loop.index}" disabled="disabled" onclick="submitForm('${loop.index}');" />
-		   			</div>
-	   			</div>
-			</c:forEach>
 			</form>
 
         </div>

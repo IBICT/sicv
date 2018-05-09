@@ -105,3 +105,28 @@ nav div.nav-content div.nav-wrapper div.location{
     -moz-box-shadow: 0 0 0 0 rgba(0, 0, 0, 0), 0 0 0 0 rgba(0, 0, 0, 0);
     box-shadow: 0 0 0 0 rgba(0, 0, 0, 0), 0 0 0 0 rgba(0, 0, 0);
 }
+
+.headerDiv{
+   	width: 90%;
+   	margin-left:5%;
+   	margin-top: 2%;
+}
+
+.principalDiv{
+	width: 96%;
+	margin-left:2%;
+	margin-top: 2%;
+}
+
+.principalDivAdmin{
+	width: 95%;
+	margin-left:2.5%;
+	margin-top: 2%;
+}
+
+.principalForm{
+	width: 91.75%;
+	margin-left:4%;
+	margin-top: 2%;
+	padding: 0px !important;
+}
