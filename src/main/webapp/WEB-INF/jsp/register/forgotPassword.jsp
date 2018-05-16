@@ -62,7 +62,7 @@
             <form action="<%=Strings.BASE%>/register/forgotPassword" method="post" class="form-signin">
             	<h6 style="font-size: 16px;float: left;">Digite seu e-mail para redefinir a senha</h6>
                 <input type="email" name="email" id="inputEmail" class="form-control inputEmail" placeholder="e-mail" required autofocus onkeyup="forgotEmailValidate(this.id);"/><br />
-				<span id="resultEmailForgot" style="font-size: 14px;float: left;color: #00697C;margin-bottom: 10px;margin-top: -20px !important; font-weight: bold;">${recoveryMsg}</span>
+				<span id="resultEmailForgot" style="font-size: 14px;float: left;color: #00697C;margin-bottom: 10px;margin-top: -20px !important; font-weight: bold; font-style: italic;">${recoveryMsg}</span>
                 <button class="btn btn-lg btn-block bgBtnEntrar" type="submit" id="btnSendForgot">Enviar</button>
 	            <a class="btn btn-outlined btnCadastrar linkLogin" href="<%=Strings.BASE%>/login">Efetuar Login</a>
 	            <a class="btn btn-outlined btnCadastrar linkLogin" href="<%=Strings.BASE%>/register">Efetuar Cadastro</a>

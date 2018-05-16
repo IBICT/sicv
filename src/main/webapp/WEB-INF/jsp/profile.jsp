@@ -475,6 +475,7 @@
 	                </div>
                     <div class="input-field col s6" >
                         <input placeholder="Confirmar nova senha" id="confirm" type="password" class="validate" ${isAdmin ? 'hidden' : ''} onkeyup="validPass()">
+                        <span id="resultConfirm"></span>
                     </div>
 				</div>
                  
@@ -491,9 +492,15 @@
 				if (pass != confirmPass) {
 					$('#confirm').removeClass('valid');
 					$('#confirm').addClass('invalid');
+					$('#resultConfirm').removeClass('good')
+					$('#resultConfirm').addClass('short')
+					$('#resultConfirm').html('Senha não corresponde')
 				} else {
 					$('#confirm').removeClass('invalid');
 					$('#confirm').addClass('valid');
+					$('#resultConfirm').removeClass('short')
+					$('#resultConfirm').addClass('good')
+					$('#resultConfirm').html('Senha corresponde')
 				}
         	}
         	

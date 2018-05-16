@@ -57,12 +57,10 @@
     </head>
 
     <body>
-		<jsp:include page="/WEB-INF/jsp/partials/nav.jsp" />
-		<div class="headerDiv">
-	        <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
-		</div>
 
-		<div class="principalForm">
+        <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
+
+		<div class="principalDiv">
             
 			<form class="userForm" action="<%=Strings.BASE%>/admin/insertProfile" method="POST">
 

@@ -72,6 +72,7 @@ function submitFormILCD(){
 	$('#modalConfirmSubmit').modal('close');
 	$("#btnSubmitForm").css("display", "");
 	$('#btnSubmitForm').click();
+	$("#btnSubmitForm").css("display", "none");
 }
 
 $(document).ready(

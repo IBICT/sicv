@@ -6,8 +6,8 @@
 <%@page import="resources.Strings"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
-<link href="<%=Strings.BASE%>/assets/css/defaultNotifications.css" rel="stylesheet">
-<link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
+<link href="<%=Strings.BASE%>/assets/css/defaultNotifications.css"	rel="stylesheet">
+<link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css"	rel="stylesheet">
 <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
 <script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/jquery.min.js"></script>
 <!DOCTYPE html>
@@ -54,46 +54,45 @@
 	</script>
 <head>
 	<style type="text/css">
-		.divs{
+		.divs {
 			display: none;
 		}
 	</style>
 </head>
 <body style="color: #00697c !important;">
-	<jsp:include page="/WEB-INF/jsp/partials/nav.jsp"/>
-	<div class="headerDiv">
-	       <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
-	</div>
-	<div class="principalDiv">
-		
-		<div class="titleNotify">Notificações</div>
-	
 
-		<table id="list" class="table table-hover" >
+	<jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
+	<div class="principalDiv">
+
+		<div class="titleNotify">Notificações</div>
+
+		<table id="list" class="table table-hover">
 			<thead>
-				<tr >
+				<tr>
 					<th class="sortable-column" style="text-align: center;">Data</th>
 					<th class="sortable-column col s5">Assunto</th>
 				</tr>
 			</thead>
 			<tbody>
 				<c:forEach items="${notifications}" var="notify">
-					<tr onclick="subtract(${notify.id}, ${notify.visualized});" style="cursor: pointer;">
-						<td class="tdCenter" ">${notify.notifyDate}</td>
+					<tr onclick="subtract(${notify.id}, ${notify.visualized});"
+						style="cursor: pointer;">
+						<td class="tdCenter">${notify.notifyDate}</td>
 						<th>
-							<p >${notify.subject}</p>
-					        <div class="divs" style="padding-top: 1%">${notify.messages[0]}</div><p>
-					        <div class="divs">${notify.messages[1]}</div>
+							<p>${notify.subject}</p>
+							<div class="divs" style="padding-top: 1%">${notify.messages[0]}</div>
+							<p>
+							<div class="divs">${notify.messages[1]}</div>
 						</th>
 					</tr>
-						
+
 				</c:forEach>
 			</tbody>
 			<tfoot>
 				<tr></tr>
 			</tfoot>
 		</table>
-			
+
 	</div>
 </body>
 </html>

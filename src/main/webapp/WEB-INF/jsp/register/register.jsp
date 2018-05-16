@@ -545,9 +545,15 @@
 				confirmPass = document.getElementById('confirm').value;
 				if (pass != confirmPass) {
 					$('#confirm').addClass('invalid');
+					$('#resultConfirm').removeClass('good')
+					$('#resultConfirm').addClass('short')
+					$('#resultConfirm').html('Senha não corresponde')
 				} else {
 					$('#confirm').removeClass('invalid');
 					$('#confirm').addClass('valid');
+					$('#resultConfirm').removeClass('short')
+					$('#resultConfirm').addClass('good')
+					$('#resultConfirm').html('Senha corresponde')
 				}
 			}
 			

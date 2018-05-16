@@ -96,7 +96,6 @@ public class HomeController {
         model.put("local", "Meus inventários");
         model.put("localN", 0);
         model.put("isUserLabel", true);
-        model.put("name", name);
 //        if( ilcds == null || hasSubmitOrStatus){
 //        	ilcds = ilcdDao.findIlcdsByLikeEmail( user.getEmail() );
 //        	hasSubmitOrStatus = true;
@@ -248,7 +247,7 @@ public class HomeController {
         model.put("isUserLabel", true);
         model.put("user", user);
         model.put("ilcd", ilcd);
-        model.put("name", user.getFirstName());
+        
         model.put("lastStatusUser", lastStatusUser);
         model.put("lastStatusUserT", lastStatusUserT);
         model.put("lastStatusQ", lastStatusQ);
@@ -295,7 +294,6 @@ public class HomeController {
             model.put("local", "Meus inventários > Submissão de Inventário");
             model.put("localN", 0);
             model.put("isUserLabel", true);
-            model.put("name", name);
             return "home/form";
         }
     }

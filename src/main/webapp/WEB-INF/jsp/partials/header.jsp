@@ -70,7 +70,7 @@
                         <a href="<%=Strings.BASE%>/logout">SAIR</a>
                     </li>
                     <li class="right perfil">
-                        <a style="" href="<%=Strings.BASE%>/profile">Perfil: <span>${name}</span></a>
+                        <a style="" href="<%=Strings.BASE%>/profile">Perfil: <span><%=user.getFirstName()%></span></a>
                     </li>
                     <li class="right notification">
                         <a href="<%=Strings.BASE%>/notifications">
@@ -80,7 +80,6 @@
                     </li>
                 </ul>
                 <div class="location">Você está em: ${local}</div>
-            </div>
-        </div>
+            </div>first        </div>
     </nav>
 </header>
