@@ -146,7 +146,7 @@ public class HomeController {
         //profile = profile.replaceAll("\\[", "").replaceAll("\\]","");
         Gson gson = new Gson();
         User user = gson.fromJson(profile, User.class);
-        if (user.getPlainPassword().trim() != "") {
+        if (user.getPlainPassword().length() > 0) {
             if (user.getPlainPassword().equals(userSession.getPlainPassword()) && !user.getNewPassword().trim().equals("")) {
                 user.setPasswordHashSalt(Password.generateSalt(20));
                 user.setPasswordHash(Password.getEncryptedPassword(user.getNewPassword(), user.getPasswordHashSalt()));
@@ -154,9 +154,10 @@ public class HomeController {
                 user.setNewPassword(null);
             } else {
                 user.setPasswordHash(userSession.getPasswordHash());
+                user.setPasswordHashSalt(userSession.getPasswordHashSalt());
             }
-            user.setPlainPassword(userSession.getPlainPassword());
         }
+        user.setPlainPassword(userSession.getPlainPassword());
 
         user.setHomologacoes(userSession.getHomologacoes());
         user.setStatus(userSession.getStatus());

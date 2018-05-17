@@ -440,8 +440,8 @@
                  
                 <div class="row">
 					<div class="input-field col s8">
-		                <input placeholder="Currículo* (adicionar link do perfil no Currículo lattes, Linkedin ou ResearchGate)" 
-		                id="curriculum" name="curriculum" type="text" class="validate" required="" value="${user.curriculum}"/><br />
+		                <input placeholder="Currículo (adicionar link do perfil no Currículo lattes, Linkedin ou ResearchGate)" 
+		                id="curriculum" name="curriculum" type="text" class="validate" value="${user.curriculum}"/><br />
 					</div>
 				</div>
 				<div class="row">

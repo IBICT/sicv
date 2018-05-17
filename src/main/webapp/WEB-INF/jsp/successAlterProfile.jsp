@@ -37,10 +37,8 @@
     </head>
 
     <body>
-    	<jsp:include page="/WEB-INF/jsp/partials/nav.jsp" />
-		<div class="headerDiv">
-	        <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
-		</div>
+
+        <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
         <div class="principalDiv">
 	        <h1>Perfil do usuário atualizado com sucesso!</h1>
 	        <h4> <a href="<%=Strings.BASE%>">Meus Inventários</a> </h4>
