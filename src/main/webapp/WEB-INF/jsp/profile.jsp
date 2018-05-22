@@ -101,7 +101,7 @@
 
 		<div class="principalDiv">
             
-			<form class="userForm" action="${link}" method="POST">
+			<form class="userForm" action="${link}" method="POST" enctype="multipart/form-data">
                 <input id="id" name="id" type="text" class="validate" value="${user.id}" hidden="true">
 				<input id="registrationKey" name="registrationKey" type="text" class="validate" value="${user.registrationKey}" hidden="true">
                 <input id="passwordHashSalt" name="passwordHashSalt" type="text" class="validate" value="${user.passwordHashSalt}" hidden="true">
@@ -127,11 +127,11 @@
                  <div class="row">
 	                 <div>
 	                 	<div class="col s2 offset-s1">
-							<i class="fa fa-user-circle" style="color: #EBF4F5;border-radius: 50%;font-size:142px;margin-top: -25px;"></i>
+							<img id="user_img" src="${imgStr}" ${imgStr == '' ? 'class="fa fa-user-circle img_select"' : 'height="200" width="150" class="img_select"'} style="color: #EBF4F5;border-radius: 50%;font-size:142px;margin-top: -25px;"/>
 							<div class="element">
-								<i class="fa fa-pencil"></i>
+								<i class="fa fa-pencil img_select"></i>
 							</div>
-							<input type="file" name="image_src" id="image_src">
+							<input type="file" name="profileImage" id="image_src" onchange="readURL(this)" src="${imgStr}" accept="image/*">
 	                 	</div>
     	             </div>
     	             <div class="row">
@@ -552,7 +552,7 @@
        			
 			});
             
-	        $("i").click(function () {
+	        $(".img_select").click(function () {
         	  $("input[type='file']").trigger('click');
         	});
 
@@ -560,6 +560,27 @@
         	  var val = $(this).val();
         	  $(this).siblings('span').text(val);
         	})
+        	
+        	function readURL(input) {
+		        if (input.files && input.files[0]) {
+		            var reader = new FileReader();
+		
+		            reader.onload = function (e) {
+		            	if(input.files[0].type.indexOf("image")==-1){
+		                    alert("Selecione um formato válido para imagem, por exemplo, .jpeg ou .png");
+		                    $("#image_src").val("");
+		                    return false;
+		                }
+		            	else{
+			                $('#user_img')
+			                    .attr('src', e.target.result).width(150).height(200);
+			                $('#image_src').attr('src', e.target.result);
+		            	}
+		            };
+		
+		            reader.readAsDataURL(input.files[0]);
+		        }
+		    }
 
         </script>
 

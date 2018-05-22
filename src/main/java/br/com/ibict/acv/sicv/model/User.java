@@ -1,10 +1,15 @@
 package br.com.ibict.acv.sicv.model;
 
 import java.io.Serializable;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -17,6 +22,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
@@ -26,11 +32,6 @@ import org.hibernate.annotations.LazyCollectionOption;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import com.google.gson.annotations.Expose;
-
-import java.security.*;
-import java.math.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 @Entity
 @Table(name = "user")
@@ -156,6 +157,9 @@ public class User implements Serializable {
 
     @OneToMany(mappedBy = "user", targetEntity = PasswordReset.class, fetch = FetchType.EAGER)
     private Set<PasswordReset> passwordResets;
+    
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
+    private ProfileImage profile_image;
 
     // ------------------------
     // PUBLIC METHODS
@@ -445,5 +449,15 @@ public class User implements Serializable {
         this.active = active;
     }
     
+    public ProfileImage getProfile_image() {
+    	if(profile_image == null){
+    		return this.profile_image = new ProfileImage(this);
+    	}
+		return profile_image;
+	}
+    
+    public void setProfile_image(ProfileImage profile_image) {
+		this.profile_image = profile_image;
+	}
     
 }

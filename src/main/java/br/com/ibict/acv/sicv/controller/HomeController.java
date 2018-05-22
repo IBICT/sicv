@@ -43,14 +43,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
+import resources.Strings;
+import sun.misc.BASE64Encoder;
 import br.com.ibict.acv.sicv.CustomAuthProvider;
 import br.com.ibict.acv.sicv.model.Archive;
 import br.com.ibict.acv.sicv.model.Homologacao;
 import br.com.ibict.acv.sicv.model.Ilcd;
 import br.com.ibict.acv.sicv.model.Notification;
+import br.com.ibict.acv.sicv.model.ProfileImage;
 import br.com.ibict.acv.sicv.model.Status;
 import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.HomologacaoDao;
@@ -61,7 +61,9 @@ import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.ExclStrat;
 import br.com.ibict.acv.sicv.util.Mail;
 import br.com.ibict.acv.sicv.util.Password;
-import resources.Strings;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @Controller
 public class HomeController {
@@ -136,17 +138,29 @@ public class HomeController {
         User user = (User) session().getAttribute("user");
 
         model.put("user", user);
+        if(user.getProfile_image().getImageName() != null){
+        	BASE64Encoder base64Encoder = new BASE64Encoder();
+        	StringBuilder imageString = new StringBuilder();
+        	imageString.append("data:image/png;base64,");
+        	imageString.append(base64Encoder.encode(user.getProfile_image().getData()));
+        	String image = imageString.toString();
+        	model.put("imgStr", image);
+        }else
+        	model.put("imgStr", "");
+        
         return "/profile";
     }
 
     @PostMapping("/profile")
-    public String loginHandle(@RequestParam("profile") String profile) {
+    public String loginHandle(@RequestParam("profile") String profile, @RequestParam("profileImage") MultipartFile profileImage) {
 
         User userSession = (User) session().getAttribute("user");
         //profile = profile.replaceAll("\\[", "").replaceAll("\\]","");
         Gson gson = new Gson();
         User user = gson.fromJson(profile, User.class);
+        //if user password is not empty
         if (user.getPlainPassword().length() > 0) {
+        	//if passaword match and new password is not empty
             if (user.getPlainPassword().equals(userSession.getPlainPassword()) && !user.getNewPassword().trim().equals("")) {
                 user.setPasswordHashSalt(Password.generateSalt(20));
                 user.setPasswordHash(Password.getEncryptedPassword(user.getNewPassword(), user.getPasswordHashSalt()));
@@ -155,13 +169,40 @@ public class HomeController {
             } else {
                 user.setPasswordHash(userSession.getPasswordHash());
                 user.setPasswordHashSalt(userSession.getPasswordHashSalt());
+                user.setPlainPassword(userSession.getPlainPassword());
             }
+        }else{
+            user.setPasswordHash(userSession.getPasswordHash());
+            user.setPasswordHashSalt(userSession.getPasswordHashSalt());
+            user.setPlainPassword(userSession.getPlainPassword());
         }
-        user.setPlainPassword(userSession.getPlainPassword());
 
         user.setHomologacoes(userSession.getHomologacoes());
         user.setStatus(userSession.getStatus());
         user.setRoles(userSession.getRoles());
+        user.setActive(userSession.getActive());
+        user.setActiveCode(userSession.getActiveCode());
+        
+        if( profileImage != null ) {
+        	if(profileImage.getName() != "" && !profileImage.isEmpty()){
+	            ProfileImage uploadFile = new ProfileImage();
+	            uploadFile.setImageName(profileImage.getOriginalFilename());
+	            
+	            if(userSession.getProfile_image().getId() != null )
+	            	uploadFile.setId(userSession.getProfile_image().getId());
+	            
+	            uploadFile.setUser(user);
+	            try {
+	            	uploadFile.setData(profileImage.getBytes());
+	            	user.setProfile_image(uploadFile);
+	            	
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+        	}else
+        		user.setProfile_image(userSession.getProfile_image());
+        }
+        
         userDao.save(user);
         session().setAttribute("user", user);
 
