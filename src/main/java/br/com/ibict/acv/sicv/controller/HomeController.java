@@ -56,6 +56,7 @@ import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.HomologacaoDao;
 import br.com.ibict.acv.sicv.repositories.IlcdDao;
 import br.com.ibict.acv.sicv.repositories.NotificationDao;
+import br.com.ibict.acv.sicv.repositories.ProfileImageDao;
 import br.com.ibict.acv.sicv.repositories.StatusDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.ExclStrat;
@@ -70,6 +71,9 @@ public class HomeController {
 
     @Autowired
     private UserDao userDao;
+    
+    @Autowired
+    private ProfileImageDao profileImageDao;
 
     @Autowired
     private StatusDao statusDao;
@@ -136,13 +140,14 @@ public class HomeController {
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String getProfileHandler(Map<String, Object> model) {
         User user = (User) session().getAttribute("user");
-
+        ProfileImage profImgDB = profileImageDao.findByUser(user);
         model.put("user", user);
-        if(user.getProfile_image().getImageName() != null){
+        //get data image profile and parse to string wich html recognizes
+        if(profImgDB != null){
         	BASE64Encoder base64Encoder = new BASE64Encoder();
         	StringBuilder imageString = new StringBuilder();
         	imageString.append("data:image/png;base64,");
-        	imageString.append(base64Encoder.encode(user.getProfile_image().getData()));
+        	imageString.append(base64Encoder.encode(profImgDB.getData()));
         	String image = imageString.toString();
         	model.put("imgStr", image);
         }else
@@ -160,7 +165,7 @@ public class HomeController {
         User user = gson.fromJson(profile, User.class);
         //if user password is not empty
         if (user.getPlainPassword().length() > 0) {
-        	//if passaword match and new password is not empty
+        	//if password match and new password is not empty
             if (user.getPlainPassword().equals(userSession.getPlainPassword()) && !user.getNewPassword().trim().equals("")) {
                 user.setPasswordHashSalt(Password.generateSalt(20));
                 user.setPasswordHash(Password.getEncryptedPassword(user.getNewPassword(), user.getPasswordHashSalt()));

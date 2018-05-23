@@ -116,7 +116,7 @@
 
             .fa-chevron-down{
                 position: absolute;
-                right: 0;
+                right: 0;0px
                 top: 40px;
                 bottom: 0;
                 height: 10px;

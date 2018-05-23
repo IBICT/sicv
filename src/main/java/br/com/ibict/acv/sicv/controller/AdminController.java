@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -29,16 +30,19 @@ import com.google.gson.GsonBuilder;
 import br.com.ibict.acv.sicv.CustomAuthProvider;
 import br.com.ibict.acv.sicv.exception.ProfileException;
 import br.com.ibict.acv.sicv.exception.RegisterException;
+import br.com.ibict.acv.sicv.model.ProfileImage;
 import br.com.ibict.acv.sicv.model.Role;
 import br.com.ibict.acv.sicv.model.User;
 import br.com.ibict.acv.sicv.repositories.HomologacaoDao;
 import br.com.ibict.acv.sicv.repositories.IlcdDao;
 import br.com.ibict.acv.sicv.repositories.NotificationDao;
+import br.com.ibict.acv.sicv.repositories.ProfileImageDao;
 import br.com.ibict.acv.sicv.repositories.RoleDao;
 import br.com.ibict.acv.sicv.repositories.TechnicalReviewerDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.Password;
 import resources.Strings;
+import sun.misc.BASE64Encoder;
 
 @Controller
 @RequestMapping("/admin")
@@ -46,6 +50,9 @@ public class AdminController {
 
     @Autowired
     private UserDao userDao;
+    
+    @Autowired
+    private ProfileImageDao profileImageDao;
 
     @Autowired
     private IlcdDao ilcdDao;
@@ -87,9 +94,20 @@ public class AdminController {
     @RequestMapping(value = "/profile/{index}", method = RequestMethod.GET)
     public String getProfileHandler(Map<String, Object> model, @PathVariable("index") Integer index) {
     	User user = users.get(index);
-
+    	ProfileImage profImgDB = profileImageDao.findByUser(user);
     	model.put("isAdmin", true);
     	model.put("user", user);
+    	//get data image profile and parse to string wich html recognizes 
+    	if(profImgDB != null){
+        	BASE64Encoder base64Encoder = new BASE64Encoder();
+        	StringBuilder imageString = new StringBuilder();
+        	imageString.append("data:image/png;base64,");
+        	imageString.append(base64Encoder.encode(profImgDB.getData()));
+        	String image = imageString.toString();
+        	model.put("imgStr", image);
+        }else
+        	model.put("imgStr", "");
+    	
         return "/profile";
     }
     
@@ -145,29 +163,69 @@ public class AdminController {
     }
     
     @PostMapping("/profile")
-    public String loginHandle(@RequestParam("profile") String profile) {
+    public String loginHandle(@RequestParam("profile") String profile, @RequestParam("profileImage") MultipartFile profileImage) {
         
     	//profile = profile.replaceAll("\\[", "").replaceAll("\\]","");
     	Gson gson = new Gson();
     	User user = gson.fromJson(profile, User.class);
     	User userDB = (User) userDao.findOne(user.getId()); 
-    	if( user.getPlainPassword().trim() != "" ){
-    		if( user.getPlainPassword().equals( userDB.getPlainPassword() ) && !user.getNewPassword().trim().equals("") ){
-    			user.setPasswordHashSalt( Password.generateSalt( 20 ) );
-    			user.setPasswordHash( Password.getEncryptedPassword( user.getNewPassword() , user.getPasswordHashSalt() ) );
-    			user.setPlainPassword( user.getNewPassword() );
-    			user.setNewPassword(null);
-    		}else
-    			user.setPasswordHash( userDB.getPasswordHash() );
-    			user.setPlainPassword( userDB.getPlainPassword() );
+        //if user password is not empty
+        if (user.getPlainPassword().length() > 0) {
+        	//if password match and new password is not empty
+            if (user.getPlainPassword().equals(userDB.getPlainPassword()) && !user.getNewPassword().trim().equals("")) {
+                user.setPasswordHashSalt(Password.generateSalt(20));
+                user.setPasswordHash(Password.getEncryptedPassword(user.getNewPassword(), user.getPasswordHashSalt()));
+                user.setPlainPassword(user.getNewPassword());
+                user.setNewPassword(null);
+            } else {
+                user.setPasswordHash(userDB.getPasswordHash());
+                user.setPasswordHashSalt(userDB.getPasswordHashSalt());
+                user.setPlainPassword(userDB.getPlainPassword());
+	        }
+        }else{
+	            user.setPasswordHash(userDB.getPasswordHash());
+	            user.setPasswordHashSalt(userDB.getPasswordHashSalt());
+	            user.setPlainPassword(userDB.getPlainPassword());
     	}
     	
     	user.setHomologacoes(userDB.getHomologacoes());
     	user.setStatus(userDB.getStatus());  
     	user.setRoles(userDB.getRoles());
-        userDao.saveAndFlush(user);
+    	user.setActive(userDB.getActive());
+    	user.setActiveCode(userDB.getActiveCode());
+    	ProfileImage profImgDB = profileImageDao.findByUser(userDB);
+
+        if( profileImage != null ) {
+        	if(profileImage.getName() != "" && !profileImage.isEmpty()){
+	            ProfileImage uploadFile = new ProfileImage();
+	            uploadFile.setImageName(profileImage.getOriginalFilename());
+	            
+	            if(profImgDB != null )
+	            	uploadFile.setId(profImgDB.getId());
+	            
+	            uploadFile.setUser(user);
+	            try {
+	            	uploadFile.setData(profileImage.getBytes());
+	            	user.setProfile_image(uploadFile);
+	            	
+				} catch (Exception e) {
+					// TODO: handle exception
+				}
+        	}else
+        		user.setProfile_image(profImgDB);
+        }
         
+        userDao.save(user);
+        Map<String, Object> model = new HashMap<String, Object>();
+
+        User userSession = (User) session().getAttribute("user");
+        if(userSession.getId().equals(user.getId()) )
+        	model.put("user", user);
+
+        model.put("successMessage", "Perfil atualizado com sucesso!");
+
         return "successAlterProfile";
+        
     }
     
     @RequestMapping(value = "/saveProfiles", method = RequestMethod.POST)

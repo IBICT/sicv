@@ -118,7 +118,7 @@
             <div class="row">
                 <div class="col s8">
                     <div style="padding-bottom: 2%;">
-                        <h5>Usuário</h5>
+                        <h5>${ilcd.authors[0]}</h5>
                     </div>
                     <h6 class="bold">Autor/es</h6>
                     <c:forEach items="${ilcd.authors}" var="author" varStatus="loop">

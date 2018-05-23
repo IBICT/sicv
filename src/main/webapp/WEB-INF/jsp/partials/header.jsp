@@ -18,7 +18,7 @@
 <header>
     <nav class="nav-extended z-depth-0">
         <div class="nav-wrapper">
-            <a href="<%=Strings.BASE%>" class="brand-logo"><img src="<%=Strings.BASE%>/assets/img/logo.png" alt="SICV BRASIL" /><span class="hide-on-med-and-down">Importador de Inventarios</span></a>
+            <a href="<%=Strings.BASE%>" class="brand-logo"><img src="<%=Strings.BASE%>/assets/img/logo.png" alt="SICV BRASIL" /><span class="hide-on-med-and-down">Importador de Inventários</span></a>
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 
             <ul class="side-nav" id="mobile-demo">

@@ -158,7 +158,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "user", targetEntity = PasswordReset.class, fetch = FetchType.EAGER)
     private Set<PasswordReset> passwordResets;
     
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY, optional = true)
+    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL)
     private ProfileImage profile_image;
 
     // ------------------------

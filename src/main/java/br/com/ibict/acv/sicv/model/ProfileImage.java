@@ -29,7 +29,7 @@ public class ProfileImage implements Serializable {
     @Column(name = "data", unique = false, length = 100000)
     private byte[] data;
     
-    @OneToOne(fetch = FetchType.LAZY)
+    @OneToOne
     @JoinColumn(name = "user_id")
     private User user;
     
