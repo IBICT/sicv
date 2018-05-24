@@ -100,20 +100,19 @@ public class RegisterController {
 
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("user", user);
-        model.put("senha", senha);
-        model.put("urlLogin", Strings.BASE + "/login");
         model.put("url", Strings.BASE);
         user.setActiveCode(user.getNewActiveCode());
         model.put("link", Strings.BASE + "/register/accountConfirmation?token=" + user.getActiveCode());
 
         try {
             userDao.save(user);
+            mail.sendEmail(email, "acv@ibict.br", "Registro de Conta no SICV", model, "emailRegister.ftl");
             Notification notify = new Notification();
             notify.fillMsgADMIN_NEW_REG(user.getId(), user.getFirstName() + " " + user.getLastName());
 
             model.put("urlTrack", Strings.BASE + "/admin/users/");
             model.put("date", getDateString());
-            mail.sendEmail(email, "acv@ibict.br", "Confirmação de Conta no SICV", model, "accountConfirmation.ftl");
+            mail.sendEmail("acv@ibict.br", "acv@ibict.br", "Registro de Conta no SICV", model, "emailRegisterToAdmin.ftl");
             // TODO criar paginas ou mensagens para popular a view em caso de erro
         } catch (IOException | SQLException e) {
             throw new Exception("Erro no processo de registro de usuario.", e);
@@ -186,7 +185,7 @@ public class RegisterController {
                 try {
                     model.put("user", user);
                     model.put("url", Strings.BASE);
-                    mail.sendEmail(user.getEmail(), "acv@ibict.br", "Cadastro de Usuário", model, "emailRegister.ftl");
+                    mail.sendEmail(user.getEmail(), "acv@ibict.br", "Cadastro de Usuário", model, "accountConfirmation.ftl");
                 } catch (Exception e) {
                     System.err.println(e.getMessage());
                     e.printStackTrace();

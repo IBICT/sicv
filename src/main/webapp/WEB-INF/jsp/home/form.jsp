@@ -148,7 +148,7 @@
 					<p>Verifique e anexe um ILCD válido.</p>
 				</div>
 				<div style="text-align: center;">
-					<button style="background-color: #C3697C;" class="modal-action modal-close waves-effect btn-flat">Agree</button>
+					<button style="background-color: #C3697C;" class="modal-action modal-close waves-effect btn-flat">OK</button>
 				</div>
 			</div>
 		</div>
