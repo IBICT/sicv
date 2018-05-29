@@ -64,6 +64,8 @@ public class QualityReviewController {
 
         List<Status> works = statusDao.findByRevisorAndAcceptAndTypeAndCancelInvite(user, true, 1, null);
         model.put("work", works);
+        
+        model.put("localN", 1);
         return "qualityreview/index";
     }
 

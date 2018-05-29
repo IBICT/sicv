@@ -183,7 +183,7 @@ public class User implements Serializable {
         this.language = language;
         this.title = title;
         this.jobPosition = jobPosition;
-        this.curriculum = curriculum;
+        setCurriculum(curriculum);
         this.dsPurpose = dsPurpose;
         this.passwordHash = passwordHash;
         this.passwordHashSalt = passwordHashSalt;
@@ -240,11 +240,18 @@ public class User implements Serializable {
     }
 
     public String getCurriculum() {
-        return curriculum;
+    	if(curriculum.substring(0, 7) == ("https://") || curriculum.substring(0, 6) == ("http://"))
+    		return curriculum;
+    	else
+    		return "http://"+curriculum;
     }
 
     public void setCurriculum(String curriculum) {
-        this.curriculum = curriculum;
+    	if(curriculum.substring(0, 7) == ("https://") || curriculum.substring(0, 6) == ("http://"))
+    		this.curriculum = curriculum;
+    	else
+    		this.curriculum = "http://"+curriculum;
+    		
     }
 
     public String getLastName() {

@@ -76,6 +76,7 @@ public class TechnicalReviewController {
 
         List<Status> works = statusDao.findByRevisorAndAcceptAndTypeAndCancelInvite(user, true, 2, null);
         model.put("work", works);
+        model.put("localN", 2);
         return "technicalreview/index";
     }
 

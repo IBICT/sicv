@@ -12,6 +12,7 @@
 %>
 
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
+<link rel="stylesheet" href="<%=Strings.BASE%>/assets/css/fonts.css">
 <link href="<%=Strings.BASE%>/assets/css/partials/navBarStyle.css" rel="stylesheet">
 
 
@@ -22,22 +23,22 @@
             <a href="#" data-activates="mobile-demo" class="button-collapse"><i class="material-icons">menu</i></a>
 
             <ul class="side-nav" id="mobile-demo">
-                <li class="${localN == 0 ? "active":""}" style="">
+                <li class="${localN == 0 ? 'active':''}" style="">
                         <a href="<%=Strings.BASE%>">Meus Inventários</a>
                     </li>
-                    <li class="${localN == 1 ? "active":""}">
+                    <li class="${localN == 1 ? 'active':''}">
                         <a href="<%=Strings.BASE%>/qualityreview">Revisão Qualidata</a>
                     </li>
-                    <li class="${localN == 2 ? "active":""}">
+                    <li class="${localN == 2 ? 'active':''}">
                         <a href="<%=Strings.BASE%>/technicalreview">Revisão Técnica</a>
                     </li>
                     <c:if test="${isManager or isAdmin}">
-                    <li class="${localN == 3 ? "active":""}">
+                    <li class="${localN == 3 ? 'active':''}">
                         <a href="<%=Strings.BASE%>/gestor">Gestão</a>
                     </li>
                     </c:if>
                     <c:if test="${isAdmin}">
-                    <li class="${localN == 4 ? "active":""}">
+                    <li class="${localN == 4 ? 'active':''}">
                         <a href="<%=Strings.BASE%>/admin">Administrador</a>
                     </li>
                     </c:if>
@@ -47,22 +48,22 @@
         <div class="nav-content">
             <div class="nav-wrapper hide-on-med-and-down">
                 <ul>
-                    <li class="${localN == 0 ? "active":""}" style="">
+                    <li class="${localN == 0 ? 'active':''}" style="">
                         <a href="<%=Strings.BASE%>">Meus Inventários</a>
                     </li>
-                    <li class="${localN == 1 ? "active":""}">
+                    <li class="${localN == 1 ? 'active':''}">
                         <a href="<%=Strings.BASE%>/qualityreview">Revisão Qualidata</a>
                     </li>
-                    <li class="${localN == 2 ? "active":""}">
+                    <li class="${localN == 2 ? 'active':''}">
                         <a href="<%=Strings.BASE%>/technicalreview">Revisão Técnica</a>
                     </li>
                     <c:if test="${isManager or isAdmin}">
-                    <li class="${localN == 3 ? "active":""}">
+                    <li class="${localN == 3 ? 'active':''}">
                         <a href="<%=Strings.BASE%>/gestor">Gestão</a>
                     </li>
                     </c:if>
                     <c:if test="${isAdmin}">
-                    <li class="${localN == 4 ? "active":""}">
+                    <li class="${localN == 4 ? 'active':''}">
                         <a href="<%=Strings.BASE%>/admin">Administrador</a>
                     </li>
                     </c:if>

@@ -98,7 +98,6 @@ public class HomeController {
     @RequestMapping("/")
     public String getRoot(Map<String, Object> model) {
         User user = (User) session().getAttribute("user");
-        String name = user.getFirstName();
         model.put("local", "Meus inventários");
         model.put("localN", 0);
         model.put("isUserLabel", true);

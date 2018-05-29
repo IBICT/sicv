@@ -81,15 +81,36 @@ public class AdminController {
         	users = userDao.findAll();
             model.put("users", users);
             model.put("name", name);
+            model.put("localN", 4);
 
             return "admin/home";
         }
     }
     
     @RequestMapping(value = "/login", method = RequestMethod.GET)
-    public String gatLogin(Map<String, Object> model) {
+    public String getLogin(Map<String, Object> model) {
         return "home/login";
     }
+    
+    @RequestMapping(value = "/viewProfile", method = RequestMethod.GET)
+    public String getviewProfile(Map<String, Object> model) {
+    	User user = (User) session().getAttribute("user");
+        ProfileImage profImgDB = profileImageDao.findByUser(user);
+        model.put("user", user);
+        //get data image profile and parse to string wich html recognizes
+        if(profImgDB != null){
+        	BASE64Encoder base64Encoder = new BASE64Encoder();
+        	StringBuilder imageString = new StringBuilder();
+        	imageString.append("data:image/png;base64,");
+        	imageString.append(base64Encoder.encode(profImgDB.getData()));
+        	String image = imageString.toString();
+        	model.put("imgStr", image);
+        }else
+        	model.put("imgStr", "");
+        
+        return "admin/viewProfile";
+    }
+
     
     @RequestMapping(value = "/profile/{index}", method = RequestMethod.GET)
     public String getProfileHandler(Map<String, Object> model, @PathVariable("index") Integer index) {
