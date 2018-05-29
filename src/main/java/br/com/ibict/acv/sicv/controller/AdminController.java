@@ -92,9 +92,9 @@ public class AdminController {
         return "home/login";
     }
     
-    @RequestMapping(value = "/viewProfile", method = RequestMethod.GET)
-    public String getviewProfile(Map<String, Object> model) {
-    	User user = (User) session().getAttribute("user");
+    @RequestMapping(value = "/viewProfile/{index}", method = RequestMethod.GET)
+    public String getviewProfile(Map<String, Object> model, @PathVariable("index") Integer index) {
+    	User user = users.get(index);
         ProfileImage profImgDB = profileImageDao.findByUser(user);
         model.put("user", user);
         //get data image profile and parse to string wich html recognizes

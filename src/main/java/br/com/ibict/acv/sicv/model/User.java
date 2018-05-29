@@ -240,14 +240,17 @@ public class User implements Serializable {
     }
 
     public String getCurriculum() {
-    	if(curriculum.substring(0, 7) == ("https://") || curriculum.substring(0, 6) == ("http://"))
-    		return curriculum;
+    	if(curriculum != null)
+	    	if(curriculum.substring(0, 8).equals("https://") || curriculum.substring(0, 7).equals("http://") )
+	    		return curriculum;
+	    	else
+	    		return "http://"+curriculum;
     	else
-    		return "http://"+curriculum;
+    		return "";
     }
 
     public void setCurriculum(String curriculum) {
-    	if(curriculum.substring(0, 7) == ("https://") || curriculum.substring(0, 6) == ("http://"))
+    	if(curriculum.substring(0, 8).equals("https://") || curriculum.substring(0, 7).equals("http://") )
     		this.curriculum = curriculum;
     	else
     		this.curriculum = "http://"+curriculum;
