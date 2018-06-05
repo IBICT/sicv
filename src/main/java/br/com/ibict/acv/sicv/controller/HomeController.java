@@ -65,13 +65,14 @@ import br.com.ibict.acv.sicv.util.Password;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import java.text.SimpleDateFormat;
 
 @Controller
 public class HomeController {
 
     @Autowired
     private UserDao userDao;
-    
+
     @Autowired
     private ProfileImageDao profileImageDao;
 
@@ -142,16 +143,17 @@ public class HomeController {
         ProfileImage profImgDB = profileImageDao.findByUser(user);
         model.put("user", user);
         //get data image profile and parse to string wich html recognizes
-        if(profImgDB != null){
-        	BASE64Encoder base64Encoder = new BASE64Encoder();
-        	StringBuilder imageString = new StringBuilder();
-        	imageString.append("data:image/png;base64,");
-        	imageString.append(base64Encoder.encode(profImgDB.getData()));
-        	String image = imageString.toString();
-        	model.put("imgStr", image);
-        }else
-        	model.put("imgStr", "");
-        
+        if (profImgDB != null) {
+            BASE64Encoder base64Encoder = new BASE64Encoder();
+            StringBuilder imageString = new StringBuilder();
+            imageString.append("data:image/png;base64,");
+            imageString.append(base64Encoder.encode(profImgDB.getData()));
+            String image = imageString.toString();
+            model.put("imgStr", image);
+        } else {
+            model.put("imgStr", "");
+        }
+
         return "/profile";
     }
 
@@ -164,7 +166,7 @@ public class HomeController {
         User user = gson.fromJson(profile, User.class);
         //if user password is not empty
         if (user.getPlainPassword().length() > 0) {
-        	//if password match and new password is not empty
+            //if password match and new password is not empty
             if (user.getPlainPassword().equals(userSession.getPlainPassword()) && !user.getNewPassword().trim().equals("")) {
                 user.setPasswordHashSalt(Password.generateSalt(20));
                 user.setPasswordHash(Password.getEncryptedPassword(user.getNewPassword(), user.getPasswordHashSalt()));
@@ -175,7 +177,7 @@ public class HomeController {
                 user.setPasswordHashSalt(userSession.getPasswordHashSalt());
                 user.setPlainPassword(userSession.getPlainPassword());
             }
-        }else{
+        } else {
             user.setPasswordHash(userSession.getPasswordHash());
             user.setPasswordHashSalt(userSession.getPasswordHashSalt());
             user.setPlainPassword(userSession.getPlainPassword());
@@ -186,27 +188,29 @@ public class HomeController {
         user.setRoles(userSession.getRoles());
         user.setActive(userSession.getActive());
         user.setActiveCode(userSession.getActiveCode());
-        
-        if( profileImage != null ) {
-        	if(profileImage.getName() != "" && !profileImage.isEmpty()){
-	            ProfileImage uploadFile = new ProfileImage();
-	            uploadFile.setImageName(profileImage.getOriginalFilename());
-	            
-	            if(userSession.getProfile_image().getId() != null )
-	            	uploadFile.setId(userSession.getProfile_image().getId());
-	            
-	            uploadFile.setUser(user);
-	            try {
-	            	uploadFile.setData(profileImage.getBytes());
-	            	user.setProfile_image(uploadFile);
-	            	
-				} catch (Exception e) {
-					// TODO: handle exception
-				}
-        	}else
-        		user.setProfile_image(userSession.getProfile_image());
+
+        if (profileImage != null) {
+            if (profileImage.getName() != "" && !profileImage.isEmpty()) {
+                ProfileImage uploadFile = new ProfileImage();
+                uploadFile.setImageName(profileImage.getOriginalFilename());
+
+                if (userSession.getProfile_image().getId() != null) {
+                    uploadFile.setId(userSession.getProfile_image().getId());
+                }
+
+                uploadFile.setUser(user);
+                try {
+                    uploadFile.setData(profileImage.getBytes());
+                    user.setProfile_image(uploadFile);
+
+                } catch (Exception e) {
+                    // TODO: handle exception
+                }
+            } else {
+                user.setProfile_image(userSession.getProfile_image());
+            }
         }
-        
+
         userDao.save(user);
         session().setAttribute("user", user);
 
@@ -293,7 +297,7 @@ public class HomeController {
         model.put("isUserLabel", true);
         model.put("user", user);
         model.put("ilcd", ilcd);
-        
+
         model.put("lastStatusUser", lastStatusUser);
         model.put("lastStatusUserT", lastStatusUserT);
         model.put("lastStatusQ", lastStatusQ);
@@ -372,17 +376,23 @@ public class HomeController {
 
         try {
 
+            Date dt = new Date();
+            Calendar c = Calendar.getInstance();
+            c.setTime(dt);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy_mm_dd_hh_mm");
+            
             // Get the file and save it somewhere. 1 is inicial version
             byte[] bytesfile = file.getBytes();
             Path path = Paths.get(Strings.UPLOADED_FOLDER + MD5(bytesfile));
-            String pathResolve = path.resolve("ILCD.zip").toString();
-
+            String pathResolve = path.resolve("./ILCD/"+MD5(bytesfile)+"_"+sdf.format(dt)+"_ilcd.zip").toString();
+    
             if (path.toFile().exists()) {
                 redirectAttributes.addFlashAttribute("message", "File exist, not replace.");
                 return "redirect:/admin/ilcd/uploadStatus";
             }
             Files.createDirectory(path);
-            Files.write(path.resolve("./ILCD.zip"), bytesfile);
+            Files.createDirectory(path.resolve("./ILCD/"));
+            Files.write(path.resolve("./ILCD/"+MD5(bytesfile)+"_"+sdf.format(dt)+"_ilcd.zip"), bytesfile);
             User ilcdUser = (User) session().getAttribute("user");
             Status status = new Status();
             status.setType(1);
@@ -431,9 +441,6 @@ public class HomeController {
             homolog.setPending(true);
 
             // Prazo incial de 5 dias
-            Date dt = new Date();
-            Calendar c = Calendar.getInstance();
-            c.setTime(dt);
             c.add(Calendar.DATE, 5);
             dt = c.getTime();
             homolog.setPrazo(dt);
@@ -583,10 +590,36 @@ public class HomeController {
         return "redirect:/admin/ilcd/uploadStatus";
     }
 
-    @RequestMapping(value = "/ilcd/{MD5_folder}", method = RequestMethod.GET)
-    public void getFile(
-            @PathVariable("MD5_folder") String MD5folder,
-            HttpServletResponse response, HttpServletRequest request) {
+    @RequestMapping(value = "/ilcd/{MD5_folder}/ilcd", method = RequestMethod.GET)
+    public void getIlcdFile(@PathVariable("MD5_folder") String MD5folder, HttpServletResponse response, HttpServletRequest request) {
+        try {
+            File folder = new File(Strings.UPLOADED_FOLDER + MD5folder + "/ILCD/");
+            File[] listOfFiles = folder.listFiles();
+            // System.out.println("Total : " + listOfFiles.length);
+            File fileToDownload = listOfFiles[0];
+            if (!fileToDownload.exists()) {
+                String errorMessage = "Sorry. The file you are looking for does not exist";
+                System.out.println(errorMessage);
+                OutputStream outputStream = response.getOutputStream();
+                outputStream.write(errorMessage.getBytes(Charset.forName("UTF-8")));
+                outputStream.close();
+                return;
+            }
+
+            InputStream inputStream = new FileInputStream(fileToDownload);
+            response.setContentType("application/force-download");
+            response.setHeader("Content-Disposition", "attachment; filename=" + fileToDownload.getName()+".zip");
+            IOUtils.copy(inputStream, response.getOutputStream());
+            response.flushBuffer();
+            inputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    @RequestMapping(value = "/ilcd/{MD5_folder}/complements", method = RequestMethod.GET)
+    public void getComplementsFile(@PathVariable("MD5_folder") String MD5folder, HttpServletResponse response, HttpServletRequest request) {
         try {
             String fileName = request.getParameter("name");
             File fileToDownload = new File(Strings.UPLOADED_FOLDER + MD5folder + "/" + fileName);
@@ -661,31 +694,30 @@ public class HomeController {
         return password.equals(passwordHashBd);
     }
 
-  //@TODO: Validate ilcd if exist     
+    //@TODO: Validate ilcd if exist     
     @RequestMapping(value = "/getILCD", method = RequestMethod.POST, produces = "application/json")
     public @ResponseBody
     String getILCD(@RequestParam("file") MultipartFile file) {
-    	
-    	try {
-    		byte[] bytesfile = file.getBytes();
-    		Path path = Paths.get(Strings.UPLOADED_FOLDER + MD5(bytesfile));
-    		
-    		if (path.toFile().exists()) {
-    			return "true";
-    		}
-    		else {
-    			return "false";
-    		}
-			
-		} catch (Exception e) {
-			return "false";
-		}
+
+        try {
+            byte[] bytesfile = file.getBytes();
+            Path path = Paths.get(Strings.UPLOADED_FOLDER + MD5(bytesfile));
+
+            if (path.toFile().exists()) {
+                return "true";
+            } else {
+                return "false";
+            }
+
+        } catch (Exception e) {
+            return "false";
+        }
     }
-    
+
     @RequestMapping(value = "/matchPasswordUser", method = RequestMethod.POST, produces = "application/json")
     public @ResponseBody
     String getUser(@RequestParam("plainPass") String plainPass) {
-    	User user = (User) session().getAttribute("user");
+        User user = (User) session().getAttribute("user");
         if (user.getPlainPassword().equals(plainPass)) {
             return "true";
         } else {

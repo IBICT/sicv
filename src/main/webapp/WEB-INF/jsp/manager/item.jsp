@@ -225,7 +225,7 @@
                                                 <div class="row">
                                                     <div class="col s6">
                                                         <i class="fa fa-angle-right" aria-hidden="true" style="transform: rotate(90deg);-ms-transform: rotate(90deg);-webkit-transform: rotate(90deg);color: #00697C; margin-right: 5px;"></i>
-                                                        <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${statu.archive.pathFile}?name=ILCD.zip"><i class="fa fa-file-archive-o" style="margin-right: 5px; color: #00697C;" aria-hidden="true"></i> ILCD.zip</a>
+                                                        <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${statu.archive.pathFile}/ilcd"><i class="fa fa-file-archive-o" style="margin-right: 5px; color: #00697C;" aria-hidden="true"></i> ILCD.zip</a>
                                                         <br />
                                                         <c:if test="${statu.archive.containsComplement()}">
                                                             <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${statu.archive.pathFile}?name=complement.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> complement.zip</a>
@@ -442,7 +442,7 @@
                                                                 <div class="row">
                                                                     <div class="col s6">
                                                                         <i class="fa fa-angle-right" aria-hidden="true" style="transform: rotate(90deg);-ms-transform: rotate(90deg);-webkit-transform: rotate(90deg);color: #00697C; margin-right: 5px;"></i>
-                                                                        <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${statu.archive.pathFile}?name=ILCD.zip"><i class="fa fa-file-archive-o" style="margin-right: 5px; color: #00697C;" aria-hidden="true"></i> ILCD.zip</a>
+                                                                        <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${statu.archive.pathFile}/ilcd"><i class="fa fa-file-archive-o" style="margin-right: 5px; color: #00697C;" aria-hidden="true"></i> ILCD.zip</a>
                                                                         <br />
                                                                         <c:if test="${statu.archive.containsComplement()}">
                                                                             <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${statu.archive.pathFile}?name=complement.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> complement.zip</a>
@@ -475,7 +475,7 @@
                                                 <div class="row">
                                                     <div class="col s6">
                                                         <i class="fa fa-angle-right" aria-hidden="true" style="transform: rotate(90deg);-ms-transform: rotate(90deg);-webkit-transform: rotate(90deg);color: #00697C; margin-right: 5px;"></i>
-                                                        <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${statu.archive.pathFile}?name=ILCD.zip"><i class="fa fa-file-archive-o" style="margin-right: 5px; color: #00697C;" aria-hidden="true"></i> ILCD.zip</a>
+                                                        <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${statu.archive.pathFile}/ilcd"><i class="fa fa-file-archive-o" style="margin-right: 5px; color: #00697C;" aria-hidden="true"></i> ILCD.zip</a>
                                                         <br />
                                                         <c:if test="${statu.archive.containsComplement()}">
                                                             <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${statu.archive.pathFile}?name=complement.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> complement.zip</a>
@@ -694,7 +694,7 @@
                                                                 <div class="row">
                                                                     <div class="col s6">
                                                                         <i class="fa fa-angle-right" aria-hidden="true" style="transform: rotate(90deg);-ms-transform: rotate(90deg);-webkit-transform: rotate(90deg);color: #00697C; margin-right: 5px;"></i>
-                                                                        <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${statu.archive.pathFile}?name=ILCD.zip"><i class="fa fa-file-archive-o" style="margin-right: 5px; color: #00697C;" aria-hidden="true"></i> ILCD.zip</a>
+                                                                        <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${statu.archive.pathFile}/ilcd"><i class="fa fa-file-archive-o" style="margin-right: 5px; color: #00697C;" aria-hidden="true"></i> ILCD.zip</a>
                                                                         <br />
                                                                         <c:if test="${statu.archive.containsComplement()}">
                                                                             <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${statu.archive.pathFile}?name=complement.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> complement.zip</a>

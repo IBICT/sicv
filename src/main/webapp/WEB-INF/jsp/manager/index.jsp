@@ -135,7 +135,7 @@
                         ${ilcd.user.firstName}
                     </div>
                     <div style="height: 40px; width:30%; position: relative; top: 10px;" class="col s3 sicv-table-td">
-                        ${ilcd.name}
+                        ${ilcd.title}
                     </div>
                     <div style="height: 40px;width:10%; position: relative; top: 10px;" class="col s3 sicv-table-td">
                         ${ilcd.homologation.user.firstName == null ? "aguardando":ilcd.homologation.user.firstName}

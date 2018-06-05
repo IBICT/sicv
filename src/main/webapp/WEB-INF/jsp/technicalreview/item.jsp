@@ -161,7 +161,7 @@
                                     </div>
                                     <div class="row">
                                         <div class="col s6">
-                                            <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${status4.archive.pathFile}?name=ILCD.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> ILCD.ZIP</a>
+                                            <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${status4.archive.pathFile}/ilcd"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> ILCD.ZIP</a>
                                             <br />
                                             <c:if test="${status4.archive.containsComplement()}">
                                                 <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${status4.archive.pathFile}?name=complement.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> complement.zip</a>                                
@@ -183,7 +183,7 @@
                                     <div class="row">
                                         <div class="row">
                                             <div class="col s6">
-                                                <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${status4.archive.pathFile}?name=ILCD.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> ILCD.ZIP</a>
+                                                <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${status4.archive.pathFile}/ilcd"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> ILCD.ZIP</a>
                                                 <br />
                                                 <c:if test="${status4.archive.containsComplement()}">
                                                     <a style="font-size: 14px; color: #6B6B6A;" href="<%=Strings.BASE%>/ilcd/${status4.archive.pathFile}?name=complement.zip"><i style="color: #00697C; margin-right: 5px;" class="fa fa-file-archive-o" aria-hidden="true"></i> complement.zip</a>                                

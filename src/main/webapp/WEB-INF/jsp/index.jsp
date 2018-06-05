@@ -206,7 +206,7 @@
                                         <div class="row">
                                             <c:set var="pathFile" value="${lastStatusQ.archive.pathFile}" />
                                             <i class="fa fa-angle-right"></i>
-                                            <a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
+                                            <a href="<%=Strings.BASE%>/ilcd/${pathFile}/ilcd">
                                                 <i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i>
                                                 ILCD.zip
                                             </a>
@@ -220,7 +220,7 @@
                                         <div class="row">
                                             <c:set var="pathFile" value="${lastStatusQ.archive.pathFile}" />
                                             <i class="fa fa-angle-right"></i>
-                                            <a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
+                                            <a href="<%=Strings.BASE%>/ilcd/${pathFile}/ilcd">
                                                 <i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i>
                                                 ILCD.zip
                                             </a>
@@ -235,7 +235,7 @@
                                         </div>
                                         <div class="row">
                                             <i class="fa fa-angle-right" aria-hidden="true" style="color: #00697C;"></i>
-                                            <a href="<%=Strings.BASE%>/ilcd/${lastStatusUser.previous.archive.pathFile}/?name=ILCD.zip"><i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i> ILCD.zip</a>
+                                            <a href="<%=Strings.BASE%>/ilcd/${lastStatusUser.previous.archive.pathFile}/ilcd"><i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i> ILCD.zip</a>
                                         </div>
                                         <hr />
                                     </c:if>
@@ -286,7 +286,7 @@
                                 <div class="row">
                                     <div>
                                         <i class="fa fa-angle-right" aria-hidden="true" style="color: #00697C;"></i>
-                                        <a href="<%=Strings.BASE%>/ilcd/${statu.previous.archive.pathFile}?name=ILCD.zip"><i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i> ILCD.zip</a>
+                                        <a href="<%=Strings.BASE%>/ilcd/${statu.previous.archive.pathFile}/ilcd"><i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i> ILCD.zip</a>
                                     </div>
 
                                     <div class="col offset-s1 s6">
@@ -303,7 +303,7 @@
                                 <div class="row">
                                     <c:set var="pathFile" value="${initialStatus.archive.pathFile}" />
                                     <i class="fa fa-angle-right"></i>
-                                    <a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
+                                    <a href="<%=Strings.BASE%>/ilcd/${pathFile}/ilcd">
                                         <i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i>
                                         ILCD.zip
                                     </a>
@@ -320,7 +320,7 @@
                                         <div class="row">
                                             <c:set var="pathFile" value="${lastStatusT.archive.pathFile}" />
                                             <i class="fa fa-angle-right"></i>
-                                            <a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
+                                            <a href="<%=Strings.BASE%>/ilcd/${pathFile}/ilcd">
                                                 <i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i>
                                                 ILCD.zip
                                             </a>
@@ -334,7 +334,7 @@
                                         <div class="row">
                                             <c:set var="pathFile" value="${lastStatusT.archive.pathFile}" />
                                             <i class="fa fa-angle-right"></i>
-                                            <a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
+                                            <a href="<%=Strings.BASE%>/ilcd/${pathFile}/ilcd">
                                                 <i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i>
                                                 ILCD.zip
                                             </a>
@@ -349,7 +349,7 @@
                                         </div>
                                         <div class="row">
                                             <i class="fa fa-angle-right" aria-hidden="true" style="color: #00697C;"></i>
-                                            <a href="<%=Strings.BASE%>/ilcd/${lastStatusUserT.previous.archive.pathFile}/?name=ILCD.zip"><i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i> ILCD.zip</a>
+                                            <a href="<%=Strings.BASE%>/ilcd/${lastStatusUserT.previous.archive.pathFile}/ilcd"><i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i> ILCD.zip</a>
                                         </div>
                                         <hr />
                                     </c:if>
@@ -400,7 +400,7 @@
                                 <div class="row">
                                     <div>
                                         <i class="fa fa-angle-right" aria-hidden="true" style="color: #00697C;"></i>
-                                        <a href="<%=Strings.BASE%>/ilcd/${statusT.previous.archive.pathFile}?name=ILCD.zip"><i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i> ILCD.zip</a>
+                                        <a href="<%=Strings.BASE%>/ilcd/${statusT.previous.archive.pathFile}/ilcd"><i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i> ILCD.zip</a>
                                     </div>
 
                                     <div class="col offset-s1 s6">
@@ -418,7 +418,7 @@
                                     <div class="row">
                                         <c:set var="pathFile" value="${initialStatusT.archive.pathFile}" />
                                         <i class="fa fa-angle-right"></i>
-                                        <a href="<%=Strings.BASE%>/ilcd/${pathFile}/?name=ILCD.zip">
+                                        <a href="<%=Strings.BASE%>/ilcd/${pathFile}/ilcd">
                                             <i class="fa fa-file-archive-o" style="margin-right: 5px;" aria-hidden="true"></i>
                                             ILCD.zip
                                         </a>
