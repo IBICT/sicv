@@ -7,9 +7,10 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 
 <link href="<%=Strings.BASE%>/assets/css/defaultNotifications.css"	rel="stylesheet">
-<link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css"	rel="stylesheet">
+<link rel="stylesheet" href="<%=Strings.BASE%>/assets/font/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
 <script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/jquery.min.js"></script>
+<script src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
 <!DOCTYPE html>
 <html>
 	<script>
@@ -62,7 +63,7 @@
 <body style="color: #00697c !important;">
 
 	<jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
-	<div class="principalDiv">
+	<div class="principalDivAdmin">
 
 		<div class="titleNotify">Notificações</div>
 

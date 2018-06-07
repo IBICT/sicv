@@ -127,7 +127,7 @@ public class User implements Serializable {
     private Boolean active;
 
     @Expose
-    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE, CascadeType.REMOVE})
+    @ManyToMany(fetch = FetchType.EAGER, cascade = {CascadeType.MERGE})
     @JoinTable(name = "user_roles",
             joinColumns = {
                 @JoinColumn(name = "user_id", referencedColumnName = "id")},
@@ -240,7 +240,7 @@ public class User implements Serializable {
     }
 
     public String getCurriculum() {
-    	if(curriculum != null)
+    	if(curriculum != null && !curriculum.isEmpty())
 	    	if(curriculum.substring(0, 8).equals("https://") || curriculum.substring(0, 7).equals("http://") )
 	    		return curriculum;
 	    	else
@@ -250,11 +250,12 @@ public class User implements Serializable {
     }
 
     public void setCurriculum(String curriculum) {
-    	if(curriculum.substring(0, 8).equals("https://") || curriculum.substring(0, 7).equals("http://") )
-    		this.curriculum = curriculum;
-    	else
-    		this.curriculum = "http://"+curriculum;
-    		
+    	if(curriculum != null && !curriculum.isEmpty()){
+	    	if(curriculum.substring(0, 8).equals("https://") || curriculum.substring(0, 7).equals("http://") )
+	    		this.curriculum = curriculum;
+	    	else
+	    		this.curriculum = "http://"+curriculum;
+    	}
     }
 
     public String getLastName() {

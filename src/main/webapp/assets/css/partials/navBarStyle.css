@@ -50,13 +50,13 @@ nav div.nav-content div.nav-wrapper ul li.notification a {
 }
 
 nav div.nav-content div.nav-wrapper ul li.notification a span {
-    padding-left: 5px;
+    margin-left: -20px;
 }
 
 nav div.nav-content div.nav-wrapper ul li.notification a i {
     position: relative;
     top: -42px; 
-    left: -13px;  
+    left: -40px;
     /*font-size: 1.2rem;*/ 
     height: 8px; 
     width: 8px; 

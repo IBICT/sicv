@@ -106,6 +106,9 @@
 				${user.organization} | ${user.title} | ${user.jobPosition} | ${user.country}
 			</div>
 			<div class="row text">
+				<c:if test="${empty user.curriculum}">
+					<i>sem informações de curriculum</i>
+				</c:if>
 				<a href="${user.curriculum}">
 					<i>${user.curriculum}</i>
 				</a>

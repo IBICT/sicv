@@ -35,7 +35,6 @@
         <meta name="msapplication-TileImage" content="<%=Strings.BASE%>/assets/images/favicon/ms-icon-144x144.png" />
         <meta name="theme-color" content="#ffffff" />
         
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/css/fonts.css">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/font/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
@@ -180,7 +179,9 @@
 					<input type="Search" id="search" value="" placeholder="busque um usuário" />
 					<i class="fa fa-search" style="color: #00697C;font-size:16px;margin-left: -35px"></i>
 	        	</h4>
-				
+				<div style="float: left;">
+					<a class="" id="btnAlert" onclick="Materialize.toast('${msg}', 4000)"></a>
+				</div>
 	   			<br><br>
 	   	
 	            <div style="margin:0px;" class="row" >
@@ -209,6 +210,13 @@
 		        	<div style="margin:0px;" class="row" id="tabUsers">
 					    <div class="col s1 sicv-table-td">
 					    	<a href="<%=Strings.BASE%>/admin/profile/${loop.index}" style="margin-left: 5px; float: left;"> Editar </a>
+					    	<a href="<%=Strings.BASE%>/admin/deleteProfile/${loop.index}" > <i class="fa fa-trash-o"></i> </a>
+					    	<c:if test="${user.active}">
+					    		<a href="<%=Strings.BASE%>/admin/disableProfile/${loop.index}" > <i class="fa fa-ban"></i> </a>
+			    			</c:if>
+			    			<c:if test="${not user.active}">
+					    		<a href="<%=Strings.BASE%>/admin/enableProfile/${loop.index}" > <i class="fa fa-unlock-alt"></i> </a>
+					    	</c:if>
 					    </div>
 			   			<div class="col s4 sicv-table-td fullName">${user.firstName} ${user.lastName}</div>   
 			   			<div class="col s3 sicv-table-td mail" onclick="location.href='<%=Strings.BASE%>/admin/viewProfile/${loop.index}'"><label for="mail" style="cursor: pointer;">${user.email}</label></div>
@@ -240,6 +248,7 @@
 			<script type="application/javascript" src="<%=Strings.BASE%>/assets/adminProfiles.js"></script>
 			<script type="text/javascript">
 				$(document).ready(function(){
+					 $("#btnAlert").click();
 					 $("#search").on("keyup", function() {
 					    var value = $(this).val().toLowerCase();
 					    $("#tabUsers ").filter(function() {

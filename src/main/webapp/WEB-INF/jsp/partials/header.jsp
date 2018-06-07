@@ -81,6 +81,5 @@
                     </li>
                 </ul>
                 <div class="location">Você está em: ${local}</div>
-            </div>first        </div>
     </nav>
 </header>

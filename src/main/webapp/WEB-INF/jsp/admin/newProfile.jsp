@@ -81,9 +81,9 @@
                  <div class="row">
     	             <div class="row">
 						<div class="input-field col s12">
-						    <input placeholder="E-mail*" id="email" name="email" type="text" class="validate" required="required">
+						    <input placeholder="E-mail*" id="email" name="email" type="text" class="validate" required="required" onblur="existEmail(event);">
 							<div style="float: left;">
-			                	<input style="float: left;background: #00697C;" class="btn btn-lg btn-primary" type="submit" value="Cadastrar usuário" /><br />
+			                	<input style="float: left;background: #00697C;" id="btnSubmit" disabled="disabled" class="btn btn-lg btn-primary" type="submit" value="Cadastrar usuário" /><br />
 		                	</div>
 						</div>
 					</div>
@@ -111,6 +111,50 @@
 					$('form').append($(input));
        			});
 			});
+	        
+			function existEmail(e) {
+				var mail = $('#email').val();
+				var pattern = /^([\w-\.]+)@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.)|(([\w-]+\.)+))([a-zA-Z]{2,4}|[0-9]{1,3})(\]?)$/;
+			    if ((e.keyCode >= 9 && e.keyCode <= 45) || (e.keyCode >= 91 && e.keyCode <= 93) || (e.keyCode >= 112 && e.keyCode <= 145)){
+			    	if(e.keyCode != 32)
+			        	e.preventDefault();
+			    }
+				//verify if is a valid pattern mail
+				else if(pattern.test(mail)){
+				    $.ajax({
+				        type: "post",
+				        url: '/sicv/register/getUser',
+				        data: { email: mail},
+				        success: function (result) {
+				        	if(result == true){
+				            	if(!$('#email').hasClass('invalid')){
+					        		$('#email').removeClass('valid');
+					            	$('#email').addClass('invalid');
+				            	}
+				            	alert("Email já cadastrado");
+				            	$("#btnSubmit").attr("disabled","disabled");
+				        	}
+				            if(result == false){
+				            	if(!$('#email').hasClass('valid')){
+					            	$('#email').addClass('valid');
+					        		$('#email').removeClass('invalid');
+				            	}
+				            	alert("Email válido");
+				            	$("#btnSubmit").removeAttr("disabled");
+				            }
+				        },
+				        error: function (response) {
+				        }
+				    });
+				}
+				else{
+		        	if(!$('#email').hasClass('invalid')){
+		        		$('#email').removeClass('valid');
+		            	$('#email').addClass('invalid');
+		            	$("#btnSubmit").attr("disabled","disabled");
+		        	}
+				}
+			}
             
         </script>
 

@@ -14,6 +14,7 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,9 +25,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-
+import resources.Strings;
+import sun.misc.BASE64Encoder;
 import br.com.ibict.acv.sicv.CustomAuthProvider;
 import br.com.ibict.acv.sicv.exception.ProfileException;
 import br.com.ibict.acv.sicv.exception.RegisterException;
@@ -41,8 +41,9 @@ import br.com.ibict.acv.sicv.repositories.RoleDao;
 import br.com.ibict.acv.sicv.repositories.TechnicalReviewerDao;
 import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.Password;
-import resources.Strings;
-import sun.misc.BASE64Encoder;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 @Controller
 @RequestMapping("/admin")
@@ -111,6 +112,32 @@ public class AdminController {
         return "admin/viewProfile";
     }
 
+    @RequestMapping(value = "/deleteProfile/{index}", method = RequestMethod.GET)
+    public String deleteUserProfile(Map<String, Object> model, @PathVariable("index") Integer index) {
+    	User user = users.get(index);
+    	userDao.delete(user.getId());
+    	users.remove(index);
+    	model.put("msg", "Usuário, " + user.getFullName() + ", deletado com sucesso");
+    	return root(model, SecurityContextHolder.getContext().getAuthentication());
+    }
+    
+    @RequestMapping(value = "/enableProfile/{index}", method = RequestMethod.GET)
+    public String enableUserProfile(Map<String, Object> model, @PathVariable("index") Integer index) {
+    	User user = users.get(index);
+    	user.setActive(Boolean.TRUE);
+    	userDao.save(user);
+    	model.put("msg", "Usuário ," + user.getFullName() + " ativado com sucesso");
+    	return root(model, SecurityContextHolder.getContext().getAuthentication());
+    }
+    
+    @RequestMapping(value = "/disableProfile/{index}", method = RequestMethod.GET)
+    public String disableUserProfile(Map<String, Object> model, @PathVariable("index") Integer index) {
+    	User user = users.get(index);
+    	user.setActive(Boolean.FALSE);
+    	userDao.save(user);
+    	model.put("msg", "Usuário, " + user.getFullName() + ", desativado com sucesso");
+    	return root(model, SecurityContextHolder.getContext().getAuthentication());
+    }
     
     @RequestMapping(value = "/profile/{index}", method = RequestMethod.GET)
     public String getProfileHandler(Map<String, Object> model, @PathVariable("index") Integer index) {
@@ -158,12 +185,14 @@ public class AdminController {
         user.setEmail(email);
         user.addRole(role);
         user.setQntdNotificacoes(0L);
+        user.setActiveCode(user.getNewActiveCode());
         
         Map<String, Object> model = new HashMap<String, Object>();
         model.put("user", user);
         model.put("senha", senha);
         model.put("urlLogin", Strings.BASE+"/login");
         model.put("url", Strings.BASE);
+        model.put("link", Strings.BASE + "/register/accountConfirmation?token=" + user.getActiveCode());
         
         try {
         	userDao.save(user);
@@ -178,8 +207,8 @@ public class AdminController {
 		} catch (RegisterException e) {
 			throw new RegisterException("Erro no processo de envio de email.", e);
 		}
-        
-        return "register/sendEmail";
+
+        return "redirect:/admin/";
 
     }
     

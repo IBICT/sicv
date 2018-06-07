@@ -37,7 +37,7 @@
     </head>
 
     <body>
-    	<jsp:include page="/WEB-INF/jsp/partials/nav.jsp" />
+    	<jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
     	<div class="principalDiv">
 	        <h4>Registro efetuado com sucesso. Acesse seu email para concluir a confirmação da conta.</h4>
 	        <a href="./"><h4>Início</h4></a>
