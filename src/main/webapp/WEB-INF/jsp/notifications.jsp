@@ -66,6 +66,9 @@
 	<div class="principalDivAdmin">
 
 		<div class="titleNotify">Notificações</div>
+		<c:if test="${not empty msg}">
+			<p class="page-description page-subtitle"><i>${msg}</i></p>
+		</c:if>
 
 		<table id="list" class="table table-hover">
 			<thead>

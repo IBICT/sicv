@@ -22,7 +22,7 @@ function showFileInput() {
 }
 function hiddeFileInput() {
     $('#fileInput').hide(500);
-    $("review").removeAttr("required");
+    $("#review").removeAttr("required");
 }
 
 function getData() {

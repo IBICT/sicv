@@ -2,6 +2,7 @@ package br.com.ibict.acv.sicv.controller;
 
 import static br.com.ibict.acv.sicv.controller.AdminController.session;
 
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -13,8 +14,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
-import com.google.gson.GsonBuilder;
 
 import br.com.ibict.acv.sicv.model.Notification;
 import br.com.ibict.acv.sicv.model.User;
@@ -33,18 +32,6 @@ public class NotificationController {
 	
     @Autowired
     private NotificationDao notificationDao;
-    
-    @RequestMapping("/notification.json")
-    @ResponseBody
-    public String root(Map<String, Object> model) {
-        if (session().getAttribute("user") == null) {
-            return "[]";
-        } else {
-            User user = (User) session().getAttribute("user");
-            List<Notification> list = notificationDao.findByIdUser(user.getId());
-            return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(list);
-        }
-    }
 
     @RequestMapping("/notifications")
     public String notifications(Map<String, Object> model) {
@@ -54,6 +41,9 @@ public class NotificationController {
             User user = (User) session().getAttribute("user");
             model.put("user", user);
             List<Notification> notifications = notificationDao.findByIdUser(user.getId());
+            Collections.sort(notifications);
+            if(notifications.isEmpty())
+            	model.put("msg", "Não existe nenhuma notificação relacionada a você até o momento.");
             model.put("notifications", notifications);
 //            model.put("notifications", new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create().toJson(notifications));
             return "notifications";

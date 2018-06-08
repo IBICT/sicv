@@ -3,16 +3,13 @@
 <%@page import="resources.Strings"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
     <head>
         <title>SICV - ACV | Banco Nacional de Inventários dos inventários brasileiros do Ciclo de Vida (ICVs)</title>
-        <script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/ie-emulation-modes-warning.js"></script>
 
-        <link href="<%=Strings.BASE%>/assets/css/defaultNotifications.css" rel="stylesheet">
-        <!-- Bootstrap core CSS -->
+        <!-- core CSS -->
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/font/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/css/fonts.css">
@@ -110,13 +107,24 @@
                 border: 1px solid #BDBDBD !important;
                 width: 95% !important;
             }
+            
+            [type="checkbox"].filled-in:not(:checked)+label:after, [type="checkbox"].filled-in:checked+label:after{
+				background: #FFFFFF !important;
+				border: 2px solid #00697C !important;
+			}
+			
+			[type="checkbox"].filled-in:checked+label:before {
+				border-right: 2px solid #4dbcc4 !important;
+				border-bottom: 2px solid #4dbcc4 !important;
+			}
+			
             .select-wrapper span.caret{
                 display: none;
             }
 
             .fa-chevron-down{
                 position: absolute;
-                right: 0;0px
+                right: 0px;
                 top: 40px;
                 bottom: 0;
                 height: 10px;
@@ -136,9 +144,6 @@
     <body>
 
         <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
-		<!-- Modal Trigger 
-		<a class="waves-effect waves-light btn modal-trigger" href="#modalConfirmSubmit">Modal</a>
-		-->
 		
 		<!-- Modal Structure -->
 		<div id="modalILCDExist" class="modal">
@@ -287,8 +292,11 @@
                        	</div>
                     </div>
                     <div class="col s6">
-                        <h6 style="color: #00697C;font-style: italic;margin-top: -12px;" class="col s12">Declaração: Declaro que respeitei os “Requisitos de qualidade 
-                            de conjuntos de dados para Banco Nacional de Inventários de Ciclo de Vida- Guia Qualitada” na construção e/ ou adequação deste inventário
+                        <h6 style="color: #00697C;font-style: italic;margin-top: -12px;" class="col s12">
+                           	<input type="checkbox" class="filled-in" id="termosAcima" required="required" style="margin-left: -25px; margin-top: 15px;"/>
+	                    	<label for="termosAcima" style="float: left;margin-top: 10px; padding-left: 20px; height: 20px; margin-right: 10px; margin-bottom: 5px;"></label>
+                        	Declaração: Declaro que respeitei os “Requisitos de qualidade de conjuntos de dados para 
+                        	Banco Nacional de Inventários de Ciclo de Vida- Guia Qualitada” na construção e/ ou adequação deste inventário
                         </h6>
                     </div>
                 </div>
@@ -317,15 +325,5 @@
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/formILCD.js"></script>
-        <style>
-            .full-screen{
-                width: 90%;
-                height: 90% !important;
-                max-height: 90%;
-                margin: 0 auto;
-                top: 5% !important;
-
-            }
-        </style>
     </body>
 </html>

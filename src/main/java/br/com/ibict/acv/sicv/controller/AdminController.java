@@ -117,7 +117,7 @@ public class AdminController {
     	User user = users.get(index);
     	userDao.delete(user.getId());
     	users.remove(index);
-    	model.put("msg", "Usuário, " + user.getFullName() + ", deletado com sucesso");
+    	model.put("msg", "Usuário ," + user.getFullName() + ", deletado com sucesso");
     	return root(model, SecurityContextHolder.getContext().getAuthentication());
     }
     
@@ -135,7 +135,7 @@ public class AdminController {
     	User user = users.get(index);
     	user.setActive(Boolean.FALSE);
     	userDao.save(user);
-    	model.put("msg", "Usuário, " + user.getFullName() + ", desativado com sucesso");
+    	model.put("msg", "Usuário ," + user.getFullName() + ", desativado com sucesso");
     	return root(model, SecurityContextHolder.getContext().getAuthentication());
     }
     

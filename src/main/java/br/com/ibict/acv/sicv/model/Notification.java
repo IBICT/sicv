@@ -29,14 +29,14 @@ import com.google.gson.annotations.Expose;
  */
 @Entity
 @Table(name = "notification")
-public class Notification implements Serializable{
+public class Notification implements Serializable, Comparable<Notification>{
 
     /**
 	 * 
 	 */
 	private static final long serialVersionUID = -6868521814767507165L;
 	
-	private static SimpleDateFormat FORMATDATE = new SimpleDateFormat("dd/MM/yyyy");
+	private static SimpleDateFormat FORMATDATE = new SimpleDateFormat("dd/MM/yyyy hh:mm:ss");
 
 	@Id @GeneratedValue
     @Expose
@@ -80,6 +80,10 @@ public class Notification implements Serializable{
         this.id = id;
         this.subject = subject;
         this.visualized = visualized;
+    }
+    
+    public int compareTo(Notification other){
+    	return getNotifyDate().compareTo(other.getNotifyDate());
     }
 
     public Long getId() {
