@@ -278,8 +278,8 @@
 				function showDeleteModal(link){
 					var hrefLink = "<%=Strings.BASE%>" + link;
 					hrefLink = "location.href='" + hrefLink + "'" ;
-					alert(hrefLink);
-					$('#btnConfirmDelete').attr("onclick", "+ hrefLink +");
+					//alert(hrefLink);
+					$('#btnConfirmDelete').attr("onclick", hrefLink);
 					$('#modalConfirmDelete').modal('open');
 				}
 				$(document).ready(function(){

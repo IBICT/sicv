@@ -31,17 +31,26 @@
         <title>SICV - ACV | Banco Nacional de Inventários dos inventários brasileiros do Ciclo de Vida (ICVs)</title>
         <link href="<%=Strings.BASE%>/assets/css/defaultNotifications.css" rel="stylesheet">
         <!-- Bootstrap core CSS -->
-		<link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
-		<link rel="stylesheet" href="<%=Strings.BASE%>assets/materialize/css/materialize.min.css">
+		<link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
+		<link rel="stylesheet" href="<%=Strings.BASE%>/assets/font/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/css/fonts.css">
 
     </head>
-
+	<style>
+		
+	</style>
     <body>
-    	<jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
+    	<div style="background-color: #4dbcc4;height: 193px;" class="logoSICVLogin">
+			<img alt="SICV" style="margin-top: 50px;" src="<%=Strings.BASE%>/assets/images/logoSICVLogin.png">
+			<h4 style="color: white">Importador de Inventários</h4>
+		</div>
     	<div class="principalDiv">
-	        <h4>Registro efetuado com sucesso. Acesse seu email para concluir a confirmação da conta.</h4>
+	        <h4 style="color: #00697C;">Registro efetuado com sucesso. Acesse seu email para concluir a confirmação da conta.</h4>
 	        <a href="./"><h4>Início</h4></a>
     	</div>
+    
+    <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
+	<script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
     </body>
 
 </html>

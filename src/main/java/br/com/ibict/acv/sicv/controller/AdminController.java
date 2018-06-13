@@ -118,7 +118,7 @@ public class AdminController {
     	userDao.delete(user.getId());
     	users.remove(index);
     	redirectAttributes.addFlashAttribute("msg", user.getFullName() + ", deletado com sucesso!");
-    	return "redirect:/";
+    	return "redirect:/admin";
     }
     
     @RequestMapping(value = "/enableProfile/{index}", method = RequestMethod.GET)
@@ -127,7 +127,7 @@ public class AdminController {
     	user.setActive(Boolean.TRUE);
     	userDao.save(user);
     	redirectAttributes.addFlashAttribute("msg", "Usuário, " + user.getFullName() + " ativado com sucesso!");
-    	return "redirect:/";
+    	return "redirect:/admin";
     }
     
     @RequestMapping(value = "/disableProfile/{index}", method = RequestMethod.GET)
@@ -136,7 +136,7 @@ public class AdminController {
     	user.setActive(Boolean.FALSE);
     	userDao.save(user);
     	redirectAttributes.addFlashAttribute("msg", "Usuário, " + user.getFullName() + ", desativado com sucesso!");
-    	return "redirect:/";
+    	return "redirect:/admin";
     }
     
     @RequestMapping(value = "/profile/{index}", method = RequestMethod.GET)
