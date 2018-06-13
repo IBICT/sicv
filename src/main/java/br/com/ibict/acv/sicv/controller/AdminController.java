@@ -14,7 +14,6 @@ import javax.servlet.http.HttpSession;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -24,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import resources.Strings;
 import sun.misc.BASE64Encoder;
@@ -113,30 +113,30 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/deleteProfile/{index}", method = RequestMethod.GET)
-    public String deleteUserProfile(Map<String, Object> model, @PathVariable("index") Integer index) {
+    public String deleteUserProfile(RedirectAttributes redirectAttributes, @PathVariable("index") Integer index) {
     	User user = users.get(index);
     	userDao.delete(user.getId());
     	users.remove(index);
-    	model.put("msg", "Usuário ," + user.getFullName() + ", deletado com sucesso");
-    	return root(model, SecurityContextHolder.getContext().getAuthentication());
+    	redirectAttributes.addFlashAttribute("msg", user.getFullName() + ", deletado com sucesso!");
+    	return "redirect:/";
     }
     
     @RequestMapping(value = "/enableProfile/{index}", method = RequestMethod.GET)
-    public String enableUserProfile(Map<String, Object> model, @PathVariable("index") Integer index) {
+    public String enableUserProfile(RedirectAttributes redirectAttributes, @PathVariable("index") Integer index) {
     	User user = users.get(index);
     	user.setActive(Boolean.TRUE);
     	userDao.save(user);
-    	model.put("msg", "Usuário ," + user.getFullName() + " ativado com sucesso");
-    	return root(model, SecurityContextHolder.getContext().getAuthentication());
+    	redirectAttributes.addFlashAttribute("msg", "Usuário, " + user.getFullName() + " ativado com sucesso!");
+    	return "redirect:/";
     }
     
     @RequestMapping(value = "/disableProfile/{index}", method = RequestMethod.GET)
-    public String disableUserProfile(Map<String, Object> model, @PathVariable("index") Integer index) {
+    public String disableUserProfile(RedirectAttributes redirectAttributes, @PathVariable("index") Integer index) {
     	User user = users.get(index);
     	user.setActive(Boolean.FALSE);
     	userDao.save(user);
-    	model.put("msg", "Usuário ," + user.getFullName() + ", desativado com sucesso");
-    	return root(model, SecurityContextHolder.getContext().getAuthentication());
+    	redirectAttributes.addFlashAttribute("msg", "Usuário, " + user.getFullName() + ", desativado com sucesso!");
+    	return "redirect:/";
     }
     
     @RequestMapping(value = "/profile/{index}", method = RequestMethod.GET)
@@ -150,9 +150,13 @@ public class AdminController {
         	BASE64Encoder base64Encoder = new BASE64Encoder();
         	StringBuilder imageString = new StringBuilder();
         	imageString.append("data:image/png;base64,");
-        	imageString.append(base64Encoder.encode(profImgDB.getData()));
-        	String image = imageString.toString();
-        	model.put("imgStr", image);
+        	if(profImgDB.getData() != null){
+	        	imageString.append(base64Encoder.encode(profImgDB.getData()));
+	        	String image = imageString.toString();
+	        	model.put("imgStr", image);
+        	}else
+        		model.put("imgStr", "");
+        	
         }else
         	model.put("imgStr", "");
     	
@@ -272,15 +276,16 @@ public class AdminController {
         if(userSession.getId().equals(user.getId()) )
         	model.put("user", user);
 
-        model.put("successMessage", "Perfil atualizado com sucesso!");
+        model.put("msg", "success");
 
-        return "successAlterProfile";
+        return "admin/home";
         
     }
     
     @RequestMapping(value = "/saveProfiles", method = RequestMethod.POST)
     public String profiles(ModelMap model, @RequestParam("perfis") String jsonPerfis) throws Exception {
-        if (session().getAttribute("user") == null) {
+    	User userSession = (User) session().getAttribute("user");
+        if (userSession == null) {
             return "login/login";
         } else {
         	Set<Role> profileList = new HashSet<Role>();
@@ -310,8 +315,11 @@ public class AdminController {
 				throw new ProfileException("Erro ao atualizar o usuário", e);
 				//TODO: Return some page 
 			}
-
-            return "successAlterProfile";
+        	model.put("users", users);
+            model.put("name", userSession.getFullName());
+            model.put("localN", 4);
+        	model.put("msg", "success");
+            return "admin/home";
         }
     }
 

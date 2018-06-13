@@ -12,6 +12,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
@@ -65,6 +66,16 @@ public class NotificationController {
             notification.setVisualized(true);
             notificationDao.save(notification);
         }
+    }
+    
+    @RequestMapping(value = "/notifications/setVisualized", method = RequestMethod.POST, produces = "application/json")
+    public @ResponseBody
+    void markVisualized(@RequestParam("index") String index) {
+    	User user = (User) session().getAttribute("user");
+    	user.getNotifications().get(Integer.parseInt(index)).setVisualized(Boolean.TRUE);
+    	user.setQntdNotificacoes(user.getQntdNotificacoes()-1);
+    	userDao.save( user );
+        session().setAttribute("user", user);
     }
     
 /*    @RequestMapping("/notification.json")

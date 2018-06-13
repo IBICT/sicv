@@ -35,9 +35,9 @@
         <meta name="msapplication-TileImage" content="<%=Strings.BASE%>/assets/images/favicon/ms-icon-144x144.png" />
         <meta name="theme-color" content="#ffffff" />
         
-        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/css/fonts.css">
-        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/font/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/font/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/css/fonts.css">
 		
         <style>
             html {
@@ -169,7 +169,33 @@
 
     <body>
 		<jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
-
+		
+		<div id="modalConfirmDelete" class="modal" style="width: 570px;height: 206px">
+			<div class="">
+	 			<div style="text-align: center;font-size: 23px; color: #4F4F4F; margin-top: 25px">
+					<p>Tem certeza que deseja excluir o usuário ?</p>
+					<p>Uma vez excluído não poderá ser recuperado.</p>
+				</div>
+				<div style="text-align: center;margin-bottom: 25px;">
+					<button style="background-color: #C3697C;" class="modal-action modal-close waves-effect btn-flat">Cancelar</button>
+					<button id="btnConfirmDelete" onclick="<%=Strings.BASE%>/admin/deleteProfile/${loop.index}" style="background-color: #ACCC5F;" class="waves-effect btn-flat">Exluir</button>
+				</div>
+			</div>		
+		</div>
+		
+		<c:if test="${msg == 'success'}">
+			<div id="modalProfileSuccess" class="modal" style="width: 570px;height: 206px">
+				<div class="">
+		 			<div style="text-align: center;font-size: 23px; color: #4F4F4F; margin-top: 50px;">
+						<p>Perfil de Usuário atualizado com sucesso!</p>
+						<p></p>
+					</div>
+					<div style="text-align: center;">
+						<button style="background-color: #ACCC5F;" class="modal-action modal-close waves-effect btn-flat">OK</button>
+					</div>
+				</div>
+			</div>
+		</c:if>
         <div class="principalDivAdmin">
         	<div>
 	        	<h4 class="page-title">
@@ -179,9 +205,11 @@
 					<input type="Search" id="search" value="" placeholder="busque um usuário" />
 					<i class="fa fa-search" style="color: #00697C;font-size:16px;margin-left: -35px"></i>
 	        	</h4>
-				<div style="float: left;">
-					<a class="" id="btnAlert" onclick="Materialize.toast('${msg}', 4000)"></a>
-				</div>
+	        	<c:if test="${msg != 'success' }">
+					<div style="float: left;">
+						<a class="" id="btnAlert" onclick="Materialize.toast('${msg}', 4000)"></a>
+					</div>
+	        	</c:if>
 	   			<br><br>
 	   	
 	            <div style="margin:0px;" class="row" >
@@ -210,7 +238,7 @@
 		        	<div style="margin:0px;" class="row" id="tabUsers">
 					    <div class="col s1 sicv-table-td">
 					    	<a href="<%=Strings.BASE%>/admin/profile/${loop.index}" style="margin-left: 5px; float: left;"> Editar </a>
-					    	<a href="<%=Strings.BASE%>/admin/deleteProfile/${loop.index}" > <i class="fa fa-trash-o"></i> </a>
+					    	<a href="#" onclick="showDeleteModal('/admin/deleteProfile/${loop.index}');"> <i class="fa fa-trash-o"></i> </a>
 					    	<c:if test="${user.active}">
 					    		<a href="<%=Strings.BASE%>/admin/disableProfile/${loop.index}" > <i class="fa fa-ban"></i> </a>
 			    			</c:if>
@@ -247,7 +275,16 @@
 			<script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
 			<script type="application/javascript" src="<%=Strings.BASE%>/assets/adminProfiles.js"></script>
 			<script type="text/javascript">
+				function showDeleteModal(link){
+					var hrefLink = "<%=Strings.BASE%>" + link;
+					hrefLink = "location.href='" + hrefLink + "'" ;
+					alert(hrefLink);
+					$('#btnConfirmDelete').attr("onclick", "+ hrefLink +");
+					$('#modalConfirmDelete').modal('open');
+				}
 				$(document).ready(function(){
+					 $('.modal').modal();
+		        	 $('#modalProfileSuccess').modal('open');
 					 $("#btnAlert").click();
 					 $("#search").on("keyup", function() {
 					    var value = $(this).val().toLowerCase();

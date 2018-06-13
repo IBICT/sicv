@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="br.com.ibict.acv.sicv.model.User"%>
 <%@page import="br.com.ibict.acv.sicv.controller.HomeController"%>
 <%@page import="resources.Strings"%>
@@ -148,8 +149,8 @@
 		<!-- Modal Structure -->
 		<div id="modalILCDExist" class="modal">
 			<div class="">
-	 			<div style="text-align: center;font-size: 23px; color: #4F4F4F; margin-top: 5%">
-					<p>O arquivo ILCD já foi submetido.<p>
+	 			<div style="text-align: center;font-size: 23px; color: #4F4F4F; margin-top: 25px;">
+					<p>O arquivo ILCD já foi submetido.</p>
 					<p>Verifique e anexe um ILCD válido.</p>
 				</div>
 				<div style="text-align: center;">
@@ -159,9 +160,9 @@
 		</div>
 		
 		<!-- Modal Structure -->
-		<div id="modalConfirmSubmit" class="modal">
+		<div id="modalConfirmSubmit" class="modal" style="width: 570px;height: 206px">
 			<div class="">
-	 			<div style="text-align: center;font-size: 23px; color: #4F4F4F; margin-top: 5%">
+	 			<div style="text-align: center;font-size: 23px; color: #4F4F4F; margin-top: 25px;">
 					<p>Tem certeza que deseja submeter ?<p>
 					<p>Uma vez submetido não poderá cancelar.</p>
 				</div>
@@ -172,6 +173,18 @@
 			</div>		
 		</div>
 		
+		<c:if test="${msg == 'success'}">
+			<div id="modalILCDSuccess" class="modal">
+				<div class="">
+		 			<div style="text-align: center;font-size: 23px; color: #4F4F4F; margin-top: 5%">
+						<p>O Inventário foi submetido com sucesso!<p>
+					</div>
+					<div style="text-align: center;">
+						<button style="background-color: #ACCC5F;" class="modal-action modal-close waves-effect btn-flat">OK</button>
+					</div>
+				</div>
+			</div>
+		</c:if>
         <div class="principalDiv">
             <form class="col s12 formILCD" method="POST" action="<%=Strings.BASE%>/ilcd/new" enctype="multipart/form-data" id="teste">
 		        <div style="margin-left: 10px;">

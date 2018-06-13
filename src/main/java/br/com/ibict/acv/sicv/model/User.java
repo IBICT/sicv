@@ -172,7 +172,7 @@ public class User implements Serializable {
     }
 
     // Getter and setter methods
-    public User(Long id, String dsPurpose, String email, String firstName, String jobPosition, String lastName, String passwordHash, String passwordHashSalt, String registrationKey, Boolean superAdminPermission, String title, String country, String organization, String perfil, String phone, String curriculum, String language) {
+    public User(Long id, String dsPurpose, String email, String firstName, String jobPosition, String lastName, String passwordHash, String passwordHashSalt, String registrationKey, Boolean superAdminPermission, String title, String country, String organization, String phone, String curriculum, String language, Boolean active) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -189,6 +189,7 @@ public class User implements Serializable {
         this.passwordHashSalt = passwordHashSalt;
         this.registrationKey = registrationKey;
         this.superAdminPermission = superAdminPermission;
+        this.active = active;
     }
 
     public Long getId() {

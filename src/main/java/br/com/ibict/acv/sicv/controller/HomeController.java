@@ -11,6 +11,7 @@ import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
@@ -65,7 +66,6 @@ import br.com.ibict.acv.sicv.util.Password;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import java.text.SimpleDateFormat;
 
 @Controller
 public class HomeController {
@@ -147,9 +147,14 @@ public class HomeController {
             BASE64Encoder base64Encoder = new BASE64Encoder();
             StringBuilder imageString = new StringBuilder();
             imageString.append("data:image/png;base64,");
-            imageString.append(base64Encoder.encode(profImgDB.getData()));
-            String image = imageString.toString();
-            model.put("imgStr", image);
+            if(profImgDB.getData() != null){
+            	imageString.append(base64Encoder.encode(profImgDB.getData()));
+	            String image = imageString.toString();
+	            model.put("imgStr", image);
+	        }
+            else
+            	model.put("imgStr", "");
+            
         } else {
             model.put("imgStr", "");
         }
@@ -158,12 +163,14 @@ public class HomeController {
     }
 
     @PostMapping("/profile")
-    public String loginHandle(@RequestParam("profile") String profile, @RequestParam("profileImage") MultipartFile profileImage) {
+    public String loginHandle(@RequestParam("profile") String profile, @RequestParam("profileImage") MultipartFile profileImage,
+    		RedirectAttributes redirectAttributes) {
 
         User userSession = (User) session().getAttribute("user");
         //profile = profile.replaceAll("\\[", "").replaceAll("\\]","");
         Gson gson = new Gson();
         User user = gson.fromJson(profile, User.class);
+        user.setId(userSession.getId());
         //if user password is not empty
         if (user.getPlainPassword().length() > 0) {
             //if password match and new password is not empty
@@ -188,7 +195,10 @@ public class HomeController {
         user.setRoles(userSession.getRoles());
         user.setActive(userSession.getActive());
         user.setActiveCode(userSession.getActiveCode());
-
+        user.setRegistrationKey(userSession.getRegistrationKey());
+        user.setSuperAdminPermission(userSession.getSuperAdminPermission());
+        user.setQntdNotificacoes(userSession.getQntdNotificacoes());
+        
         if (profileImage != null) {
             if (profileImage.getName() != "" && !profileImage.isEmpty()) {
                 ProfileImage uploadFile = new ProfileImage();
@@ -213,11 +223,10 @@ public class HomeController {
 
         userDao.save(user);
         session().setAttribute("user", user);
+        //@TODO: refact select if not necessary
+        redirectAttributes.addFlashAttribute("msg", "success");
 
-        Map<String, Object> model = new HashMap<String, Object>();
-        model.put("successMessage", "Perfil atualizado com sucesso!");
-
-        return "successAlterProfile";
+        return "redirect:/";
     }
 
     @RequestMapping("/authorIlcd/{ilcdId}")
@@ -351,7 +360,7 @@ public class HomeController {
     @PostMapping("/ilcd/new") // //new annotation since 4.3
     public String singleFileUpload(@RequestParam("review") MultipartFile review, @RequestParam("file") MultipartFile file,
             @RequestParam("fileComplement") MultipartFile fileComplement, @RequestParam("json") String json,
-            @RequestParam("ilcd") String jsonIlcd, @RequestParam("authors") String jsonAuthors,
+            @RequestParam("ilcd") String jsonIlcd, @RequestParam("authors") String jsonAuthors, Map<String, Object> modelMap,
             @RequestParam("emails") String jsonEmails, RedirectAttributes redirectAttributes) throws Exception {
 
         Gson gson = new Gson();
@@ -483,14 +492,15 @@ public class HomeController {
             mail.sendEmail(ilcdUser.getEmail(), RegisterController.EMAIL_ADMIN, "Submissão de Inventário", model, "emailSubmission.ftl");
             model.put("urlTrack", Strings.BASE + "/admin/ilcd");
             mail.sendEmail(RegisterController.EMAIL_ADMIN, RegisterController.EMAIL_ADMIN, "Submissão de Inventário", model, "emailSubmissionToAdmin.ftl");
+            modelMap.clear();
         } catch (IOException e) {
             e.printStackTrace();
         } catch (Exception e) {
             // TODO: handle exception like RegisterException
             throw new Exception("Ocorreu um erro ao submeter o inventário", e);
         }
-
-        return "redirect:" + Strings.BASE;
+        modelMap.put("msg","success");
+        return "home/form";
     }
 
     @PostMapping("/ilcd/newAdjust/{id}") // //new annotation since 4.3

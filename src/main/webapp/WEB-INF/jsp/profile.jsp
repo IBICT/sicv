@@ -19,7 +19,6 @@
     <head>
         <meta charset="UTF-8">
         <title>Home</title>
-  		<link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/font/font-awesome/css/font-awesome.min.css">
 		<link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
 		<link rel="stylesheet" href="<%=Strings.BASE%>/assets/css/fonts.css">
@@ -39,18 +38,29 @@
             
             .input-field input{
 				font-size: 18px !important;
+				line-height: 27 px;
+				color: #00697C;
+			}
+			
+			.select-wrapper input.select-dropdown{
+				color: #00697C !important;
+			}
+			
+			.dropdown-content li > a, .dropdown-content li > span {
+				color: #00697C !important;
 			}
 			
 			/* label underline focus color */
 			.input-field input:focus, .input-field input[type=select]:focus, .input-field input[type=password]:focus{
-			  border-bottom: .2px solid #4dbcc4 !important;
-			  box-shadow: 0 1px 0 0 #4dbcc4;
+				
+				color: #00697C !important;
 			}
 			
 			/* valid color */
 			.input-field input[type=text].valid, .input-field input[type=select].valid, .input-field input[type=password].valid {
 			  border-bottom: .2px solid #4dbcc4 !important;
 			  box-shadow: 0 1px 0 0 #4dbcc4;
+			  color: #00697C !important;
 			}
 
             .btn-import {
@@ -98,16 +108,10 @@
 
     <body>
         <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
-
+		
 		<div class="principalDiv">
             
 			<form class="userForm" action="${link}" method="POST" enctype="multipart/form-data">
-                <input id="id" name="id" type="text" class="validate" value="${user.id}" hidden="true">
-				<input id="registrationKey" name="registrationKey" type="text" class="validate" value="${user.registrationKey}" hidden="true">
-                <input id="passwordHashSalt" name="passwordHashSalt" type="text" class="validate" value="${user.passwordHashSalt}" hidden="true">
-				<input id="superAdminPermission" name="superAdminPermission" type="text" class="validate" value="${user.superAdminPermission}" hidden="true">
-				<input id="qntdNotificacoes" name="qntdNotificacoes" type="text" class="validate" value="${user.qntdNotificacoes}" hidden="true">
-
 				 <div class="row">
 					<div class="input-field page-title col s4">
 				    	<h6><b>PERFIL</b></h6>
@@ -148,8 +152,8 @@
 							
 							<div class="input-field col s3">
 								<i class="fa fa-chevron-down"></i>
-								<select required="required" name="country" class="validate">
-									<option value="${user.country}" selected>${user.country}*</option>
+								<select required="required" name="country" class="validate" id="selectCountry">
+									<option value="${user.country}" selected="selected" readonly>${user.country}*</option>
 									<option value="Afghanistan">Afghanistan</option>
 								    <option value="Albania">Albania</option>
 								    <option value="Algeria">Algeria</option>
@@ -394,7 +398,7 @@
 		                 	<div class="row">
 			                 	<div class="input-field col s4">
 			                 		<i class="fa fa-chevron-down"></i>
-									<select required="required" name="language">
+									<select required="required" name="language" class="validate" id="selectLanguage">
 										<option value="${user.language}" selected>${user.language}*</option>
 										<option value="Português">Português</option>
 									    <option value="Inglês">Inglês</option>
@@ -421,8 +425,8 @@
 				<div class="row">
 					<div class="input-field col s3">
 						<i class="fa fa-chevron-down"></i>
-						<select required="required" name="title" class="validate">
-							<option value="${user.title}" selected>${user.title}*</option>
+						<select required="required" name="title" class="validate" id="selectTitle">
+							<option value="${user.title}" selected >${user.title}*</option>
 							<option value="Bel">Bel.</option>
 						    <option value="Dr">Dr.</option>
 						    <option value="Graduando">Graduando</option>
@@ -470,7 +474,7 @@
 						</div>
 						
 						<div style="float: left;">
-		                	<input style="float: left;background: #00697C;" class="btn btn-lg btn-primary" type="submit" value="Salvar Alterações" /><br />
+		                	<input style="float: left;background: #00697C;color:#FFFFFF;" class="btn btn-lg btn-primary" type="submit" value="Salvar Alterações" /><br />
 	                	</div>
 	                </div>
                     <div class="input-field col s6" >
@@ -535,7 +539,7 @@
         	
 	        $(document).ready(function () {
 	        	$('select').material_select();
-		    	$("select[required]").css({position: "absolute", display: "inline", height: 0, padding: 0, width: 0});
+		    	$("select[required]").css({position: "absolute", display: "inline", height: 0, padding: 0, width: 0, color: "#00697C !important" });
 		    	
        			$("form").submit(function() {
        				var result = {};

@@ -40,9 +40,9 @@
         <meta name="msapplication-TileImage" content="<%=Strings.BASE%>/assets/images/favicon/ms-icon-144x144.png" />
         <meta name="theme-color" content="#ffffff" />
 
-        <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/font/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/font/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/css/fonts.css">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/steps.css">
 
         <style>
@@ -88,7 +88,19 @@
     <body>
 
         <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
-
+		<c:if test="${msg == 'success'}">
+			<div id="modalProfileSuccess" class="modal" style="width: 570px;height: 206px">
+				<div class="">
+		 			<div style="text-align: center;font-size: 23px; color: #4F4F4F; margin-top: 50px;">
+						<p>Perfil de Usuário atualizado com sucesso!</p>
+						<p></p>
+					</div>
+					<div style="text-align: center;">
+						<button style="background-color: #ACCC5F;" class="modal-action modal-close waves-effect btn-flat">OK</button>
+					</div>
+				</div>
+			</div>
+		</c:if>
         <div class="principalDiv">
             <c:choose>
                 <c:when test="${isUserLabel}">
@@ -231,6 +243,12 @@
         </div>
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
+        <script type="text/javascript">
+        	$(document).ready(function(){
+        		$('.modal').modal();
+    			$('#modalProfileSuccess').modal('open');
+        	});
+        </script>
     </body>
-
+	
 </html>

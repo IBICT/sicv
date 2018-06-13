@@ -1,4 +1,5 @@
 var qntdClone = 0;
+var submitForm = false;
 
 function removeAuthor(id){
 	var nameDiv = id.slice(-1);
@@ -76,7 +77,7 @@ function submitFormILCD(){
 }
 
 $(document).ready(
-		//$('#modal').modal('open');
+	//$('#modal').modal('open');
 	function() {
 		$("form").submit(
 			function() {
@@ -106,10 +107,10 @@ $(document).ready(
 				var input = $("<input />").attr("type", "hidden").attr(
 						"name", "ilcd").val(JSON.stringify(result));
 				$('form').append($(input));
-					
 		});
 	
 	$('.modal').modal();
+	$('#modalILCDSuccess').modal('open');
 	$('select').material_select();
 	$("select[required]").css({position: "absolute", display: "inline", height: 0, padding: 0, width: 0});
 	

@@ -31,19 +31,18 @@
 		    });
 		})
 		
-		function subtract(id, visualized){
+		function subtract(id, visualized, index){
 			//alert(ar);
 			if(visualized != true && $.inArray( id , ar) == -1){
-				var bell = +($('#bell').text()) -1;
-				$('#bell').text(bell);
-				//alert($('#bell').text());
-				var link = "<%=Strings.BASE%>/notifications/";
-				link = link + id;
-				//alert(link);
+				var bell = +($('#notificationBell').text()) -1;
+				$('#notificationBell').text(bell);
+				//alert(bell);
+				var link = "<%=Strings.BASE%>/notifications/setVisualized";
 				$.ajax({
+					type: "post",
 		            url: link,
+		            data: { index: index},
 		            success : function(resposta){
-		            	//alert('teste');
 		            	//check if an item is in the array
 						if( $.inArray( id , ar) == -1 ){
 		                	ar.push(id);
@@ -70,7 +69,7 @@
 			<p class="page-description page-subtitle"><i>${msg}</i></p>
 		</c:if>
 
-		<table id="list" class="table table-hover">
+		<table id="list" class="responsive-table highlight">
 			<thead>
 				<tr>
 					<th class="sortable-column" style="text-align: center;">Data</th>
@@ -78,9 +77,9 @@
 				</tr>
 			</thead>
 			<tbody>
-				<c:forEach items="${notifications}" var="notify">
-					<tr onclick="subtract(${notify.id}, ${notify.visualized});"
-						style="cursor: pointer;">
+				<c:forEach items="${notifications}" var="notify" varStatus="loop">
+					<tr onclick="subtract(${notify.id}, ${notify.visualized}, ${loop.index});"
+						style="cursor: pointer;${notify.visualized ? 'background:#ebf5f5;color:#9F9F9F' : ''} ">
 						<td class="tdCenter">${notify.notifyDate}</td>
 						<th>
 							<p>${notify.subject}</p>
