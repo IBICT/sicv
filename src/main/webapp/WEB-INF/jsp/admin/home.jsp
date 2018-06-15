@@ -65,7 +65,7 @@
                 line-height: 0px;
             }
        		.btnSaveProfile {
-                background-color: transparent; !important;
+                background-color: transparent;
                 font-size: 16px !important;
                 border: none;
                 margin-top: -5px !important;
