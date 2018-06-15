@@ -36,9 +36,23 @@
 
         <style>
             
-            
+            .mastfoot {
+                
+                position: fixed;
+                bottom: 40px;
+            }
+            .mastfoot p {
+                position: fixed;
+                right: 50px;
+                font-style: normal;
+                font-weight: 600;
+                line-height: normal;
+                font-size: 16px;
+                color: #FFFFFF;
+            }
+
         </style>
-        
+
         <title>SICV - ACV | Banco Nacional de Inventários dos inventários brasileiros do Ciclo de Vida (ICVs)</title>
 
         <!-- Bootstrap core CSS -->
@@ -96,29 +110,32 @@
         <div class="container">
             <img alt="SICV" class="logoSICVLogin" src="<%=Strings.BASE%>/assets/images/logoSICVLogin.png">
             <h2 style="text-align: center;letter-spacing: 2px;">Importador de Inventários</h2>
-		        <div ${param.logout ? 'style="display:"' : 'style="display:none"'} >
-		        	<h4 style="color: #04450f;font-style: italic;font-weight: bold;">Logout efetuado com sucesso</h4>
-		        </div>
+            <div ${param.logout ? 'style="display:"' : 'style="display:none"'} >
+                <h4 style="color: #04450f;font-style: italic;font-weight: bold;">Logout efetuado com sucesso</h4>
+            </div>
             <form action="login" method="post" class="form-signin">
                 <input type="email" name="email" id="inputEmail" class="form-control inputEmail" placeholder="Email address" required autofocus autocomplete="on">
 
                 <input type="password" name="senha" id="inputPassword" class="form-control inputEmail" placeholder="Password" required>
                 <div ${param.error == 1 ? 'style="display:"' : 'style="display:none"'} >
-                	<h4 style="color: #ff0000c2;font-style: italic;font-weight: bold;">Email ou usuário inválido</h4>
+                    <h4 style="color: #ff0000c2;font-style: italic;font-weight: bold;">Email ou usuário inválido</h4>
                 </div>
-                
+
                 <div class="checkbox">
                     <label class="remember">
                         <input id="rememberChkBox" type="checkbox" value="remember-me"> Lembrar acesso
                     </label>
                 </div>
                 <div >
-	                <button class="btn btn-lg btn-block bgBtnEntrar" type="submit">Entrar</button>
+                    <button class="btn btn-lg btn-block bgBtnEntrar" type="submit">Entrar</button>
                 </div>
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             </form>
             <a class="btn btn-outlined btnCadastrar linkLogin" href="<%=Strings.BASE%>/register/forgotPassword">Esqueci minha senha</a>
             <a class="btn btn-outlined btnCadastrar linkLogin" href="<%=Strings.BASE%>/register">Cadastrar</a>
+            <div class="mastfoot">
+                <p>Versão Beta 0.1</p>
+            </div>
         </div> <!-- /container -->
 
         <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
