@@ -178,7 +178,7 @@
 				</div>
 				<div style="text-align: center;margin-bottom: 25px;">
 					<button style="background-color: #C3697C;" class="modal-action modal-close waves-effect btn-flat">Cancelar</button>
-					<button id="btnConfirmDelete" onclick="<%=Strings.BASE%>/admin/deleteProfile/${loop.index}" style="background-color: #ACCC5F;" class="waves-effect btn-flat">Exluir</button>
+					<button id="btnConfirmDelete" onclick="<%=Strings.BASE%>/admin/deleteProfile/${loop.index}" style="background-color: #ACCC5F;" class="waves-effect btn-flat">Excluir</button>
 				</div>
 			</div>		
 		</div>

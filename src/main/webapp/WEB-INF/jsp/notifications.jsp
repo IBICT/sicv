@@ -34,8 +34,10 @@
 		function subtract(id, visualized, index){
 			//alert(ar);
 			if(visualized != true && $.inArray( id , ar) == -1){
-				var bell = +($('#notificationBell').text()) -1;
-				$('#notificationBell').text(bell);
+				if( $('#notificationBell').text() > 0){
+					var bell = +($('#notificationBell').text()) -1;
+					$('#notificationBell').text(bell);
+				}
 				//alert(bell);
 				var link = "<%=Strings.BASE%>/notifications/setVisualized";
 				$.ajax({
@@ -46,6 +48,7 @@
 		            	//check if an item is in the array
 						if( $.inArray( id , ar) == -1 ){
 		                	ar.push(id);
+		                	$('#'+index).css({"background":"#ebf5f5"});
 						}
 		            }
 				});
@@ -71,18 +74,14 @@
 
 		<table id="list" class="responsive-table highlight">
 			<thead>
-				<tr>
-					<th class="sortable-column" style="text-align: center;">Data</th>
-					<th class="sortable-column col s5">Assunto</th>
-				</tr>
+
 			</thead>
 			<tbody>
 				<c:forEach items="${notifications}" var="notify" varStatus="loop">
 					<tr onclick="subtract(${notify.id}, ${notify.visualized}, ${loop.index});"
-						style="cursor: pointer;${notify.visualized ? 'background:#ebf5f5;color:#9F9F9F' : ''} ">
-						<td class="tdCenter">${notify.notifyDate}</td>
+						style="cursor: pointer;${notify.visualized ? 'background:#ebf5f5;' : ''} " id="${loop.index}">
 						<th>
-							<p>${notify.subject}</p>
+							<p>${notify.subject} <output style="font-weight: lighter;margin-left: 15px;">${notify.notifyDate} </output>  </p>
 							<div class="divs" style="padding-top: 1%">${notify.messages[0]}</div>
 							<p>
 							<div class="divs">${notify.messages[1]}</div>

@@ -73,7 +73,8 @@ public class NotificationController {
     void markVisualized(@RequestParam("index") String index) {
     	User user = (User) session().getAttribute("user");
     	user.getNotifications().get(Integer.parseInt(index)).setVisualized(Boolean.TRUE);
-    	user.setQntdNotificacoes(user.getQntdNotificacoes()-1);
+    	if(user.getQntdNotificacoes() > 0)
+    		user.setQntdNotificacoes(user.getQntdNotificacoes()-1);
     	userDao.save( user );
         session().setAttribute("user", user);
     }

@@ -115,9 +115,10 @@ public class AdminController {
     @RequestMapping(value = "/deleteProfile/{index}", method = RequestMethod.GET)
     public String deleteUserProfile(RedirectAttributes redirectAttributes, @PathVariable("index") Integer index) {
     	User user = users.get(index);
+    	notificationDao.delete(user.getNotifications());
     	userDao.delete(user.getId());
     	users.remove(index);
-    	redirectAttributes.addFlashAttribute("msg", user.getFullName() + ", deletado com sucesso!");
+    	redirectAttributes.addFlashAttribute("msg", "Usuário, " + user.getFullName() + ", foi deletado com sucesso!");
     	return "redirect:/admin";
     }
     
@@ -126,7 +127,7 @@ public class AdminController {
     	User user = users.get(index);
     	user.setActive(Boolean.TRUE);
     	userDao.save(user);
-    	redirectAttributes.addFlashAttribute("msg", "Usuário, " + user.getFullName() + " ativado com sucesso!");
+    	redirectAttributes.addFlashAttribute("msg", "Usuário, " + user.getFullName() + ", ativado com sucesso!");
     	return "redirect:/admin";
     }
     

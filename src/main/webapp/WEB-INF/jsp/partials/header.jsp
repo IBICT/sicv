@@ -75,7 +75,7 @@
                     </li>
                     <li class="right notification">
                         <a href="<%=Strings.BASE%>/notifications">
-                            <span id="notificationBell" style=""><%=notifications%></span>
+                            <span id="notificationBell" style="display: block;"><%=notifications%></span>
                             <i class="fa fa-bell" aria-hidden="true"></i>
                         </a>
                     </li>

@@ -146,6 +146,18 @@
 		</style>
 
     <body>
+    	<div id="modalMatchPasswords" class="modal" style="width: 570px;height: 206px">
+			<div class="">
+	 			<div style="text-align: center;font-size: 23px; color: #4F4F4F; margin-top: 30px;">
+					<p>As senhas não correspondem!</p>
+					<p>Por favor, verifique.</p>
+				</div>
+				<div style="text-align: center;">
+					<button style="background-color: #ACCC5F;" class="modal-action modal-close waves-effect btn-flat">OK</button>
+				</div>
+			</div>
+		</div>
+    	
 		<div class="modal" id="modal-terms_SICV" style="overflow-y: hidden;max-height: 90%;">
 		    <div class="modal-content">
 		        <object type="application/pdf" data="documents/terms_SICV.pdf" width="100%" height="500" style="height: 85vh;">No Support</object>
@@ -178,10 +190,10 @@
 	
 				<div class="row">
 					<div class="input-field col s3">
-					    <input placeholder="Nome*" id="first_name" name="firstName" type="text" class="validate" required="required">
+					    <input placeholder="Nome*" id="first_name" name="firstName" type="text" class="validate" required="required" onkeydown="preventNumberInput(event);">
 					</div>
 					<div class="input-field col s5">
-						<input placeholder="Sobrenome*" id="last_name" name="lastName" type="text" class="validate" required="required">
+						<input placeholder="Sobrenome*" id="last_name" name="lastName" type="text" class="validate" required="required" onkeydown="preventNumberInput(event);">
 					</div>
 					<div class="input-field col s2">
 						<input placeholder="Telefone*" id="phone" name="phone" type="text" class="validate" required="" /><br />
@@ -455,7 +467,7 @@
 					    </select>
 				    </div>
 					<div class="input-field col s4">
-						<input placeholder="Outro idioma" id="otherLanguage" name="otherLanguage" type="text">
+						<input placeholder="Outro idioma" id="otherLanguage" name="otherLanguage" type="text" onkeydown="preventNumberInput(event);">
 					</div>
 				</div>
 
@@ -517,10 +529,10 @@
 						<span id="result"></span>
 					</div>
 					<div class="input-field col s5">
-						<input placeholder="Confirmar Senha* " id="confirm" type="password" class="validate" required="required" onkeyup="validPass()">
+						<input placeholder="Confirmar Senha* " id="confirm" type="password" class="validate" required="required" onblur="validPass()">
 						<span id="resultConfirm"></span>
 	                <div style="float: right;">
-		                <input class="btn" type="submit" value="Submeter Cadastro" /><br />
+		                <input class="btn" type="submit" id="btnSubmit" onclick="matchPasswords();" value="Submeter Cadastro" /><br />
 	                </div>
 					</div>
 				</div>
@@ -540,10 +552,35 @@
 			    $('.modal').modal();
 			});
 			
+			function preventNumberInput(e){
+			    var keyCode = (e.keyCode ? e.keyCode : e.which);
+			    if (keyCode > 47 && keyCode < 58 || keyCode > 95 && keyCode < 107 ){
+			        e.preventDefault();
+			    }
+			}
+			
+			function matchPasswords(){
+				if( $('#confirm').hasClass('valid')){
+					//alert(1)
+					$('#btnSubmit').submit();
+				}else{
+					if(!$('#confirm').hasClass('invalid')){
+						//alert(2)
+						$('#btnSubmit').submit();
+					}
+					else{
+						alert(3);
+						$('#modalMatchPasswords').modal('open');
+						return false;
+					}
+				}
+			}
+			
 			function validPass() {
 				pass = document.getElementById('password').value;
 				confirmPass = document.getElementById('confirm').value;
 				if (pass != confirmPass) {
+					$('#confirm').removeClass('valid');
 					$('#confirm').addClass('invalid');
 					$('#resultConfirm').removeClass('good')
 					$('#resultConfirm').addClass('short')
