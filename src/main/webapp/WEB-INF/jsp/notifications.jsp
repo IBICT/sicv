@@ -60,6 +60,7 @@
 		.divs {
 			display: none;
 		}
+
 	</style>
 </head>
 <body style="color: #00697c !important;">
@@ -80,14 +81,12 @@
 				<c:forEach items="${notifications}" var="notify" varStatus="loop">
 					<tr onclick="subtract(${notify.id}, ${notify.visualized}, ${loop.index});"
 						style="cursor: pointer;${notify.visualized ? 'background:#ebf5f5;' : ''} " id="${loop.index}">
-						<th>
-							<p>${notify.subject} <output style="font-weight: lighter;margin-left: 15px;">${notify.notifyDate} </output>  </p>
-							<div class="divs" style="padding-top: 1%">${notify.messages[0]}</div>
-							<p>
+						<th style="border-bottom: solid .5px #DFDFDF">
+							${notify.subject} <output style="font-weight: lighter;margin-left: 15px;">${notify.notifyDate} </output> 
+							<div class="divs" style="padding-top: 1%">${notify.messages[0]}<br></div>
 							<div class="divs">${notify.messages[1]}</div>
 						</th>
 					</tr>
-
 				</c:forEach>
 			</tbody>
 			<tfoot>
