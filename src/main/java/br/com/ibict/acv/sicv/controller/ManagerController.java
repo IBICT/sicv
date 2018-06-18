@@ -509,7 +509,7 @@ public class ManagerController {
         String retorno = "0";
         try {
             CloseableHttpClient client = HttpClients.createDefault();
-            HttpPost httpPost = new HttpPost("http://unep-glad.71.ecedi.fr/api/v1/search/index");
+            HttpPost httpPost = new HttpPost("https://www.globallcadataaccess.org/api/v1/search/index");
 
             //System.out.println(Strings.UPLOADED_FOLDER+status.getArchive().getPathFile());
             //System.out.println(url);
@@ -547,7 +547,7 @@ public class ManagerController {
 
             String id = readFile2(Strings.UPLOADED_FOLDER + status.getArchive().getPathFile() + "/ILCD.zip");
             if (!id.isEmpty()) {
-                HttpDelete httpDelete = new HttpDelete("http://unep-glad.71.ecedi.fr/api/v1/search/index/" + id);
+                HttpDelete httpDelete = new HttpDelete("https://www.globallcadataaccess.org/api/v1/search/index/" + id);
 
                 httpDelete.setHeader("authorization", "Bearer eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiIsImp0aSI6Ijk2M2VlZTFlYzIyMTBhMWE5MjYzMmM1NzI0MzNjMmNiZTdhYWI3MWViYTgyZmJhMjI0NTg1NTNiMmE5YWFjY2MzOGMxODUxODNjZWIzOWU4In0.eyJhdWQiOiIxIiwianRpIjoiOTYzZWVlMWVjMjIxMGExYTkyNjMyYzU3MjQzM2MyY2JlN2FhYjcxZWJhODJmYmEyMjQ1ODU1M2IyYTlhYWNjYzM4YzE4NTE4M2NlYjM5ZTgiLCJpYXQiOjE1MDg5NDkxMjMsIm5iZiI6MTUwODk0OTEyMywiZXhwIjoxNTQwNDg1MTIzLCJzdWIiOiIyIiwic2NvcGVzIjpbXX0.Ecfaj4yclg1juC5aOej1oRigxBKHSExhGmqT9EwEu3CUgNUXdQu7BMr6MguOP10yUMq4ujavbF6WdsK7GGFVTEH--8dxWPkKETpRYZUvnm0gGcrpIVoNcV_JD8OJxAlYNIwbz5IjIdnD5EK6aTnhUC_wjmwqF3jiCeFwKPSQVPfITZ0nDYN05DNFwHYzp0vuqfOpxH3ltkrvcUewSOpu3G0oCo3f02HPRTbPQ6e_h1O6LEJqh8UEe0kzA16okE3Gt1SpnZv2B_UQ1jLmssPiiGq-jfBzaXdk2z1Sq8R7VsnUNIGZSCLVk7NnxjSMRGZ8EZM8cFH5dnei70gxc4P6MJT2hKy4_qG_QtwfBWkI0bW1HORMHorL3KAjlPedJdghtgXNsbbjiXbi0_ZLFQWTA3lNfxlNsj4Rz3Ko2cd0x1A8smndbeywDB6KOIjmUj2R0IbvyhwOMpXCoinWWCpORVRDZJSs-uNE6609DDyjCZzERHe4uBDGSEvuLX0cJ9Ko51CApSprIznkc85TWBufNvxugkcVttV9L_SHv73f1ke71Pf0NFJxnKX2uHrhp9S_wfmUfMaFw-ofDqLAHrSKiE-w0eP8Ky097jQ7BTXsKS_0yk14vd0w_vccYcR1dVMU45RHiF4ejEUXs0pJUCRQ3aFS3AT9--y7MNwYVGUMt7Y");
                 httpDelete.setHeader("Content-type", "application/json");
