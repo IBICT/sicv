@@ -58,6 +58,8 @@ public class QualityReviewController {
         User user = (User) session().getAttribute("user");
         String name = user.getFirstName();
         model.put("username", name);
+        model.put("local", "Revisão Qualidata");
+        model.put("localN", 2);
 
         List<Status> invites = statusDao.findByRevisorAndAcceptAndTypeAndCancelInvite(user, null, 1, null);
         model.put("invite", invites);
@@ -65,7 +67,6 @@ public class QualityReviewController {
         List<Status> works = statusDao.findByRevisorAndAcceptAndTypeAndCancelInvite(user, true, 1, null);
         model.put("work", works);
         
-        model.put("localN", 1);
         return "qualityreview/index";
     }
 

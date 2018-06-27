@@ -70,13 +70,15 @@ public class TechnicalReviewController {
         User user = (User) session().getAttribute("user");
         String name = user.getFirstName();
         model.put("username", name);
+        model.put("local", "Revisão Técnica");
+        model.put("localN", 3);
+
 
         List<Status> invites = statusDao.findByRevisorAndAcceptAndTypeAndCancelInvite(user, null, 2, null);
         model.put("invite", invites);
 
         List<Status> works = statusDao.findByRevisorAndAcceptAndTypeAndCancelInvite(user, true, 2, null);
         model.put("work", works);
-        model.put("localN", 2);
         return "technicalreview/index";
     }
 
