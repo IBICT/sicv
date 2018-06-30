@@ -23,7 +23,7 @@ and open the template in the editor.
 body {
     padding-top: 40px;
     padding-bottom: 40px;
-    background-color: #eee;
+    background-color: #FFFFFF;
 }
 
 .form-signin {
@@ -52,15 +52,17 @@ body {
 }
 .form-signin input[type="email"] {
     margin-bottom: -1px;
-    border-bottom-right-radius: 0;
-    border-bottom-left-radius: 0;
+
 }
 .form-signin input[type="password"] {
     margin-bottom: 10px;
-    border-top-left-radius: 0;
-    border-top-right-radius: 0;
 }
 
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+   color: #FFFFFF;
+   opacity: 1; /* Firefox */
+   font-family: 'TitilliumWeb-Regular', sans-serif !important;
+}
 
 .login-form {
     font-family: 'TitilliumWeb-ExtraLight', sans-serif !important;
@@ -71,30 +73,33 @@ body {
 
 .bgBtnEntrar {
     font-family: 'TitilliumWeb-Regular', sans-serif !important;
-    background-color: #00697c;
+    background-color: #00697C;
+    border-radius: 5px !important;
+    font-size: 16px;
+    text-transform: none;
+}
+
+.btn:hover, .btn-large:hover {
+	background-color: #00697C;
 }
 
 .btnCadastrar {
     font-family: 'TitilliumWeb-Regular', sans-serif !important;
     border-radius: 0px !important;
     color: white;
+    text-decoration: underline;
+    padding: 5px;
 }
 
 .inputEmail {
     font-family: 'TitilliumWeb-Regular', sans-serif !important;
     margin-bottom: 10px !important;
-    border-radius: 6px !important;
+	border-bottom: 1px solid #FFFFFF !important;
 }
 
 .logoSICVLogin {
     display: block;
     margin: 0 auto;
-}
-
-.div {
-    min-width: 25%;
-    margin: 0 auto;
-    max-width: 40%;
 }
 
 .linkLogin {
@@ -124,4 +129,14 @@ body {
 .btnReset{
 	border-radius: 5px;
 	text-transform: none;
+}
+
+[type="checkbox"].filled-in:not(:checked)+label:after, [type="checkbox"].filled-in:checked+label:after{
+	background: #FFFFFF !important;
+	border: 2px solid #00697C !important;
+}
+
+[type="checkbox"].filled-in:checked+label:before {
+    border-right: 2px solid #4dbcc4 !important;
+    border-bottom: 2px solid #4dbcc4 !important;
 }

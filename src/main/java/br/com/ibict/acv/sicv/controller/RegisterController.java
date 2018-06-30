@@ -150,6 +150,7 @@ public class RegisterController {
 
                 model.put("user", user);
                 modelMap.put("recoveryMsg", "O e-mail com link para redefinir a senha foi enviado!");
+                modelMap.put("emailSend", email);
                 model.put("urlReset", Strings.BASE + "/register/resetPassword?a=" + passwordReset.getHash());
                 model.put("url", Strings.BASE);
 
@@ -162,7 +163,7 @@ public class RegisterController {
                 throw new RegisterException("Erro no processo de envio de email.", e);
             }
         } else {
-            modelMap.put("recoveryMsg", "O e-mail com link para redefinir a senha foi enviado!");
+            //modelMap.put("recoveryMsg", "O e-mail com link para redefinir a senha foi enviado!");
         }
         return "register/forgotPassword";
     }

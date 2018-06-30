@@ -240,10 +240,10 @@
 					    	<a href="<%=Strings.BASE%>/admin/profile/${loop.index}" style="margin-left: 5px; float: left;"> Editar </a>
 					    	<a href="#" onclick="showDeleteModal('/admin/deleteProfile/${loop.index}');"> <i class="fa fa-trash-o"></i> </a>
 					    	<c:if test="${user.active}">
-					    		<a href="<%=Strings.BASE%>/admin/disableProfile/${loop.index}" > <i class="fa fa-ban"></i> </a>
+					    		<a href="<%=Strings.BASE%>/admin/disableProfile/${loop.index}" > <i class="fa fa-unlock-alt"></i> </a>
 			    			</c:if>
 			    			<c:if test="${not user.active}">
-					    		<a href="<%=Strings.BASE%>/admin/enableProfile/${loop.index}" > <i class="fa fa-unlock-alt"></i> </a>
+					    		<a href="<%=Strings.BASE%>/admin/enableProfile/${loop.index}" > <i class="fa fa-lock"></i> </a>
 					    	</c:if>
 					    </div>
 			   			<div class="col s4 sicv-table-td fullName">${user.firstName} ${user.lastName}</div>   

@@ -11,6 +11,7 @@
     Long notifications = user.getQntdNotificacoes();
 %>
 
+<c:set var="notificacoes" value="<%=notifications%>" scope="session" />
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <link rel="stylesheet" href="<%=Strings.BASE%>/assets/css/fonts.css">
 <link href="<%=Strings.BASE%>/assets/css/partials/navBarStyle.css" rel="stylesheet">
@@ -75,11 +76,23 @@
                     </li>
                     <li class="right notification">
                         <a href="<%=Strings.BASE%>/notifications">
-                            <span id="notificationBell" style="display: block;"><%=notifications%></span>
-                            <i class="fa fa-bell" aria-hidden="true"></i>
+                            <span id="notificationBell" style="display: block;" onchange="teste();"><%=notifications%></span>
+                            <i id="notifyBell" ${notificacoes > 0 ? 'class="fa fa-bell"' : 'class="fa fa-bell-o"'} aria-hidden="true"></i>
                         </a>
                     </li>
                 </ul>
                 <div class="location">Você está em: ${local}</div>
     </nav>
+    <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript">
+		$(document).ready(function(){
+			//change dinamically bell class when notificaitons size is 0
+			$('#notificationBell').on('DOMSubtreeModified',function(){
+				if($("#notificationBell").text() == 0 )
+					$("#notifyBell").attr('class','fa fa-bell-o');
+				else
+				$("#notifyBell").attr('class','fa fa-bell');
+			});
+		});
+	</script>
 </header>

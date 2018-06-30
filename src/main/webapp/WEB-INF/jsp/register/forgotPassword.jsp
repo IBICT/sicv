@@ -1,3 +1,4 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="resources.Strings"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -30,27 +31,134 @@
 
         <title>SICV - ACV | Banco Nacional de Inventários dos inventários brasileiros do Ciclo de Vida (ICVs)</title>
 
-        <!-- Bootstrap core CSS -->
-        <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
-
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/ie10-viewport-bug-workaround.css" rel="stylesheet">
-
-        <!-- Custom styles for this template -->        
+		<link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/font/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/css/fonts.css">
+         <script src="<%=Strings.BASE%>/assets/js/validation.js"></script>
+        
+        <!-- Custom styles for this template 
         <link href="<%=Strings.BASE%>/assets/css/login/index.css" rel="stylesheet">
+        -->        
+        <style type="text/css">
+        	body {
+			    padding-top: 40px;
+			    padding-bottom: 40px;
+			    background-color: #4DBCC4;
+			}
 
-        <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
-        <!--[if lt IE 9]><script src="../../assets/bootstrap-3.3.7/js/ie8-responsive-file-warning.js"></script><![endif]-->
-        <script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/ie-emulation-modes-warning.js"></script>
+            /*input*/
+            input:not([type]), input[type=text]:not(.browser-default), input[type=password]:not(.browser-default), input[type=email]:not(.browser-default), input[type=url]:not(.browser-default), input[type=time]:not(.browser-default), input[type=date]:not(.browser-default), input[type=datetime]:not(.browser-default), input[type=datetime-local]:not(.browser-default), input[type=tel]:not(.browser-default), input[type=number]:not(.browser-default), input[type=search]:not(.browser-default), textarea.materialize-textarea {
+                border-bottom: 1px solid #fff;
+                color: #fff;
+                font-size: 30px;
+            }
 
-        <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
-        <!--[if lt IE 9]>
-          <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-          <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-        <![endif]-->
-        <script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/jquery.min.js"></script>
-        <script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/jquery.cookie.js"></script>
-        <script src="<%=Strings.BASE%>/assets/js/validation.js"></script>
+            label {
+                width: 100%;
+                font-size: 30px;
+            }
+
+            .input-field label {
+                color: #fff;
+                font-size: 20px;
+            }
+
+            /*input*/
+            h6 {
+                font-family: Titillium Web;
+                font-style: normal;
+                font-weight: normal;
+                line-height: normal;
+                font-size: 12px;
+                text-align: center;
+                color: #FFFFFF;
+            }
+            
+            /*input*/
+            h5 {
+                font-family: TitilliumWeb-ExtraLight;
+                font-style: normal;
+                font-weight: normal;
+                line-height: normal;
+                font-size: 33px;
+                text-align: center;
+                color: #FFFFFF;
+            }
+            
+            .bgBtnEntrar {
+			    font-family: 'TitilliumWeb-Regular', sans-serif !important;
+			    border-radius: 5px !important;
+			    background-color: #00697C !important;
+			    font-size: 16px;
+			    text-transform: none;
+			}
+			
+			.btnCadastrar {
+			    font-family: 'TitilliumWeb-Regular', sans-serif !important;
+			    border-radius: 5px !important !important;
+			    background-color: #00697C;
+			    font-size: 16px;
+			    text-transform: none;
+			    cursor: pointer;
+			 }
+			
+			.inputEmail {
+			    font-family: 'TitilliumWeb-Regular', sans-serif !important;
+			    margin-bottom: 10px !important;
+			    text-transform: none;
+			    color: #FFFFFF;
+			    height: 25px !important;
+			    margin: auto !important;
+			    display: block !important;
+			    padding-top: 25px !important;
+			}
+				
+	        /* label focus color */
+	        input[type=email]:not(.browser-default){
+	        	font-size: 18px !important;
+	            color: #FFFFFF !important;
+	            border-bottom: 2px solid #FFFFFF !important;
+	            box-shadow: 1px solid #FFFFFF !important;
+	            width: 353px !important;
+	        }
+	
+	        input[type=email]:not(.browser-default):focus:not([readonly]){
+	            font-size: 18px !important;
+	            color: #00697C;
+	            border-bottom: 2px solid #00697C !important;
+	            box-shadow: none !important;
+	        }
+			
+			.logoSICVLogin {
+			    display: block;
+			    margin: 0 auto;
+			}
+			
+			.container {
+			    position:absolute;
+			    top:22%;
+			    right:0;
+			    left:0;
+			}
+			    
+			.btn-lg{
+				height: 32px;
+				width: 126px;
+				padding: 0px;
+			    margin: auto;
+			}
+			
+			.btn:hover, .btn-large:hover {
+    			background-color: #00697C;
+			}
+			
+			::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+			    color: #FFFFFF;
+			    opacity: 1; /* Firefox */
+			    font-family: 'TitilliumWeb-Regular', sans-serif !important;
+			}
+			
+        </style>
 
     </head>
 
@@ -58,21 +166,29 @@
 
         <div class="container">
             <img alt="SICV" class="logoSICVLogin" src="<%=Strings.BASE%>/assets/images/logoSICVLogin.png">
-            <h2 style="text-align: center;letter-spacing: 2px;">Importador de Inventários</h2>
+            <h5 style="text-align: center;letter-spacing: 2px;" onclick="location.href='<%=Strings.BASE%>/login'">Importador de Inventários</h5>
             <form action="<%=Strings.BASE%>/register/forgotPassword" method="post" class="form-signin">
-            	<h6 style="font-size: 16px;float: left;">Digite seu e-mail para redefinir a senha</h6>
-                <input type="email" name="email" id="inputEmail" class="form-control inputEmail" placeholder="e-mail" required autofocus onkeyup="forgotEmailValidate(this.id);"/><br />
-				<span id="resultEmailForgot" style="font-size: 14px;float: left;color: #00697C;margin-bottom: 10px;margin-top: -20px !important; font-weight: bold; font-style: italic;">${recoveryMsg}</span>
-                <button class="btn btn-lg btn-block bgBtnEntrar" type="submit" id="btnSendForgot">Enviar</button>
-	            <a class="btn btn-outlined btnCadastrar linkLogin" href="<%=Strings.BASE%>/login">Efetuar Login</a>
-	            <a class="btn btn-outlined btnCadastrar linkLogin" href="<%=Strings.BASE%>/register">Efetuar Cadastro</a>
+            	<c:if test="${not empty recoveryMsg}">
+	            	<h6 style="font-size: 12px;color: #9ADEE3;">Digite seu e-mail para redefinir a senha</h6>
+	            </c:if>
+
+                <input type="email" value="${emailSend}" name="email" id="inputEmail" class="form-control inputEmail" ${not empty emailSend ? 'readonly' : '' } placeholder="Digite seu e-mail para redefinir a senha" required autofocus onkeyup="forgotEmailValidate(this.id);"/><br />
+                <div style="text-align: center;margin-bottom: 10px;margin-top: -10px !important;">
+					<span id="resultEmailForgot" style="font-size: 14px;color: #00697C; font-style: italic;">${recoveryMsg}</span>
+                </div>
+				<c:choose>
+					<c:when test="${empty recoveryMsg}">
+   	            		<button class="btn btn-lg btn-block bgBtnEntrar" type="submit" id="btnSendForgot">Enviar</button>
+					</c:when>
+					<c:when test="${not empty recoveryMsg}">
+	            		<div class="btn btn-lg btn-block btnCadastrar" onclick="location.href='<%=Strings.BASE%>/login'">Voltar</div>
+					</c:when>
+				</c:choose>		
             </form>
         </div> <!-- /container -->
 
-        <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
-        <script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/ie10-viewport-bug-workaround.js"></script>
-
-
+        <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
+		<script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
 
     </body>
 </html>
