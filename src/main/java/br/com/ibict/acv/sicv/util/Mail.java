@@ -37,8 +37,8 @@ public class Mail {
         freemarker.template.Template t = freemarkerConfig.getTemplate(template);
         String text = FreeMarkerTemplateUtils.processTemplateIntoString(t, model );
 		try {
-			final String username = "sicv.acv@apps.ibict.br";
-			final String password = "debeP3ep";
+			final String username = "acv@ibict.br";
+			final String password = "123@mudar";
 			
 			Session emailSession = Session.getDefaultInstance( getProgerties(), new javax.mail.Authenticator() {
 				protected PasswordAuthentication getPasswordAuthentication() {
@@ -102,7 +102,7 @@ public class Mail {
 	public Properties getProgerties(){
 		Properties properties = new Properties();
 		//deve ser o servidor que o usuário deseja configurar para tarefas de email
-		properties.put("mail.smtp.host", "smtp.apps.ibict.br");
+		properties.put("mail.smtp.host", "smtp.ibict.br");
 		properties.put("mail.smtp.port", "587");
 		properties.put("mail.smtp.auth", "true");
 		properties.put("mail.smtp.starttls.enable", "true");
