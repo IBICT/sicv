@@ -95,7 +95,7 @@
 			
 			.btnCadastrar {
 			    font-family: 'TitilliumWeb-Regular', sans-serif !important;
-			    border-radius: 5px !important !important;
+			    border-radius: 5px !important;
 			    background-color: #00697C;
 			    font-size: 16px;
 			    text-transform: none;

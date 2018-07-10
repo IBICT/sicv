@@ -128,7 +128,7 @@
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             </form>
             <a class="btnCadastrar linkLogin" href="<%=Strings.BASE%>/register/forgotPassword">Esqueci minha senha</a>
-            <a class="btnCadastrar linkLogin" href="<%=Strings.BASE%>/register">Cadastrar</a>
+            <a style="margin-bottom: 10px;" class="btnCadastrar linkLogin" href="<%=Strings.BASE%>/register">Cadastrar</a>
             <div class="mastfoot">
                 <p>Versão Beta 0.1</p>
             </div>

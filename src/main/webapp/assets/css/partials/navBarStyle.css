@@ -131,3 +131,18 @@ nav div.nav-content div.nav-wrapper div.location{
 	margin-top: 2%;
 	padding: 0px !important;
 }
+
+@media only screen and (max-width: 992px){
+    nav div.nav-content{
+        padding-top: 30px;
+    }
+    nav div.nav-content div.nav-wrapper ul {
+        padding-bottom: 50px;
+    }
+}
+
+@media only screen and (max-width: 600px){
+    #perfilMobile{
+        padding-top: 13px;
+    }
+}
