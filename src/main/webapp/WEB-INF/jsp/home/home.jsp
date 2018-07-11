@@ -88,19 +88,19 @@
     <body>
 
         <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
-		<c:if test="${msg == 'success'}">
-			<div id="modalProfileSuccess" class="modal" style="width: 570px;height: 206px">
-				<div class="">
-		 			<div style="text-align: center;font-size: 23px; color: #4F4F4F; margin-top: 50px;">
-						<p>Perfil de Usuário atualizado com sucesso!</p>
-						<p></p>
-					</div>
-					<div style="text-align: center;">
-						<button style="background-color: #ACCC5F;" class="modal-action modal-close waves-effect btn-flat">OK</button>
-					</div>
-				</div>
-			</div>
-		</c:if>
+        <c:if test="${msg == 'success'}">
+            <div id="modalProfileSuccess" class="modal" style="width: 570px;height: 206px">
+                <div class="">
+                    <div style="text-align: center;font-size: 23px; color: #4F4F4F; margin-top: 50px;">
+                        <p>Perfil de Usuário atualizado com sucesso!</p>
+                        <p></p>
+                    </div>
+                    <div style="text-align: center;">
+                        <button style="background-color: #ACCC5F;" class="modal-action modal-close waves-effect btn-flat">OK</button>
+                    </div>
+                </div>
+            </div>
+        </c:if>
         <div class="principalDiv">
             <c:choose>
                 <c:when test="${isUserLabel}">
@@ -121,31 +121,32 @@
                 </c:otherwise>
             </c:choose>
 
-            <div style="margin:0px;" class="row">
-                <div class="col sicv-table-th" style="width: 40%">Nome</div>
-                <div class="col sicv-table-th" style="width: 10%">Gestor</div>
-                <div class="col s1 sicv-table-th" style="text-align: center;">Pendências</div>
-                <div class="col s2 sicv-table-th" style="text-align: center;">Prazo para entregar</div>
-                <div class="col s3" style="position: relative; left: 20px; color: #4dbcc4;">Status</div>
-            </div>
-
-            <c:forEach items="${ilcds}" var="ilcd" varStatus="loop">
+            <div class="hide-on-med-and-down">
                 <div style="margin:0px;" class="row">
-                    <div style="height: 40px; width:40%; position: relative; top: 10px;" class="col s3 sicv-table-td">
-                        <a href="${link}/${ilcd.id}">${ilcd.title}</a>
-                    </div>
-                    <div style="height: 40px;width:10%; position: relative; top: 10px;" class="col s3 sicv-table-td">
-                        <a href="${link}/${ilcd.id}">${ilcd.homologation.user.firstName == null ? "aguardando":ilcd.homologation.user.firstName}</a>
-                    </div>
-                    <c:choose>
-                       	<c:when test="${ilcd.homologation.pending}">
-                            <!-- <td style="text-align: center;"><i style="color: #c3697c;" class="material-icons">report_problem</i></td>
-                                <td style="text-align: center;"><i style="color: #accc5f;" class="material-icons">check</i></td>
-                            -->
-                            <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td" onclick="location.href = '#'">
-                                <i style="color: #c3697c;" class="fa fa-exclamation-triangle"></i>
-                            </div>
-                            <%
+                    <div class="col sicv-table-th" style="width: 40%">Nome</div>
+                    <div class="col sicv-table-th" style="width: 10%">Gestor</div>
+                    <div class="col s1 sicv-table-th" style="text-align: center;">Pendências</div>
+                    <div class="col s2 sicv-table-th" style="text-align: center;">Prazo para entregar</div>
+                    <div class="col s3" style="position: relative; left: 20px; color: #4dbcc4;">Status</div>
+                </div>
+
+                <c:forEach items="${ilcds}" var="ilcd" varStatus="loop">
+                    <div style="margin:0px;" class="row">
+                        <div style="height: 40px; width:40%; position: relative; top: 10px;" class="col s3 sicv-table-td">
+                            <a href="${link}/${ilcd.id}">${ilcd.title}</a>
+                        </div>
+                        <div style="height: 40px;width:10%; position: relative; top: 10px;" class="col s3 sicv-table-td">
+                            <a href="${link}/${ilcd.id}">${ilcd.homologation.user.firstName == null ? "aguardando":ilcd.homologation.user.firstName}</a>
+                        </div>
+                        <c:choose>
+                            <c:when test="${ilcd.homologation.pending}">
+                                <!-- <td style="text-align: center;"><i style="color: #c3697c;" class="material-icons">report_problem</i></td>
+                                    <td style="text-align: center;"><i style="color: #accc5f;" class="material-icons">check</i></td>
+                                -->
+                                <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td" onclick="location.href = '#'">
+                                    <i style="color: #c3697c;" class="fa fa-exclamation-triangle"></i>
+                                </div>
+                                <%
 
                                     Ilcd ilcd = (Ilcd) pageContext.getAttribute("ilcd");
                                     Calendar cal = Calendar.getInstance();
@@ -159,96 +160,203 @@
                                         resporta = "atrasado";
                                         style = true;
                                     } else {
-                                        resporta = (dtLimit - dtInit)+" dias";
+                                        resporta = (dtLimit - dtInit) + " dias";
                                         style = false;
                                     }
                                     pageContext.setAttribute("prazoStyle", style);
                                     pageContext.setAttribute("prazo", resporta);
                                 %>
-                            <div style="height: 40px;  text-align: center; position: relative; top: 10px; ${prazoStyle ? "color: #c3697c;":""}" class="col s2 sicv-table-td">
-                                ${prazo}
-                            </div>
-                       	</c:when>
-                       	<c:when test="${not ilcd.homologation.pending}">
-                            <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td" onclick="location.href = '#'">
-                                <i style="color: #accc5f;" class="fa fa-check"></i>
-                            </div> 
-                            <div style="height: 40px;  text-align: center; position: relative; top: 10px; color: #accc5f;" class="col s2 sicv-table-td">
-                                Entregue
-                            </div>
-                       	</c:when>
-                       	<c:otherwise>
-                       	</c:otherwise>
-                    </c:choose>
+                                <div style="height: 40px;  text-align: center; position: relative; top: 10px; ${prazoStyle ? "color: #c3697c;":""}" class="col s2 sicv-table-td">
+                                    ${prazo}
+                                </div>
+                            </c:when>
+                            <c:when test="${not ilcd.homologation.pending}">
+                                <div style="height: 40px; text-align: center; position: relative; top: 10px;" class="col s1 sicv-table-td" onclick="location.href = '#'">
+                                    <i style="color: #accc5f;" class="fa fa-check"></i>
+                                </div> 
+                                <div style="height: 40px;  text-align: center; position: relative; top: 10px; color: #accc5f;" class="col s2 sicv-table-td">
+                                    Entregue
+                                </div>
+                            </c:when>
+                            <c:otherwise>
+                            </c:otherwise>
+                        </c:choose>
 
-                    <div style="height: 40px;" class="col s3">
-                        <!-- Progress Tracker v2 -->
-                        <ol style="position: relative;" class="progress-steps"
-                            data-steps="5">
-                            <li class="${ilcd.homologation.status == 1 ? 'active' : 'done'}">
-                                <span class="step"><span>1</span></span>
-                            </li>
+                        <div style="height: 40px;" class="col s3">
+                            <!-- Progress Tracker v2 -->
+                            <ol style="position: relative;" class="progress-steps"
+                                data-steps="5">
+                                <li class="${ilcd.homologation.status == 1 ? 'active' : 'done'}">
+                                    <span class="step"><span>1</span></span>
+                                </li>
 
-                            <c:choose>
-                                <c:when test="${ilcd.homologation.status == 2}">
-                                    <li class="active"><span class="step"><span>2</span></span>
-                                    </li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li class="${ilcd.homologation.status lt 2 ? '' : 'done'}">
-                                        <span class="step"><span>2</span></span>
-                                    </li>
-                                </c:otherwise>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${ilcd.homologation.status == 3}">
-                                    <li class="active"><span class="step"><span>3</span></span>
-                                    </li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li class="${ilcd.homologation.status lt 3 ? '' : 'done'}">
-                                        <span class="step"><span>3</span></span>
-                                    </li>
-                                </c:otherwise>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${ilcd.homologation.status == 4}">
-                                    <li class="active"><span class="step"><span>4</span></span>
-                                    </li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li class="${ilcd.homologation.status lt 4 ? '' : 'done'}">
-                                        <span class="step"><span>4</span></span>
-                                    </li>
-                                </c:otherwise>
-                            </c:choose>
-                            <c:choose>
-                                <c:when test="${ilcd.homologation.status == 5}">
-                                    <li class="active"><span class="step"><span>5</span></span>
-                                    </li>
-                                </c:when>
-                                <c:otherwise>
-                                    <li class="${ilcd.homologation.status lt 5 ? '' : 'done'}">
-                                        <span class="step"><span>5</span></span>
-                                    </li>
-                                </c:otherwise>
-                            </c:choose>
+                                <c:choose>
+                                    <c:when test="${ilcd.homologation.status == 2}">
+                                        <li class="active"><span class="step"><span>2</span></span>
+                                        </li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li class="${ilcd.homologation.status lt 2 ? '' : 'done'}">
+                                            <span class="step"><span>2</span></span>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
+                                <c:choose>
+                                    <c:when test="${ilcd.homologation.status == 3}">
+                                        <li class="active"><span class="step"><span>3</span></span>
+                                        </li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li class="${ilcd.homologation.status lt 3 ? '' : 'done'}">
+                                            <span class="step"><span>3</span></span>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
+                                <c:choose>
+                                    <c:when test="${ilcd.homologation.status == 4}">
+                                        <li class="active"><span class="step"><span>4</span></span>
+                                        </li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li class="${ilcd.homologation.status lt 4 ? '' : 'done'}">
+                                            <span class="step"><span>4</span></span>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
+                                <c:choose>
+                                    <c:when test="${ilcd.homologation.status == 5}">
+                                        <li class="active"><span class="step"><span>5</span></span>
+                                        </li>
+                                    </c:when>
+                                    <c:otherwise>
+                                        <li class="${ilcd.homologation.status lt 5 ? '' : 'done'}">
+                                            <span class="step"><span>5</span></span>
+                                        </li>
+                                    </c:otherwise>
+                                </c:choose>
 
-                        </ol>
-                        <!-- Progress Tracker v2 -->
+                            </ol>
+                            <!-- Progress Tracker v2 -->
+                        </div>
                     </div>
-                </div>
-            </c:forEach>
+                </c:forEach>
+            </div>
+            <div class="hide-on-large-only">
+                <ul class="collapsible">
+                    <c:forEach items="${ilcds}" var="ilcd" varStatus="loop">
+                        <li>
+                            <div class="collapsible-header" style="color: #00697C; font-weight: bold;">${ilcd.title}</div>
+                            <div class="collapsible-body">
+                                <div class="row">
+                                    <div style="height: 40px;" class="col s12">
+                                        <!-- Progress Tracker v2 -->
+                                        <ol style="position: relative;" class="progress-steps"
+                                            data-steps="5">
+                                            <li class="${ilcd.homologation.status == 1 ? 'active' : 'done'}">
+                                                <span class="step"><span>1</span></span>
+                                            </li>
 
+                                            <c:choose>
+                                                <c:when test="${ilcd.homologation.status == 2}">
+                                                    <li class="active"><span class="step"><span>2</span></span>
+                                                    </li>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <li class="${ilcd.homologation.status lt 2 ? '' : 'done'}">
+                                                        <span class="step"><span>2</span></span>
+                                                    </li>
+                                                </c:otherwise>
+                                            </c:choose>
+                                            <c:choose>
+                                                <c:when test="${ilcd.homologation.status == 3}">
+                                                    <li class="active"><span class="step"><span>3</span></span>
+                                                    </li>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <li class="${ilcd.homologation.status lt 3 ? '' : 'done'}">
+                                                        <span class="step"><span>3</span></span>
+                                                    </li>
+                                                </c:otherwise>
+                                            </c:choose>
+                                            <c:choose>
+                                                <c:when test="${ilcd.homologation.status == 4}">
+                                                    <li class="active"><span class="step"><span>4</span></span>
+                                                    </li>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <li class="${ilcd.homologation.status lt 4 ? '' : 'done'}">
+                                                        <span class="step"><span>4</span></span>
+                                                    </li>
+                                                </c:otherwise>
+                                            </c:choose>
+                                            <c:choose>
+                                                <c:when test="${ilcd.homologation.status == 5}">
+                                                    <li class="active"><span class="step"><span>5</span></span>
+                                                    </li>
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <li class="${ilcd.homologation.status lt 5 ? '' : 'done'}">
+                                                        <span class="step"><span>5</span></span>
+                                                    </li>
+                                                </c:otherwise>
+                                            </c:choose>
+
+                                        </ol>
+                                        <!-- Progress Tracker v2 -->
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col s12">
+                                        <samp style="color: #4DBCC4;">Gestor</samp><br />
+                                        <samp><a href="${link}/${ilcd.id}">${ilcd.homologation.user.firstName == null ? "aguardando":ilcd.homologation.user.firstName}</a></samp>
+                                    </div>
+                                </div>
+                                <c:choose>
+                                    <c:when test="${ilcd.homologation.pending}">
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <samp style="color: #4DBCC4;">Pendências</samp><br />
+                                                <samp><i style="color: #c3697c;" class="fa fa-exclamation-triangle"></i> Aguardando nova aprovação</samp>
+                                            </div>
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <samp style="color: #4DBCC4;">Pendências</samp><br />
+                                                <samp style="${prazoStyle ? "color: #c3697c;":""}">${prazo}</samp>
+                                            </div>
+                                        </div>
+                                    </c:when>
+                                    <c:when test="${not ilcd.homologation.pending}">
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <samp style="color: #4DBCC4;">Pendências</samp><br />
+                                                <samp><i style="color: #accc5f;" class="fa fa-check"></i></samp>
+                                            </div>  
+                                        </div>
+                                        <div class="row">
+                                            <div class="col s12">
+                                                <samp style="color: #4DBCC4;">Pendências</samp><br />
+                                                <samp style="color: #accc5f;">Entregue</samp>
+                                            </div>
+                                        </div>
+                                    </c:when>
+                                    
+                                </c:choose>
+                            </div>
+                        </li>
+                    </c:forEach>
+                </ul>
+            </div>
         </div>
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
         <script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
         <script type="text/javascript">
-        	$(document).ready(function(){
-        		$('.modal').modal();
-    			$('#modalProfileSuccess').modal('open');
-        	});
+                                    $(document).ready(function () {
+                                        $('.modal').modal();
+                                        $('#modalProfileSuccess').modal('open');
+                                        $('.collapsible').collapsible();
+                                    });
         </script>
     </body>
-	
+
 </html>
