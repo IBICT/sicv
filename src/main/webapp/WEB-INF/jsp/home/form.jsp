@@ -194,13 +194,13 @@
 		        </div>
                 <div class="row" id="authorsClone">
                     <div id="divAuthorEmail" class="authorEmail" style="margin-bottom: 3%;">
-                        <div class="input-field col s4" style="margin-top: 2%;">
+                        <div class="input-field col s12 l4" style="margin-top: 2%;">
                             <input placeholder="Autor" id="author" type="text" class="validate aut" name="authors[0].name" required="required" />
 	                        <div style="margin-top: -28px;margin-left: 50%;cursor: pointer;margin-bottom:-115%;" hidden="hidden" id="divRemoveAuthor">
 		                    	<div class="btn-RemoveAuthor input-field" id=btnRemoveAuthor onclick="removeAuthor(this.id);">Remover autor -</div>
 	                        </div>
                         </div>
-                        <div class="input-field col s8" style="margin-top: 2%;">
+                        <div class="input-field col s12 l8" style="margin-top: 2%;">
                             <input placeholder="E-mail" id="email" type="email" class="validate mail" name="authors[0].email" required="required"/>
                         </div>
                     </div>
@@ -209,13 +209,13 @@
                     <div class="btn-addAuthor" id="btnAuthor">Acrescentar autor +</div>
                 </div>
                 <div class="row">
-                    <div class="input-field col s6">
+                    <div class="input-field col s12 l6">
                         <h6 style="font-size: 15px;"><b>Título do inventário </b><b style="color: red;">*</b>
                             <p style="color:#3D3D3D; font-size: 14px;font-style: italic;margin-top: 8px;">(Seguir padrão ”Nome do produto_tecnologia_ outra especificação” conforme Qualidata p. 25)
                         </h6>
                         <input placeholder="Nome do produto_tecnologia_ outra especificação" id="title" type="text" class="validate" name="title" required="required">
                     </div>
-                    <div class="input-field col s6">
+                    <div class="input-field col s12 l6">
                         <h6 style="font-size: 15px;"><b>Categoria </b><b style="color: red;">*</b>
                             <p style="color:#3D3D3D; font-size: 14px;font-style: italic;margin-top: 8px;">CNA / Software
                         </h6>
@@ -236,7 +236,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col s6">
+                    <div class="col s12 l6">
                         <h6 style="font-size: 15px;"><b>Possui Revisão técnica / crítica de terceira parte? </b><b style="color: red;">*</b></h6>
                         <input class="with-gap" name="hasReview" type="radio" id="yesReview" value="true" onclick="showFileInput();"/>
                         <label for="yesReview" style="color: #3D3D3D;">Sim</label>
@@ -246,13 +246,13 @@
                 </div>
 
                 <div class="row" hidden="" id="fileInput">
-                    <div class="file-field input-field col s6" style="bottom: 25px; margin-left: -10px">
+                    <div class="file-field input-field col s12 l6" style="bottom: 25px; margin-left: -10px">
                         <span class="btn">Escolher Arquivo</span> <input type="file" class="btn" name="review" id="review">
                         <div class="file-path-wrapper" style="padding-left: 0px;">
                             <input placeholder="Escolha arquivo em formato PDF" class="file-path validate" type="text" disabled="disabled" style="padding-left: 15px;">
                         </div>
                     </div>
-                    <div class="col s6">
+                    <div class="col s12 l6">
                         <h6 style="color: #00697C;font-style: italic;margin-top: -12px;" class="col s12">A Revisão de terceira parte deve ser realizada por profissional ou equipe capacitada em ACV e que não pertence à equipe original 
                             executora do estudo. (Consultar Qualidata p. 43)
                         </h6>
@@ -268,24 +268,24 @@
                 </div>
 
                 <div class="row">
-                    <div class="input-field col s4">
+                    <div class="input-field col s12 l4">
                         <input placeholder="Revisor Técnico 1" id="review1" type="text" class="validate">
                     </div>
-                    <div class="input-field col s4">
+                    <div class="input-field col s12 l4">
                         <input placeholder="E-mail" id="email_review1" type="text" class="validate">
                     </div>
-                    <div class="input-field col s4">
+                    <div class="input-field col s12 l4">
                         <input placeholder="Telefone" id="phone_review1" type="text" class="validate">
                     </div>
                 </div>
                 <div class="row">
-                    <div class="input-field col s4">
+                    <div class="input-field col s12 l4">
                         <input placeholder="Revisor Técnico 2" id="review2" type="text" class="validate">
                     </div>
-                    <div class="input-field col s4">
+                    <div class="input-field col s12 l4">
                         <input placeholder="E-mail" id="email_review2" type="text" class="validate">
                     </div>
-                    <div class="input-field col s4">
+                    <div class="input-field col s12 l4">
                         <input placeholder="Telefone" id="phone_review2" type="text" class="validate">
                     </div>
                 </div>
@@ -295,7 +295,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="file-field input-field col s6" style="bottom: 25px; margin-left: -10px">
+                    <div class="file-field input-field col s12 l6" style="bottom: 25px; margin-left: -10px">
                        	<div>
                         	<span class="btn">Escolher Arquivo</span>
                         	<input type="file" class="btn" id="btnFile" name="file" required="required" >
@@ -304,7 +304,7 @@
                        	    <input placeholder="Escolha arquivo em formato ILCD" class="file-path" type="text" id="file" onchange="validFile(this.id);" style="padding-left: 15px;">
                        	</div>
                     </div>
-                    <div class="col s6">
+                    <div class="col s12 l6">
                         <h6 style="color: #00697C;font-style: italic;margin-top: -12px;" class="col s12">
                            	<input type="checkbox" class="filled-in" id="termosAcima" required="required" style="margin-left: -25px; margin-top: 15px;"/>
 	                    	<label for="termosAcima" style="float: left;margin-top: 10px; padding-left: 20px; height: 20px; margin-right: 10px; margin-bottom: 5px;"></label>
@@ -319,7 +319,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="file-field input-field col s6" style="bottom: 25px; margin-left: -10px">
+                    <div class="file-field input-field col s12 l6" style="bottom: 25px; margin-left: -10px">
                         <span class="btn">Escolher Arquivo</span> <input type="file" class="btn" name="fileComplement" id="fileComplement">
                         <div class="file-path-wrapper" style="padding-left: 0px;">
                             <input placeholder="Gráfico, fluxograma" class="file-path validate" type="text" disabled="disabled" style="padding-left: 15px;">
