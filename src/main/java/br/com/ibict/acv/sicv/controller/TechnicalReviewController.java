@@ -71,7 +71,7 @@ public class TechnicalReviewController {
         String name = user.getFirstName();
         model.put("username", name);
         model.put("local", "Revisão Técnica");
-        model.put("localN", 3);
+        model.put("localN", 2);
 
 
         List<Status> invites = statusDao.findByRevisorAndAcceptAndTypeAndCancelInvite(user, null, 2, null);

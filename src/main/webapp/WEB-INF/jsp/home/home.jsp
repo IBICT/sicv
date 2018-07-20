@@ -47,7 +47,7 @@
 
         <style>
             html {
-                font-family: 'Titillium Web', "Roboto", sans-serif;
+                font-family: 'TitilliumWeb-Regular', sans-serif !important;
             }
 
             .page-title {

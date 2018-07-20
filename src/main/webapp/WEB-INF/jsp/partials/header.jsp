@@ -57,7 +57,7 @@
                         <a href="<%=Strings.BASE%>">Meus Inventários</a>
                     </li>
                     <li class="hide-on-med-and-down ${localN == 1 ? 'active':''}">
-                        <a href="hide-on-med-and-down <%=Strings.BASE%>/qualityreview">Revisão Qualidata</a>
+                        <a href="<%=Strings.BASE%>/qualityreview">Revisão Qualidata</a>
                     </li>
                     <li class="hide-on-med-and-down ${localN == 2 ? 'active':''}">
                         <a href="<%=Strings.BASE%>/technicalreview">Revisão Técnica</a>

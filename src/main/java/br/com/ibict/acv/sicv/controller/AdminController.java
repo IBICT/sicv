@@ -82,6 +82,7 @@ public class AdminController {
         	users = userDao.findAll();
             model.put("users", users);
             model.put("name", name);
+            model.put("local", "Administrador");
             model.put("localN", 4);
 
             return "admin/home";

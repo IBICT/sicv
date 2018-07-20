@@ -140,6 +140,7 @@ public class HomeController {
     @RequestMapping(value = "/profile", method = RequestMethod.GET)
     public String getProfileHandler(Map<String, Object> model) {
         User user = (User) session().getAttribute("user");
+        model.put("local", "Perfil de Usuário");
         ProfileImage profImgDB = profileImageDao.findByUser(user);
         model.put("user", user);
         //get data image profile and parse to string wich html recognizes

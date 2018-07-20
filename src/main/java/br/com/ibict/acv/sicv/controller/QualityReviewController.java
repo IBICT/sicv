@@ -59,7 +59,7 @@ public class QualityReviewController {
         String name = user.getFirstName();
         model.put("username", name);
         model.put("local", "Revisão Qualidata");
-        model.put("localN", 2);
+        model.put("localN", 1);
 
         List<Status> invites = statusDao.findByRevisorAndAcceptAndTypeAndCancelInvite(user, null, 1, null);
         model.put("invite", invites);
