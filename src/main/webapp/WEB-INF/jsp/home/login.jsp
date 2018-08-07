@@ -50,16 +50,7 @@
                 font-size: 16px;
                 color: #FFFFFF;
             }
-            /*input*/
-            h5 {
-                font-family: TitilliumWeb-ExtraLight;
-                font-style: normal;
-                font-weight: normal;
-                line-height: normal;
-                font-size: 33px;
-                text-align: center;
-                color: #FFFFFF;
-            }
+            
 
         </style>
 
@@ -107,15 +98,22 @@
         <div class="container">
             <img alt="SICV" class="logoSICVLogin" src="<%=Strings.BASE%>/assets/images/logoSICVLogin.png">
             <h5 style="text-align: center;letter-spacing: 2px;">Importador de Inventários</h5>
+
             <div ${param.logout ? 'style="display:"' : 'style="display:none"'} >
-                <h4 style="color: #04450f;font-style: italic;font-weight: bold;">Logout efetuado com sucesso</h4>
+                <h6 style="color: #04450f;font-style: italic;font-weight: bold;">Logout efetuado com sucesso</h6>
             </div>
             <form action="login" method="post" class="form-signin">
-                <input type="email" name="email" id="inputEmail" class="form-control inputEmail" placeholder="Email" required autofocus autocomplete="on">
 
-                <input type="password" name="senha" id="inputPassword" class="form-control inputEmail" placeholder="Password" required>
+	           	<div class="input-field col s4">
+	               	<input type="email" name="email" id="inputEmail" class="inputEmail" required autocomplete="on">
+		          	<label for="inputEmail" >Email</label>
+	       		</div>
+	       		<div class="input-field col s4" style="margin-top: 25px !important;">
+	                <input type="password" name="senha" id="inputPassword" class="inputEmail" required>
+	                <label for="inputPassword" >Password</label>
+	       		</div>
                 <div ${param.error == 1 ? 'style="display:"' : 'style="display:none"'} >
-                    <h4 style="color: #ff0000c2;font-style: italic;font-weight: bold;">Email ou usuário inválido</h4>
+                    <h6 style="color: #ff0000c2;font-style: italic;font-weight: bold;">Email ou usuário inválido</h6>
                 </div>
 
                 <div class="checkbox">

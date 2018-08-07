@@ -219,12 +219,14 @@ public class RegisterController {
     }
 
     @PostMapping("/register/resetPassword")
-    public String resetPassword(@RequestParam("field1") String plainPassword, Map<String, Object> model, @RequestParam("a") String hash) {
+    public String resetPassword(@RequestParam("password") String plainPassword, Map<String, Object> model, @RequestParam("a") String hash) {
         User user = passwordResetDao.findByHash(hash).getUser();
         user.setPasswordHashSalt(Password.generateSalt(20));
         user.setPasswordHash(Password.getEncryptedPassword(plainPassword, user.getPasswordHashSalt()));
         userDao.save(user);
         model.put("resetSuccess", true);
+        model.put("plainPassword", plainPassword);
+        model.put("resetedMsg", "Sua senha foi redefinida com sucesso!");
         return "register/resetPassword";
     }
 
@@ -250,5 +252,5 @@ public class RegisterController {
             return "false";
         }
     }
-
+    
 }

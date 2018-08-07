@@ -1,14 +1,3 @@
-/*
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
-*/
-/* 
-    Created on : 08/01/2018, 10:39:53
-    Author     : deivdy
-*/
-
-
 @font-face {
     font-family: 'TitilliumWeb-ExtraLight';
     src: url('../../fonts/TitilliumWeb-ExtraLight.ttf') format('truetype');
@@ -27,7 +16,6 @@ body {
 }
 
 .form-signin {
-    max-width: 330px;
     padding: 15px;
     margin: 0 auto;
 }
@@ -57,13 +45,10 @@ body {
 .form-signin input[type="password"] {
     margin-bottom: 10px;
 }
+.form-signin input[type="email"] {
+    margin-bottom: -1px;
 
-::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
-   color: #FFFFFF;
-   opacity: 1; /* Firefox */
-   font-family: 'TitilliumWeb-Regular', sans-serif !important;
 }
-
 .login-form {
     font-family: 'TitilliumWeb-ExtraLight', sans-serif !important;
     background-color: #4dbcc4;
@@ -79,7 +64,7 @@ body {
     text-transform: none;
 }
 
-.btn:hover, .btn-large:hover {
+.btn:hover, .btn-large:hover, .btn:focus {
 	background-color: #00697C;
 }
 
@@ -93,13 +78,33 @@ body {
 
 .inputEmail {
     font-family: 'TitilliumWeb-Regular', sans-serif !important;
+    margin: auto !important;
     margin-bottom: 10px !important;
 	border-bottom: 1px solid #FFFFFF !important;
+    text-transform: none;
+    color: #FFFFFF;
+    height: 25px !important;
+    display: block !important;
+    padding-top: 10px !important;
+    font-size: 16px !important;
+    margin-left: 2px !important;
+}
+
+.input-field{
+	width: 405px !important;
+    margin: 0 auto !important;
+}
+
+input[type=email]:not(.browser-default):focus:not([readonly]),input[type=password]:not(.browser-default):focus:not([readonly]){
+    border-bottom: 2px solid #00697C !important;
+    box-shadow: none !important;
 }
 
 .logoSICVLogin {
     display: block;
     margin: 0 auto;
+    width: 170px;
+    height: 59px;
 }
 
 .linkLogin {
@@ -113,17 +118,17 @@ body {
 }
 
 .container {
-    position:absolute;
+	position: absolute;
     top:22%;
     right:0;
     left:0;
 }
-    
+  
 .btn-lg{
 	height: 32px;
 	width: 170px;
 	padding: 0px;
-    margin-left: 60px;
+    margin: auto;
 }
 
 .btnReset{
@@ -139,4 +144,24 @@ body {
 [type="checkbox"].filled-in:checked+label:before {
     border-right: 2px solid #4dbcc4 !important;
     border-bottom: 2px solid #4dbcc4 !important;
+}
+
+/*input*/
+h5 {
+    font-family: TitilliumWeb-ExtraLight;
+    font-style: normal;
+    font-weight: normal;
+    line-height: normal;
+    font-size: 33px;
+    text-align: center;
+    color: #FFFFFF;
+}
+
+.input-field label{
+	color: #FFFFFF;
+	left: 2px !important;
+}
+
+input[type=email]:not(.browser-default):focus:not([readonly])+label,input[type=password]:not(.browser-default):focus:not([readonly])+label{
+	color: #FFFFFF;
 }
