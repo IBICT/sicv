@@ -1,15 +1,16 @@
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page import="resources.Strings"%>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
-<html>
+<html lang="pt-BR">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Tela de Login" />
-        <meta name="keywords" content="HTML, CSS, JS, JavaScript, framework, metro, front-end, frontend, web development" />
-        <meta name="author" content="Deivdy William Silva" />
-        
+        <meta name="keywords" content="HTML, CSS, JS, JavaScript, framework, bootstrap, front-end, frontend, web development" />
+        <meta name="author" content="Wellington Stanley" />
+
         <link rel="apple-touch-icon" sizes="57x57" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-57x57.png" />
         <link rel="apple-touch-icon" sizes="60x60" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-60x60.png" />
         <link rel="apple-touch-icon" sizes="72x72" href="<%=Strings.BASE%>/assets/images/favicon/apple-icon-72x72.png" />
@@ -23,20 +24,33 @@
         <link rel="icon" type="image/png" sizes="32x32" href="<%=Strings.BASE%>/assets/images/favicon/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="96x96" href="<%=Strings.BASE%>/assets/images/favicon/favicon-96x96.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="<%=Strings.BASE%>/assets/images/favicon/favicon-16x16.png" />
-        <link rel="manifest" href="./assets/images/favicon/manifest.json" />
+        <link rel="manifest" href="<%=Strings.BASE%>/assets/images/favicon/manifest.json" />
         <meta name="msapplication-TileColor" content="#ffffff" />
-        <meta name="msapplication-TileImage" content="<%=Strings.BASE%>/assets/images/favicon/ms-icon-144x144.png" />
         <meta name="theme-color" content="#ffffff" />
-        
-        <title>SICV - ACV | Banco Nacional de Inventários dos inventários brasileiros do Ciclo de Vida (ICVs)</title>
-        
 
+        <title>SICV - ACV | Banco Nacional de Inventários dos inventários brasileiros do Ciclo de Vida (ICVs)</title>
+
+		<link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/font/font-awesome/css/font-awesome.min.css">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/css/fonts.css">
+        <link href="<%=Strings.BASE%>/assets/css/successRegister/successRegister.css" rel="stylesheet">
+        
     </head>
 
-    <body>
-        <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
-        <h1>Usuario cadastrado com sucesso!!!</h1>
-        <a href="#">Voltar</a>
-    </body>
+    <body class="login-form">
 
+        <div class="container">
+            <img alt="SICV" class="logoSICVLogin" src="<%=Strings.BASE%>/assets/images/logoSICVLogin.png">
+            <h5 style="text-align: center;letter-spacing: 2px;" onclick="location.href='<%=Strings.BASE%>/login'">Importador de Inventários</h5>
+			<div style="text-align:center;margin-bottom: 10px;margin-top: 40px !important;">
+				<span id="successMsg" class="resultSuccess">Registro efetuado com sucesso.</span><br>
+				<span id="confirmMsg" class="resultSuccess">Acesse seu e-mail para concluir confirmação!</span>
+            </div>
+       		<div class="btn btn-lg btn-block btnCadastrar" onclick="location.href='<%=Strings.BASE%>/login'">Fazer login</div>
+        </div> <!-- /container -->
+
+        <script type="application/javascript" src="<%=Strings.BASE%>/assets/jquery-3.2.1.min.js"></script>
+		<script type="application/javascript" src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
+
+    </body>
 </html>

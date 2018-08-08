@@ -120,7 +120,7 @@ public class RegisterController {
             throw new RegisterException("Erro no processo de envio de email.", e);
         }
 
-        return "register/sendEmail";
+        return "register/successRegister";
 
     }
 

@@ -501,6 +501,8 @@ public class HomeController {
             throw new Exception("Ocorreu um erro ao submeter o inventário", e);
         }
         modelMap.put("msg","success");
+        modelMap.put("local", "Meus inventários > Submissão de Inventário");
+        modelMap.put("localN", 0);
         return "home/form";
     }
 

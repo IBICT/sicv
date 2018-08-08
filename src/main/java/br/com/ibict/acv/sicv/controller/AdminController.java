@@ -116,7 +116,6 @@ public class AdminController {
     @RequestMapping(value = "/deleteProfile/{index}", method = RequestMethod.GET)
     public String deleteUserProfile(RedirectAttributes redirectAttributes, @PathVariable("index") Integer index) {
     	User user = users.get(index);
-    	notificationDao.delete(user.getNotifications());
     	userDao.delete(user.getId());
     	users.remove(index);
     	redirectAttributes.addFlashAttribute("msg", "Usuário, " + user.getFullName() + ", foi deletado com sucesso!");
@@ -319,6 +318,7 @@ public class AdminController {
 			}
         	model.put("users", users);
             model.put("name", userSession.getFullName());
+            model.put("local", "Administrador");
             model.put("localN", 4);
         	model.put("msg", "success");
             return "admin/home";

@@ -22,9 +22,9 @@ body {
 }
 
 .resultSuccess{
-	font-size: 17px;
-	color: #00697C;
-	font-style: italic;
+	font-size: 20px;
+	color: #FFFFFF;
+	font-style: normal;
 	letter-spacing: 1px !important;
 }
 
@@ -41,26 +41,6 @@ body {
     cursor: pointer;
     margin-top: 4% !important;
  }
-
-.inputEmail {
-    font-family: 'TitilliumWeb-Regular', sans-serif !important;
-    margin: auto !important;
-    margin-bottom: 10px !important;
-	border-bottom: 1px solid #FFFFFF !important;
-    text-transform: none;
-    color: #FFFFFF;
-    height: 25px !important;
-    display: block !important;
-    padding-top: 25px !important;
-    font-size: 16px !important;
-    margin-left: 3px !important;
-    font-style: italic;
-}
-
-.input-field{
-	width: 405px !important;
-    margin: 0 auto !important;
-}
 
 .logoSICVLogin {
     display: block;
@@ -92,35 +72,4 @@ h5 {
     font-size: 33px !important;
     text-align: center;
     color: #FFFFFF;
-}
-
-.input-field label{
-	color: #FFFFFF !important;
-	left: 3px !important;
-	top: 30% !important;
-}
-
-input[type=password]:not(.browser-default):focus:not([readonly]){
-    font-size: 18px !important;
-    color: #FFFFFF;
-    border-bottom: 2px solid #00697C !important;
-    box-shadow: none !important;
-}
-
-input[type=password]:not(.browser-default):focus:not([readonly])+label{
-	color: #FFFFFF;
-}
-
-input[type=password].valid:not(.browser-default){
-	border-bottom: 2px solid #00697C !important;
-	box-shadow: none !important;
-}
-
-input[type=password]:not(.browser-default).invalid+label:after{
-	width: 300% !important;
-}
-
-input[type=password].invalid:not(.browser-default){
-	border-bottom: 2px solid #F44336 !important;
-	box-shadow: none !important;
 }

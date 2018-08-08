@@ -92,10 +92,6 @@
 
             }
             
-            .container {
-                width: 95%;
-            }
-
         </style>
     </head>
 

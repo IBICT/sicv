@@ -150,7 +150,7 @@ public class User implements Serializable {
     @OneToMany(mappedBy = "revisor", targetEntity = Status.class, fetch = FetchType.EAGER)
     private Set<Status> status;
 
-    @OneToMany(mappedBy = "user", targetEntity = Notification.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REFRESH})
+    @OneToMany(mappedBy = "user", targetEntity = Notification.class, cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE}, orphanRemoval = true)
     @Expose
     @LazyCollection(LazyCollectionOption.FALSE)
     private List<Notification> notifications = new ArrayList<Notification>();

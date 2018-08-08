@@ -92,7 +92,7 @@
                         </a>
                     </li>
                 </ul>
-                <div class="location">Você está em: ${local}</div>
+                <div class="location"><b>Você está em: <u>${local}</u></b></div>
             </div>
         </div>
     </nav>

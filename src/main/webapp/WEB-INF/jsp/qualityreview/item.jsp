@@ -43,53 +43,9 @@
 
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/font/font-awesome/css/font-awesome.min.css">
-        <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/css/quality/item.css">
 
-        <style>
-            html {
-                font-family: 'Titillium Web', "Roboto", sans-serif;
-            }
-
-            .page-title {
-                color: #4dbcc4;
-            }
-            .page-subtitle {
-                color: #666;
-            }
-            .btn-import {
-                background-color: #accc5f;
-            }
-            .table {
-                width: 100% !important;
-                max-width: 100%;
-            }
-            .head {
-                color: #999;
-            }
-            .sicv-table-th {
-                color: #4dbcc4;
-                border-bottom: 1px solid silver;
-                /*border-top: 1px solid silver;*/
-                padding: 0 !important;
-                height: 30px;
-            }
-
-            .sicv-table-td {
-                border-bottom: 1px solid silver;
-                color: #999;
-                padding: 0 !important;
-            }
-
-            .headerStatus {
-                font-family: Titillium Web;
-                font-style: normal;
-                font-weight: 300;
-                line-height: normal;
-                font-size: 20px;
-                color: #3D3D3D;
-            }
-        </style>
     </head>
 
     <body>
@@ -118,23 +74,29 @@
             <div class="row">
                 <div class="col s8">
                     <div style="padding-bottom: 2%;">
-                        <h5>${ilcd.authors[0]}</h5>
+                    	<span style="font-size: 20px;font-family: TitilliumWeb-Light;">Usuário</span><br>
+                        <i style="font-size: 16px;color: #00697C">${ilcd.authors[0]}</i>
                     </div>
-                    <h6 class="bold">Autor/es</h6>
-                    <c:forEach items="${ilcd.authors}" var="author" varStatus="loop">
-                        <i>${author};</i>
-                    </c:forEach>
-                    <p>
-                        <c:forEach items="${ilcd.emails}" var="email" varStatus="loop">
-                            <i>${email};</i>
-                        </c:forEach>
-                        <br>
-                    </p>
-                    <h6 class="bold">Categoria</h6>
-                    <p>${ilcd.category}</p>
-                    <br>
-                    <h6 class="bold">Descrição</h6>
-                    <p>${ilcd.description}</p>
+                    <h6 class="bold"><b>Autor/es</b></h6>
+                    <div style="color: #146678;">
+	                    <c:forEach items="${ilcd.authors}" var="author" varStatus="loop">
+	                        ${author};
+	                    </c:forEach>
+	                    <br>
+	                    <c:forEach items="${ilcd.emails}" var="email" varStatus="loop">
+	                        <i style="font-family: TitilliumWeb-Light;">${email};</i>
+	                    </c:forEach>
+                    </div>
+
+                    <h6 class="bold" style="margin-top: 35px;"><b>Categoria</b></h6>
+                    <div style="color: #146678;">
+                    	${ilcd.category}
+                    </div>
+                    
+                    <h6 class="bold" style="margin-top: 35px;"><b>Descrição</b></h6>
+                    <div style="font-size: 14px;color: #6B6B6A;">
+                    	${ilcd.description}
+                    </div>
                 </div>
                 <div class="col s4">
                     <div class="row">
@@ -148,11 +110,11 @@
                         <c:if test="${not empty status4.revisor}">
                             <c:choose>
                                 <c:when test="${empty status4.closed or not status4.closed}">
-                                    <div class="row">
-                                        <div class="col s6">
+                                    <div class="row" >
+                                        <div class="col s6" style="color: #00697C;">
                                             Autor
                                         </div>
-                                        <div class="col s6">
+                                        <div class="col s6" style="color: #4DBCC4;">
                                             Revisão Qualidata
                                         </div>
                                     </div>
@@ -168,10 +130,10 @@
                                         <div class="col s6">
                                             <c:choose>
                                                 <c:when test="${status4.accept}">
-                                                    <a href="<%=Strings.BASE%>/qualityreview/${status4.id}/review" class="btn">Aplicar Qualidata</a>
+                                                    <a href="<%=Strings.BASE%>/qualityreview/${status4.id}/review" class="btn bgBtnEntrar">Aplicar Qualidata</a>
                                                 </c:when>
                                                 <c:when test="${not status4.accept}">
-                                                    <a href="" class="btn disabled">Aplicar Qualidata</a>
+                                                    <a href="" class="btn btn-lg btn-block disabled bgBtnEntrar">Aplicar Qualidata</a>
                                                 </c:when>
                                             </c:choose>
                                         </div>

@@ -10,7 +10,6 @@
     <head>
         <meta charset="UTF-8">
         <title>Home</title>
-        <link href="<%=Strings.BASE%>/assets/bootstrap-3.3.7/css/bootstrap.min.css" rel="stylesheet">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.css">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/font/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/steps.css">
@@ -106,7 +105,7 @@
         <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
 
 
-        <div class="container">
+        <div class="principalDiv">
             <h4 class="page-title">Gestão</h4>
 
             <div class="row">

@@ -1,0 +1,56 @@
+html {
+    font-family: 'Titillium Web', "Roboto", sans-serif;
+}
+
+.page-title {
+    color: #4dbcc4;
+}
+.page-subtitle {
+    color: #666;
+}
+.btn-import {
+    background-color: #accc5f;
+}
+.table {
+    width: 100% !important;
+    max-width: 100%;
+}
+.head {
+    color: #999;
+}
+.sicv-table-th {
+    color: #4dbcc4;
+    border-bottom: 1px solid silver;
+    /*border-top: 1px solid silver;*/
+    padding: 0 !important;
+    height: 30px;
+}
+.sicv-table-td {
+    border-bottom: 1px solid silver;
+    color: #999;
+    padding: 0 !important;
+}
+
+.headerStatus {
+    font-family: Titillium Web;
+    font-style: normal;
+    font-weight: 300;
+    line-height: normal;
+    font-size: 20px;
+    color: #3D3D3D;
+}
+         
+.bgBtnEntrar {
+    font-family: 'TitilliumWeb-Regular', sans-serif !important;
+    background-color: #00697C;
+    border-radius: 5px !important;
+    font-size: 16px;
+    text-transform: none;
+}
+
+.btn-lg{
+	height: 32px;
+	width: 170px;
+	padding: 0px;
+   	margin: auto;
+}
