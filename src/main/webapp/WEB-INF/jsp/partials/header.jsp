@@ -32,7 +32,7 @@
                 <li class="${localN == 2 ? 'active':''}">
                     <a href="<%=Strings.BASE%>/technicalreview">Revisão Técnica</a>
                 </li>
-                <c:if test="${isManager or isAdmin}">
+                <c:if test="${isManager or isAdmin}"            >
                     <li class="${localN == 3 ? 'active':''}">
                         <a href="<%=Strings.BASE%>/gestor">Gestão</a>
                     </li>

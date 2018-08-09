@@ -48,7 +48,7 @@
 
         <style>
             html {
-                font-family: 'Titillium Web', "Roboto", sans-serif;
+                font-family: 'TitilliumWeb-Regular', "Roboto", sans-serif;
             }
 
             .page-title {
@@ -91,9 +91,7 @@
 
         <div class="principalDiv">
 
-            <div class="row sicv-container">
-                <h4 class="page-title">Revisão Técnica</h4>
-            </div>
+            <h4 class="page-title">Revisão Técnica</h4>
 
             <c:if test="${not empty invite}">
                 <c:forEach var="status1" items="${invite}"> 

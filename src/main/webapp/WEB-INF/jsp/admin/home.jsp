@@ -41,7 +41,7 @@
 		
         <style>
             html {
-                font-family: 'Titillium Web', "Roboto", sans-serif;
+                font-family: 'TitilliumWeb-Regular', "Roboto", sans-serif;
             }
 
             .page-title {
@@ -53,7 +53,7 @@
             }
             .btn {
                 background-color: #00697C !important;
-                margin-left: 480px !important;
+                margin-left: 30% !important;
                 font-size: 16px !important;
                 border-radius: 5px !important;
                 text-transform: none !important;
@@ -198,13 +198,14 @@
 		</c:if>
         <div class="principalDivAdmin">
         	<div>
-	        	<h4 class="page-title">
-	        		<c:out value="Administrador"></c:out>
-					<input class="btn btn-lg btn-primary btn-import" type="submit" value="Cadastrar novo usuário" onclick="location.href='<%=Strings.BASE%>/admin/insertProfile'"/>
-					
-					<input type="Search" id="search" value="" placeholder="busque um usuário" />
-					<i class="fa fa-search" style="color: #00697C;font-size:16px;margin-left: -35px"></i>
-	        	</h4>
+	        	<div class="page-title">
+	        		<div>
+	        			<c:out value="Administrador"></c:out>
+						<input class="btn btn-lg btn-primary btn-import" type="submit" value="Cadastrar novo usuário" onclick="location.href='<%=Strings.BASE%>/admin/insertProfile'"/>
+						<input type="Search" id="search" value="" placeholder="busque um usuário" />
+						<i class="fa fa-search" style="color: #00697C;font-size:16px;margin-left: -35px"></i>
+	        		</div>
+	        	</div>
 	        	<c:if test="${msg != 'success' }">
 					<div style="float: left;">
 						<a class="" id="btnAlert" onclick="Materialize.toast('${msg}', 4000)"></a>

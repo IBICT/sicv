@@ -9,10 +9,53 @@
 <link href="<%=Strings.BASE%>/assets/css/defaultNotifications.css"	rel="stylesheet">
 <link rel="stylesheet" href="<%=Strings.BASE%>/assets/font/font-awesome/css/font-awesome.min.css">
 <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
-<script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/jquery.min.js"></script>
-<script src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
+
 <!DOCTYPE html>
 <html>
+	
+<head>
+	<style type="text/css">
+		.divs {
+			display: none;
+		}
+
+	</style>
+</head>
+<body style="color: #00697c !important;">
+
+	<jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
+	<div class="principalDivAdmin">
+
+		<div class="titleNotify">Notificações</div>
+		<c:if test="${not empty msg}">
+			<p class="page-description page-subtitle"><i>${msg}</i></p>
+		</c:if>
+
+		<table id="list" class="responsive-table highlight">
+			<thead>
+
+			</thead>
+			<tbody>
+				<c:forEach items="${notifications}" var="notify" varStatus="loop">
+					<tr onclick="subtract(${notify.id}, ${notify.visualized}, ${loop.index});"
+						style="cursor: pointer;${notify.visualized ? '' : 'background-color:#ebf5f5;'} " id="${loop.index}">
+						<th style="border-bottom: solid .5px #DFDFDF">
+							${notify.subject} <output style="font-weight: lighter;margin-left: 15px;">${notify.notifyDate} </output> 
+							<div class="divs" style="padding-top: 1%">${notify.messages[0]}<br></div>
+							<div class="divs">${notify.messages[1]}</div>
+						</th>
+					</tr>
+				</c:forEach>
+			</tbody>
+			<tfoot>
+				<tr></tr>
+			</tfoot>
+		</table>
+
+	</div>
+	<script src="<%=Strings.BASE%>/assets/bootstrap-3.3.7/js/jquery.min.js"></script>
+	<script src="<%=Strings.BASE%>/assets/materialize/js/materialize.min.js"></script>
+	
 	<script>
 		var ar=[];
 		
@@ -55,45 +98,6 @@
 			}
 		}
 	</script>
-<head>
-	<style type="text/css">
-		.divs {
-			display: none;
-		}
-
-	</style>
-</head>
-<body style="color: #00697c !important;">
-
-	<jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
-	<div class="principalDivAdmin">
-
-		<div class="titleNotify">Notificações</div>
-		<c:if test="${not empty msg}">
-			<p class="page-description page-subtitle"><i>${msg}</i></p>
-		</c:if>
-
-		<table id="list" class="responsive-table highlight">
-			<thead>
-
-			</thead>
-			<tbody>
-				<c:forEach items="${notifications}" var="notify" varStatus="loop">
-					<tr onclick="subtract(${notify.id}, ${notify.visualized}, ${loop.index});"
-						style="cursor: pointer;${notify.visualized ? '' : 'background-color:#ebf5f5;'} " id="${loop.index}">
-						<th style="border-bottom: solid .5px #DFDFDF">
-							${notify.subject} <output style="font-weight: lighter;margin-left: 15px;">${notify.notifyDate} </output> 
-							<div class="divs" style="padding-top: 1%">${notify.messages[0]}<br></div>
-							<div class="divs">${notify.messages[1]}</div>
-						</th>
-					</tr>
-				</c:forEach>
-			</tbody>
-			<tfoot>
-				<tr></tr>
-			</tfoot>
-		</table>
-
-	</div>
+	
 </body>
 </html>

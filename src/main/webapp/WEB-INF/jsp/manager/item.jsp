@@ -39,7 +39,7 @@
 
         <style>
             html {
-                font-family: 'Titillium Web', "Roboto", sans-serif;
+                font-family: 'TitilliumWeb-Regular', "Roboto", sans-serif;
             }
 
             .page-title {

@@ -46,8 +46,13 @@
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/css/quality/item.css">
 
+		<style>
+			html {
+			    font-family: 'TitilliumWeb-Regular', sans-serif !important;
+			}
+		</style>
     </head>
-
+    
     <body>
 
         <jsp:include page="/WEB-INF/jsp/partials/header.jsp" />
@@ -130,7 +135,7 @@
                                         <div class="col s6">
                                             <c:choose>
                                                 <c:when test="${status4.accept}">
-                                                    <a href="<%=Strings.BASE%>/qualityreview/${status4.id}/review" class="btn bgBtnEntrar">Aplicar Qualidata</a>
+                                                    <a href="<%=Strings.BASE%>/qualityreview/${status4.id}/review" class="btn bgBtnEntrar button-collapse">Aplicar Qualidata</a>
                                                 </c:when>
                                                 <c:when test="${not status4.accept}">
                                                     <a href="" class="btn btn-lg btn-block disabled bgBtnEntrar">Aplicar Qualidata</a>

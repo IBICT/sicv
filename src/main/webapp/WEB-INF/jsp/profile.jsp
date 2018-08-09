@@ -22,86 +22,9 @@
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/font/font-awesome/css/font-awesome.min.css">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/materialize/css/materialize.min.css">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/css/fonts.css">
+        <link rel="stylesheet" href="<%=Strings.BASE%>/assets/css/profile/profile.css">
         <link rel="stylesheet" href="<%=Strings.BASE%>/assets/css/passwordsCheck.css">
         <style>
-            html {
-                font-family: 'Titillium Web', "Roboto", sans-serif;
-            }
-
-            .page-title {
-                color: #00697c;
-            }
-
-            .input-field{
-                margin-top: -0.7rem;
-            }
-
-            .input-field input{
-                font-size: 18px !important;
-                line-height: 27 px;
-                color: #00697C;
-            }
-
-            .select-wrapper input.select-dropdown{
-                color: #00697C !important;
-            }
-
-            .dropdown-content li > a, .dropdown-content li > span {
-                color: #00697C !important;
-            }
-
-            /* label underline focus color */
-            .input-field input:focus, .input-field input[type=select]:focus, .input-field input[type=password]:focus{
-
-                color: #00697C !important;
-            }
-
-            /* valid color */
-            .input-field input[type=text].valid, .input-field input[type=select].valid, .input-field input[type=password].valid {
-                border-bottom: .2px solid #4dbcc4 !important;
-                box-shadow: 0 1px 0 0 #4dbcc4;
-                color: #00697C !important;
-            }
-
-            .btn-import {
-                background-color: #accc5f;
-            }
-
-            .element {
-                display: inline-flex;
-                align-items: center;
-            }
-
-            i.fa-pencil {
-                cursor: pointer;
-                color: #00697C;
-            }
-
-            i:hover {
-                opacity: 0.6;
-            }	        
-
-            #image_src {
-                width: 26px;
-                height: 26px;
-                margin-right: 100px;
-                opacity: 0;
-                filter: alpha(opacity=0); /* IE 5-7 */
-            }
-
-            .select-wrapper span.caret{
-                display: none;
-            }
-            .fa-chevron-down{
-                position: absolute;
-                right: 0;
-                top: 0;
-                bottom: 15px;
-                height: 10px;
-                margin: auto 15px;
-                font-size: 10px;
-                line-height: 10px;
-            }
 
         </style>
     </head>
@@ -114,17 +37,17 @@
             <form class="userForm" action="${link}" method="POST" enctype="multipart/form-data">
                 <div class="row">
                     <div class="input-field page-title col s12">
-                        <h6><b>PERFIL</b></h6>
+                        <div>PERFIL</div>
                     </div>
                 </div>
 
                 <div class="row">
                     <div class="col s12 l4">
-                        <img id="user_img" style="width: 75%; color: #EBF4F5;border-radius: 50%;" src="<%=Strings.BASE%>/assets/img/user.png" />
-                        <div class="element">
+                        <div class="element" style="display: table; margin: 0 auto;">
+                        	<img id="user_img" src="${imgStr}" ${imgStr == '' ? 'class="fa fa-user-circle img_select"' : 'height="235" width="225" class="img_select"'} style="color: #EBF4F5;border-radius: 50%;font-size:1500%;margin-top: 5%;"/>
                             <i class="fa fa-pencil img_select"></i>
                         </div>
-                        <input type="file" name="profileImage" id="image_src" onchange="readURL(this)" src="${imgStr}" accept="image/*">
+						<input type="file" name="profileImage" id="image_src" onchange="readURL(this)" src="${imgStr}" accept="image/*" style="display: none;">
                     </div>
                     <div class="input-field col s12 l8">
                         <input placeholder="Nome*" id="first_name" name="firstName" type="text" class="validate" value="${user.firstName}">
@@ -405,7 +328,7 @@
 
                 <div class="row">
                     <div class="input-field col s12 l4">
-                        <h6 style="color: #3D3D3D;"><b>Formação e Currículo</b></h6>
+                        <div style="color: #4DBCC4;font-size: 18px;"><b>Formação e Currículo</b></div>
                     </div>
                 </div>
 
@@ -444,7 +367,7 @@
 
                 <div class="row" ${isAdmin ? 'hidden' : ''}>
                     <div class="input-field col s3">
-                        <h6 style="color: #3D3D3D;"><b>Definir Senha</b></h6>
+                        <div style="color: #4DBCC4;font-size: 18px;"><b>Senha</b></div>
                     </div>
                 </div>
 
@@ -453,6 +376,13 @@
                         <input placeholder="Senha " id="plainPassword" name="plainPassword" type="password" class="validate" value="" onblur="verifyPlainPass(this.id)">
                     </div>
                 </div>
+                
+                <div class="row" ${isAdmin ? 'hidden' : ''}>
+                    <div class="input-field col s3">
+                        <div style="color: #4DBCC4;font-size: 18px;"><b>Redefinir Senha</b></div>
+                    </div>
+                </div>
+                
                 <div class="row">
                     <div class="input-field col s12 l6">
                         <input placeholder="Nova senha " id="password" name="newPassword" type="password" class="validate" ${isAdmin ? 'hidden' : ''}>
@@ -466,8 +396,8 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div>
-                        <input style="float: left;background: #00697C;color:#FFFFFF;" class="btn btn-lg btn-primary" type="submit" value="Salvar Alterações" /><br />
+                    <div style="float: right;margin-right: 1%">
+                        <input style="background: #00697C;color:#FFFFFF;" class="btn btn-lg btn-block bgBtnEntrar" type="submit" value="Salvar Alterações" /><br />
                     </div>
                 </div>
 
@@ -564,7 +494,7 @@
                                             return false;
                                         } else {
                                             $('#user_img')
-                                                    .attr('src', e.target.result).width(150).height(200);
+                                                    .attr('src', e.target.result).width(225).height(235);
                                             $('#image_src').attr('src', e.target.result);
                                         }
                                     };
