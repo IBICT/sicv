@@ -13,6 +13,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Base64;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -45,7 +46,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import resources.Strings;
-import sun.misc.BASE64Encoder;
 import br.com.ibict.acv.sicv.CustomAuthProvider;
 import br.com.ibict.acv.sicv.model.Archive;
 import br.com.ibict.acv.sicv.model.Homologacao;
@@ -145,11 +145,10 @@ public class HomeController {
         model.put("user", user);
         //get data image profile and parse to string wich html recognizes
         if (profImgDB != null) {
-            BASE64Encoder base64Encoder = new BASE64Encoder();
             StringBuilder imageString = new StringBuilder();
             imageString.append("data:image/png;base64,");
             if(profImgDB.getData() != null){
-            	imageString.append(base64Encoder.encode(profImgDB.getData()));
+            	imageString.append(Base64.getEncoder().encodeToString(profImgDB.getData()));
 	            String image = imageString.toString();
 	            model.put("imgStr", image);
 	        }

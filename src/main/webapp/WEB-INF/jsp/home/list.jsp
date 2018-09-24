@@ -56,8 +56,7 @@
     </head>
     <body class="bg-steel">
 
-		<jsp:include page="../partials/headerUsers.jsp" />
-		
+	
         <div class="container marketing" style="margin-top: 100px;">
 			<c:if test="${loggedIn}">
 	            <%
