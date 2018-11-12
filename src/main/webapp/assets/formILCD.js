@@ -18,7 +18,7 @@ function removeAuthor(id){
 }
 
 function showFileInput() {
-    $('#fileInput').show(500);
+    $('#fileInput').showocorrer (500);
     $("#review").attr('required', '');
 }
 function hiddeFileInput() {
@@ -35,13 +35,26 @@ function getData() {
 }
 
 function validFile(id){
-	var fileName = $("#"+id).val().slice(-4);
-	if( fileName != ".zip"){
+	var fileName = $("#"+id).val().toUpperCase();
+	var re = /(?:\.([^.]+))?$/;
+	fileName = re.exec(fileName)[1];
+		
+	if( fileName != "ZIP" && fileName != "SPOLD" && fileName != "XML"){
 		$("#file").removeClass('valid');
 		$("#file").addClass('invalid');
 		$("#btnSubmit").attr("disabled","disabled");
 	}
 	else{
+		//to show confirm modal submit menssage
+		if(fileName == "SPOLD" || fileName == "XML"){
+			$("#divSpold").css("display", "");
+			$("#divILCD").css("display", "none");
+		}
+		else{
+			$("#divSpold").css("display", "none");
+			$("#divILCD").css("display", "");
+		}
+		
 		var formData = new FormData();
 		formData.append('file', document.getElementById("btnFile").files[0]);
 		$.ajax({

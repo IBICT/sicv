@@ -162,9 +162,36 @@
 		<!-- Modal Structure -->
 		<div id="modalConfirmSubmit" class="modal" style="width: 570px;height: 206px">
 			<div class="">
-	 			<div style="text-align: center;font-size: 23px; color: #4F4F4F; margin-top: 25px;">
+	 			<div id="divILCD" style="text-align: center;font-size: 23px; color: #4F4F4F; margin-top: 25px;">
 					<p>Tem certeza que deseja submeter ?<p>
 					<p>Uma vez submetido não poderá cancelar.</p>
+				</div>
+				<div id="divSpold" style="text-align: center;display: none;font-size: 23px; color: #4F4F4F; margin-top: 10px;">
+					<div>Este arquivo será convertido para ILCD.</div>
+					<div> Algumas informações poderão ser perdidas neste processo.</div>
+ 					<div>Tem certeza que deseja submeter ?</div><br>
+				</div>
+				<div style="text-align: center;">
+					<button style="background-color: #C3697C;" class="modal-action modal-close waves-effect btn-flat">Cancelar</button>
+					<button onclick="submitFormILCD();" style="background-color: #ACCC5F;" class="waves-effect btn-flat">Enviar</button>
+				</div>
+			</div>		
+		</div>
+		<!-- Modal Structure -->
+		<div id="modalConfirmSubmit" class="modal" style="width: 570px;height: 206px">
+			<div class="">
+	 			<div style="text-align: center;font-size: 23px; color: #4F4F4F; margin-top: 25px;">
+		 			<c:choose>
+		 				<c:when test="${isILCD}" >
+							<p>Tem certeza que deseja submeter ?<p>
+							<p>Uma vez submetido não poderá cancelar.</p>
+	 					</c:when>
+	 					<c:otherwise>
+							<p>Este arquivo será convertido para ILCD. Algumas informações
+								poderão ser perdidas neste processo.</p>
+		 					<p>Tem certeza que deseja submeter ?<p>
+	 					</c:otherwise>
+	 				</c:choose>
 				</div>
 				<div style="text-align: center;">
 					<button style="background-color: #C3697C;" class="modal-action modal-close waves-effect btn-flat">Cancelar</button>

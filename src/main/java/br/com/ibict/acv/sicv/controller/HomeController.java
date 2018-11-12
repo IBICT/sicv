@@ -27,11 +27,13 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.SerializationUtils;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -45,7 +47,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import resources.Strings;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
 import br.com.ibict.acv.sicv.CustomAuthProvider;
 import br.com.ibict.acv.sicv.model.Archive;
 import br.com.ibict.acv.sicv.model.Homologacao;
@@ -63,9 +67,8 @@ import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.ExclStrat;
 import br.com.ibict.acv.sicv.util.Mail;
 import br.com.ibict.acv.sicv.util.Password;
-
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
+import br.com.ibict.acv.sicv.util.Spold2toILCD;
+import resources.Strings;
 
 @Controller
 public class HomeController {
@@ -363,6 +366,11 @@ public class HomeController {
             @RequestParam("ilcd") String jsonIlcd, @RequestParam("authors") String jsonAuthors, Map<String, Object> modelMap,
             @RequestParam("emails") String jsonEmails, RedirectAttributes redirectAttributes) throws Exception {
 
+    	if (file.isEmpty()) {
+    		redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
+    		return "redirect:/admin/ilcd/uploadStatus";
+    	}
+    	
         Gson gson = new Gson();
         //JSONObject jsonObj = new JSONObject(jsonAuthors);    	
         Ilcd ilcd = gson.fromJson(jsonIlcd, Ilcd.class);
@@ -377,128 +385,23 @@ public class HomeController {
             ilcd.addAuthor(jsonObjAuthors.getString("value"));
             ilcd.addEmail(jsonObjEmails.getString("value"));
         }
-
-        if (file.isEmpty()) {
-            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
+        
+        byte[] bytesfile = file.getBytes();
+        Path path = Paths.get(Strings.UPLOADED_FOLDER + MD5(bytesfile));
+        
+      //verify if necessary conversion to ILCD 
+    	if (!FilenameUtils.getExtension(file.getOriginalFilename().toUpperCase()).equals("ZIP") ) {
+    		file = convertToILCD(file);
+    	}
+    	
+    	if (path.toFile().exists()) {
+            redirectAttributes.addFlashAttribute("message", "File exist, not replace.");
             return "redirect:/admin/ilcd/uploadStatus";
         }
+    	
+    	sendILCDZIP(file, modelMap, ilcd, redirectAttributes, review, fileComplement, json);
+    	
 
-        try {
-
-            Date dt = new Date();
-            Calendar c = Calendar.getInstance();
-            c.setTime(dt);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy_mm_dd_hh_mm");
-            
-            // Get the file and save it somewhere. 1 is inicial version
-            byte[] bytesfile = file.getBytes();
-            Path path = Paths.get(Strings.UPLOADED_FOLDER + MD5(bytesfile));
-            String pathResolve = path.resolve("./ILCD/"+MD5(bytesfile)+"_"+sdf.format(dt)+"_ilcd.zip").toString();
-    
-            if (path.toFile().exists()) {
-                redirectAttributes.addFlashAttribute("message", "File exist, not replace.");
-                return "redirect:/admin/ilcd/uploadStatus";
-            }
-            Files.createDirectory(path);
-            Files.createDirectory(path.resolve("./ILCD/"));
-            Files.write(path.resolve("./ILCD/"+MD5(bytesfile)+"_"+sdf.format(dt)+"_ilcd.zip"), bytesfile);
-            User ilcdUser = (User) session().getAttribute("user");
-            Status status = new Status();
-            status.setType(1);
-            status.setIlcd(ilcd);
-            ilcd.addStatus(status);
-            //move to zipToIlcd method after refactoring;
-            ilcd.setName(file.getOriginalFilename());
-
-            zipToIlcd(pathResolve, ilcd);
-            status.getArchive().setPathFile(MD5(bytesfile));
-            if (!review.isEmpty() && ilcd.getHasReview()) {
-                File reviewFile = new File(path.resolve("./" + Archive.REVIEW + ".zip").toString());
-                ZipOutputStream out = new ZipOutputStream(new FileOutputStream(reviewFile));
-                ZipEntry e = new ZipEntry(review.getOriginalFilename());
-                out.putNextEntry(e);
-
-                byte[] data = review.getBytes();
-                out.write(data, 0, data.length);
-                out.closeEntry();
-                out.close();
-            }
-            if (!fileComplement.isEmpty()) {
-                File complementFile = new File(path.resolve("./" + Archive.COMPLEMENT + ".zip").toString());
-                ZipOutputStream out = new ZipOutputStream(new FileOutputStream(complementFile));
-                ZipEntry e = new ZipEntry(fileComplement.getOriginalFilename());
-                out.putNextEntry(e);
-
-                byte[] data = fileComplement.getBytes();
-                out.write(data, 0, data.length);
-                out.closeEntry();
-                out.close();
-            }
-
-            Notification notificationManager, notificationUser = new Notification();
-            Homologacao homolog = new Homologacao();
-            //notificationUser.setUser( ilcd.getUser().getId() );
-            notificationUser.setNotifyDate(Calendar.getInstance().getTime());
-
-            notificationManager = SerializationUtils.clone(notificationUser);
-
-            redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "' ilcd:" + ilcd.getTitle());
-            ilcd.setJson1(json);
-            homolog.setStatus(1);
-
-            //Pendecia inicial verdadeira
-            homolog.setPending(true);
-
-            // Prazo incial de 5 dias
-            c.add(Calendar.DATE, 5);
-            dt = c.getTime();
-            homolog.setPrazo(dt);
-
-            //homolog.setUser( manager );
-            homolog.setSubmission(Calendar.getInstance().getTime());
-            homolog.setIlcd(ilcd);
-            //salva o último arquivo para a homologacao
-            //homolog.setLastArchive( ilcd.getStatus().get(0).getArchive() );
-            ilcd.setHomologation(homolog);
-            //salvando homologação outros objetos são salvos e atualizados em cascata
-            homologationDao.saveAndFlush(homolog);
-            //TODO: IMPORTANT: verify if has only one notification by user and for all manager
-            notificationUser.fillMsgUSER_SUBMISSION(ilcd.getId(), ilcd.getTitle());
-            notificationUser.setUser(ilcdUser);
-            ilcdUser.addNotification(notificationUser);
-            ilcdUser.setQntdNotificacoes(ilcdUser.getQntdNotificacoes() + 1);
-            notificationDao.save(notificationUser);
-            userDao.save(ilcdUser);
-            notificationManager.fillMsgMANAGER_WAIT_Q_REV(ilcd.getId(), ilcd.getTitle());
-
-            List<User> managers = userDao.findByPerfil("MANAGER");
-            for (User manager : managers) {
-                Notification notifyManager = SerializationUtils.clone(notificationManager);
-                notifyManager.setUser(manager);
-                manager.addNotification(notifyManager);
-                manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
-                userDao.saveAndFlush(manager);
-            }
-
-            Map<String, Object> model = new HashMap<String, Object>();
-            model.put("ilcdTitle", ilcd.getTitle());
-            model.put("date", RegisterController.getDateString());
-            model.put("ilcdUser", ilcdUser);
-            model.put("urlTrack", Strings.BASE + "/login");
-            model.put("url", Strings.BASE);
-            Mail mail = RegisterController.getMailUtil();
-            ilcds = ilcdDao.findIlcdsByLikeEmail(ilcdUser.getEmail());
-            HomeController.hasSubmitOrStatus = true;
-            mail.sendEmail(ilcdUser.getEmail(), RegisterController.EMAIL_ADMIN, "Submissão de Inventário", model, "emailSubmission.ftl");
-            model.put("urlTrack", Strings.BASE + "/admin/ilcd");
-            mail.sendEmail(RegisterController.EMAIL_ADMIN, RegisterController.EMAIL_ADMIN, "Submissão de Inventário", model, "emailSubmissionToAdmin.ftl");
-            modelMap.clear();
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
-            // TODO: handle exception like RegisterException
-            throw new Exception("Ocorreu um erro ao submeter o inventário", e);
-        }
         modelMap.put("msg","success");
         modelMap.put("local", "Meus inventários > Submissão de Inventário");
         modelMap.put("localN", 0);
@@ -736,4 +639,170 @@ public class HomeController {
             return "false";
         }
     }
+    
+    private void sendILCDZIP(MultipartFile file, Map<String, Object> modelMap, Ilcd ilcd, 
+    		RedirectAttributes redirectAttributes, MultipartFile review, MultipartFile fileComplement, String json) throws Exception {
+        try {
+
+            Date dt = new Date();
+            Calendar c = Calendar.getInstance();
+            c.setTime(dt);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy_mm_dd_hh_mm");
+            
+            // Get the file and save it somewhere. 1 is inicial version
+            byte[] bytesfile = file.getBytes();
+            Path path = Paths.get(Strings.UPLOADED_FOLDER + MD5(bytesfile));
+            String pathResolve = path.resolve("./ILCD/"+MD5(bytesfile)+"_"+sdf.format(dt)+"_ilcd.zip").toString();
+    
+            Files.createDirectory(path);
+            Files.createDirectory(path.resolve("./ILCD/"));
+            Files.write(path.resolve("./ILCD/"+MD5(bytesfile)+"_"+sdf.format(dt)+"_ilcd.zip"), bytesfile);
+            User ilcdUser = (User) session().getAttribute("user");
+            Status status = new Status();
+            status.setType(1);
+            status.setIlcd(ilcd);
+            ilcd.addStatus(status);
+            //move to zipToIlcd method after refactoring;
+            ilcd.setName(file.getOriginalFilename());
+
+            zipToIlcd(pathResolve, ilcd);
+            status.getArchive().setPathFile(MD5(bytesfile));
+            if (!review.isEmpty() && ilcd.getHasReview()) {
+                File reviewFile = new File(path.resolve("./" + Archive.REVIEW + ".zip").toString());
+                ZipOutputStream out = new ZipOutputStream(new FileOutputStream(reviewFile));
+                ZipEntry e = new ZipEntry(review.getOriginalFilename());
+                out.putNextEntry(e);
+
+                byte[] data = review.getBytes();
+                out.write(data, 0, data.length);
+                out.closeEntry();
+                out.close();
+            }
+            if (!fileComplement.isEmpty()) {
+                File complementFile = new File(path.resolve("./" + Archive.COMPLEMENT + ".zip").toString());
+                ZipOutputStream out = new ZipOutputStream(new FileOutputStream(complementFile));
+                ZipEntry e = new ZipEntry(fileComplement.getOriginalFilename());
+                out.putNextEntry(e);
+
+                byte[] data = fileComplement.getBytes();
+                out.write(data, 0, data.length);
+                out.closeEntry();
+                out.close();
+            }
+
+            Notification notificationManager, notificationUser = new Notification();
+            Homologacao homolog = new Homologacao();
+            //notificationUser.setUser( ilcd.getUser().getId() );
+            notificationUser.setNotifyDate(Calendar.getInstance().getTime());
+
+            notificationManager = SerializationUtils.clone(notificationUser);
+
+            redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "' ilcd:" + ilcd.getTitle());
+            ilcd.setJson1(json);
+            homolog.setStatus(1);
+
+            //Pendecia inicial verdadeira
+            homolog.setPending(true);
+
+            // Prazo incial de 5 dias
+            c.add(Calendar.DATE, 5);
+            dt = c.getTime();
+            homolog.setPrazo(dt);
+
+            //homolog.setUser( manager );
+            homolog.setSubmission(Calendar.getInstance().getTime());
+            homolog.setIlcd(ilcd);
+            //salva o último arquivo para a homologacao
+            //homolog.setLastArchive( ilcd.getStatus().get(0).getArchive() );
+            ilcd.setHomologation(homolog);
+            //salvando homologação outros objetos são salvos e atualizados em cascata
+            homologationDao.saveAndFlush(homolog);
+            //TODO: IMPORTANT: verify if has only one notification by user and for all manager
+            notificationUser.fillMsgUSER_SUBMISSION(ilcd.getId(), ilcd.getTitle());
+            notificationUser.setUser(ilcdUser);
+            ilcdUser.addNotification(notificationUser);
+            ilcdUser.setQntdNotificacoes(ilcdUser.getQntdNotificacoes() + 1);
+            notificationDao.save(notificationUser);
+            userDao.save(ilcdUser);
+            notificationManager.fillMsgMANAGER_WAIT_Q_REV(ilcd.getId(), ilcd.getTitle());
+
+            List<User> managers = userDao.findByPerfil("MANAGER");
+            for (User manager : managers) {
+                Notification notifyManager = SerializationUtils.clone(notificationManager);
+                notifyManager.setUser(manager);
+                manager.addNotification(notifyManager);
+                manager.setQntdNotificacoes(manager.getQntdNotificacoes() + 1);
+                userDao.saveAndFlush(manager);
+            }
+
+            Map<String, Object> model = new HashMap<String, Object>();
+            model.put("ilcdTitle", ilcd.getTitle());
+            model.put("date", RegisterController.getDateString());
+            model.put("ilcdUser", ilcdUser);
+            model.put("urlTrack", Strings.BASE + "/login");
+            model.put("url", Strings.BASE);
+            Mail mail = RegisterController.getMailUtil();
+            ilcds = ilcdDao.findIlcdsByLikeEmail(ilcdUser.getEmail());
+            HomeController.hasSubmitOrStatus = true;
+            mail.sendEmail(ilcdUser.getEmail(), RegisterController.EMAIL_ADMIN, "Submissão de Inventário", model, "emailSubmission.ftl");
+            model.put("urlTrack", Strings.BASE + "/admin/ilcd");
+            mail.sendEmail(RegisterController.EMAIL_ADMIN, RegisterController.EMAIL_ADMIN, "Submissão de Inventário", model, "emailSubmissionToAdmin.ftl");
+            modelMap.clear();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (Exception e) {
+            // TODO: handle exception like RegisterException
+            throw new Exception("Ocorreu um erro ao submeter o inventário", e);
+        }
+    }
+    
+    /**
+     * 
+     * Able to create the tree in order to store the original file .spold or .xml 
+     * <b>(ecospold2 format)</b> and call helped class converter this file to ILCD file.
+     * 
+     * @param mp object received from user upload.
+     * 
+     * @return {@link MultipartFile} mpf - object that will be accepted and validated after than. 
+     * @author Wellington Stanley - IBICT <br>
+     */
+    private MultipartFile convertToILCD(MultipartFile mp) {
+    	File ilcdFile = null;
+    	byte[] bytesfile = null;
+    	String separator = System.getProperty("file.separator");
+    	//save spold file was send in your uploader folder, format = SPOLDFOLDER/MD5Bytes_name+"yyyy_mm_dd_hh_mm" 
+		Date dt = new Date();
+        Calendar c = Calendar.getInstance();
+        c.setTime(dt);
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy_mm_dd_hh_mm");
+
+    	try {
+    		byte[] bytesSpoldFile = mp.getBytes();
+    		//create folder tree structure to store .spold file
+    		if (!Files.exists(Paths.get(Strings.UPLOADED_FOLDER_SPOLD)))
+    			Files.createDirectory(Paths.get(Strings.UPLOADED_FOLDER_SPOLD));
+
+            Path spoldMD5Path = Paths.get(Strings.UPLOADED_FOLDER_SPOLD + MD5(bytesSpoldFile)+"_"+sdf.format(dt));
+    		if (!Files.exists(spoldMD5Path)) {
+    			Files.createDirectory(spoldMD5Path);
+    		}
+    		
+    		//path to temp spold file
+    		File tmpFile = new File(spoldMD5Path.toString() + separator + mp.getOriginalFilename());
+    		mp.transferTo(tmpFile);
+    		Spold2toILCD spold2ToILCD = new Spold2toILCD();
+    		//ILCD file transform
+    		ilcdFile = spold2ToILCD.converter(tmpFile);
+    		FileInputStream input = new FileInputStream(ilcdFile);
+    		bytesfile = org.apache.commons.io.IOUtils.toByteArray(input);
+    		
+		} catch (Exception e) {
+			new Exception("error in translate formats", e);
+		}
+    	MultipartFile mpf = new MockMultipartFile("file",
+				ilcdFile.getName(), "application/octet-stream", bytesfile);
+    	
+    	return mpf;
+    }
+    
 }

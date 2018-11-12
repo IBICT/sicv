@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<validCompartments
+	xmlns="http://www.EcoInvent.org/EcoSpold02"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.EcoInvent.org/EcoSpold02 ../../Schemas/MasterData/EcoSpold02Compartments.xsd"
+	contextId="DE659012-50C4-4e96-B54A-FC781BF987AB"
+	majorRelease="1"
+	minorRelease="0">
+	<contextName
+		xml:lang="en">ecoinvent</contextName>
+	<compartment
+		id="04dc11b0-56a8-11df-9879-0800200c9a66">
+		<name>default</name>
+		<subcompartment
+			id="1da19f30-56a8-11df-9879-0800200c9a66">
+			<name>none</name>
+		</subcompartment>
+	</compartment>
+</validCompartments>

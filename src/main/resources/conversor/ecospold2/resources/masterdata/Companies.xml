@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<validCompanies
+	xsi:schemaLocation="http://www.EcoInvent.org/EcoSpold02 ../../Schemas/MasterData/EcoSpold02Companies.xsd"
+	xmlns="http://www.EcoInvent.org/EcoSpold02"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	contextId="DE659012-50C4-4e96-B54A-FC781BF987AB"
+	majorRelease="1"
+	minorRelease="0"
+	>
+	<contextName>ecoinvent</contextName>
+	<company code="GDTC" id="56ba47a0-56a7-11df-9879-0800200c9a66"></company>
+</validCompanies>
