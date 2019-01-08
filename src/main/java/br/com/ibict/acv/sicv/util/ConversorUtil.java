@@ -19,6 +19,8 @@ import com.google.gson.Gson;
 
 import org.apache.http.HttpException;
 
+import resources.Strings;
+
 
 /**
  * This class calls the server that does the conversion between the EcoSpold2
@@ -33,10 +35,7 @@ public class ConversorUtil {
     private String CONVERSOR_URL;
 
     public ConversorUtil() {
-        String fileSource = System.getenv("SICV_URL");
-        if (fileSource == null || fileSource.isEmpty()) {
-            fileSource = "http://localhost:8080/spold/";
-        } 
+        String fileSource = Strings.BASE + "/spold/";
 
         String conversor = System.getenv("SICV_CONVERSOR_URL");
         if (conversor == null || conversor.isEmpty()) {
