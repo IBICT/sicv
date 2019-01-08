@@ -7,6 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
+import java.net.ConnectException;
 import java.nio.charset.Charset;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -29,11 +30,11 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.SerializationUtils;
+import org.apache.http.HttpException;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.mock.web.MockMultipartFile;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
@@ -67,7 +68,7 @@ import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.ExclStrat;
 import br.com.ibict.acv.sicv.util.Mail;
 import br.com.ibict.acv.sicv.util.Password;
-import br.com.ibict.acv.sicv.util.Spold2toILCD;
+import br.com.ibict.acv.sicv.util.ConversorUtil;
 import resources.Strings;
 
 @Controller
@@ -151,12 +152,12 @@ public class HomeController {
             StringBuilder imageString = new StringBuilder();
             imageString.append("data:image/png;base64,");
             if(profImgDB.getData() != null){
-            	imageString.append(Base64.getEncoder().encodeToString(profImgDB.getData()));
-	            String image = imageString.toString();
-	            model.put("imgStr", image);
-	        }
+                imageString.append(Base64.getEncoder().encodeToString(profImgDB.getData()));
+                String image = imageString.toString();
+                model.put("imgStr", image);
+            }
             else
-            	model.put("imgStr", "");
+                model.put("imgStr", "");
             
         } else {
             model.put("imgStr", "");
@@ -167,7 +168,7 @@ public class HomeController {
 
     @PostMapping("/profile")
     public String loginHandle(@RequestParam("profile") String profile, @RequestParam("profileImage") MultipartFile profileImage,
-    		RedirectAttributes redirectAttributes) {
+            RedirectAttributes redirectAttributes) {
 
         User userSession = (User) session().getAttribute("user");
         //profile = profile.replaceAll("\\[", "").replaceAll("\\]","");
@@ -366,11 +367,11 @@ public class HomeController {
             @RequestParam("ilcd") String jsonIlcd, @RequestParam("authors") String jsonAuthors, Map<String, Object> modelMap,
             @RequestParam("emails") String jsonEmails, RedirectAttributes redirectAttributes) throws Exception {
 
-    	if (file.isEmpty()) {
-    		redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
-    		return "redirect:/admin/ilcd/uploadStatus";
-    	}
-    	
+        if (file.isEmpty()) {
+            redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
+            return "redirect:/admin/ilcd/uploadStatus";
+        }
+        
         Gson gson = new Gson();
         //JSONObject jsonObj = new JSONObject(jsonAuthors);    	
         Ilcd ilcd = gson.fromJson(jsonIlcd, Ilcd.class);
@@ -385,22 +386,36 @@ public class HomeController {
             ilcd.addAuthor(jsonObjAuthors.getString("value"));
             ilcd.addEmail(jsonObjEmails.getString("value"));
         }
-        
+
         byte[] bytesfile = file.getBytes();
-        Path path = Paths.get(Strings.UPLOADED_FOLDER + MD5(bytesfile));
+        String originalFilename = file.getOriginalFilename();
         
-      //verify if necessary conversion to ILCD 
-    	if (!FilenameUtils.getExtension(file.getOriginalFilename().toUpperCase()).equals("ZIP") ) {
-    		file = convertToILCD(file);
-    	}
-    	
-    	if (path.toFile().exists()) {
+        //verify if necessary conversion to ILCD 
+        if (!FilenameUtils.getExtension(file.getOriginalFilename().toUpperCase()).equals("ZIP") ) {
+            // Save the original SPOLD file, add current date to name
+            Date dt = new Date();
+            Calendar c = Calendar.getInstance();
+            c.setTime(dt);
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd_hh_mm");
+            File savedSpold = new File(Strings.UPLOADED_FOLDER_SPOLD + sdf.format(dt) + "_" + file.getOriginalFilename());
+            file.transferTo(savedSpold);
+
+            // Convert to ILCD file
+            File converted = convertToILCD(savedSpold.getName());
+            InputStream is = new FileInputStream(converted);
+            bytesfile = org.apache.commons.io.IOUtils.toByteArray(is);
+            originalFilename = converted.getName();
+        } 
+        
+        Path path = Paths.get(Strings.UPLOADED_FOLDER + MD5(bytesfile));
+
+        if (path.toFile().exists()) {
             redirectAttributes.addFlashAttribute("message", "File exist, not replace.");
             return "redirect:/admin/ilcd/uploadStatus";
         }
-    	
-    	sendILCDZIP(file, modelMap, ilcd, redirectAttributes, review, fileComplement, json);
-    	
+        
+        sendILCDZIP(bytesfile, originalFilename, modelMap, ilcd, redirectAttributes, review, fileComplement, json);
+        
 
         modelMap.put("msg","success");
         modelMap.put("local", "Meus inventários > Submissão de Inventário");
@@ -640,17 +655,17 @@ public class HomeController {
         }
     }
     
-    private void sendILCDZIP(MultipartFile file, Map<String, Object> modelMap, Ilcd ilcd, 
-    		RedirectAttributes redirectAttributes, MultipartFile review, MultipartFile fileComplement, String json) throws Exception {
+    private void sendILCDZIP(byte[] bytesfile, String originalFilename, Map<String, Object> modelMap, Ilcd ilcd, 
+            RedirectAttributes redirectAttributes, MultipartFile review, MultipartFile fileComplement, String json) throws Exception {
         try {
 
             Date dt = new Date();
             Calendar c = Calendar.getInstance();
             c.setTime(dt);
-            SimpleDateFormat sdf = new SimpleDateFormat("yyyy_mm_dd_hh_mm");
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd_hh_mm");
             
             // Get the file and save it somewhere. 1 is inicial version
-            byte[] bytesfile = file.getBytes();
+            // byte[] bytesfile = file.getBytes();
             Path path = Paths.get(Strings.UPLOADED_FOLDER + MD5(bytesfile));
             String pathResolve = path.resolve("./ILCD/"+MD5(bytesfile)+"_"+sdf.format(dt)+"_ilcd.zip").toString();
     
@@ -663,7 +678,7 @@ public class HomeController {
             status.setIlcd(ilcd);
             ilcd.addStatus(status);
             //move to zipToIlcd method after refactoring;
-            ilcd.setName(file.getOriginalFilename());
+            ilcd.setName(originalFilename);
 
             zipToIlcd(pathResolve, ilcd);
             status.getArchive().setPathFile(MD5(bytesfile));
@@ -697,7 +712,7 @@ public class HomeController {
 
             notificationManager = SerializationUtils.clone(notificationUser);
 
-            redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + file.getOriginalFilename() + "' ilcd:" + ilcd.getTitle());
+            redirectAttributes.addFlashAttribute("message", "You successfully uploaded '" + originalFilename + "' ilcd:" + ilcd.getTitle());
             ilcd.setJson1(json);
             homolog.setStatus(1);
 
@@ -758,51 +773,76 @@ public class HomeController {
     
     /**
      * 
-     * Able to create the tree in order to store the original file .spold or .xml 
-     * <b>(ecospold2 format)</b> and call helped class converter this file to ILCD file.
+     * Able to create the tree in order to store the original file .spold or .xml
+     * <b>(ecospold2 format)</b> and call helped class converter this file to ILCD
+     * file.
      * 
      * @param mp object received from user upload.
      * 
-     * @return {@link MultipartFile} mpf - object that will be accepted and validated after than. 
+     * @return {@link MultipartFile} mpf - object that will be accepted and
+     *         validated after than.
      * @author Wellington Stanley - IBICT <br>
+     * @throws Exception
      */
-    private MultipartFile convertToILCD(MultipartFile mp) {
-    	File ilcdFile = null;
-    	byte[] bytesfile = null;
-    	String separator = System.getProperty("file.separator");
-    	//save spold file was send in your uploader folder, format = SPOLDFOLDER/MD5Bytes_name+"yyyy_mm_dd_hh_mm" 
-		Date dt = new Date();
-        Calendar c = Calendar.getInstance();
-        c.setTime(dt);
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy_mm_dd_hh_mm");
+    private File convertToILCD(String spoldName) throws Exception {
+        File ilcdFile = null;
+        // byte[] bytesfile = null;
+        // String separator = System.getProperty("file.separator");
+        //save spold file was send in your uploader folder, format = SPOLDFOLDER/MD5Bytes_name+"yyyy_MM_dd_hh_mm" 
+        // Date dt = new Date();
+        // Calendar c = Calendar.getInstance();
+        // c.setTime(dt);
+        // SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd_hh_mm");
 
-    	try {
-    		byte[] bytesSpoldFile = mp.getBytes();
-    		//create folder tree structure to store .spold file
-    		if (!Files.exists(Paths.get(Strings.UPLOADED_FOLDER_SPOLD)))
-    			Files.createDirectory(Paths.get(Strings.UPLOADED_FOLDER_SPOLD));
+        try {
+            // byte[] bytesSpoldFile = mp.getBytes();
+            //create folder tree structure to store .spold file
+            if (!Files.exists(Paths.get(Strings.UPLOADED_FOLDER_SPOLD)))
+                Files.createDirectory(Paths.get(Strings.UPLOADED_FOLDER_SPOLD));
 
-            Path spoldMD5Path = Paths.get(Strings.UPLOADED_FOLDER_SPOLD + MD5(bytesSpoldFile)+"_"+sdf.format(dt));
-    		if (!Files.exists(spoldMD5Path)) {
-    			Files.createDirectory(spoldMD5Path);
-    		}
-    		
-    		//path to temp spold file
-    		File tmpFile = new File(spoldMD5Path.toString() + separator + mp.getOriginalFilename());
-    		mp.transferTo(tmpFile);
-    		Spold2toILCD spold2ToILCD = new Spold2toILCD();
-    		//ILCD file transform
-    		ilcdFile = spold2ToILCD.converter(tmpFile);
-    		FileInputStream input = new FileInputStream(ilcdFile);
-    		bytesfile = org.apache.commons.io.IOUtils.toByteArray(input);
-    		
-		} catch (Exception e) {
-			new Exception("error in translate formats", e);
-		}
-    	MultipartFile mpf = new MockMultipartFile("file",
-				ilcdFile.getName(), "application/octet-stream", bytesfile);
-    	
-    	return mpf;
+            ConversorUtil spold2ToILCD = new ConversorUtil();
+            //ILCD file transform
+            ilcdFile = spold2ToILCD.fullConversion(spoldName);
+            // ilcdFile = spold2ToILCD.fullConversion(sdf.format(dt) + "_" +  mp.getOriginalFilename());
+            // FileInputStream input = new FileInputStream(ilcdFile);
+            // bytesfile = org.apache.commons.io.IOUtils.toByteArray(input);
+            
+        } catch (IOException | HttpException e) {
+            throw e;
+            // throw new ConnectException("Failed to connect to conversion service");
+        }
+        // MultipartFile mpf = new MockMultipartFile("file",
+        //         ilcdFile.getName(), "application/octet-stream", bytesfile);
+        
+        return ilcdFile;
+    } 
+
+    @RequestMapping(value = "/spold/{file_name}", method = RequestMethod.GET)
+    public void getFile(
+            @PathVariable("file_name") String fileName,
+            HttpServletResponse response) {
+        try {
+            fileName += ".spold";
+            File fileToDownload = new File(Strings.UPLOADED_FOLDER_SPOLD + fileName);
+            if (!fileToDownload.exists()) {
+                String errorMessage = "Sorry. The file " + fileToDownload.getName() + " you are looking for does not exist";
+                System.out.println(errorMessage);
+                OutputStream outputStream = response.getOutputStream();
+                outputStream.write(errorMessage.getBytes(Charset.forName("UTF-8")));
+                outputStream.close();
+                return;
+            }
+
+            InputStream inputStream = new FileInputStream(fileToDownload);
+            response.setContentType("application/force-download");
+            response.setHeader("Content-Disposition", "attachment; filename=" + fileName);
+            IOUtils.copy(inputStream, response.getOutputStream());
+            response.flushBuffer();
+            inputStream.close();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
     }
-    
+
 }
