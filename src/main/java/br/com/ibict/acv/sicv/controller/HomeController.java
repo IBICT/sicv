@@ -69,6 +69,7 @@ import br.com.ibict.acv.sicv.util.ExclStrat;
 import br.com.ibict.acv.sicv.util.Mail;
 import br.com.ibict.acv.sicv.util.Password;
 import br.com.ibict.acv.sicv.util.ConversorUtil;
+import br.com.ibict.converter.Converter;
 import resources.Strings;
 
 @Controller
@@ -99,6 +100,14 @@ public class HomeController {
     private IlcdDao ilcdDao;
 
     public static boolean hasSubmitOrStatus = false;
+
+    public Converter spoldILCDconverter = null;
+
+    public HomeController() {
+        String workspacePath = System.getenv("SICV_WORKSPACE_PATH");
+        if(workspacePath == null) workspacePath = Strings.DEFAULT_CONVERTER_WORKSPACE;
+        this.spoldILCDconverter = new Converter(workspacePath);
+    }
 
     @RequestMapping("/")
     public String getRoot(Map<String, Object> model) {
@@ -401,10 +410,16 @@ public class HomeController {
             file.transferTo(savedSpold);
 
             // Convert to ILCD file
-            File converted = convertToILCD(savedSpold.getName());
-            InputStream is = new FileInputStream(converted);
+            // File converted = convertToILCD(savedSpold.getName());
+            String spoldPrefixName = FilenameUtils.getBaseName(savedSpold.getName());
+            // File convertedILCD = File.createTempFile(spoldPrefixName, ".zip", null);
+            File convertedILCD = new File(Strings.UPLOADED_FOLDER + "/" + spoldPrefixName + ".zip");
+
+            spoldILCDconverter.convert(savedSpold, convertedILCD);
+
+            InputStream is = new FileInputStream(convertedILCD);
             bytesfile = org.apache.commons.io.IOUtils.toByteArray(is);
-            originalFilename = converted.getName();
+            originalFilename = convertedILCD.getName();
         } 
         
         Path path = Paths.get(Strings.UPLOADED_FOLDER + MD5(bytesfile));

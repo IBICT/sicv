@@ -7,3 +7,5 @@
 *.iml
 C:*
 .vscode
+_olca_
+derby.log
