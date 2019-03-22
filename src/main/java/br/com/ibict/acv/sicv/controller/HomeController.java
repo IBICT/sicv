@@ -1,10 +1,14 @@
 package br.com.ibict.acv.sicv.controller;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.net.ConnectException;
@@ -21,6 +25,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
@@ -68,6 +73,7 @@ import br.com.ibict.acv.sicv.repositories.UserDao;
 import br.com.ibict.acv.sicv.util.ExclStrat;
 import br.com.ibict.acv.sicv.util.Mail;
 import br.com.ibict.acv.sicv.util.Password;
+import br.com.ibict.acv.sicv.util.SpoldInputFixer;
 import br.com.ibict.acv.sicv.util.ConversorUtil;
 import br.com.ibict.converter.Converter;
 import resources.Strings;
@@ -103,9 +109,12 @@ public class HomeController {
 
     public Converter spoldILCDconverter = null;
 
+    private SpoldInputFixer spoldFixer = new SpoldInputFixer();
+
     public HomeController() {
         String workspacePath = System.getenv("SICV_WORKSPACE_PATH");
-        if(workspacePath == null) workspacePath = Strings.DEFAULT_CONVERTER_WORKSPACE;
+        if (workspacePath == null)
+            workspacePath = Strings.DEFAULT_CONVERTER_WORKSPACE;
         this.spoldILCDconverter = new Converter(workspacePath);
     }
 
@@ -115,10 +124,10 @@ public class HomeController {
         model.put("local", "Meus inventários");
         model.put("localN", 0);
         model.put("isUserLabel", true);
-//        if( ilcds == null || hasSubmitOrStatus){
-//        	ilcds = ilcdDao.findIlcdsByLikeEmail( user.getEmail() );
-//        	hasSubmitOrStatus = true;
-//        }
+        // if( ilcds == null || hasSubmitOrStatus){
+        // ilcds = ilcdDao.findIlcdsByLikeEmail( user.getEmail() );
+        // hasSubmitOrStatus = true;
+        // }
         ilcds = ilcdDao.findByUser(user);
         model.put("ilcds", ilcds);
 
@@ -156,18 +165,17 @@ public class HomeController {
         model.put("local", "Perfil de Usuário");
         ProfileImage profImgDB = profileImageDao.findByUser(user);
         model.put("user", user);
-        //get data image profile and parse to string wich html recognizes
+        // get data image profile and parse to string wich html recognizes
         if (profImgDB != null) {
             StringBuilder imageString = new StringBuilder();
             imageString.append("data:image/png;base64,");
-            if(profImgDB.getData() != null){
+            if (profImgDB.getData() != null) {
                 imageString.append(Base64.getEncoder().encodeToString(profImgDB.getData()));
                 String image = imageString.toString();
                 model.put("imgStr", image);
-            }
-            else
+            } else
                 model.put("imgStr", "");
-            
+
         } else {
             model.put("imgStr", "");
         }
@@ -176,18 +184,19 @@ public class HomeController {
     }
 
     @PostMapping("/profile")
-    public String loginHandle(@RequestParam("profile") String profile, @RequestParam("profileImage") MultipartFile profileImage,
-            RedirectAttributes redirectAttributes) {
+    public String loginHandle(@RequestParam("profile") String profile,
+            @RequestParam("profileImage") MultipartFile profileImage, RedirectAttributes redirectAttributes) {
 
         User userSession = (User) session().getAttribute("user");
-        //profile = profile.replaceAll("\\[", "").replaceAll("\\]","");
+        // profile = profile.replaceAll("\\[", "").replaceAll("\\]","");
         Gson gson = new Gson();
         User user = gson.fromJson(profile, User.class);
         user.setId(userSession.getId());
-        //if user password is not empty
+        // if user password is not empty
         if (user.getPlainPassword().length() > 0) {
-            //if password match and new password is not empty
-            if (user.getPlainPassword().equals(userSession.getPlainPassword()) && !user.getNewPassword().trim().equals("")) {
+            // if password match and new password is not empty
+            if (user.getPlainPassword().equals(userSession.getPlainPassword())
+                    && !user.getNewPassword().trim().equals("")) {
                 user.setPasswordHashSalt(Password.generateSalt(20));
                 user.setPasswordHash(Password.getEncryptedPassword(user.getNewPassword(), user.getPasswordHashSalt()));
                 user.setPlainPassword(user.getNewPassword());
@@ -211,7 +220,7 @@ public class HomeController {
         user.setRegistrationKey(userSession.getRegistrationKey());
         user.setSuperAdminPermission(userSession.getSuperAdminPermission());
         user.setQntdNotificacoes(userSession.getQntdNotificacoes());
-        
+
         if (profileImage != null) {
             if (profileImage.getName() != "" && !profileImage.isEmpty()) {
                 ProfileImage uploadFile = new ProfileImage();
@@ -236,7 +245,7 @@ public class HomeController {
 
         userDao.save(user);
         session().setAttribute("user", user);
-        //@TODO: refact select if not necessary
+        // @TODO: refact select if not necessary
         redirectAttributes.addFlashAttribute("msg", "success");
 
         return "redirect:/";
@@ -245,14 +254,15 @@ public class HomeController {
     @RequestMapping("/authorIlcd/{ilcdId}")
     public String getAuthorIlcd(Map<String, Object> model, @PathVariable("ilcdId") Long ilcdId) {
         Ilcd ilcd = ilcdDao.findById(ilcdId);
-        Status initialStatus = null, initialStatusT = null, lastStatusUserT = null, lastStatusUser = null, lastStatusQ = null, lastStatusT = null;
+        Status initialStatus = null, initialStatusT = null, lastStatusUserT = null, lastStatusUser = null,
+                lastStatusQ = null, lastStatusT = null;
         Ilcd currentIlcd = ilcdDao.findById(ilcd.getId());
         List<Status> allStatus = currentIlcd.getStatus();
         User user = (User) session().getAttribute("user");
         List<Status> statusHistory = new ArrayList<Status>();
         List<Status> statusHistoryT = new ArrayList<Status>();
         for (Status status : allStatus) {
-            //fill list Q+
+            // fill list Q+
             if (status.getType() == 3 && status.getPrevious().getType() == 1) {
                 statusHistory.add(status);
                 if (lastStatusUser != null) {
@@ -263,11 +273,11 @@ public class HomeController {
                     lastStatusUser = status;
                 }
             }
-            //fill list T+
+            // fill list T+
             if (status.getType() == 3 && status.getPrevious().getType() == 2) {
                 statusHistoryT.add(status);
                 if (lastStatusUserT != null) {
-                    //retrieve the last status T+
+                    // retrieve the last status T+
                     if (lastStatusUser.getId() < status.getId()) {
                         lastStatusUserT = status;
                     }
@@ -276,7 +286,7 @@ public class HomeController {
                 }
             }
 
-            //retrieve the initial status T+
+            // retrieve the initial status T+
             if (initialStatusT != null && status.getType() == 2) {
                 if (initialStatusT.getId() > status.getId()) {
                     initialStatusT = status;
@@ -287,7 +297,7 @@ public class HomeController {
                 }
             }
 
-            //retrieve the initial status
+            // retrieve the initial status
             if (initialStatus != null) {
                 if (initialStatus.getId() > status.getId()) {
                     initialStatus = status;
@@ -296,7 +306,7 @@ public class HomeController {
                 initialStatus = status;
             }
 
-            //retrieve the last status Q+
+            // retrieve the last status Q+
             if (status.getType() == 1) {
                 if (lastStatusQ != null) {
                     if (lastStatusQ.getId() < status.getId() && status.getType() == 1) {
@@ -345,10 +355,8 @@ public class HomeController {
         } catch (Exception ex) {
             return "User not found";
         }
-        String returnStr = new GsonBuilder()
-                .excludeFieldsWithoutExposeAnnotation()
-                .setExclusionStrategies(new ExclStrat("br.com.ibict.acv.sicv.model.Ilcd.homologacao"))
-                .create()
+        String returnStr = new GsonBuilder().excludeFieldsWithoutExposeAnnotation()
+                .setExclusionStrategies(new ExclStrat("br.com.ibict.acv.sicv.model.Ilcd.homologacao")).create()
                 .toJson(ilcds);
         returnStr = returnStr.substring(0, returnStr.length());
         returnStr = "{ \"data\" : " + returnStr + " }";
@@ -371,48 +379,48 @@ public class HomeController {
     }
 
     @PostMapping("/ilcd/new") // //new annotation since 4.3
-    public String singleFileUpload(@RequestParam("review") MultipartFile review, @RequestParam("file") MultipartFile file,
-            @RequestParam("fileComplement") MultipartFile fileComplement, @RequestParam("json") String json,
-            @RequestParam("ilcd") String jsonIlcd, @RequestParam("authors") String jsonAuthors, Map<String, Object> modelMap,
+    public String singleFileUpload(@RequestParam("review") MultipartFile review,
+            @RequestParam("file") MultipartFile file, @RequestParam("fileComplement") MultipartFile fileComplement,
+            @RequestParam("json") String json, @RequestParam("ilcd") String jsonIlcd,
+            @RequestParam("authors") String jsonAuthors, Map<String, Object> modelMap,
             @RequestParam("emails") String jsonEmails, RedirectAttributes redirectAttributes) throws Exception {
 
         if (file.isEmpty()) {
             redirectAttributes.addFlashAttribute("message", "Please select a file to upload");
             return "redirect:/admin/ilcd/uploadStatus";
         }
-        
+
         Gson gson = new Gson();
-        //JSONObject jsonObj = new JSONObject(jsonAuthors);    	
+        // JSONObject jsonObj = new JSONObject(jsonAuthors);
         Ilcd ilcd = gson.fromJson(jsonIlcd, Ilcd.class);
 
         JSONArray authors = new JSONArray(jsonAuthors);
         JSONArray emails = new JSONArray(jsonEmails);
         for (int i = 0; i < authors.length(); i++) {
             JSONObject jsonObjAuthors = authors.getJSONObject(i);
-            //System.out.println(jsonObjAuthors.getString("value"));
+            // System.out.println(jsonObjAuthors.getString("value"));
             JSONObject jsonObjEmails = emails.getJSONObject(i);
-            //System.out.println(jsonObjEmails.getString("value"));
+            // System.out.println(jsonObjEmails.getString("value"));
             ilcd.addAuthor(jsonObjAuthors.getString("value"));
             ilcd.addEmail(jsonObjEmails.getString("value"));
         }
 
         byte[] bytesfile = file.getBytes();
         String originalFilename = file.getOriginalFilename();
-        
-        //verify if necessary conversion to ILCD 
-        if (!FilenameUtils.getExtension(file.getOriginalFilename().toUpperCase()).equals("ZIP") ) {
+
+        // verify if conversion to ILCD is necessary 
+        if (!FilenameUtils.getExtension(file.getOriginalFilename().toUpperCase()).equals("ZIP")) {
             // Save the original SPOLD file, add current date to name
             Date dt = new Date();
             Calendar c = Calendar.getInstance();
             c.setTime(dt);
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy_MM_dd_hh_mm");
-            File savedSpold = new File(Strings.UPLOADED_FOLDER_SPOLD + sdf.format(dt) + "_" + file.getOriginalFilename());
-            file.transferTo(savedSpold);
+            File savedSpold = new File(
+                    Strings.UPLOADED_FOLDER_SPOLD + sdf.format(dt) + "_" + file.getOriginalFilename());
+            this.spoldFixer.fixErrorsAndSave(file, savedSpold);
+            // file.transferTo(savedSpold);
 
-            // Convert to ILCD file
-            // File converted = convertToILCD(savedSpold.getName());
             String spoldPrefixName = FilenameUtils.getBaseName(savedSpold.getName());
-            // File convertedILCD = File.createTempFile(spoldPrefixName, ".zip", null);
             File convertedILCD = new File(Strings.UPLOADED_FOLDER + "/" + spoldPrefixName + ".zip");
 
             spoldILCDconverter.convert(savedSpold, convertedILCD);
@@ -420,23 +428,23 @@ public class HomeController {
             InputStream is = new FileInputStream(convertedILCD);
             bytesfile = org.apache.commons.io.IOUtils.toByteArray(is);
             originalFilename = convertedILCD.getName();
-        } 
-        
+        }
+
         Path path = Paths.get(Strings.UPLOADED_FOLDER + MD5(bytesfile));
 
         if (path.toFile().exists()) {
             redirectAttributes.addFlashAttribute("message", "File exist, not replace.");
             return "redirect:/admin/ilcd/uploadStatus";
         }
-        
-        sendILCDZIP(bytesfile, originalFilename, modelMap, ilcd, redirectAttributes, review, fileComplement, json);
-        
 
-        modelMap.put("msg","success");
+        sendILCDZIP(bytesfile, originalFilename, modelMap, ilcd, redirectAttributes, review, fileComplement, json);
+
+        modelMap.put("msg", "success");
         modelMap.put("local", "Meus inventários > Submissão de Inventário");
         modelMap.put("localN", 0);
         return "home/form";
     }
+
 
     @PostMapping("/ilcd/newAdjust/{id}") // //new annotation since 4.3
     public String singleFileUpload(@RequestParam("file") MultipartFile file,
