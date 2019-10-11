@@ -1,6 +1,6 @@
 --insert admin user 
-INSERT INTO sicv2.user (id, active, country, curriculum, dspurpose, email, firstname, jobposition, language, lastname, orcid, organization, otherlanguage, password_hash, password_hash_salt, phone, qntd_notificacoes, registrationkey, super_admin_permission, title)
-SELECT * FROM (SELECT 1, b'1', 'Albania', 'www.lattes.com.br', 'Administração', 'acv@ibict.br', 'Admin', 'Ciências Florestais', 'Inglês', 'Administrador do SICV Brasil', '' as orcid, 'IBICT', '', 'd254c1132c378cef2bfafb477e9412ad2eb6bc06ac71048ac2fbdfba5b046f20f4fde6942a29b7619fd2c4dc3134aaa5d9b31fae99af680f13a78959c3f51815', 'y0Pjo!zB8zWSLE0YMaf6', '(61) 99322 6415', '0', '4mEYhENQ', true, 'Dr') AS tmp
+INSERT INTO sicv2.user (id, active, country, curriculum, dspurpose, email, firstname, jobposition, language, lastname, orcid, organization, otherlanguage, password_hash, password_hash_salt, phone, qntd_notificacoes, registrationkey, super_admin_permission, title, perfil)
+SELECT * FROM (SELECT 1, b'1', 'Albania', 'www.lattes.com.br', 'Administração', 'acv@ibict.br', 'Admin', 'Ciências Florestais', 'Inglês', 'Administrador do SICV Brasil', '' as orcid, 'IBICT', '', 'ef9c9093145a125bb2cd5704766d7a0cd3f9aef831e77741d2cb69e650ae88cd9dd89dd65bda62164bba133503c6bbe95e2127f181dd917940bc698a1b8ab24e', 'yeuIKMax8kXEicHrvY10', '(61) 99322 6415', '0', '4mEYhENQ', true, 'Dr', 'perfil') AS tmp
 WHERE NOT EXISTS (
     SELECT email FROM sicv2.user WHERE email = 'acv@ibict.br'
 ) LIMIT 1;

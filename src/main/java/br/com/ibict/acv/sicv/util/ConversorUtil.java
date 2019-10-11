@@ -49,6 +49,7 @@ public class ConversorUtil {
     public ConversorUtil(String fileSourceURL, String conversorUrl) {
         this.FILE_SOURCE_URL = fileSourceURL;
         this.CONVERSOR_URL = conversorUrl;
+        System.out.println("Caminho informado:" + conversorUrl);
     }
 
     public File fullConversion(String fileName) throws HttpException, IOException, URISyntaxException {
@@ -58,7 +59,7 @@ public class ConversorUtil {
         return getILCD(zipName);
 
     }
-
+    //#Envio de de arquivo ecospold
     private String sendEcospold(String fileName) throws HttpException, IOException, URISyntaxException {
         URL urlLink = new URL(CONVERSOR_URL + "convert");
         HttpURLConnection con = (HttpURLConnection) urlLink.openConnection();
@@ -77,7 +78,7 @@ public class ConversorUtil {
         map.put("targetFormat", "ILCD");
         map.put("refSystem", "es2");
 
-        // System.out.println(map);
+        System.out.println(map);
 
         con.connect();
 
